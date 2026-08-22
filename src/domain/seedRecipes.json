@@ -1,0 +1,253 @@
+[
+  {
+    "id": "seed-scrambled-eggs",
+    "name": "Scrambled Eggs & Toast",
+    "mealType": "breakfast",
+    "tags": ["quick", "vegetarian"],
+    "ingredients": [
+      { "name": "eggs", "tags": ["egg"] },
+      { "name": "butter", "tags": ["dairy"] },
+      { "name": "bread", "tags": ["gluten"] },
+      { "name": "salt", "tags": [] }
+    ],
+    "steps": [
+      "Whisk eggs with a splash of milk and a pinch of salt.",
+      "Melt butter in a pan over low heat, add eggs, and stir gently until just set.",
+      "Toast the bread and serve alongside."
+    ]
+  },
+  {
+    "id": "seed-overnight-oats",
+    "name": "Overnight Oats",
+    "mealType": "breakfast",
+    "tags": ["make-ahead", "vegetarian"],
+    "ingredients": [
+      { "name": "oats", "tags": ["gluten"] },
+      { "name": "milk", "tags": ["dairy"] },
+      { "name": "honey", "tags": [] },
+      { "name": "banana", "tags": [] }
+    ],
+    "steps": [
+      "Combine oats, milk, and honey in a jar.",
+      "Refrigerate overnight.",
+      "Top with sliced banana before serving."
+    ]
+  },
+  {
+    "id": "seed-pb-banana-smoothie",
+    "name": "Peanut Butter Banana Smoothie",
+    "mealType": "breakfast",
+    "tags": ["quick", "vegetarian"],
+    "ingredients": [
+      { "name": "banana", "tags": [] },
+      { "name": "peanut butter", "tags": ["nuts"] },
+      { "name": "milk", "tags": ["dairy"] },
+      { "name": "honey", "tags": [] }
+    ],
+    "steps": ["Blend all ingredients until smooth."]
+  },
+  {
+    "id": "seed-turkey-sandwich",
+    "name": "Turkey Sandwich",
+    "mealType": "lunch",
+    "tags": ["quick"],
+    "ingredients": [
+      { "name": "bread", "tags": ["gluten"] },
+      { "name": "turkey", "tags": ["meat"] },
+      { "name": "cheese", "tags": ["dairy"] },
+      { "name": "lettuce", "tags": [] },
+      { "name": "mayonnaise", "tags": ["egg"] }
+    ],
+    "steps": ["Layer turkey, cheese, and lettuce between bread with mayonnaise."]
+  },
+  {
+    "id": "seed-chickpea-salad",
+    "name": "Chickpea & Feta Salad",
+    "mealType": "lunch",
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      { "name": "chickpeas", "tags": [] },
+      { "name": "feta cheese", "tags": ["dairy"] },
+      { "name": "cucumber", "tags": [] },
+      { "name": "tomato", "tags": [] },
+      { "name": "olive oil", "tags": [] }
+    ],
+    "steps": ["Toss chickpeas, feta, cucumber, and tomato with olive oil."]
+  },
+  {
+    "id": "seed-shrimp-tacos",
+    "name": "Shrimp Tacos",
+    "mealType": "dinner",
+    "tags": ["seafood"],
+    "ingredients": [
+      { "name": "shrimp", "tags": ["shellfish"] },
+      { "name": "tortillas", "tags": ["gluten"] },
+      { "name": "cabbage", "tags": [] },
+      { "name": "lime", "tags": [] },
+      { "name": "sour cream", "tags": ["dairy"] }
+    ],
+    "steps": [
+      "Season and saute shrimp until pink.",
+      "Warm tortillas and fill with shrimp, shredded cabbage, and a squeeze of lime.",
+      "Top with sour cream."
+    ]
+  },
+  {
+    "id": "seed-spaghetti-marinara",
+    "name": "Spaghetti Marinara",
+    "mealType": "dinner",
+    "tags": ["vegetarian", "vegan-friendly"],
+    "ingredients": [
+      { "name": "spaghetti", "tags": ["gluten"] },
+      { "name": "tomato sauce", "tags": [] },
+      { "name": "garlic", "tags": [] },
+      { "name": "olive oil", "tags": [] },
+      { "name": "basil", "tags": [] }
+    ],
+    "steps": [
+      "Cook spaghetti according to package directions.",
+      "Saute garlic in olive oil, add tomato sauce and simmer.",
+      "Toss with pasta and fresh basil."
+    ]
+  },
+  {
+    "id": "seed-beef-stirfry",
+    "name": "Beef Stir-Fry",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      { "name": "beef", "tags": ["beef", "meat"] },
+      { "name": "soy sauce", "tags": ["soy"] },
+      { "name": "broccoli", "tags": [] },
+      { "name": "bell pepper", "tags": [] },
+      { "name": "rice", "tags": [] }
+    ],
+    "steps": [
+      "Cook rice.",
+      "Stir-fry beef until browned, add vegetables and soy sauce.",
+      "Serve over rice."
+    ]
+  },
+  {
+    "id": "seed-grilled-chicken",
+    "name": "Grilled Chicken & Vegetables",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      { "name": "chicken", "tags": ["meat"] },
+      { "name": "zucchini", "tags": [] },
+      { "name": "bell pepper", "tags": [] },
+      { "name": "olive oil", "tags": [] }
+    ],
+    "steps": [
+      "Marinate chicken briefly in olive oil and seasoning.",
+      "Grill chicken and vegetables until cooked through."
+    ]
+  },
+  {
+    "id": "seed-tofu-curry",
+    "name": "Tofu Curry",
+    "mealType": "dinner",
+    "tags": ["vegetarian", "vegan-friendly"],
+    "ingredients": [
+      { "name": "tofu", "tags": ["soy"] },
+      { "name": "coconut milk", "tags": [] },
+      { "name": "curry powder", "tags": [] },
+      { "name": "rice", "tags": [] },
+      { "name": "spinach", "tags": [] }
+    ],
+    "steps": [
+      "Simmer tofu and spinach in coconut milk with curry powder.",
+      "Serve over rice."
+    ]
+  },
+  {
+    "id": "seed-salmon-quinoa",
+    "name": "Baked Salmon with Quinoa",
+    "mealType": "dinner",
+    "tags": ["seafood"],
+    "ingredients": [
+      { "name": "salmon", "tags": ["fish"] },
+      { "name": "quinoa", "tags": [] },
+      { "name": "lemon", "tags": [] },
+      { "name": "asparagus", "tags": [] }
+    ],
+    "steps": [
+      "Bake salmon with lemon until flaky.",
+      "Cook quinoa and steam asparagus.",
+      "Serve together."
+    ]
+  },
+  {
+    "id": "seed-veggie-omelette",
+    "name": "Veggie Omelette",
+    "mealType": "breakfast",
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      { "name": "eggs", "tags": ["egg"] },
+      { "name": "cheese", "tags": ["dairy"] },
+      { "name": "bell pepper", "tags": [] },
+      { "name": "onion", "tags": [] }
+    ],
+    "steps": [
+      "Saute bell pepper and onion.",
+      "Pour whisked eggs over vegetables, add cheese, and fold once set."
+    ]
+  },
+  {
+    "id": "seed-black-bean-bowl",
+    "name": "Black Bean & Rice Bowl",
+    "mealType": "lunch",
+    "tags": ["vegetarian", "vegan-friendly"],
+    "ingredients": [
+      { "name": "black beans", "tags": [] },
+      { "name": "rice", "tags": [] },
+      { "name": "corn", "tags": [] },
+      { "name": "avocado", "tags": [] },
+      { "name": "lime", "tags": [] }
+    ],
+    "steps": ["Combine warmed black beans, rice, and corn.", "Top with avocado and a squeeze of lime."]
+  },
+  {
+    "id": "seed-pork-fried-rice",
+    "name": "Pork Fried Rice",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      { "name": "pork", "tags": ["pork", "meat"] },
+      { "name": "rice", "tags": [] },
+      { "name": "eggs", "tags": ["egg"] },
+      { "name": "soy sauce", "tags": ["soy"] },
+      { "name": "peas", "tags": [] }
+    ],
+    "steps": [
+      "Scramble eggs and set aside.",
+      "Stir-fry pork, then add rice, peas, soy sauce, and eggs."
+    ]
+  },
+  {
+    "id": "seed-lentil-soup",
+    "name": "Lentil Soup",
+    "mealType": "lunch",
+    "tags": ["vegetarian", "vegan-friendly", "make-ahead"],
+    "ingredients": [
+      { "name": "lentils", "tags": [] },
+      { "name": "carrot", "tags": [] },
+      { "name": "celery", "tags": [] },
+      { "name": "onion", "tags": [] },
+      { "name": "vegetable broth", "tags": [] }
+    ],
+    "steps": ["Simmer lentils with chopped vegetables in broth until tender."]
+  },
+  {
+    "id": "seed-cheese-quesadilla",
+    "name": "Cheese Quesadilla",
+    "mealType": "snack",
+    "tags": ["vegetarian", "quick"],
+    "ingredients": [
+      { "name": "tortillas", "tags": ["gluten"] },
+      { "name": "cheese", "tags": ["dairy"] }
+    ],
+    "steps": ["Fill tortilla with cheese, fold, and cook in a dry pan until golden and melted."]
+  }
+]
