@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import TabNav from './components/TabNav.jsx';
 import ProfileList from './components/profiles/ProfileList.jsx';
-import ProfileForm from './components/profiles/ProfileForm.jsx';
+import ProfileWizard from './components/profiles/ProfileWizard.jsx';
 import InventoryList from './components/inventory/InventoryList.jsx';
 import InventoryItemForm from './components/inventory/InventoryItemForm.jsx';
 import MealSuggestions from './components/meals/MealSuggestions.jsx';
@@ -45,6 +45,11 @@ export default function App() {
     setMembers((prev) => prev.filter((m) => m.id !== id));
   }
 
+  async function handleImportMembers(importedMembers) {
+    const saved = await Promise.all(importedMembers.map((m) => saveMember(m)));
+    setMembers((prev) => [...prev, ...saved]);
+  }
+
   async function handleSaveItem(item) {
     const saved = await saveInventoryItem(item);
     setInventory((prev) => {
@@ -72,7 +77,7 @@ export default function App() {
       <main>
         {activeTab === 'profiles' &&
           (showMemberForm ? (
-            <ProfileForm
+            <ProfileWizard
               initialMember={editingMember}
               onSave={handleSaveMember}
               onCancel={() => {
@@ -92,6 +97,7 @@ export default function App() {
                 setEditingMember(null);
                 setShowMemberForm(true);
               }}
+              onImport={handleImportMembers}
             />
           ))}
 

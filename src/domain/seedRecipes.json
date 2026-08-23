@@ -118,13 +118,14 @@
     "ingredients": [
       { "name": "beef", "tags": ["beef", "meat"] },
       { "name": "soy sauce", "tags": ["soy"] },
+      { "name": "sesame oil", "tags": ["sesame"] },
       { "name": "broccoli", "tags": [] },
       { "name": "bell pepper", "tags": [] },
       { "name": "rice", "tags": [] }
     ],
     "steps": [
       "Cook rice.",
-      "Stir-fry beef until browned, add vegetables and soy sauce.",
+      "Stir-fry beef until browned, add vegetables, soy sauce, and a drizzle of sesame oil.",
       "Serve over rice."
     ]
   },

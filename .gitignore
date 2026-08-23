@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Exported family profile data (personal, not sample content)
+/Profiles/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

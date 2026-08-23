@@ -191,12 +191,18 @@
   gap: 10px;
 }
 
-.form-actions button[type='submit'] {
+.form-actions button[type='submit'],
+.form-actions button.primary {
   background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 6px;
   padding: 8px 16px;
+}
+
+.form-actions button.primary:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .form-actions button[type='button'] {
@@ -228,6 +234,139 @@
   padding: 8px 12px;
   font-size: 14px;
   cursor: pointer;
+}
+
+/* Profile wizard */
+.profile-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+}
+
+.wizard-progress {
+  display: flex;
+  gap: 4px;
+}
+
+.wizard-segment {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.wizard-segment.filled {
+  background: var(--accent);
+}
+
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wizard-step h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.wizard-step label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.wizard-step input,
+.wizard-step select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.inline-label {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checklist-category h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin: 4px 0 6px;
+}
+
+.checklist-category {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.diet-description {
+  margin-top: -4px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip-selected {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
+.chip-removable button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+}
+
+.tag-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-input-row input {
+  flex: 1;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--accent);
+  padding: 0;
+  align-self: flex-start;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.profile-list-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 /* Meal suggestions */
