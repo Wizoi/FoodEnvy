@@ -27,3 +27,5 @@ foodenvy-inventory-*.json
 *.njsproj
 *.sln
 *.sw?
+dist/
+test-results/
