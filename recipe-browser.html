@@ -1057,11 +1057,11 @@
         const cook = recipe.cookMinutes || 0;
         return (prep + cook) + ' min';
       }
-      return 'Time not listed';
+      return '';
     }
 
     function formatDifficulty(recipe) {
-      return recipe.difficulty || 'Not rated';
+      return recipe.difficulty || '';
     }
 
     function formatIngredientLine(i) {
@@ -1707,10 +1707,18 @@
           }
 
           // 6. Recipe meta (difficulty, time)
-          recipeHtml += '<div class="recipe-meta">';
-          recipeHtml += '<span class="difficulty">' + formatDifficulty(recipe) + '</span>';
-          recipeHtml += '<span>⏱️ ' + formatTime(recipe) + '</span>';
-          recipeHtml += '</div>';
+          const difficulty = formatDifficulty(recipe);
+          const time = formatTime(recipe);
+          if (difficulty || time) {
+            recipeHtml += '<div class="recipe-meta">';
+            if (difficulty) {
+              recipeHtml += '<span class="difficulty">' + difficulty + '</span>';
+            }
+            if (time) {
+              recipeHtml += '<span>⏱️ ' + time + '</span>';
+            }
+            recipeHtml += '</div>';
+          }
 
           // 7. Description and descriptive tags
           if (recipe.description) {
