@@ -1,10 +1,592 @@
 [
   {
+    "id": "seed-scrambled-eggs",
+    "name": "Scrambled Eggs & Toast",
+    "mealType": "breakfast",
+    "tags": [
+      "quick",
+      "vegetarian"
+    ],
+    "ingredients": [
+      {
+        "name": "eggs",
+        "tags": [
+          "egg"
+        ]
+      },
+      {
+        "name": "butter",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "bread",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "salt",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Whisk eggs with a splash of milk and a pinch of salt.",
+      "Melt butter in a pan over low heat, add eggs, and stir gently until just set.",
+      "Toast the bread and serve alongside."
+    ]
+  },
+  {
+    "id": "seed-overnight-oats",
+    "name": "Overnight Oats",
+    "mealType": "breakfast",
+    "tags": [
+      "make-ahead",
+      "vegetarian"
+    ],
+    "ingredients": [
+      {
+        "name": "oats",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "milk",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "honey",
+        "tags": []
+      },
+      {
+        "name": "banana",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Combine oats, milk, and honey in a jar.",
+      "Refrigerate overnight.",
+      "Top with sliced banana before serving."
+    ]
+  },
+  {
+    "id": "seed-pb-banana-smoothie",
+    "name": "Peanut Butter Banana Smoothie",
+    "mealType": "breakfast",
+    "tags": [
+      "quick",
+      "vegetarian"
+    ],
+    "ingredients": [
+      {
+        "name": "banana",
+        "tags": []
+      },
+      {
+        "name": "peanut butter",
+        "tags": [
+          "nuts"
+        ]
+      },
+      {
+        "name": "milk",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "honey",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Blend all ingredients until smooth."
+    ]
+  },
+  {
+    "id": "seed-turkey-sandwich",
+    "name": "Turkey Sandwich",
+    "mealType": "lunch",
+    "tags": [
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "name": "bread",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "turkey",
+        "tags": [
+          "meat"
+        ]
+      },
+      {
+        "name": "cheese",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "lettuce",
+        "tags": []
+      },
+      {
+        "name": "mayonnaise",
+        "tags": [
+          "egg"
+        ]
+      }
+    ],
+    "steps": [
+      "Layer turkey, cheese, and lettuce between bread with mayonnaise."
+    ]
+  },
+  {
+    "id": "seed-chickpea-salad",
+    "name": "Chickpea & Feta Salad",
+    "mealType": "lunch",
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "name": "chickpeas",
+        "tags": []
+      },
+      {
+        "name": "feta cheese",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "cucumber",
+        "tags": []
+      },
+      {
+        "name": "tomato",
+        "tags": []
+      },
+      {
+        "name": "olive oil",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Toss chickpeas, feta, cucumber, and tomato with olive oil."
+    ]
+  },
+  {
+    "id": "seed-shrimp-tacos",
+    "name": "Shrimp Tacos",
+    "mealType": "dinner",
+    "tags": [
+      "seafood"
+    ],
+    "ingredients": [
+      {
+        "name": "shrimp",
+        "tags": [
+          "shellfish"
+        ]
+      },
+      {
+        "name": "tortillas",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "cabbage",
+        "tags": []
+      },
+      {
+        "name": "lime",
+        "tags": []
+      },
+      {
+        "name": "sour cream",
+        "tags": [
+          "dairy"
+        ]
+      }
+    ],
+    "steps": [
+      "Season and saute shrimp until pink.",
+      "Warm tortillas and fill with shrimp, shredded cabbage, and a squeeze of lime.",
+      "Top with sour cream."
+    ]
+  },
+  {
+    "id": "seed-spaghetti-marinara",
+    "name": "Spaghetti Marinara",
+    "mealType": "dinner",
+    "tags": [
+      "vegetarian",
+      "vegan-friendly"
+    ],
+    "ingredients": [
+      {
+        "name": "spaghetti",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "tomato sauce",
+        "tags": []
+      },
+      {
+        "name": "garlic",
+        "tags": []
+      },
+      {
+        "name": "olive oil",
+        "tags": []
+      },
+      {
+        "name": "basil",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Cook spaghetti according to package directions.",
+      "Saute garlic in olive oil, add tomato sauce and simmer.",
+      "Toss with pasta and fresh basil."
+    ]
+  },
+  {
+    "id": "seed-beef-stirfry",
+    "name": "Beef Stir-Fry",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      {
+        "name": "beef",
+        "tags": [
+          "beef",
+          "meat"
+        ]
+      },
+      {
+        "name": "soy sauce",
+        "tags": [
+          "soy"
+        ]
+      },
+      {
+        "name": "sesame oil",
+        "tags": [
+          "sesame"
+        ]
+      },
+      {
+        "name": "broccoli",
+        "tags": []
+      },
+      {
+        "name": "bell pepper",
+        "tags": []
+      },
+      {
+        "name": "rice",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Cook rice.",
+      "Stir-fry beef until browned, add vegetables, soy sauce, and a drizzle of sesame oil.",
+      "Serve over rice."
+    ]
+  },
+  {
+    "id": "seed-grilled-chicken",
+    "name": "Grilled Chicken & Vegetables",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      {
+        "name": "chicken",
+        "tags": [
+          "meat"
+        ]
+      },
+      {
+        "name": "zucchini",
+        "tags": []
+      },
+      {
+        "name": "bell pepper",
+        "tags": []
+      },
+      {
+        "name": "olive oil",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Marinate chicken briefly in olive oil and seasoning.",
+      "Grill chicken and vegetables until cooked through."
+    ]
+  },
+  {
+    "id": "seed-tofu-curry",
+    "name": "Tofu Curry",
+    "mealType": "dinner",
+    "tags": [
+      "vegetarian",
+      "vegan-friendly"
+    ],
+    "ingredients": [
+      {
+        "name": "tofu",
+        "tags": [
+          "soy"
+        ]
+      },
+      {
+        "name": "coconut milk",
+        "tags": []
+      },
+      {
+        "name": "curry powder",
+        "tags": []
+      },
+      {
+        "name": "rice",
+        "tags": []
+      },
+      {
+        "name": "spinach",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Simmer tofu and spinach in coconut milk with curry powder.",
+      "Serve over rice."
+    ]
+  },
+  {
+    "id": "seed-salmon-quinoa",
+    "name": "Baked Salmon with Quinoa",
+    "mealType": "dinner",
+    "tags": [
+      "seafood"
+    ],
+    "ingredients": [
+      {
+        "name": "salmon",
+        "tags": [
+          "fish"
+        ]
+      },
+      {
+        "name": "quinoa",
+        "tags": []
+      },
+      {
+        "name": "lemon",
+        "tags": []
+      },
+      {
+        "name": "asparagus",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Bake salmon with lemon until flaky.",
+      "Cook quinoa and steam asparagus.",
+      "Serve together."
+    ]
+  },
+  {
+    "id": "seed-veggie-omelette",
+    "name": "Veggie Omelette",
+    "mealType": "breakfast",
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "name": "eggs",
+        "tags": [
+          "egg"
+        ]
+      },
+      {
+        "name": "cheese",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "bell pepper",
+        "tags": []
+      },
+      {
+        "name": "onion",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Saute bell pepper and onion.",
+      "Pour whisked eggs over vegetables, add cheese, and fold once set."
+    ]
+  },
+  {
+    "id": "seed-black-bean-bowl",
+    "name": "Black Bean & Rice Bowl",
+    "mealType": "lunch",
+    "tags": [
+      "vegetarian",
+      "vegan-friendly"
+    ],
+    "ingredients": [
+      {
+        "name": "black beans",
+        "tags": []
+      },
+      {
+        "name": "rice",
+        "tags": []
+      },
+      {
+        "name": "corn",
+        "tags": []
+      },
+      {
+        "name": "avocado",
+        "tags": []
+      },
+      {
+        "name": "lime",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Combine warmed black beans, rice, and corn.",
+      "Top with avocado and a squeeze of lime."
+    ]
+  },
+  {
+    "id": "seed-pork-fried-rice",
+    "name": "Pork Fried Rice",
+    "mealType": "dinner",
+    "tags": [],
+    "ingredients": [
+      {
+        "name": "pork",
+        "tags": [
+          "pork",
+          "meat"
+        ]
+      },
+      {
+        "name": "rice",
+        "tags": []
+      },
+      {
+        "name": "eggs",
+        "tags": [
+          "egg"
+        ]
+      },
+      {
+        "name": "soy sauce",
+        "tags": [
+          "soy"
+        ]
+      },
+      {
+        "name": "peas",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Scramble eggs and set aside.",
+      "Stir-fry pork, then add rice, peas, soy sauce, and eggs."
+    ]
+  },
+  {
+    "id": "seed-lentil-soup",
+    "name": "Lentil Soup",
+    "mealType": "lunch",
+    "tags": [
+      "vegetarian",
+      "vegan-friendly",
+      "make-ahead"
+    ],
+    "ingredients": [
+      {
+        "name": "lentils",
+        "tags": []
+      },
+      {
+        "name": "carrot",
+        "tags": []
+      },
+      {
+        "name": "celery",
+        "tags": []
+      },
+      {
+        "name": "onion",
+        "tags": []
+      },
+      {
+        "name": "vegetable broth",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Simmer lentils with chopped vegetables in broth until tender."
+    ]
+  },
+  {
+    "id": "seed-cheese-quesadilla",
+    "name": "Cheese Quesadilla",
+    "mealType": "snack",
+    "tags": [
+      "vegetarian",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "name": "tortillas",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "cheese",
+        "tags": [
+          "dairy"
+        ]
+      }
+    ],
+    "steps": [
+      "Fill tortilla with cheese, fold, and cook in a dry pan until golden and melted."
+    ]
+  },
+  {
+    "id": "recipe-98403f87-b24a-47c7-8ea2-ff91a85ee5ff",
     "name": "Honeycomb Candy (Cinder Toffee)",
     "mealType": "treat",
     "difficulty": "intermediate",
     "prepMinutes": 10,
     "cookMinutes": 10,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "granulated sugar",
@@ -47,14 +629,22 @@
       "Immediately pour the foaming mixture onto the parchment-lined sheet and do not spread or touch it -- any manipulation collapses the bubble structure you just created, so let it fall and expand on its own.",
       "Let it cool and harden completely at room temperature, about 30-45 minutes, before handling.",
       "Melt the chocolate gently over a double boiler, break the honeycomb into shards, dip or drizzle with chocolate, and let set on parchment before serving -- the chocolate coating also protects the honeycomb from absorbing humidity, since honeycomb left uncoated can turn sticky and lose its crunch within a day."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-71dc583a-72ae-489e-b897-efdb73f64de2",
     "name": "Brown Butter Chocolate Chip Cookies",
     "mealType": "treat",
     "difficulty": "beginner-plus",
     "prepMinutes": 20,
     "cookMinutes": 12,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "unsalted butter",
@@ -129,14 +719,22 @@
       "Chill the dough for at least 30 minutes (ideally a few hours) -- chilling firms the fat so the cookies hold their shape and spread more slowly in the oven, giving you a thicker cookie with a chewier center instead of a thin, crispy puddle.",
       "Scoop generous mounds onto a parchment-lined sheet, leaving room to spread, and top with a pinch of flaky sea salt.",
       "Bake at 375F for 10-12 minutes, pulling them when the edges are set and golden but the centers still look slightly underdone -- they continue cooking on the hot pan after coming out of the oven, and pulling them a touch early is what keeps the centers soft and chewy instead of dry."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-7a410946-77e7-4747-8a6a-180cbea5ae87",
     "name": "Homemade Soft Pretzels with Beer Mustard",
     "mealType": "treat",
     "difficulty": "intermediate",
     "prepMinutes": 90,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "bread flour",
@@ -210,14 +808,22 @@
       "Transfer to a parchment-lined sheet, brush with beaten egg wash, and sprinkle generously with coarse pretzel salt while still wet so the salt sticks.",
       "Bake at 425F for 12-15 minutes until deeply browned -- that color you're chasing only happens because of the baking soda bath, so don't be tempted to pull them at a lighter, more 'normal bread' color.",
       "Whisk beer into the dijon mustard and let sit at least 15 minutes for the flavors to meld before serving alongside the warm pretzels."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-48325d5e-1210-4471-b417-d0b7ff6f3b90",
     "name": "Spiced Candied Pecans",
     "mealType": "treat",
     "difficulty": "beginner-plus",
     "prepMinutes": 10,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "pecan halves",
@@ -267,14 +873,22 @@
       "Spread the pecans in a single layer on a parchment-lined baking sheet, making sure pieces don't touch -- clumped nuts steam each other and end up soft instead of developing a crisp candy shell.",
       "Bake at 300F for 20-25 minutes, stirring every 8-10 minutes -- the low, slow temperature and periodic stirring toast the nuts evenly and dry the coating into a crackly shell without scorching the sugar.",
       "Cool completely on the pan before breaking apart -- the candy coating is soft while warm and only crisps up fully as it cools, so resist tasting them hot off the tray if you want the right texture."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-e71577b5-572e-46e8-a71f-2a253569707c",
     "name": "Homemade Marshmallows",
     "mealType": "treat",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "unflavored gelatin",
@@ -322,14 +936,22 @@
       "Fold in vanilla, then pour into a pan dusted generously with a cornstarch-powdered sugar mix -- this coating prevents the intensely sticky marshmallow from fusing permanently to the pan or your hands.",
       "Let set uncovered at room temperature for at least 4 hours (or overnight) -- uncovered air exposure is what dries the surface just enough to make cutting clean, rather than a sticky, shapeless mass.",
       "Cut into squares with a pizza cutter dusted in the cornstarch mix and toss each piece in more of the mix to coat all sides."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-a2289f4d-4717-4ab0-8714-27de23008970",
     "name": "Salted Caramel Sauce and Chewy Caramels",
     "mealType": "treat",
     "difficulty": "intermediate",
     "prepMinutes": 15,
     "cookMinutes": 25,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "granulated sugar",
@@ -381,14 +1003,22 @@
       "Whisk in butter, vanilla, and salt until glossy and smooth -- for sauce, this is done; let cool and store in a jar.",
       "For chewy caramels, keep cooking the mixture further to 245F on a candy thermometer (firm-ball stage) -- the extra cooked-out moisture at this stage is exactly what turns a pourable sauce into a caramel you can cut and chew.",
       "Pour into a parchment-lined pan, cool completely, then cut into pieces and wrap individually in wax paper to prevent them from fusing back together in storage."
+    ],
+    "tags": [
+      "dessert",
+      "snack"
     ]
   },
   {
+    "id": "recipe-0451e4f5-aa66-4f45-8c18-bfaabc9cf640",
     "name": "Panna Cotta with Berry Coulis",
     "mealType": "dessert",
     "difficulty": "beginner-plus",
     "prepMinutes": 15,
     "cookMinutes": 10,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "heavy cream",
@@ -445,14 +1075,21 @@
       "Pour into ramekins or glasses and refrigerate at least 4 hours, ideally overnight -- panna cotta means 'cooked cream,' and its entire appeal is a barely-set, delicate wobble; under-chilling leaves it soupy, so don't rush the set.",
       "Simmer the berries with a splash of water, sugar, and lemon juice for 5-8 minutes until broken down, then push through a fine sieve to remove seeds and skins for a smooth coulis.",
       "Spoon the cooled coulis over the set panna cotta just before serving."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-52ccef45-6ebd-4f90-9973-ce8c49dba50d",
     "name": "Chocolate Lava Cake",
     "mealType": "dessert",
     "difficulty": "intermediate",
     "prepMinutes": 15,
     "cookMinutes": 12,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "dark chocolate",
@@ -515,14 +1152,21 @@
       "Bake at 425F for exactly 11-13 minutes -- this is a narrow window; a minute under and the whole thing is raw batter, a minute over and there's no lava left, so use a timer and don't guess.",
       "Let rest just 1 minute, then run a knife around the edge and invert onto a plate -- waiting too long to unmold lets the cake continue cooking from residual heat within the ramekin.",
       "Dust with powdered sugar and serve immediately while the center is still flowing."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-edcdc5d7-c315-43c4-931d-01e0f7d50879",
     "name": "Pavlova with Whipped Cream and Berries",
     "mealType": "dessert",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 90,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "egg whites",
@@ -579,14 +1223,21 @@
       "Mound the meringue onto parchment paper into a rough circle with a slight well in the center, then bake at 250F for 75-90 minutes -- the low, slow oven dries the outside into a crisp shell gently without browning it or overcooking the interior into a fully dry, brittle meringue.",
       "Turn the oven off and let the pavlova cool completely inside with the door closed, ideally for an hour or more -- a sudden temperature change from a hot oven to cool room air is what causes the classic pavlova crack and collapse, so this slow cooldown protects the shell.",
       "Whip the cream to soft peaks and pile it into the pavlova's center well just before serving, topped with fresh berries -- assemble at the last minute, since the cream and berry juices will soften the crisp shell within an hour or two."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-29aa3213-1e33-48c1-a5f4-80ebb014bcad",
     "name": "Baklava",
     "mealType": "dessert",
     "difficulty": "advanced",
     "prepMinutes": 45,
     "cookMinutes": 45,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "phyllo dough",
@@ -656,14 +1307,21 @@
       "While the baklava bakes, simmer sugar, honey, water, and lemon juice into a syrup for 10 minutes and let it cool slightly.",
       "Pour the warm (not hot) syrup over the hot baklava the moment it comes out of the oven -- the temperature contrast matters: hot syrup on hot pastry makes it soggy, while warm syrup on hot pastry is absorbed evenly, keeping the top layers crisp.",
       "Let it sit uncovered for at least 4 hours (or overnight) before serving so the syrup fully penetrates every layer."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-131ee97d-795b-4f06-8c50-1c573000787a",
     "name": "Tiramisu",
     "mealType": "dessert",
     "difficulty": "intermediate",
     "prepMinutes": 30,
-    "cookMinutes": 0,
+    "cookMinutes": 30,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "egg yolks",
@@ -732,14 +1390,21 @@
       "Layer the dipped ladyfingers in a dish, spread half the mascarpone cream over them, repeat with a second layer of dipped ladyfingers, and top with the remaining cream, smoothing the surface.",
       "Refrigerate at least 4 hours, ideally overnight -- this rest lets the layers meld and the ladyfingers finish softening evenly, which is what gives tiramisu its sliceable, cohesive structure rather than a loose mess.",
       "Dust generously with cocoa powder right before serving, since cocoa dusted too early can look damp and clumpy by the time you cut it."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-3936425a-7d14-4d6f-8b2b-6f7d0141de05",
     "name": "Tarte Tatin",
     "mealType": "dessert",
     "difficulty": "advanced",
     "prepMinutes": 30,
     "cookMinutes": 45,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "puff pastry",
@@ -792,14 +1457,21 @@
       "Bake at 400F for 25-30 minutes until the pastry is deeply golden and puffed.",
       "Let the tart rest 5-10 minutes (not longer) before inverting -- resting lets the caramel firm up just enough to hold together on the flip, but waiting too long lets it set so hard it won't release from the pan.",
       "Place a serving plate over the skillet and invert in one confident motion, standing back initially since hot caramel can drip -- rearrange any apples that shift before serving warm."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-47dd089a-a575-4e71-8286-60eea27bb618",
     "name": "Chocolate Souffle",
     "mealType": "dessert",
     "difficulty": "advanced",
     "prepMinutes": 25,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "dark chocolate",
@@ -860,14 +1532,21 @@
       "Fill the ramekins to the top and run a thumb around the inner rim to clean the edge -- an unclean rim lets the batter catch and stick as it rises, causing lopsided souffles.",
       "Bake at 375F for 12-14 minutes until risen well above the rim and just set, without opening the oven door -- a rush of cold air can deflate a souffle mid-rise, and there's no fixing it once it falls.",
       "Dust with powdered sugar and serve the instant they come out of the oven -- a souffle begins deflating within a couple of minutes, so this is a dessert built around timing your guests to the oven, not the other way around."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-1cce4f6d-9d78-49c1-a116-d2c24d74f43b",
     "name": "Crème Brûlée",
     "mealType": "dessert",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 45,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "heavy cream",
@@ -911,14 +1590,21 @@
       "Pour into ramekins and bake in a water bath (ramekins set in a pan with hot water reaching halfway up their sides) at 325F for 30-35 minutes, until the edges are set but the center still jiggles like gelatin -- the water bath insulates the custard from the oven's direct heat, which otherwise scrambles the eggs before the center even sets.",
       "Chill at least 4 hours, uncovered, until fully cold and set.",
       "Just before serving, sprinkle an even, thin layer of turbinado sugar on top and caramelize with a kitchen torch, holding it a few inches away and moving constantly -- a torch (versus a broiler) lets you caramelize just the sugar without warming the cold custard underneath, keeping the contrast between the shattering hot crust and the cool cream inside."
+    ],
+    "tags": [
+      "dessert"
     ]
   },
   {
+    "id": "recipe-de1a324e-eb49-4edb-9758-b50244575804",
     "name": "Duck Confit with Crispy Skin",
     "mealType": "dinner",
     "difficulty": "advanced",
     "prepMinutes": 20,
     "cookMinutes": 180,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "duck legs",
@@ -971,14 +1657,21 @@
       "Cook at 200-225F for 2.5-3 hours until the meat is fork-tender but not falling apart -- confit is a low, gentle poach in fat, not a braise; too high a temperature toughens the meat instead of the low-and-slow render you're after.",
       "Let the legs cool in the fat to room temperature, then refrigerate right in the fat, ideally for at least a day or two before serving -- resting in the fat lets the flavor mature further, which is why confit was invented as a preservation method in the first place.",
       "To serve, remove the legs from the cold fat (save and strain the fat -- it's reusable and incredibly flavorful for roasting potatoes) and sear skin-side down in a dry, hot pan for 5-6 minutes until deeply crackled and crisp -- the meat is already fully cooked, so this final sear exists purely to recrisp the skin, and a cold pan going hot renders any remaining fat out gradually instead of burning the skin instantly."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-e5c0d898-76e5-4e36-9c3a-4d5eef22bf52",
     "name": "Miso-Glazed Salmon with Charred Bok Choy",
     "mealType": "dinner",
     "difficulty": "beginner-plus",
     "prepMinutes": 15,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "salmon fillets",
@@ -1051,14 +1744,21 @@
       "Halve the bok choy lengthwise and char cut-side down in a hot, dry cast iron pan for 2-3 minutes without moving them -- letting the natural sugars in the cut surface caramelize undisturbed gives you a smoky char that a quick stir-fry never develops.",
       "Flip the bok choy briefly to steam through for another minute, then remove while the stems still have a slight bite.",
       "Plate the salmon over the charred bok choy and finish with sesame seeds and sliced scallion."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-99ee5f44-24d3-46ec-8deb-2fc5011f3ced",
     "name": "Thai Green Curry with Shrimp",
     "mealType": "dinner",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "green curry paste",
@@ -1136,14 +1836,21 @@
       "Season with fish sauce and palm sugar, tasting for the balance of salty, sweet, and the paste's inherent heat -- there's no fixed amount that's correct, since curry paste brands vary widely in strength.",
       "Add the shrimp in the last 3-4 minutes and simmer just until pink and curled -- shrimp go from tender to rubbery fast, so add them last and pull the pan the moment they're done.",
       "Stir in torn Thai basil off the heat right before serving over jasmine rice -- basil added directly to a simmering pot wilts into a muddy green and loses its peppery brightness."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-7f7631ac-b9cd-4d8a-aa39-67feeed771be",
     "name": "Homemade Gnocchi with Brown Butter Sage",
     "mealType": "dinner",
     "difficulty": "advanced",
     "prepMinutes": 45,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "russet potatoes",
@@ -1199,14 +1906,21 @@
       "Cook in a large pot of well-salted boiling water; the gnocchi are done the moment they float, usually within 1-2 minutes -- pull them promptly, since a few extra seconds in the water starts to waterlog and soften them again after all the work you did to keep them dry.",
       "Melt butter in a wide pan over medium heat and cook past the foaming stage until it turns a deep amber and smells distinctly nutty, adding the sage leaves in the last 30 seconds so they crisp without burning -- watch closely, since brown butter goes from perfect to burnt in about 10 seconds.",
       "Toss the drained gnocchi directly in the brown butter and sage, adding a splash of the starchy gnocchi water if needed to loosen the sauce, then finish with more parmesan."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-30371f7e-7555-4212-b527-d1a10830f273",
     "name": "Braised Short Ribs with Red Wine",
     "mealType": "dinner",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 180,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "bone-in beef short ribs",
@@ -1283,14 +1997,21 @@
       "Return the ribs to the pot, add stock and thyme so the liquid comes about two-thirds up the sides of the meat (not fully submerged) -- partial submersion lets the exposed top of the meat roast and caramelize slightly in the oven's dry heat while the bottom braises, giving better texture than fully drowning it.",
       "Cover and braise at 325F for 3-3.5 hours until the meat is fall-off-the-bone tender and yields to almost no resistance from a fork.",
       "Skim the fat off the surface of the braising liquid (chilling it overnight makes this dramatically easier, since the fat solidifies into a removable layer) before reducing the liquid slightly and serving it as the sauce."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-6b7cbc3c-2b10-48de-8494-5e4b81d1f6f6",
     "name": "Paella with Shrimp and Chorizo",
     "mealType": "dinner",
     "difficulty": "advanced",
     "prepMinutes": 25,
     "cookMinutes": 40,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "bomba or arborio rice",
@@ -1370,14 +2091,21 @@
       "Nestle the shrimp and browned chorizo/chicken into the rice partway through cooking and simmer, undisturbed, for about 18-20 minutes until the liquid is absorbed.",
       "In the final 2-3 minutes, raise the heat slightly and listen for a faint crackling sound from the bottom of the pan -- that crackle is the socarrat forming; pull it just as you hear it, since a few seconds past that point is the difference between a crisp crust and a burnt one.",
       "Rest off heat for 5 minutes, covered with a towel, before serving."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-c015f5d5-b569-44f7-a38c-b6f37f825982",
     "name": "Spatchcocked Roast Chicken with Herb Butter",
     "mealType": "dinner",
     "difficulty": "intermediate",
     "prepMinutes": 25,
     "cookMinutes": 50,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "whole chicken",
@@ -1440,14 +2168,21 @@
       "Scatter carrots and onion in a roasting pan as a bed, place the chicken on top, and squeeze lemon over everything.",
       "Roast at 450F for 45-50 minutes until the skin is deep golden and a thermometer in the thickest part of the thigh reads 165F -- the high, flat single layer plus high heat is what gets you real crackling skin in under an hour instead of the two-plus hours a trussed whole bird needs.",
       "Rest 10 minutes before carving to let the juices redistribute."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-d18fcd80-9d1e-4761-8351-681942e0a917",
     "name": "Mushroom Risotto",
     "mealType": "dinner",
     "difficulty": "intermediate",
     "prepMinutes": 15,
     "cookMinutes": 35,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "arborio rice",
@@ -1512,14 +2247,21 @@
       "After about 18-20 minutes and most of the stock, taste for doneness -- it should be creamy with rice that's tender but still has a slight bite at the center.",
       "Off heat, stir in the reserved sautéed mushrooms, a final knob of butter, and parmesan -- this last vigorous stir, called mantecatura, is what pulls everything together into a glossy, cohesive dish rather than rice sitting in broth.",
       "Serve immediately; risotto continues to thicken as it sits and loses its ideal loose, flowing consistency within minutes."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
     "name": "Coq au Vin",
     "mealType": "dinner",
     "difficulty": "advanced",
     "prepMinutes": 30,
     "cookMinutes": 90,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "chicken thighs",
@@ -1607,14 +2349,21 @@
       "Return the chicken to the pot, bring to a simmer, then cover and cook low and slow (stovetop or 325F oven) for 45-60 minutes until the chicken is fork-tender -- a hard boil will make the chicken stringy; a gentle simmer keeps it succulent.",
       "Return the bacon, onions, and mushrooms to the pot in the last 10 minutes to warm through without overcooking.",
       "Swirl in the butter off heat just before serving to give the sauce a final glossy sheen."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-84bf2ec6-a1d0-4411-8dbf-9707593950de",
     "name": "Pan-Seared Steak with Red Wine Pan Sauce",
     "mealType": "dinner",
     "difficulty": "intermediate",
     "prepMinutes": 15,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "ribeye steak",
@@ -1675,14 +2424,21 @@
       "Deglaze with red wine, scraping up all the fond with a wooden spoon -- that fond is concentrated meaty flavor, and this scraping step is the entire reason a pan sauce tastes better than sauce made in a clean pot.",
       "Reduce the wine by half, add beef stock, and reduce again until it coats the back of a spoon, then swirl in a final knob of cold butter off the heat -- swirling in cold butter (monter au beurre) emulsifies the sauce into a glossy, clingy finish instead of a thin, greasy liquid.",
       "Slice the rested steak against the grain and spoon the pan sauce over the top."
+    ],
+    "tags": [
+      "dinner"
     ]
   },
   {
+    "id": "recipe-2637511b-22c4-41b1-961a-5a05eecac8aa",
     "name": "Falafel Wrap with Tahini Sauce",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 30,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "dried chickpeas",
@@ -1751,14 +2507,21 @@
       "Fry small scoops in oil at 350F for about 3-4 minutes, until deeply browned and crisp on the outside -- a good crust is your insurance policy against a mixture that's naturally a little fragile.",
       "Whisk tahini with lemon juice, water, and a pinch of salt until it seizes up and then loosens into a smooth, pourable sauce -- tahini thickens dramatically before it thins out again, so don't panic and add oil; just keep whisking in water.",
       "Warm the pita, split, and fill with falafel, tahini sauce, and fresh vegetables."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-9eeeb3fa-b2fd-4742-9d81-4f92fc32560f",
     "name": "Spaghetti Carbonara",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 10,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "spaghetti",
@@ -1806,14 +2569,21 @@
       "Pull the guanciale pan off the heat and let it cool for a minute -- adding eggs to a pan that's too hot is the single most common carbonara mistake, and it scrambles the eggs instantly.",
       "Add the drained pasta to the guanciale pan, then off heat, pour in the egg-cheese mixture while tossing constantly, adding splashes of reserved pasta water until the sauce turns glossy and coats the noodles -- constant tossing off direct heat is what cooks the eggs into a sauce via residual warmth alone.",
       "Finish with a generous crack of black pepper and serve immediately, since the sauce continues to thicken and can turn gluey if it sits."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-c982b725-03e0-430d-862a-fe241421f145",
     "name": "Thai Larb Gai Lettuce Wraps",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 10,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "ground chicken",
@@ -1880,14 +2650,21 @@
       "Remove the pan from heat the moment the chicken is just cooked through, then immediately stir in fish sauce and lime juice while the chicken is still hot -- adding the dressing off-heat preserves the bright acidity that cooking would dull.",
       "Fold in the thinly sliced shallots, mint, cilantro, chili flakes, and toasted rice powder, tasting and adjusting the fish sauce/lime balance -- larb should hit sour, salty, and spicy all at once, so taste before you plate.",
       "Serve spooned into cold, crisp butter lettuce leaves for wrapping -- the cold crunch of raw lettuce is a deliberate contrast to the warm, soft filling."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-9397b794-cb7a-4a5a-9a3a-f5fdea1f98c3",
     "name": "Shrimp Po'Boy with Remoulade",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "large shrimp",
@@ -1973,14 +2750,21 @@
       "Fry in oil at 350F in small batches until golden and crisp, about 2-3 minutes -- crowding the pan drops the oil temperature, which is the number one reason fried shrimp turns greasy instead of crackly.",
       "Split and lightly toast the rolls, then spread remoulade generously on both sides.",
       "Pile in the hot shrimp and lettuce immediately -- serving right away while the coating is still audibly crisp is the difference between a po'boy and a soggy sandwich."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-37ea4f63-bacf-47ce-a554-5e0039e8ff0c",
     "name": "Homemade Ramen with Chashu Pork",
     "mealType": "lunch",
     "difficulty": "advanced",
     "prepMinutes": 30,
     "cookMinutes": 180,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "pork belly",
@@ -2072,14 +2856,21 @@
       "Slice the chilled chashu into rounds and sear briefly in a hot pan just before serving to re-crisp the fat cap.",
       "Cook the ramen noodles separately in unsalted water (salting the noodle water dilutes the broth when they're added) and drain well.",
       "Assemble bowls with hot broth, noodles, sliced chashu, a halved ajitama, sliced scallion, and a few drops of sesame oil finished on top rather than cooked in, so its aroma stays bright."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-27a977a3-685b-448e-9f40-5e3df17b83ab",
     "name": "Nicoise Salad with Seared Tuna",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 25,
     "cookMinutes": 10,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "sushi-grade tuna steak",
@@ -2155,14 +2946,21 @@
       "Pat the tuna steak completely dry and season generously with salt and pepper -- a wet surface will steam instead of sear, and steaming gives gray, mushy tuna rather than a crisp crust.",
       "Sear the tuna in a screaming-hot pan for 60-90 seconds per side, aiming for a deep golden crust with a cool red-pink center, then slice against the grain immediately.",
       "Arrange potatoes, beans, eggs, olives, tomatoes, and tuna over greens and drizzle with the vinaigrette just before serving so the greens don't wilt."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-a4a07ef9-c3ce-4853-8a2b-bac2614a942a",
     "name": "French Onion Soup",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 15,
     "cookMinutes": 90,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "yellow onions",
@@ -2227,14 +3025,21 @@
       "Add beef stock, bay leaf, and thyme once the onions are a deep mahogany color, then simmer uncovered 20 minutes to let the flavors marry.",
       "Ladle the soup into oven-safe crocks, float a toasted baguette slice on top, and cover generously with gruyere.",
       "Broil until the cheese is bubbling and browned in spots, watching closely -- broilers work fast and the line between golden and burnt is a matter of seconds."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-8621bc1e-58f8-4c42-9e88-cb431193a70c",
     "name": "Bahn Mi with Pork Pate and Quick-Pickled Vegetables",
     "mealType": "lunch",
     "difficulty": "intermediate",
     "prepMinutes": 30,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "baguette",
@@ -2321,14 +3126,21 @@
       "Split the baguette lengthwise but not all the way through, then toast cut-side up under a broiler for 2 minutes -- toasting the interior keeps the bread from turning soggy the moment it meets the pickled vegetables' liquid.",
       "Spread mayonnaise on one side and layer the pate on the other -- keeping fats on opposite sides means every bite gets both instead of one side going bare.",
       "Layer in the seared pork belly, drained pickled vegetables, jalapeno slices, and cilantro, pressing down firmly before cutting so the sandwich holds together instead of spilling its filling."
+    ],
+    "tags": [
+      "lunch"
     ]
   },
   {
+    "id": "recipe-6982aa15-066e-4983-b71e-447bfd145947",
     "name": "Shakshuka with Feta",
     "mealType": "breakfast",
     "difficulty": "beginner-plus",
     "prepMinutes": 10,
     "cookMinutes": 25,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "olive oil",
@@ -2403,14 +3215,21 @@
       "Pour in the crushed tomatoes and simmer uncovered 15 minutes until thickened enough that a spoon dragged through leaves a brief trail -- a too-thin sauce will poach the eggs into a soupy mess.",
       "Use the back of a spoon to make wells in the sauce, crack an egg into each, cover the pan, and cook over low heat 6-8 minutes until whites are set but yolks still jiggle -- covering traps steam that cooks the tops of the eggs gently without overcooking the bottoms.",
       "Scatter feta over the top in the last minute so it softens without fully melting, and serve straight from the pan with crusty bread for scooping."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-f771864d-5606-453e-b7bf-99364292e167",
     "name": "Buttermilk Pancakes from Scratch",
     "mealType": "breakfast",
     "difficulty": "beginner-plus",
     "prepMinutes": 10,
     "cookMinutes": 15,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "all-purpose flour",
@@ -2475,14 +3294,21 @@
       "Let the batter rest 5-10 minutes before cooking; this gives the baking powder time to start working and the flour time to hydrate, both of which improve texture.",
       "Cook on a griddle at medium heat (not high) -- too hot and the outside burns before the thick batter cooks through, leaving a raw center.",
       "Flip only once, when bubbles across the surface have popped and stayed open -- that's the visual cue the underside has set enough to flip cleanly without deflating."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-88d079d7-0567-405f-8cf6-63442e9d3dec",
     "name": "Croissant French Toast Bake",
     "mealType": "breakfast",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 40,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "day-old croissants",
@@ -2549,14 +3375,21 @@
       "Press down gently on the croissants once, then let the dish sit at room temperature for at least 20 minutes (or refrigerate overnight) -- this soak time is non-negotiable; underfilled corners will bake dry while soaked layers stay custardy.",
       "Bake at 350F for 35-40 minutes until the top is deeply golden and puffed and the center no longer jiggles -- the flaky layers of the croissant will separate slightly as they bake, giving craggy, crispy peaks on top.",
       "Rest 5 minutes before serving so the custard sets fully, then drizzle with warm maple syrup."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-8c353b7e-2778-4233-90e2-cb9fa3af6d90",
     "name": "Congee with Soft-Boiled Egg and Scallion Oil",
     "mealType": "breakfast",
     "difficulty": "beginner-plus",
     "prepMinutes": 5,
     "cookMinutes": 60,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "jasmine rice",
@@ -2621,14 +3454,21 @@
       "While the congee simmers, thinly slice the scallions and separate the white and green parts, then heat the neutral oil until just shimmering and pour it over the raw scallion in a heatproof bowl -- the hot oil blooms the alliums instantly without the bitterness that comes from cooking them in a pan.",
       "Soft-boil the eggs for exactly 6.5 minutes in simmering water, then shock in ice water, peel, and halve -- the ice bath stops carryover cooking so the yolk stays jammy rather than turning chalky.",
       "Season the finished congee with soy sauce and white pepper, ladle into bowls, and top with the soft-boiled egg, a drizzle of scallion oil, and sesame oil."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-78419866-345e-4aba-bbd6-e47a04c16ab6",
     "name": "Smoked Salmon Bagel with Quick-Pickled Red Onion",
     "mealType": "breakfast",
     "difficulty": "beginner-plus",
     "prepMinutes": 15,
-    "cookMinutes": 0,
+    "cookMinutes": 30,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "everything bagels",
@@ -2686,14 +3526,21 @@
       "Spread cream cheese generously while the bagel is still warm so it softens slightly and grips the toasted surface.",
       "Layer smoked salmon in loose folds rather than flat sheets -- folding traps air and keeps the texture delicate instead of pasty.",
       "Top with the pickled onion, capers, and dill, letting the drained onion's residual vinegar season the salmon underneath."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-d9c7f31a-aab4-4755-9e72-534cbbfadcb1",
     "name": "Breakfast Burrito with Homemade Chorizo",
     "mealType": "breakfast",
     "difficulty": "intermediate",
     "prepMinutes": 20,
     "cookMinutes": 25,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "ground pork",
@@ -2767,14 +3614,21 @@
       "Scramble the eggs gently in the rendered chorizo fat off to the side (that fat is seasoned gold, don't drain it) until just set.",
       "Warm the tortillas directly over a burner flame for a few seconds per side until they blister slightly -- this toasts them enough that they won't tear when rolled.",
       "Fill each tortilla with potatoes, chorizo, eggs, and cheese, fold in the sides, then roll tightly away from you to seal."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-0a092665-105a-452d-a09f-a245fff87ac6",
     "name": "Classic French Rolled Omelette",
     "mealType": "breakfast",
     "difficulty": "intermediate",
     "prepMinutes": 5,
     "cookMinutes": 5,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "eggs",
@@ -2820,14 +3674,21 @@
       "Let the eggs settle for 10 seconds so a thin skin forms on the bottom, then scatter cheese and chives across the center.",
       "Tilt the pan away from you and use a spatula to fold the near edge over the filling, then roll the omelette forward onto a plate seam-side down -- the rolling motion, not flipping, is what keeps the center soft and creates the classic torpedo shape.",
       "Serve immediately; the residual heat finishes cooking the center so it stays glossy rather than dry."
+    ],
+    "tags": [
+      "breakfast"
     ]
   },
   {
+    "id": "recipe-db63ebef-f12e-4e83-9a95-71e20015258a",
     "name": "Dutch Baby Pancake with Lemon and Sugar",
     "mealType": "breakfast",
     "difficulty": "beginner-plus",
     "prepMinutes": 10,
     "cookMinutes": 20,
+    "description": "",
+    "imageUrl": "",
+    "persona": "user-submitted",
     "ingredients": [
       {
         "name": "eggs",
@@ -2893,6 +3754,9 @@
       "Carefully remove the hot pan, add the butter, and swirl until melted and just starting to brown -- this is your fond of flavor, don't skip the swirl.",
       "Pour in the batter immediately (the sizzle you hear is the batter setting on contact, which is what creates the crisp puffed edge) and bake 18-20 minutes without opening the oven door -- opening it drops the temperature and collapses the rise.",
       "Squeeze lemon juice over the top and dust with powdered sugar the moment it comes out; it will deflate within a couple minutes so serve immediately."
+    ],
+    "tags": [
+      "breakfast"
     ]
   }
 ]

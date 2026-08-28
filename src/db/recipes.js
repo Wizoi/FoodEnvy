@@ -18,6 +18,8 @@ export function deleteRecipe(id) {
 // recipes (seeded or their own), this is a no-op so it never clobbers edits.
 export async function seedRecipesIfEmpty() {
   const existing = await count(STORES.RECIPES);
+  console.log(`[seedRecipesIfEmpty] Found ${existing} existing recipes, seedRecipes has ${seedRecipes.length}`);
   if (existing > 0) return;
   await Promise.all(seedRecipes.map((recipe) => put(STORES.RECIPES, recipe)));
+  console.log(`[seedRecipesIfEmpty] Seeded ${seedRecipes.length} recipes`);
 }
