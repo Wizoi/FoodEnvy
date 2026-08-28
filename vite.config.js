@@ -1,29 +1,41 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { copyFileSync } from 'fs'
+import { copyFileSync, mkdirSync } from 'fs'
 import { join } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
   base: './',
   plugins: [
-    react(),
     {
-      name: 'copy-recipe-browser',
+      name: 'copy-static-files',
       apply: 'build',
       enforce: 'post',
       generateBundle() {
-        const src = join(process.cwd(), 'recipe-browser.html')
-        const dest = join(process.cwd(), 'dist', 'recipe-browser.html')
-        copyFileSync(src, dest)
+        const distDir = join(process.cwd(), 'dist')
+        mkdirSync(distDir, { recursive: true })
+
+        // Copy index.html
+        copyFileSync(join(process.cwd(), 'index.html'), join(distDir, 'index.html'))
+
+        // Copy public assets
+        try {
+          copyFileSync(
+            join(process.cwd(), 'public/foodenvy-complete-recipes.json'),
+            join(distDir, 'foodenvy-complete-recipes.json')
+          )
+        } catch (e) {
+          console.warn('recipes file not found')
+        }
+
+        try {
+          copyFileSync(
+            join(process.cwd(), 'public/favicon.svg'),
+            join(distDir, 'favicon.svg')
+          )
+        } catch (e) {
+          console.warn('favicon not found')
+        }
       },
     },
   ],
-  optimizeDeps: {
-    include: ['@anthropic-ai/sdk'],
-  },
-  test: {
-    environment: 'jsdom',
-    include: ['src/**/*.test.{js,jsx}'],
-  },
 })
