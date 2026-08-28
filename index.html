@@ -1691,11 +1691,10 @@
           recipeHtml += '</div></div>';
           recipeHtml += '<div class="recipe-body">';
 
-          // 3. Allergen chips + disclaimer
+          // 3. Allergen chips
           const allergenRow = renderAllergenChips(recipe);
           if (allergenRow) {
             recipeHtml += allergenRow;
-            recipeHtml += '<div class="allergen-disclaimer" style="font-size:0.7rem;color:#856404;margin-bottom:0.6rem;">Contains (from listed ingredients) — not a substitute for reading labels</div>';
           }
 
           // 4. Diet chips
