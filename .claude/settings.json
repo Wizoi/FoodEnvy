@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node test-browser.js)"
+      "Bash(node test-browser.js)",
+      "Bash(mv recipe-browser.html index.html)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'Rename recipe-browser.html to index.html as public FoodEnvy app *)"
     ]
   }
 }
