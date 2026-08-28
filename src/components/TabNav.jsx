@@ -1,7 +1,9 @@
 const TABS = [
   { id: 'profiles', label: 'Profiles' },
   { id: 'inventory', label: 'Inventory' },
+  { id: 'plan', label: 'Weekly Plan' },
   { id: 'meals', label: 'Meal Ideas' },
+  { id: 'settings', label: 'Settings' },
 ];
 
 export default function TabNav({ activeTab, onChange }) {

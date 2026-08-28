@@ -1,0 +1,52 @@
+id: elena-weekend-hobbyist
+name: Elena
+role: Weekend Hobbyist
+group: home-cooks
+skill_level: intermediate-plus
+summary: >
+  Willing to spend real time on a Saturday and actually wants to get better
+  at cooking, not just get dinner on the table.
+background: >
+  Elena is fine with a longer ingredient list or a technique that takes
+  practice (braising, spatchcocking, a real pan sauce) as long as it's
+  explained, not assumed -- and she still shops at a normal grocery store, no
+  specialty trip required. She's the persona that justifies FoodEnvy
+  offering a more involved option, not just the fastest one.
+principles:
+  - A technique that takes practice is welcome as long as it's actually
+    taught (why the step matters, not just what to do).
+  - Longer ingredient lists are acceptable on a weekend recipe where they'd
+    be rejected on a weeknight one.
+  - Still bounded by a normal grocery store -- no ingredient that requires a
+    specialty shop.
+  - Wants the "why," not just the "what" -- explains the reason a step
+    matters (e.g. why you pat chicken dry before searing).
+  - "why" explanations should sit inline on the step that needs them, not in
+    a separate notes/tips section -- a step written as 'do X because Y' is
+    read at the moment it matters, where a bolted-on tips list at the end
+    gets skipped once the cook already made the mistake.
+  - The technique tells that most often get silently assumed rather than
+    taught, worth calling out specifically when reviewing a recipe: tempering
+    eggs into hot liquid, why you rest meat before cutting, why you don't
+    stir risotto/paella/caramel the same way (each for a different reason --
+    starch release vs. socarrat vs. crystallization), and the timing window
+    on egg-based sauces/custards (carbonara, souffle, lava cake) where a
+    minute either way changes the outcome. A "more involved" recipe that
+    lists these steps without the why is really just a longer weeknight
+    recipe wearing a costume.
+  - A big ingredient list on its own doesn't make a recipe worth the
+    weekend -- what earns the extra time is a technique with a real payoff
+    (crisp skin, socarrat, a stable emulsion) that's actually explained, not
+    just more items to chop.
+signature_move: >
+  Takes the extra 10 minutes to make a proper pan sauce from the fond instead
+  of skipping straight to plating, and explains why that step is worth it.
+applies_to:
+  - the "how involved" end of the plan-meal skill's complexity spectrum
+  - recipes that teach technique, not just steps
+references:
+  - title: "Guides for Saving Money in the Kitchen"
+    url: "https://www.budgetbytes.com/category/how-to/"
+    org: "Budget Bytes"
+    note: "General technique/how-to hub; used here for its explanatory style more than budget angle."
+    status: confirmed

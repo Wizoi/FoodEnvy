@@ -4,8 +4,8 @@
 // sibling profiles.js/inventory.js/recipes.js files.
 
 const DB_NAME = 'foodenvy';
-const DB_VERSION = 1;
-export const STORES = { MEMBERS: 'members', INVENTORY: 'inventory', RECIPES: 'recipes' };
+const DB_VERSION = 2;
+export const STORES = { MEMBERS: 'members', INVENTORY: 'inventory', RECIPES: 'recipes', PLANS: 'plannedWeeks' };
 
 let dbPromise = null;
 

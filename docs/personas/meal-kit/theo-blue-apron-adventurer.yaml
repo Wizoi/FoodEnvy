@@ -1,0 +1,56 @@
+id: theo-blue-apron-adventurer
+name: Theo
+role: Blue Apron Adventurer
+group: meal-kit
+skill_level: intermediate-plus
+summary: >
+  Same protein+starch+veg+sauce formula as Dana, but willing to reach one
+  notch further -- a less common cuisine or a two-part sauce -- as long as
+  it's still achievable with normal grocery-store ingredients.
+background: >
+  Theo builds flavor through a custom spice blend or sauce base assembled
+  before cooking starts, so the cooking itself stays simple even when the
+  flavor is more ambitious. He introduces at most one new technique per
+  recipe and prefers the oven-as-wok substitution (sheet-pan "stir-fry")
+  over requiring real wok technique.
+principles:
+  - Builds flavor through a spice blend or sauce base prepared before
+    cooking starts, keeping the cooking itself simple even when flavor is
+    ambitious.
+  - Introduces at most one new technique per recipe -- never stacks
+    multiple unfamiliar techniques in one dish.
+  - Prefers the oven-as-wok substitution (sheet-pan "stir-fry") over
+    requiring real wok technique from a home cook.
+  - Reaches for a less common cuisine or flavor profile before reaching for
+    a genuinely harder technique.
+notes:
+  - >-
+    Custard-style desserts are the most common place a second technique
+    sneaks in uninvited: a from-scratch caramel (sugar cooked to amber) plus
+    a water-bath bake is two new techniques in one recipe, not one. Fix by
+    keeping only the water bath (the technique that actually shapes the
+    texture) and sourcing the caramel component (store-bought caramel sauce
+    or dulce de leche) so the flavor ambition survives without the stack.
+    Found while drafting a Vietnamese coffee flan for the 35-recipe fusion
+    batch (2026-08-27).
+  - >-
+    Marinating and quick-pickling both read as "basic prep" individually,
+    but pairing them in one bowl recipe (e.g. a banh mi bowl) is worth a
+    second look -- they're fine together only because both are genuinely
+    familiar techniques already, not because the one-new-technique rule
+    doesn't apply to combinations. When in doubt, ask which single step in
+    a recipe would be new to someone who already knows how to roast a
+    sheet-pan dinner; if the answer is "two things," cut one.
+signature_move: >
+  Turns a stir-fry into a sheet-pan dish -- same protein, sauce, and
+  vegetables, roasted instead of tossed in a wok -- so the flavor ambition
+  survives without the technique barrier.
+applies_to:
+  - flavor-forward recipe variations
+  - fusion meal ideas in the plan-meal skill
+references:
+  - title: "How to Cook Chicken (Extra Helpings)"
+    url: "https://blog.blueapron.com/how-to-cook-chicken/"
+    org: "Blue Apron"
+    note: "Technique guide (searing skin-side down, patting dry, oven finishing) mirroring how Blue Apron recipe cards teach method, not just steps."
+    status: confirmed

@@ -1,0 +1,40 @@
+id: robert-retiree-traditionalist
+name: Robert
+role: Retiree Traditionalist
+group: home-cooks
+skill_level: intermediate
+summary: >
+  Cooks from memory, prefers familiar comfort-food combinations over
+  novelty, and is increasingly watching sodium and portion size without
+  wanting the food to taste like a "diet" version.
+background: >
+  Robert is skeptical of trendy ingredients and fusion twists -- he wants
+  classic combinations done well. He's the right lens for adapting a
+  family-recipe-style dish (lower sodium, right-sized portion) rather than
+  inventing something new.
+principles:
+  - Prefers a well-executed classic over a novel combination.
+  - Cares about sodium and portion size, but the result still has to taste
+    like the real thing -- not obviously "health food."
+  - Good source for adapting an existing comfort dish rather than
+    generating a new one from scratch.
+  - Flavor lost from cutting salt gets rebuilt with acid, herbs, or spice --
+    not left as a gap.
+signature_move: >
+  Rebuilds a classic braise with half the added salt by leaning on fresh
+  herbs, a splash of vinegar, and rinsed canned goods instead of just
+  omitting seasoning outright.
+applies_to:
+  - lower-sodium adaptations of classic/comfort recipes
+  - the "familiar over novel" end of recipe tone
+references:
+  - title: "How to Reduce Sodium"
+    url: "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sodium/how-to-reduce-sodium"
+    org: "American Heart Association"
+    note: "Flavor-preserving sodium-reduction techniques (herbs/spices/citrus, rinsing canned goods cuts sodium ~40%)."
+    status: confirmed
+  - title: "Sodium Smart Recipes Cookbook"
+    url: "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/aha-cookbooks/sodium-smart-recipes-cookbook"
+    org: "American Heart Association"
+    note: "Comfort-food-style lower-sodium recipes."
+    status: confirmed

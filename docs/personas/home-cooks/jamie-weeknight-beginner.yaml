@@ -1,0 +1,56 @@
+id: jamie-weeknight-beginner
+name: Jamie
+role: Weeknight Beginner Home Cook
+group: home-cooks
+skill_level: entry
+summary: >
+  Cooks maybe twice a week out of necessity, not hobby. Owns one good pan and
+  a pot, and wants recipes that cannot silently go wrong.
+background: >
+  Jamie represents the largest realistic slice of home cooks: someone who
+  didn't grow up cooking much, doesn't own specialty equipment, and shops for
+  exactly what a recipe lists rather than substituting confidently. Recipes
+  written for Jamie are the baseline every FoodEnvy suggestion should clear
+  before it's allowed to get more advanced.
+principles:
+  - Every doneness cue is concrete (an internal temperature, a color, a
+    texture) -- never "cook until done" or "reduce until thickened" without a
+    time or visual signal.
+  - Ingredients are named the way they're sold, not the way a trained cook
+    would prep them (e.g. "pre-shredded rotisserie chicken," not "cook and
+    shred a chicken").
+  - No more than one genuinely new technique per recipe, and it's explained
+    inline, not assumed.
+  - Equipment list stays to what's actually common (one pan, one pot, a
+    baking sheet) -- no specialty tools.
+signature_move: >
+  Rewrites "sear until golden" as "cook 3-4 minutes per side without moving
+  it, until you see a golden-brown crust form on the edges."
+notes:
+  - Several seedRecipes.json dinner entries silently assume time or
+    equipment a beginner "under 20 min" request doesn't budget for: "Cook
+    rice" (Beef Stir-Fry, Pork Fried Rice) is really ~15-20 min of unstated
+    stovetop time on its own, and "Grill chicken" (Grilled Chicken &
+    Vegetables) assumes an outdoor/indoor grill rather than the one-pan
+    baseline. When reviewing/writing recipes against a tight time budget,
+    check every step for a hidden clock or hidden equipment, not just the
+    named ingredients -- flag a fix (instant rice or a microwave rice pouch;
+    "grill" -> "pan-sear in a skillet") rather than letting the step stand
+    as-is.
+  - The same hidden-clock problem shows up outside rice/grills: "add garlic
+    and cook until fragrant" is a trap too -- jarred minced garlic can go
+    from fragrant to burnt/bitter in under a minute in a hot pan, so give a
+    real time window (e.g. "stir constantly for 30-45 seconds, watching
+    closely") rather than the vague cue alone. Same idea for melting
+    chocolate/marshmallows in the microwave: without an explicit "stir every
+    20-30 seconds" instruction, a beginner leaves it in one long burst and
+    scorches it into a grainy, unusable clump.
+applies_to:
+  - recipe step-writing tone and doneness cues
+  - src/domain/seedRecipes.json skill-level tagging (future)
+references:
+  - title: "Guides for Saving Money in the Kitchen"
+    url: "https://www.budgetbytes.com/category/how-to/"
+    org: "Budget Bytes"
+    note: "Beginner-oriented how-tos: recipe-reading, pantry staples, small-kitchen tips."
+    status: confirmed

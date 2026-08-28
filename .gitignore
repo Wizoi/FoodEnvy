@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 
-# Exported family profile data (personal, not sample content)
+# Exported family profile/inventory data (personal, not sample content)
 /Profiles/
+foodenvy-profile-*.json
+foodenvy-inventory-*.json
 
 # Editor directories and files
 .vscode/*

@@ -3,7 +3,7 @@
 // pantry, and rank the results. Pure functions, no I/O -- the db/ layer feeds
 // this data in and the components/meals/ UI renders what comes out.
 
-function normalize(str) {
+export function normalize(str) {
   return str.trim().toLowerCase().replace(/e?s$/, '');
 }
 
@@ -104,4 +104,64 @@ export function buildShoppingList(almostSuggestions) {
     }
   }
   return [...seen.values()];
+}
+
+// Recomputes everything matcher.js knows about one recipe against the
+// CURRENT members/inventory -- the building block a weekly plan's swap and
+// re-validation logic needs, since a plan is a snapshot but restrictions and
+// inventory aren't. Composes the existing exports rather than duplicating
+// their logic.
+export function evaluateRecipeForSlot(recipe, members, inventory) {
+  const { eligibleMembers, ineligibleMembers } = getRecipeEligibility(recipe, members);
+  const missingIngredients = getMissingIngredients(recipe, inventory);
+  return {
+    recipe,
+    eligibleMembers,
+    ineligibleMembers,
+    missingIngredients,
+    status: missingIngredients.length === 0 ? 'ready' : 'almost',
+  };
+}
+
+// A shopping list that remembers which slot(s) need each item, so a swap can
+// show its ripple effect (an item dropping from 2 uses to 1) instead of just
+// silently rewriting the list. `slots` is [{ slotId, missingIngredients }].
+export function buildUsageTrackedShoppingList(slots) {
+  const seen = new Map();
+  for (const { slotId, missingIngredients } of slots) {
+    for (const ing of missingIngredients) {
+      const key = normalize(ing.name);
+      if (!seen.has(key)) seen.set(key, { name: ing.name, usedBy: [] });
+      seen.get(key).usedBy.push(slotId);
+    }
+  }
+  return [...seen.values()];
+}
+
+// Ingredient tags treated as protein sources for a lightweight week-level
+// balance check -- not real nutrition analysis (recipes carry no macro
+// data), just a repetition signal: "this protein showed up 3+ times."
+const PROTEIN_SOURCE_TAGS = ['beef', 'pork', 'fish', 'meat', 'soy', 'egg'];
+
+// Tallies how many of the week's current slot recipes touch each protein
+// tag (once per recipe per tag, not per ingredient) so a swap can be
+// checked against the rest of the week instead of evaluated in isolation.
+export function computeProteinTally(slotRecipes) {
+  const tally = Object.fromEntries(PROTEIN_SOURCE_TAGS.map((tag) => [tag, 0]));
+  for (const recipe of slotRecipes) {
+    const recipeTags = new Set(recipe.ingredients.flatMap((ing) => ing.tags ?? []));
+    for (const tag of PROTEIN_SOURCE_TAGS) {
+      if (recipeTags.has(tag)) tally[tag] += 1;
+    }
+  }
+  return tally;
+}
+
+// Turns a protein tally into plain-language warnings for anything repeated
+// 3+ times in one week (Dr. Amara Chen's balance principle) -- cheap enough
+// to recompute after every swap rather than only at plan generation.
+export function describeRepeats(tally) {
+  return Object.entries(tally)
+    .filter(([, count]) => count >= 3)
+    .map(([tag, count]) => `${tag} appears in ${count} meals this week`);
 }

@@ -1,0 +1,44 @@
+id: dana-hellofresh-regular
+name: Dana
+role: HelloFresh Regular
+group: meal-kit
+skill_level: intermediate
+summary: >
+  Thinks in the meal-kit formula by default: one protein, one starch, one
+  vegetable, one sauce or spice base, every time, cooked in 20-40 minutes
+  with minimal cleanup.
+background: >
+  Dana's whole approach is grounded in how HelloFresh actually designs
+  recipes: sheet-pan/one-pot methods to minimize cleanup, "while X cooks, do
+  Y" parallel-task cueing to keep total time down without demanding real
+  multitasking skill, and doneness given as a temperature or clear visual
+  cue rather than a guess.
+principles:
+  - Every recipe follows protein + starch + vegetable + sauce/aromatic base,
+    in that order.
+  - Defaults to sheet-pan or one-pot methods specifically to minimize
+    cleanup -- "one dish to wash" is a real design goal, not an afterthought.
+  - Writes steps with parallel-task cueing ("while the chicken roasts, toss
+    the green beans") to keep total time under ~35 minutes.
+  - Gives doneness as a target internal temperature or a clear visual cue,
+    never a guess.
+  - The protein + starch + vegetable + sauce plate formula is a dinner/lunch/
+    savory-breakfast rule, not a universal one -- desserts and treats rarely
+    have a savory protein or vegetable at all, so for those categories the
+    formula check should relax to process discipline instead: one-pan/no-bake
+    method, parallel-task cueing, and a precise doneness/set cue (a
+    temperature, "toothpick clean," "firm to the touch," "no wet jiggle")
+    rather than requiring all four plate components.
+signature_move: >
+  Restructures a recipe's steps so the oven-roasting step and the
+  stovetop-sauce step run concurrently, explicitly calling out the overlap
+  instead of writing them sequentially.
+applies_to:
+  - recipe step ordering and parallel-task cueing
+  - the meal-kit formula behind seedRecipes.json entries
+references:
+  - title: "One Pot & Pan Meals"
+    url: "https://www.hellofresh.com/recipes/one-pot-pan-meals"
+    org: "HelloFresh"
+    note: "Collection of ~18 one-pot/one-pan recipes illustrating the less-cleanup recipe formula."
+    status: confirmed

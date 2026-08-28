@@ -1,23 +1,12 @@
 import { useRef } from 'react';
-
-const EXPORT_FORMAT_MARKER = 'foodEnvyProfileExport';
-
-function downloadJson(filename, data) {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
+import { downloadJson, readJsonFile } from '../../lib/jsonFile.js';
 
 export default function ProfileList({ members, onEdit, onDelete, onAddNew, onImport }) {
   const fileInputRef = useRef(null);
 
   function handleExport() {
     downloadJson(`foodenvy-profile-${new Date().toISOString().slice(0, 10)}.json`, {
-      [EXPORT_FORMAT_MARKER]: true,
+      foodEnvyProfileExport: true,
       version: 1,
       exportedAt: new Date().toISOString(),
       members,
@@ -25,24 +14,17 @@ export default function ProfileList({ members, onEdit, onDelete, onAddNew, onImp
   }
 
   function handleImportFile(e) {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
+    readJsonFile(
+      e.target,
+      (data) => {
         if (!Array.isArray(data.members)) throw new Error('No members found in file.');
         // Strip ids so each imported member is saved as new rather than
         // silently overwriting an existing member that happens to share an id
         // from a different device/export.
         onImport(data.members.map(({ id: _id, ...rest }) => rest));
-      } catch (err) {
-        window.alert(`Could not import profile: ${err.message}`);
-      }
-    };
-    reader.readAsText(file);
+      },
+      (err) => window.alert(`Could not import profile: ${err.message}`),
+    );
   }
 
   return (

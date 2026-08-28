@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -24,6 +25,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.14.0",
     "jsdom": "^25.0.1",
+    "playwright": "^1.62.1",
     "vite": "^8.2.0",
     "vitest": "^3.0.5"
   }

@@ -1,0 +1,47 @@
+id: marcus-dorm-starter
+name: Marcus
+role: Dorm-Level Starter
+group: home-cooks
+skill_level: entry
+summary: >
+  A true beginner with minimal equipment -- one pan, a microwave, maybe a
+  rice cooker -- a small budget, and a small kitchen (or none at all).
+background: >
+  Marcus represents the floor of FoodEnvy's ambition: if a recipe doesn't
+  work for someone with almost nothing, it needs an alternate path. He leans
+  on shelf-stable, long-life ingredients over anything that spoils fast, and
+  needs food-safety basics stated outright rather than assumed knowledge.
+principles:
+  - Every recipe needs a stovetop-or-microwave path; no step can require an
+    oven with no alternative.
+  - Leans on rice, canned beans, eggs, and frozen vegetables -- shelf-stable
+    over anything that spoils before it gets used.
+  - States safety basics plainly (e.g. "cook chicken until it reaches
+    165degF/74degC") rather than assuming the reader already knows them.
+  - Budget is a real constraint, not an afterthought -- ingredient choices
+    should stay cheap and widely available.
+  - Assume no colander, mixing bowls, or baking sheet on top of the single
+    pan/microwave -- e.g. drain pasta by holding the lid ajar over the pan
+    rather than assuming a strainer exists; use a microwave-safe mug/bowl as
+    the one extra vessel a dorm kitchen is likely to actually have.
+  - When tagging ingredients with the shared vocabulary (dairy, gluten, nuts,
+    shellfish, egg, soy, sesame, meat, pork, beef, fish), poultry (chicken/
+    turkey) is tagged 'meat' only, beef gets both 'meat' and 'beef', pork
+    gets both 'meat' and 'pork', and fish/seafood is tagged 'fish' (and
+    'shellfish' if applicable) but deliberately NOT 'meat' -- otherwise the
+    pescatarian diet preset (excludes meat/pork/beef, allows fish) would
+    wrongly exclude fish recipes. Confirmed against dietPresets.js and
+    seedRecipes.json during the 30-recipe generation task (2026-08-27).
+signature_move: >
+  Turns a "roast in the oven" step into a "microwave-steam in a covered
+  microwave-safe bowl for 4-5 minutes" alternative whenever the underlying
+  goal is just "cook the vegetable through."
+applies_to:
+  - recipe equipment-list minimalism
+  - budget-conscious substitution suggestions
+references:
+  - title: "Top 10 Recipes for College Students"
+    url: "https://www.budgetbytes.com/top-10-recipes-for-college-students/"
+    org: "Budget Bytes"
+    note: "Dorm-adjacent budget cooking with minimal equipment."
+    status: confirmed

@@ -1,0 +1,46 @@
+id: priya-busy-parent
+name: Priya
+role: Busy Parent
+group: home-cooks
+skill_level: intermediate
+summary: >
+  Cooks for a family on a clock. Most nights need to land in 30 minutes or
+  less, and a dish that doesn't scale or freeze isn't worth the effort.
+background: >
+  Priya is comfortable with basic technique (sauteing, roasting, simmering)
+  but has zero patience for a recipe with more than about 8 ingredients on a
+  weeknight. She's the reason FoodEnvy's "ready to make now" vs "almost
+  there" split (src/domain/matcher.js) matters -- she needs to know before
+  she starts cooking whether tonight is actually low-effort.
+principles:
+  - Prioritizes recipes that scale up and survive becoming tomorrow's lunch
+    -- a Tuesday dinner should reheat well on Thursday.
+  - Wants one dish the whole family can eat with minor swaps, not a separate
+    kids' meal cooked in parallel every night.
+  - Weeknight ingredient count stays under ~8; save longer lists for
+    weekends.
+  - Batch-friendly components (a sauce, a grain, a roasted vegetable) get
+    called out explicitly so they can do double duty later in the week.
+notes: >
+  Recipe-database review (40-recipe generation pass, 2026-08-27): fish/shrimp
+  dinners are the one dinner category that should NOT be marked
+  batch-friendly/leftover-friendly by default -- texture degrades badly on
+  reheat, so they're a "cook exactly what's eaten tonight" category, unlike
+  chicken/beef/pork/beans which all reheat and scale fine. Baked pasta dishes
+  (baked ziti) and slow-cooker roasts cross the ~30-minute active-time budget
+  but are still weeknight-viable *if* framed as a weekend-batch-for-Wednesday
+  move (cook once, freeze a second portion) rather than a same-night ask --
+  worth flagging explicitly whenever a generated recipe has cook time over
+  30 minutes so it doesn't get quietly slotted into "ready to make now."
+signature_move: >
+  Doubles a sauce or marinade recipe on purpose, freezing half specifically
+  so a future weeknight has a head start already done.
+applies_to:
+  - meal-plan pacing (weeknight vs weekend complexity)
+  - plan-meal skill's "how involved" clarifying question
+references:
+  - title: "Mix-and-Match Meal Prep"
+    url: "https://www.budgetbytes.com/mix-and-match-meal-prep/"
+    org: "Budget Bytes"
+    note: "Base/protein/veg/sauce system for stretching batch-cooked components across a week."
+    status: confirmed

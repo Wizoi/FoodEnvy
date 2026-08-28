@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { suggestMeals, getMissingIngredients, buildShoppingList } from './matcher.js';
+import {
+  suggestMeals,
+  getMissingIngredients,
+  buildShoppingList,
+  evaluateRecipeForSlot,
+  buildUsageTrackedShoppingList,
+  computeProteinTally,
+  describeRepeats,
+} from './matcher.js';
 
 const peanutRecipe = {
   id: 'r1',
@@ -83,5 +91,52 @@ describe('buildShoppingList', () => {
       { missingIngredients: [{ name: 'rice' }, { name: 'avocado' }] },
     ];
     expect(buildShoppingList(suggestions)).toEqual(['rice', 'lime', 'avocado']);
+  });
+});
+
+describe('evaluateRecipeForSlot', () => {
+  it('recomputes eligibility and status against the members/inventory passed in, not a stale snapshot', () => {
+    const members = [
+      { id: 'm1', name: 'Alex', restrictions: [{ category: 'allergy', value: 'nuts', severity: 'strict' }] },
+    ];
+    const result = evaluateRecipeForSlot(peanutRecipe, members, []);
+    expect(result.eligibleMembers).toEqual([]);
+    expect(result.ineligibleMembers).toEqual(['m1']);
+    expect(result.status).toBe('almost');
+
+    // Same recipe, member's restriction lifted (e.g. profile edited since the plan was made).
+    const updatedMembers = [{ id: 'm1', name: 'Alex', restrictions: [] }];
+    const inventory = [{ id: 'i1', name: 'bread' }, { id: 'i2', name: 'peanut butter' }];
+    const afterEdit = evaluateRecipeForSlot(peanutRecipe, updatedMembers, inventory);
+    expect(afterEdit.eligibleMembers).toEqual(['m1']);
+    expect(afterEdit.status).toBe('ready');
+  });
+});
+
+describe('buildUsageTrackedShoppingList', () => {
+  it('tracks which slots need each item so a swap can show its ripple effect', () => {
+    const slots = [
+      { slotId: 'mon-dinner', missingIngredients: [{ name: 'bell pepper' }, { name: 'rice' }] },
+      { slotId: 'thu-dinner', missingIngredients: [{ name: 'bell pepper' }] },
+    ];
+    const list = buildUsageTrackedShoppingList(slots);
+    const pepper = list.find((i) => i.name === 'bell pepper');
+    expect(pepper.usedBy).toEqual(['mon-dinner', 'thu-dinner']);
+    const rice = list.find((i) => i.name === 'rice');
+    expect(rice.usedBy).toEqual(['mon-dinner']);
+  });
+});
+
+describe('computeProteinTally / describeRepeats', () => {
+  it('flags a protein source repeated 3+ times across the week', () => {
+    const chickenDinner = { ingredients: [{ name: 'chicken', tags: ['meat'] }] };
+    const tally = computeProteinTally([chickenDinner, chickenDinner, chickenDinner, veggieRecipe]);
+    expect(tally.meat).toBe(3);
+    expect(describeRepeats(tally)).toEqual(['meat appears in 3 meals this week']);
+  });
+
+  it('reports no repeats when nothing hits 3', () => {
+    const tally = computeProteinTally([peanutRecipe, veggieRecipe]);
+    expect(describeRepeats(tally)).toEqual([]);
   });
 });

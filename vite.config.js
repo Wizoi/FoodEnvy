@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  optimizeDeps: {
+    include: ['@anthropic-ai/sdk'],
+  },
   test: {
     environment: 'jsdom',
     include: ['src/**/*.test.{js,jsx}'],

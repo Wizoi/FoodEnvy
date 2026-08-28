@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodEnvy Recipe Library</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2d5a3d;
+      --secondary: #e8a537;
+      --light: #f5f5f5;
+      --dark: #1a1a1a;
+      --border: #ddd;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --success: #4caf50;
+      --danger: #f44336;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .toggle-sidebar-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .toggle-sidebar-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .main-layout {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      width: 300px;
+      background: white;
+      border-right: 2px solid var(--border);
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-shadow: 1px 0 4px rgba(0,0,0,0.05);
+      position: relative;
+      resize: horizontal;
+      overflow: auto;
+    }
+
+    .sidebar::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      cursor: col-resize;
+      background: linear-gradient(to right, transparent, rgba(0,0,0,0.1));
+    }
+
+    .sidebar.collapsed {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-section {
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-section h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .restriction-tabs {
+      display: flex;
+      gap: 0.3rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .restriction-tab {
+      padding: 0.5rem 0.8rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #999;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .restriction-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .restriction-panel {
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .restriction-panel.active {
+      display: block;
+    }
+
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .checkbox-item input {
+      margin: 0.2rem 0 0 0;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      cursor: pointer;
+      font-size: 0.85rem;
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .diet-presets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .preset-btn {
+      padding: 0.6rem;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      transition: all 0.2s;
+      text-align: left;
+      width: 100%;
+    }
+
+    .preset-btn:hover {
+      border-color: var(--primary);
+      background: #f9f9f9;
+    }
+
+    .preset-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .dislikes-categories {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .dislike-category {
+      margin-bottom: 0.8rem;
+    }
+
+    .dislike-category h5 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dislike-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    .dislike-chip {
+      padding: 0.3rem 0.6rem;
+      background: #e8e8e8;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      word-break: break-word;
+    }
+
+    .dislike-chip:hover {
+      background: #ddd;
+    }
+
+    .dislike-chip.selected {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .btn-add-small {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .btn-save-profile {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .item-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .item {
+      background: #f9f9f9;
+      padding: 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .item-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .item-count {
+      font-size: 0.75rem;
+      color: #999;
+      background: white;
+      padding: 0.2rem 0.4rem;
+      border-radius: 2px;
+    }
+
+    .item-buttons {
+      display: flex;
+      gap: 0.3rem;
+    }
+
+    .btn-small {
+      padding: 0.3rem 0.5rem;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .btn-edit {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-delete {
+      background: var(--danger);
+      color: white;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .filter-bar {
+      background: white;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-control label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .filter-control select,
+    .filter-control input {
+      padding: 0.4rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      min-width: 120px;
+    }
+
+    .filter-control input {
+      min-width: 180px;
+    }
+
+    .filters-section {
+      background: white;
+      padding: 0 1.5rem 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: #e8e8e8;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip input {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .recipe-grid {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .recipe-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .recipe-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #3d6b4d 100%);
+      color: white;
+      padding: 1.2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .persona-icon {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .recipe-header-text h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .persona-name {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .recipe-body {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recipe-meta {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .difficulty {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      background: var(--secondary);
+      color: white;
+      border-radius: 3px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #333;
+      margin-bottom: 0.6rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background: #e8f0e8;
+      color: var(--primary);
+      border-radius: 10px;
+      font-size: 0.75rem;
+    }
+
+    .collection-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+      padding: 0.6rem;
+      background: #f0f7f0;
+      border-radius: 4px;
+    }
+
+    .collection-badge {
+      font-size: 0.7rem;
+      background: var(--success);
+      color: white;
+      padding: 0.2rem 0.5rem;
+      border-radius: 10px;
+    }
+
+    .collection-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .collection-btn {
+      padding: 0.3rem 0.6rem;
+      background: #e8e8e8;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .collection-btn:hover {
+      background: #ddd;
+    }
+
+    .collection-btn.in-collection {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .expand-toggle {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      text-align: left;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .expand-toggle:hover {
+      text-decoration: underline;
+    }
+
+    .recipe-details {
+      display: none;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .recipe-details.expanded {
+      display: block;
+    }
+
+    .ingredients h4,
+    .steps h4 {
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+      margin-top: 0.6rem;
+    }
+
+    .ingredients ul {
+      list-style: none;
+      font-size: 0.85rem;
+    }
+
+    .ingredients li {
+      padding: 0.2rem 0 0.2rem 1.2rem;
+      position: relative;
+    }
+
+    .ingredients li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--secondary);
+    }
+
+    .steps ol {
+      font-size: 0.85rem;
+      margin-left: 1.2rem;
+    }
+
+    .steps li {
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+
+    .empty-state p {
+      margin-bottom: 1rem;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .modal-header h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: var(--dark);
+    }
+
+    .modal-body {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      min-height: 500px;
+      max-height: 500px;
+    }
+
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        height: calc(100vh - 60px);
+        z-index: 100;
+      }
+
+      .main-layout {
+        flex-direction: column;
+      }
+
+      .recipe-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .filter-control {
+        width: 100%;
+      }
+
+      .filter-control select,
+      .filter-control input {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍽️ FoodEnvy</h1>
+    <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Profiles & Collections</button>
+  </header>
+
+  <div class="main-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <!-- Profiles -->
+      <div class="sidebar-section">
+        <h3>Profiles</h3>
+        <button class="btn-add-small" onclick="showProfileForm()">+ New Profile</button>
+        <div class="item-list" id="profilesList"></div>
+      </div>
+
+      <!-- Collections -->
+      <div class="sidebar-section">
+        <h3>Collections</h3>
+
+        <div class="form-group">
+          <input type="text" id="collectionName" placeholder="Collection name">
+        </div>
+
+        <button class="btn-save-profile" onclick="saveCollection()">Create</button>
+
+        <div class="item-list" style="margin-top: 1rem;">
+          <div id="collectionsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- Category Legend -->
+      <div style="background: #f0f0f0; padding: 0.8rem 1.5rem; font-size: 0.85rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center;">
+        <strong>Profile categories:</strong>
+        <span style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 12px; height: 12px; background: #ef5350; border-radius: 2px;"></span>Allergies</span>
+        <span style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 12px; height: 12px; background: #ab47bc; border-radius: 2px;"></span>Restrictions</span>
+        <span style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 12px; height: 12px; background: #66bb6a; border-radius: 2px;"></span>Diet</span>
+        <span style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 12px; height: 12px; background: #ffa726; border-radius: 2px;"></span>Dislikes</span>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-control">
+          <label for="mealType">Meal</label>
+          <select id="mealType" onchange="filterRecipes()">
+            <option value="">All</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="dessert">Dessert</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label for="difficulty">Level</label>
+          <select id="difficulty" onchange="filterRecipes()">
+            <option value="">All</option>
+            <option value="beginner-plus">Beginner+</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="filter-control" style="flex: 1;">
+          <input type="text" id="search" placeholder="Search recipes..." oninput="filterRecipes()" style="flex: 1;">
+        </div>
+      </div>
+
+      <!-- Profile & Collection Filters -->
+      <div class="filters-section">
+        <div style="margin-bottom: 1rem;">
+          <div class="filter-label">By Profile</div>
+          <div class="filter-chips" id="profileCheckboxes"></div>
+        </div>
+
+        <div>
+          <div class="filter-label">In Collection</div>
+          <div class="filter-chips" id="collectionCheckboxes"></div>
+        </div>
+      </div>
+
+      <!-- Recipes -->
+      <div id="loadingMsg" class="loading">Loading recipes...</div>
+      <div class="recipe-grid" id="recipeGrid" style="display:none;"></div>
+      <div class="recipe-count" id="recipeCount"></div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" style="display: none;" class="modal-overlay" onclick="if(event.target === this) closeProfileModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">New Profile</h2>
+        <button class="modal-close" onclick="closeProfileModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" id="profileName" placeholder="Name">
+        </div>
+
+        <div class="restriction-tabs">
+          <button class="restriction-tab active" onclick="switchTab('allergies')">Allergies</button>
+          <button class="restriction-tab" onclick="switchTab('restrictions')">Restrictions</button>
+          <button class="restriction-tab" onclick="switchTab('diet')">Diet</button>
+          <button class="restriction-tab" onclick="switchTab('dislikes')">Dislikes</button>
+        </div>
+
+        <!-- Allergies Panel (FDA Big 9) -->
+        <div id="allergies" class="restriction-panel active">
+          <div class="checkbox-list" id="allergensList"></div>
+        </div>
+
+        <!-- Restrictions Panel (Medical/Ethical) -->
+        <div id="restrictions" class="restriction-panel">
+          <div class="checkbox-list" id="restrictionsList"></div>
+        </div>
+
+        <!-- Diet Preference Panel -->
+        <div id="diet" class="restriction-panel">
+          <div class="diet-presets" id="dietPresetsList"></div>
+        </div>
+
+        <!-- Dislikes Panel -->
+        <div id="dislikes" class="restriction-panel">
+          <div class="dislikes-categories" id="dislikesList"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-save-profile" onclick="saveProfile()">Save Profile</button>
+        <button class="btn-small" onclick="closeProfileModal()" style="width: 100%; background: #999; color: white; margin-top: 0.5rem;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Constants
+    const BIG9_ALLERGENS = [
+      { label: 'Milk (allergy)', tag: 'dairy' },
+      { label: 'Egg', tag: 'egg' },
+      { label: 'Fish', tag: 'fish' },
+      { label: 'Shellfish', tag: 'shellfish' },
+      { label: 'Tree nuts & peanuts', tag: 'nuts' },
+      { label: 'Soy', tag: 'soy' },
+      { label: 'Sesame', tag: 'sesame' },
+    ];
+
+    const MEDICAL_RESTRICTIONS = [
+      { label: 'Gluten-Free', tag: 'gluten' },
+      { label: 'Lactose Intolerance', tag: 'dairy' },
+      { label: 'Dairy-Free (ethical)', tag: 'dairy' },
+    ];
+
+    const DIET_PREFERENCES = [
+      { key: 'none', label: 'No preference', tags: [] },
+      { key: 'vegetarian', label: 'Vegetarian', tags: ['meat', 'pork', 'beef', 'fish'] },
+      { key: 'vegan', label: 'Vegan', tags: ['meat', 'pork', 'beef', 'fish', 'dairy', 'egg'] },
+      { key: 'pescatarian', label: 'Pescatarian', tags: ['meat', 'pork', 'beef'] },
+    ];
+
+    const COMMON_FOODS = [
+      { category: 'Meat & poultry', items: ['chicken', 'beef', 'ground beef', 'steak', 'turkey', 'pork', 'bacon', 'sausage', 'ham', 'lamb'] },
+      { category: 'Fish & seafood', items: ['salmon', 'tuna', 'tilapia', 'cod', 'trout', 'catfish', 'shrimp', 'crab', 'lobster', 'scallops', 'mussels', 'clams', 'sardines', 'anchovies'] },
+      { category: 'Vegetables', items: ['broccoli', 'cauliflower', 'brussels sprouts', 'carrots', 'cabbage', 'kale', 'asparagus', 'green beans', 'corn', 'mushrooms', 'onions', 'garlic', 'bell peppers', 'zucchini', 'eggplant', 'spinach', 'celery', 'cucumber', 'tomatoes', 'sweet potatoes', 'potatoes', 'beets', 'radishes', 'peas'] },
+      { category: 'Fruits', items: ['banana', 'apple', 'orange', 'grapes', 'strawberries', 'blueberries', 'pineapple', 'mango', 'avocado', 'lemon', 'lime', 'coconut', 'watermelon', 'peaches', 'pears', 'cherries', 'kiwi', 'plums'] },
+      { category: 'Dairy & eggs', items: ['milk', 'cheese', 'yogurt', 'butter', 'sour cream', 'cottage cheese', 'cream cheese', 'eggs'] },
+      { category: 'Grains & starches', items: ['rice', 'pasta', 'bread', 'quinoa', 'oats', 'couscous', 'tortillas', 'barley'] },
+      { category: 'Legumes & beans', items: ['black beans', 'kidney beans', 'pinto beans', 'chickpeas', 'lentils', 'edamame', 'tofu'] },
+      { category: 'Nuts & seeds', items: ['peanuts', 'almonds', 'walnuts', 'cashews', 'pecans', 'peanut butter', 'sunflower seeds', 'pumpkin seeds'] },
+      { category: 'Sweets & snacks', items: ['chocolate', 'candy', 'ice cream', 'cookies', 'crackers', 'chips', 'popcorn', 'granola'] },
+    ];
+
+    // Category colors for visual distinction
+    const CATEGORY_COLORS = {
+      allergy: { bg: '#ffebee', border: '#ef5350', chip: '#ef5350', text: 'white' },
+      restriction: { bg: '#f3e5f5', border: '#ab47bc', chip: '#ab47bc', text: 'white' },
+      diet: { bg: '#e8f5e9', border: '#66bb6a', chip: '#66bb6a', text: 'white' },
+      dislike: { bg: '#fff3e0', border: '#ffa726', chip: '#ffa726', text: 'white' }
+    };
+
+    // Ingredient substitutions for common allergens/restrictions
+    const INGREDIENT_SWAPS = {
+      dairy: [
+        { label: 'Lactose-free milk', ratio: '1:1', notes: 'Cup for cup in recipes.' },
+        { label: 'Lactose-free yogurt', ratio: '1:1', notes: 'Same tang, thicker consistency.' },
+        { label: 'Oat/soy milk', ratio: '1:1', notes: 'Oat is creamier; soy has more protein.' }
+      ],
+      gluten: [
+        { label: 'Gluten-free 1:1 flour', ratio: '1:1', notes: 'Includes xanthan gum.' },
+        { label: 'Rice or corn pasta', ratio: '1:1', notes: 'Use tubular shapes (rigatoni, penne).' },
+        { label: 'Gluten-free tamari', ratio: '1:1', notes: 'No malt barley—safe.' }
+      ],
+      egg: [
+        { label: 'Flax egg (1 tbsp flax + 2.5 tbsp water)', ratio: '1:1', notes: 'Best for baking.' },
+        { label: 'Applesauce (unsweetened)', ratio: '1:4', notes: 'Adds moisture; reduce liquid.' }
+      ],
+      meat: [
+        { label: 'White beans or legumes', ratio: '1:1 (cooked weight)', notes: 'For tacos, salads.' },
+        { label: 'Tofu or tempeh', ratio: '1:1', notes: 'Similar protein density.' }
+      ]
+    };
+
+    const personaEmojis = {
+      'jamie-weeknight-beginner': '👨‍🍳',
+      'priya-busy-parent': '👨‍👩‍👧‍👦',
+      'elena-weekend-hobbyist': '✨',
+      'marcus-dorm-starter': '🎓',
+      'dana-hellofresh-regular': '📦',
+      'theo-blue-apron-adventurer': '🌍',
+      'grace-lin-vegetarian': '🥬',
+      'devon-okafor-vegan': '🌱',
+      'sofia-marsh-gluten-free': '🌾',
+      'robert-retiree-traditionalist': '👴',
+      'lucia-alvarez-batch-cook': '🏺',
+      'ben-osei-parallel-menu': '🍽️',
+      'miguel-santos-pescatarian': '🐠',
+      'amara-chen-family-nutrition': '⚖️'
+    };
+
+    let allRecipes = [];
+    let profiles = [];
+    let collections = [];
+    let personasMap = {};
+    let currentEditingProfileId = null;
+    let currentDietPreset = 'none';
+    let currentAllergens = [];
+    let currentRestrictions = [];
+    let currentDislikes = [];
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+      if (!sidebar.classList.contains('collapsed')) {
+        sidebar.style.width = localStorage.getItem('foodenvy_sidebar_width') || '300px';
+      }
+    }
+
+    // Sidebar resize handling
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebar = document.getElementById('sidebar');
+      let isResizing = false;
+
+      sidebar.addEventListener('pointerdown', (e) => {
+        if (e.target === sidebar && Math.abs(e.clientX - sidebar.offsetLeft - sidebar.offsetWidth) < 6) {
+          isResizing = true;
+          document.body.style.userSelect = 'none';
+          document.body.style.cursor = 'col-resize';
+        }
+      });
+
+      document.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const newWidth = Math.max(250, e.clientX - sidebar.getBoundingClientRect().left);
+        sidebar.style.width = newWidth + 'px';
+        localStorage.setItem('foodenvy_sidebar_width', newWidth + 'px');
+      });
+
+      document.addEventListener('pointerup', () => {
+        isResizing = false;
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      });
+    });
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').style.display = 'none';
+    }
+
+    function showProfileForm() {
+      currentEditingProfileId = null;
+      document.getElementById('profileName').value = '';
+      document.getElementById('modalTitle').textContent = 'New Profile';
+      currentAllergens = [];
+      currentRestrictions = [];
+      currentDislikes = [];
+      currentDietPreset = 'none';
+      renderAllergens();
+      renderRestrictions();
+      renderDietPresets();
+      renderDislikes();
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.restriction-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.restriction-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function renderAllergens() {
+      const list = document.getElementById('allergensList');
+      list.innerHTML = BIG9_ALLERGENS.map(a => `
+        <div class="checkbox-item">
+          <input type="checkbox" id="allergen_${a.tag}" onchange="updateAllergens()" ${currentAllergens.includes(a.tag) ? 'checked' : ''}>
+          <label for="allergen_${a.tag}">${a.label}</label>
+        </div>
+      `).join('');
+    }
+
+    function updateAllergens() {
+      currentAllergens = Array.from(document.querySelectorAll('#allergensList input:checked')).map(cb => cb.id.replace('allergen_', ''));
+    }
+
+    function renderRestrictions() {
+      const list = document.getElementById('restrictionsList');
+      list.innerHTML = MEDICAL_RESTRICTIONS.map(r => `
+        <div class="checkbox-item">
+          <input type="checkbox" id="restriction_${r.tag}_${r.label.replace(/\s/g, '_')}" onchange="updateRestrictions()" ${currentRestrictions.includes(r.label) ? 'checked' : ''}>
+          <label for="restriction_${r.tag}_${r.label.replace(/\s/g, '_')}">${r.label}</label>
+        </div>
+      `).join('');
+    }
+
+    function updateRestrictions() {
+      currentRestrictions = Array.from(document.querySelectorAll('#restrictionsList input:checked')).map(cb => {
+        const label = cb.id.split('_').slice(2).join(' ').replace(/_/g, ' ');
+        return label;
+      });
+    }
+
+    function renderDietPresets() {
+      const list = document.getElementById('dietPresetsList');
+      list.innerHTML = DIET_PREFERENCES.map(d => `
+        <button class="preset-btn ${currentDietPreset === d.key ? 'active' : ''}" onclick="selectDietPreset('${d.key}')">${d.label}</button>
+      `).join('');
+    }
+
+    function selectDietPreset(key) {
+      currentDietPreset = key;
+      renderDietPresets();
+    }
+
+    function renderDislikes() {
+      const list = document.getElementById('dislikesList');
+      list.innerHTML = COMMON_FOODS.map(cat => `
+        <div class="dislike-category">
+          <h5>${cat.category}</h5>
+          <div class="dislike-items">
+            ${cat.items.map(item => `
+              <button class="dislike-chip ${currentDislikes.includes(item) ? 'selected' : ''}" onclick="toggleDislike('${item}')">${item}</button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleDislike(item) {
+      const idx = currentDislikes.indexOf(item);
+      if (idx === -1) currentDislikes.push(item);
+      else currentDislikes.splice(idx, 1);
+      renderDislikes();
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('profileName').value.trim();
+      if (!name) {
+        alert('Enter name');
+        return;
+      }
+
+      const restrictions = [];
+
+      // Allergies (FDA Big 9)
+      currentAllergens.forEach(tag => {
+        restrictions.push({ category: 'allergy', value: tag, severity: 'strict' });
+      });
+
+      // Medical/Ethical Restrictions
+      currentRestrictions.forEach(label => {
+        const r = MEDICAL_RESTRICTIONS.find(x => x.label === label);
+        if (r) {
+          restrictions.push({ category: 'restriction', value: r.tag, severity: 'strict' });
+        }
+      });
+
+      // Diet preference
+      if (currentDietPreset !== 'none') {
+        const preset = DIET_PREFERENCES.find(d => d.key === currentDietPreset);
+        preset.tags.forEach(tag => {
+          restrictions.push({ category: 'diet', value: tag, severity: 'strict' });
+        });
+      }
+
+      // Dislikes
+      currentDislikes.forEach(item => {
+        restrictions.push({ category: 'dislike', value: item, severity: 'soft' });
+      });
+
+      if (currentEditingProfileId) {
+        const p = profiles.find(x => x.id === currentEditingProfileId);
+        if (p) {
+          p.name = name;
+          p.restrictions = restrictions;
+        }
+        currentEditingProfileId = null;
+      } else {
+        profiles.push({ id: 'p_' + Date.now(), name, restrictions });
+      }
+
+      saveProfiles();
+      closeProfileModal();
+    }
+
+    function editProfile(id) {
+      const p = profiles.find(x => x.id === id);
+      if (!p) return;
+      currentEditingProfileId = id;
+      document.getElementById('profileName').value = p.name;
+      document.getElementById('modalTitle').textContent = `Edit ${p.name}`;
+
+      currentAllergens = p.restrictions.filter(r => r.category === 'allergy').map(r => r.value);
+      currentRestrictions = p.restrictions.filter(r => r.category === 'restriction').map(r => {
+        const med = MEDICAL_RESTRICTIONS.find(x => x.tag === r.value);
+        return med ? med.label : r.value;
+      });
+      currentDislikes = p.restrictions.filter(r => r.category === 'dislike').map(r => r.value);
+      const dietTags = p.restrictions.filter(r => r.category === 'diet').map(r => r.value);
+      currentDietPreset = DIET_PREFERENCES.find(d => d.tags.length === dietTags.length && d.tags.every(t => dietTags.includes(t)))?.key || 'none';
+
+      renderAllergens();
+      renderRestrictions();
+      renderDietPresets();
+      renderDislikes();
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function deleteProfile(id) {
+      if (confirm('Delete?')) {
+        profiles = profiles.filter(p => p.id !== id);
+        saveProfiles();
+      }
+    }
+
+    function loadProfiles() {
+      const stored = localStorage.getItem('foodenvy_profiles');
+      profiles = stored ? JSON.parse(stored) : [];
+      renderProfiles();
+      renderProfileCheckboxes();
+    }
+
+    function saveProfiles() {
+      localStorage.setItem('foodenvy_profiles', JSON.stringify(profiles));
+      renderProfiles();
+      renderProfileCheckboxes();
+      filterRecipes();
+    }
+
+    function renderProfiles() {
+      const list = document.getElementById('profilesList');
+      if (!profiles.length) {
+        list.innerHTML = '<p style="color:#999; font-size:0.85rem;">No profiles yet</p>';
+        return;
+      }
+      list.innerHTML = profiles.map(p => `
+        <div class="item">
+          <div class="item-name">${p.name}</div>
+          <div class="item-buttons">
+            <button class="btn-small btn-edit" onclick="editProfile('${p.id}')">Edit</button>
+            <button class="btn-small btn-delete" onclick="deleteProfile('${p.id}')">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderProfileCheckboxes() {
+      const container = document.getElementById('profileCheckboxes');
+      if (!profiles.length) {
+        container.innerHTML = '';
+        return;
+      }
+      container.innerHTML = profiles.map(p => `
+        <label class="chip">
+          <input type="checkbox" id="profile_filter_${p.id}" onchange="filterRecipes()">
+          <span>${p.name}</span>
+        </label>
+      `).join('');
+      document.querySelectorAll('#profileCheckboxes input').forEach(cb => {
+        cb.parentElement.classList.toggle('active', cb.checked);
+        cb.addEventListener('change', function() {
+          this.parentElement.classList.toggle('active', this.checked);
+        });
+      });
+    }
+
+    function loadCollections() {
+      const stored = localStorage.getItem('foodenvy_collections');
+      collections = stored ? JSON.parse(stored) : [];
+      renderCollections();
+      renderCollectionCheckboxes();
+    }
+
+    function saveCollections() {
+      localStorage.setItem('foodenvy_collections', JSON.stringify(collections));
+      renderCollections();
+      renderCollectionCheckboxes();
+      filterRecipes();
+    }
+
+    function saveCollection() {
+      const name = document.getElementById('collectionName').value.trim();
+      if (!name) {
+        alert('Enter name');
+        return;
+      }
+      collections.push({ id: 'c_' + Date.now(), name, recipes: [] });
+      document.getElementById('collectionName').value = '';
+      saveCollections();
+    }
+
+    function deleteCollection(id) {
+      if (confirm('Delete?')) {
+        collections = collections.filter(c => c.id !== id);
+        saveCollections();
+      }
+    }
+
+    function renderCollections() {
+      const list = document.getElementById('collectionsList');
+      if (!collections.length) {
+        list.innerHTML = '<p style="color:#999; font-size:0.85rem;">No collections yet</p>';
+        return;
+      }
+      list.innerHTML = collections.map(c => `
+        <div class="item">
+          <div class="item-name">${c.name}</div>
+          <div class="item-count">${c.recipes.length}</div>
+          <div class="item-buttons">
+            <button class="btn-small btn-edit" onclick="editCollection('${c.id}')">Edit</button>
+            <button class="btn-small btn-delete" onclick="deleteCollection('${c.id}')">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function editCollection(id) {
+      const c = collections.find(x => x.id === id);
+      if (!c) return;
+      const newName = prompt(`Rename collection:`, c.name);
+      if (newName && newName.trim()) {
+        c.name = newName.trim();
+        saveCollections();
+      }
+    }
+
+    function renderCollectionCheckboxes() {
+      const container = document.getElementById('collectionCheckboxes');
+      if (!collections.length) {
+        container.innerHTML = '';
+        return;
+      }
+      container.innerHTML = collections.map(c => `
+        <label class="chip">
+          <input type="checkbox" id="collection_filter_${c.id}" onchange="filterRecipes()">
+          <span>${c.name}</span>
+        </label>
+      `).join('');
+      document.querySelectorAll('#collectionCheckboxes input').forEach(cb => {
+        cb.parentElement.classList.toggle('active', cb.checked);
+        cb.addEventListener('change', function() {
+          this.parentElement.classList.toggle('active', this.checked);
+        });
+      });
+    }
+
+    function toggleRecipeInCollection(recipeId, collectionId) {
+      const c = collections.find(x => x.id === collectionId);
+      if (!c) return;
+      const idx = c.recipes.indexOf(recipeId);
+      if (idx === -1) c.recipes.push(recipeId);
+      else c.recipes.splice(idx, 1);
+      saveCollections();
+      document.querySelectorAll(`[data-recipe="${recipeId}"] .collection-btn`).forEach(btn => {
+        const cid = btn.dataset.collection;
+        const col = collections.find(x => x.id === cid);
+        btn.classList.toggle('in-collection', col && col.recipes.includes(recipeId));
+      });
+    }
+
+    function isRecipeCompatible(recipe, profile) {
+      return !profile.restrictions.some(r => {
+        if (r.category !== 'allergy' && r.category !== 'diet' && r.category !== 'restriction') return false;
+        return recipe.ingredients.some(ing => ing.tags && ing.tags.includes(r.value.toLowerCase()));
+      });
+    }
+
+    function getRecipeAdaptations(recipe, profile) {
+      const adaptations = [];
+
+      profile.restrictions.forEach(r => {
+        if (r.category !== 'allergy' && r.category !== 'diet' && r.category !== 'restriction') return;
+
+        const conflictingIngredients = recipe.ingredients.filter(ing =>
+          ing.tags && ing.tags.includes(r.value.toLowerCase())
+        );
+
+        if (conflictingIngredients.length > 0 && INGREDIENT_SWAPS[r.value.toLowerCase()]) {
+          adaptations.push({
+            restriction: r.value,
+            category: r.category,
+            swaps: INGREDIENT_SWAPS[r.value.toLowerCase()]
+          });
+        }
+      });
+
+      return adaptations;
+    }
+
+    async function loadRecipes() {
+      try {
+        const resp = await fetch('./foodenvy-complete-recipes.json');
+        const data = await resp.json();
+
+        // Handle both array format and object format
+        if (Array.isArray(data)) {
+          allRecipes = data;
+        } else if (data.recipes) {
+          allRecipes = data.recipes;
+          if (data.personas) {
+            data.personas.forEach(p => personasMap[p.id] = p);
+          }
+        }
+
+        renderRecipes(allRecipes);
+      } catch (e) {
+        console.error('Load error:', e);
+        allRecipes = [
+          {
+            id: 'j1', name: 'Simple Scrambled Eggs', mealType: 'breakfast', difficulty: 'beginner',
+            prepMinutes: 2, cookMinutes: 5, persona: 'jamie-weeknight-beginner',
+            description: 'The easiest breakfast to master.',
+            quote: 'Perfect scrambled eggs are just egg, butter, and silence.',
+            tags: ['quick', 'vegetarian'],
+            ingredients: [
+              { name: 'eggs', amount: '2', unit: 'large', tags: ['egg'] },
+              { name: 'butter', amount: '1', unit: 'tbsp', tags: ['dairy'] }
+            ],
+            steps: ['Whisk eggs.', 'Melt butter over low heat.', 'Gently scramble.']
+          },
+          {
+            id: 'p1', name: 'Sheet Pan Chicken', mealType: 'dinner', difficulty: 'easy',
+            prepMinutes: 10, cookMinutes: 25, persona: 'priya-busy-parent',
+            description: 'One pan, 35 minutes, complete meal.',
+            quote: 'Real families don\'t need perfect meals.',
+            tags: ['chicken', 'sheet-pan'],
+            ingredients: [
+              { name: 'chicken breasts', amount: '4', unit: 'pieces', tags: ['meat'] },
+              { name: 'broccoli', amount: '2', unit: 'cups', tags: [] }
+            ],
+            steps: ['Toss and roast at 400°F for 25 minutes.']
+          }
+        ];
+        personasMap = {
+          'jamie-weeknight-beginner': { name: 'Jamie', title: 'Weeknight Beginner' },
+          'priya-busy-parent': { name: 'Priya', title: 'Busy Parent' }
+        };
+        renderRecipes(allRecipes);
+      }
+    }
+
+    function renderRecipes(recipes, selectedProfileIds = []) {
+      try {
+        const grid = document.getElementById('recipeGrid');
+        const loadingMsg = document.getElementById('loadingMsg');
+
+        if (loadingMsg) loadingMsg.style.display = 'none';
+        grid.style.display = 'grid';
+
+        if (!recipes || recipes.length === 0) {
+          grid.innerHTML = '<div class="empty-state"><p>No recipes</p></div>';
+          return;
+        }
+
+        let html = '';
+        recipes.forEach(recipe => {
+          const pName = recipe.persona ? (personasMap[recipe.persona] ? personasMap[recipe.persona].name : 'Chef') : 'Chef';
+          const emoji = recipe.persona ? (personaEmojis[recipe.persona] || '👨‍🍳') : '👨‍🍳';
+
+          // Get ingredient conflicts for selected profiles
+          let conflictInfo = '';
+          if (selectedProfileIds.length > 0) {
+            let allConflicts = [];
+            selectedProfileIds.forEach(pid => {
+              const prof = profiles.find(x => x.id === pid);
+              if (prof) {
+                prof.restrictions.forEach(r => {
+                  if (r.category === 'allergy' || r.category === 'diet' || r.category === 'restriction') {
+                    recipe.ingredients.forEach(ing => {
+                      if (ing.tags && ing.tags.includes(r.value.toLowerCase())) {
+                        allConflicts.push({ name: prof.name, restriction: r.value, ingredient: ing.name });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+
+            if (allConflicts.length > 0) {
+              conflictInfo += '<div style="background: #fff3cd; padding: 0.8rem; border-radius: 4px; margin-bottom: 0.8rem; border-left: 3px solid #ffc107;">';
+              conflictInfo += '<div style="font-weight: 600; font-size: 0.85rem; color: #856404; margin-bottom: 0.4rem;">⚠️ Conflicts with selected profiles:</div>';
+              allConflicts.forEach(c => {
+                conflictInfo += '<div style="font-size: 0.8rem; color: #856404;">' + c.name + ' cannot have ' + c.ingredient + ' (' + c.restriction + ')</div>';
+              });
+              conflictInfo += '</div>';
+            }
+          }
+
+          let recipeHtml = '<div class="recipe-card" data-recipe="' + (recipe.id || '') + '">';
+          recipeHtml += '<div class="recipe-header">';
+          recipeHtml += '<div class="persona-icon">' + emoji + '</div>';
+          recipeHtml += '<div class="recipe-header-text">';
+          recipeHtml += '<h2>' + recipe.name + '</h2>';
+          recipeHtml += '<div class="persona-name">' + pName + '</div>';
+          recipeHtml += '</div></div>';
+          recipeHtml += '<div class="recipe-body">';
+
+          if (conflictInfo) {
+            recipeHtml += conflictInfo;
+          }
+
+          recipeHtml += '<div class="recipe-meta">';
+          recipeHtml += '<span class="difficulty">' + recipe.difficulty + '</span>';
+          recipeHtml += '<span>⏱️ ' + (recipe.prepMinutes + recipe.cookMinutes) + ' min</span>';
+          recipeHtml += '</div>';
+          if (recipe.description) {
+            recipeHtml += '<div class="description">' + recipe.description + '</div>';
+          }
+          if (recipe.tags && recipe.tags.length) {
+            recipeHtml += '<div class="tags">' + recipe.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>';
+          }
+          recipeHtml += '<button class="expand-toggle" onclick="this.nextElementSibling.classList.toggle(\'expanded\'); this.textContent = this.nextElementSibling.classList.contains(\'expanded\') ? \'Hide ▲\' : \'View ▼\'">View ▼</button>';
+          recipeHtml += '<div class="recipe-details">';
+          if (recipe.ingredients) {
+            recipeHtml += '<div class="ingredients"><h4>Ingredients</h4><ul>';
+            recipe.ingredients.forEach(i => {
+              recipeHtml += '<li>' + i.amount + ' ' + i.unit + ' ' + i.name + '</li>';
+            });
+            recipeHtml += '</ul></div>';
+          }
+          if (recipe.steps) {
+            recipeHtml += '<div class="steps"><h4>Steps</h4><ol>';
+            recipe.steps.forEach(s => {
+              recipeHtml += '<li>' + s + '</li>';
+            });
+            recipeHtml += '</ol></div>';
+          }
+          recipeHtml += '</div>';
+          recipeHtml += '</div></div>';
+          html += recipeHtml;
+        });
+
+        grid.innerHTML = html;
+        document.getElementById('recipeCount').textContent = 'Showing ' + recipes.length + ' recipe' + (recipes.length !== 1 ? 's' : '') + ' out of ' + allRecipes.length + ' total';
+      } catch (e) {
+        console.error('Render error:', e);
+        document.getElementById('recipeGrid').innerHTML = '<div class="empty-state"><p>Error: ' + e.message + '</p></div>';
+      }
+    }
+
+    function filterRecipes() {
+      const mealType = document.getElementById('mealType').value;
+      const difficulty = document.getElementById('difficulty').value;
+      const search = document.getElementById('search').value.toLowerCase();
+      const selectedProfileIds = Array.from(document.querySelectorAll('#profileCheckboxes input:checked')).map(c => c.id.replace('profile_filter_', ''));
+      const selectedCollectionIds = Array.from(document.querySelectorAll('#collectionCheckboxes input:checked')).map(c => c.id.replace('collection_filter_', ''));
+
+      let filtered = allRecipes.filter(recipe => {
+        if (mealType && recipe.mealType !== mealType) return false;
+        if (difficulty && recipe.difficulty !== difficulty) return false;
+        if (search && !recipe.name.toLowerCase().includes(search)) return false;
+
+        if (selectedProfileIds.length > 0) {
+          const allCompatible = selectedProfileIds.every(pid => {
+            const prof = profiles.find(p => p.id === pid);
+            return !prof || isRecipeCompatible(recipe, prof);
+          });
+          if (!allCompatible) return false;
+        }
+
+        if (selectedCollectionIds.length > 0) {
+          const inAny = selectedCollectionIds.some(cid => {
+            const col = collections.find(c => c.id === cid);
+            return col && col.recipes.includes(recipe.id);
+          });
+          if (!inAny) return false;
+        }
+
+        return true;
+      });
+
+      renderRecipes(filtered, selectedProfileIds);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProfiles();
+      loadCollections();
+      loadRecipes();
+
+      // Sidebar resize handling
+      const sidebar = document.getElementById('sidebar');
+      let isResizing = false;
+
+      sidebar.addEventListener('pointerdown', (e) => {
+        if (Math.abs(e.clientX - sidebar.offsetLeft - sidebar.offsetWidth) < 6) {
+          isResizing = true;
+          document.body.style.userSelect = 'none';
+          document.body.style.cursor = 'col-resize';
+        }
+      });
+
+      document.addEventListener('pointermove', (e) => {
+        if (!isResizing) return;
+        const newWidth = Math.max(250, e.clientX - sidebar.getBoundingClientRect().left);
+        sidebar.style.width = newWidth + 'px';
+        localStorage.setItem('foodenvy_sidebar_width', newWidth + 'px');
+      });
+
+      document.addEventListener('pointerup', () => {
+        isResizing = false;
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      });
+    });
+  </script>
+</body>
+</html>
