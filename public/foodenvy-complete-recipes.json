@@ -3758,5 +3758,441 @@
     "tags": [
       "breakfast"
     ]
+  },
+  {
+    "id": "recipe-jamie-weeknight-beginner-scrambled-eggs-toast",
+    "name": "Fluffy Diner-Style Scrambled Eggs with Buttered Toast",
+    "mealType": "breakfast",
+    "difficulty": "beginner-plus",
+    "prepMinutes": 5,
+    "cookMinutes": 8,
+    "description": "The scrambled eggs I actually make on a Tuesday morning -- low heat, a lot of gentle folding, and toast going in the toaster at the same time so nothing's cold by the time you sit down.",
+    "persona": "jamie-weeknight-beginner",
+    "tags": [
+      "quick",
+      "kid-friendly",
+      "one-pan"
+    ],
+    "imageUrl": "",
+    "imageAttribution": null,
+    "ingredients": [
+      {
+        "name": "Large eggs",
+        "amount": "4",
+        "unit": "whole",
+        "tags": [
+          "egg"
+        ]
+      },
+      {
+        "name": "Whole milk",
+        "amount": "2",
+        "unit": "tablespoons",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Butter",
+        "amount": "1",
+        "unit": "tablespoon",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Salt",
+        "amount": "1/4",
+        "unit": "teaspoon",
+        "tags": []
+      },
+      {
+        "name": "Black pepper",
+        "amount": "1/8",
+        "unit": "teaspoon",
+        "tags": []
+      },
+      {
+        "name": "Sandwich bread",
+        "amount": "4",
+        "unit": "slices",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "Butter (for the toast)",
+        "amount": "1",
+        "unit": "tablespoon",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Shredded cheddar cheese (optional)",
+        "amount": "1/4",
+        "unit": "cup",
+        "tags": [
+          "dairy"
+        ]
+      }
+    ],
+    "steps": [
+      "Crack the 4 eggs into a medium bowl, add the milk, salt, and pepper, and whisk with a fork for about 30 seconds until the yolks and whites are fully blended and a little foamy on top.",
+      "Put your bread in the toaster now on a medium setting so it finishes around the same time as the eggs.",
+      "Melt the 1 tablespoon of butter in a nonstick pan over LOW heat -- not medium, low -- swirling until it coats the bottom and stops foaming, about 1 minute.",
+      "Pour in the egg mixture. Let it sit undisturbed for 20 seconds, then start pulling the eggs from the edges into the center with a spatula every 15-20 seconds. This is the one new move here: you're folding, not stirring constantly -- big, slow folds, not fast scrambling.",
+      "Keep folding for 3-4 minutes total. The eggs are done when they're mostly set but still look slightly wet and shiny (they'll finish cooking off the heat) -- no visible liquid egg pooling in the pan. Pull the pan off the heat right at that point; overcooked eggs turn gray-green and rubbery within another minute.",
+      "If using cheese, sprinkle it over the eggs in the last 30 seconds off heat and let it melt from residual warmth.",
+      "Butter your toast, plate everything, and eat right away -- eggs keep cooking and get rubbery if they sit."
+    ],
+    "adaptations": [
+      {
+        "forRestriction": "egg",
+        "type": "alternateRecipe",
+        "alternateRecipe": {
+          "name": "Simple Turmeric Tofu Scramble with Toast",
+          "mealType": "breakfast",
+          "difficulty": "beginner-plus",
+          "prepMinutes": 5,
+          "cookMinutes": 10,
+          "description": "Same idea as scrambled eggs -- warm, savory, protein-forward -- built on crumbled tofu instead, with turmeric doing the job of giving it that yellow egg color.",
+          "ingredients": [
+            {
+              "name": "Extra-firm tofu",
+              "amount": "14",
+              "unit": "oz block",
+              "tags": [
+                "soy"
+              ]
+            },
+            {
+              "name": "Olive oil",
+              "amount": "1",
+              "unit": "tablespoon",
+              "tags": []
+            },
+            {
+              "name": "Garlic powder",
+              "amount": "1/2",
+              "unit": "teaspoon",
+              "tags": []
+            },
+            {
+              "name": "Ground turmeric",
+              "amount": "1/4",
+              "unit": "teaspoon",
+              "tags": []
+            },
+            {
+              "name": "Salt",
+              "amount": "1/4",
+              "unit": "teaspoon",
+              "tags": []
+            },
+            {
+              "name": "Black pepper",
+              "amount": "1/8",
+              "unit": "teaspoon",
+              "tags": []
+            },
+            {
+              "name": "Sandwich bread",
+              "amount": "4",
+              "unit": "slices",
+              "tags": [
+                "gluten"
+              ]
+            },
+            {
+              "name": "Butter or dairy-free spread",
+              "amount": "1",
+              "unit": "tablespoon",
+              "tags": [
+                "dairy"
+              ]
+            }
+          ],
+          "steps": [
+            "Drain the tofu block and pat it dry with paper towels. Crumble it into pea-to-blueberry-sized chunks with your hands, right into the pan you're about to use -- no need for a special tofu press.",
+            "Heat the olive oil in a nonstick pan over medium heat for 1 minute, until it shimmers when you tilt the pan.",
+            "Add the crumbled tofu, garlic powder, turmeric, salt, and pepper. Stir to coat every piece yellow.",
+            "Cook for 6-8 minutes, stirring every minute or so, until the tofu is lightly golden at the edges and any liquid it released has cooked off -- the pan should sound drier, not wet, when you stir.",
+            "Toast your bread while the tofu cooks so both finish together.",
+            "Butter the toast, plate the scramble alongside, and serve hot."
+          ]
+        }
+      },
+      {
+        "forRestriction": "dairy",
+        "type": "swap",
+        "instructions": "Do NOT use the whole milk or dairy butter -- substitute a plant-based milk (oat or soy) and dairy-free butter or margarine for both, and skip the cheese or use a dairy-free shredded cheese. The fold-and-fluff technique works exactly the same."
+      },
+      {
+        "forRestriction": "gluten",
+        "type": "swap",
+        "instructions": "Do NOT use regular sandwich bread -- substitute a certified gluten-free sandwich bread for the toast. It toasts a little faster, so start checking it at the halfway mark."
+      }
+    ]
+  },
+  {
+    "id": "recipe-jamie-weeknight-beginner-overnight-pb-banana-oats",
+    "name": "Overnight Peanut Butter Banana Oats",
+    "mealType": "breakfast",
+    "difficulty": "beginner-plus",
+    "prepMinutes": 5,
+    "cookMinutes": 0,
+    "description": "Five minutes the night before means breakfast is just grab-a-jar-and-go in the morning -- no stovetop, no timing anything while you're getting the kids out the door.",
+    "persona": "jamie-weeknight-beginner",
+    "tags": [
+      "make-ahead",
+      "no-cook",
+      "kid-friendly"
+    ],
+    "imageUrl": "",
+    "imageAttribution": null,
+    "ingredients": [
+      {
+        "name": "Old-fashioned rolled oats",
+        "amount": "1/2",
+        "unit": "cup",
+        "tags": []
+      },
+      {
+        "name": "Whole milk",
+        "amount": "1/2",
+        "unit": "cup",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Plain or vanilla yogurt",
+        "amount": "1/4",
+        "unit": "cup",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Creamy peanut butter",
+        "amount": "2",
+        "unit": "tablespoons",
+        "tags": [
+          "nuts"
+        ]
+      },
+      {
+        "name": "Ripe banana (sliced)",
+        "amount": "1",
+        "unit": "whole",
+        "tags": []
+      },
+      {
+        "name": "Honey",
+        "amount": "1",
+        "unit": "tablespoon",
+        "tags": []
+      },
+      {
+        "name": "Ground cinnamon",
+        "amount": "1/4",
+        "unit": "teaspoon",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "In a jar or container with a lid (a mason jar works great), add the oats, milk, yogurt, peanut butter, honey, and cinnamon.",
+      "Stir well with a spoon until the peanut butter is fully mixed in and you don't see streaks -- this takes about 30 seconds of stirring; peanut butter is stubborn, so scrape the bottom of the jar too.",
+      "Slice half the banana and stir it in now; save the other half to add fresh in the morning so it doesn't turn brown and mushy overnight.",
+      "Put the lid on and refrigerate for at least 6 hours, or overnight (8-10 hours works well).",
+      "In the morning, the oats are ready when the liquid is fully absorbed and the mixture is thick like pudding, not soupy -- if it still looks watery, give it another hour in the fridge. Top with the reserved banana slices and eat cold, straight from the jar."
+    ],
+    "adaptations": [
+      {
+        "forRestriction": "dairy",
+        "type": "swap",
+        "instructions": "Do NOT use the whole milk or regular yogurt -- substitute oat milk or soy milk for the milk, and a dairy-free yogurt (coconut- or oat-based) for the yogurt. Same soak time, same result."
+      },
+      {
+        "forRestriction": "nuts",
+        "type": "swap",
+        "instructions": "Do NOT use peanut butter -- substitute sunflower seed butter (like SunButter) in the same amount. It has a similarly thick, spreadable texture so it mixes in the same way."
+      }
+    ]
+  },
+  {
+    "id": "recipe-jamie-weeknight-beginner-french-toast-bacon",
+    "name": "Classic French Toast with Bacon",
+    "mealType": "breakfast",
+    "difficulty": "beginner-plus",
+    "prepMinutes": 10,
+    "cookMinutes": 15,
+    "description": "The weekend version of toast, but honestly easy enough for a weeknight if you've got 25 minutes -- crisp bacon goes in the oven while the bread soaks, so you're not juggling two pans on the stove at once.",
+    "persona": "jamie-weeknight-beginner",
+    "tags": [
+      "weekend-worthy",
+      "one-pan",
+      "kid-friendly"
+    ],
+    "imageUrl": "",
+    "imageAttribution": null,
+    "ingredients": [
+      {
+        "name": "Large eggs",
+        "amount": "3",
+        "unit": "whole",
+        "tags": [
+          "egg"
+        ]
+      },
+      {
+        "name": "Whole milk",
+        "amount": "1/2",
+        "unit": "cup",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Ground cinnamon",
+        "amount": "1/2",
+        "unit": "teaspoon",
+        "tags": []
+      },
+      {
+        "name": "Vanilla extract",
+        "amount": "1/2",
+        "unit": "teaspoon",
+        "tags": []
+      },
+      {
+        "name": "Thick-cut sandwich bread or brioche",
+        "amount": "6",
+        "unit": "slices",
+        "tags": [
+          "gluten"
+        ]
+      },
+      {
+        "name": "Butter",
+        "amount": "2",
+        "unit": "tablespoons",
+        "tags": [
+          "dairy"
+        ]
+      },
+      {
+        "name": "Bacon",
+        "amount": "6",
+        "unit": "slices",
+        "tags": [
+          "pork",
+          "meat"
+        ]
+      },
+      {
+        "name": "Maple syrup (for serving)",
+        "amount": "as needed",
+        "unit": "",
+        "tags": []
+      }
+    ],
+    "steps": [
+      "Heat the oven to 400°F. Lay the bacon slices flat on a baking sheet (no need to grease it) and slide it in -- this is your set-it-and-forget-it part, no flipping needed.",
+      "While the bacon starts, whisk the eggs, milk, cinnamon, and vanilla together in a wide, shallow bowl or pie dish until fully blended, about 30 seconds.",
+      "Dip each bread slice in the egg mixture, about 10 seconds per side -- long enough for the bread to soak it up and feel heavier, not so long it falls apart in your hand.",
+      "Melt 1 tablespoon of the butter in a large nonstick pan over medium-low heat until it's foaming, about 1 minute.",
+      "Lay 2-3 soaked slices in the pan without crowding them. Cook 3-4 minutes per side without moving them, until each side is deep golden-brown -- lift a corner with the spatula to check before flipping. Add the remaining butter to the pan as you cook the next batch.",
+      "Check the bacon at the 12-minute mark: it's done when it's deep brown and crisp at the edges, with most of the fat rendered out. Move it to a paper-towel-lined plate.",
+      "Serve the French toast hot with the bacon alongside and maple syrup poured over the top."
+    ],
+    "adaptations": [
+      {
+        "forRestriction": "egg",
+        "type": "alternateRecipe",
+        "alternateRecipe": {
+          "name": "Cinnamon Sugar Toast with Bacon",
+          "mealType": "breakfast",
+          "difficulty": "beginner-plus",
+          "prepMinutes": 5,
+          "cookMinutes": 15,
+          "description": "All the same cinnamon-and-bacon breakfast comfort as French toast, minus the egg dip -- toasted bread gets a buttery cinnamon-sugar topping instead of a custard soak.",
+          "ingredients": [
+            {
+              "name": "Thick-cut sandwich bread or brioche",
+              "amount": "6",
+              "unit": "slices",
+              "tags": [
+                "gluten"
+              ]
+            },
+            {
+              "name": "Butter (softened)",
+              "amount": "3",
+              "unit": "tablespoons",
+              "tags": [
+                "dairy"
+              ]
+            },
+            {
+              "name": "Granulated sugar",
+              "amount": "3",
+              "unit": "tablespoons",
+              "tags": []
+            },
+            {
+              "name": "Ground cinnamon",
+              "amount": "1",
+              "unit": "teaspoon",
+              "tags": []
+            },
+            {
+              "name": "Bacon",
+              "amount": "6",
+              "unit": "slices",
+              "tags": [
+                "pork",
+                "meat"
+              ]
+            },
+            {
+              "name": "Maple syrup (for serving)",
+              "amount": "as needed",
+              "unit": "",
+              "tags": []
+            }
+          ],
+          "steps": [
+            "Heat the oven to 400°F. Lay the bacon on a baking sheet and put it in the oven -- no flipping needed.",
+            "In a small bowl, mix the softened butter, sugar, and cinnamon together with a fork until it forms a spreadable paste, about 1 minute.",
+            "Toast the bread slices in your toaster on a medium-dark setting.",
+            "Spread the warm toast generously with the cinnamon-butter mixture right away, so it melts into the bread.",
+            "Check the bacon at the 12-minute mark: it's done when it's deep brown and crisp at the edges. Move it to a paper-towel-lined plate.",
+            "Serve the cinnamon toast with the bacon alongside and maple syrup if you want extra sweetness."
+          ]
+        }
+      },
+      {
+        "forRestriction": "dairy",
+        "type": "swap",
+        "instructions": "Do NOT use dairy milk or butter -- substitute a plant-based milk (oat works especially well for the custard) and dairy-free butter in the same amounts. Soak and cook times stay the same."
+      },
+      {
+        "forRestriction": "gluten",
+        "type": "swap",
+        "instructions": "Do NOT use regular bread -- substitute a sturdy certified gluten-free sandwich bread. It is more delicate once soaked, so dip it for only 5 seconds per side instead of 10, or it can fall apart."
+      },
+      {
+        "forRestriction": "pork",
+        "type": "swap",
+        "instructions": "Swap the pork bacon for turkey bacon, cooked the same way on the same baking sheet -- start checking for doneness a couple minutes earlier since turkey bacon crisps faster."
+      },
+      {
+        "forRestriction": "meat",
+        "type": "swap",
+        "instructions": "Skip the bacon entirely and serve the French toast with a side of fresh fruit, or cook a plant-based sausage patty according to its package instructions instead."
+      }
+    ]
   }
 ]

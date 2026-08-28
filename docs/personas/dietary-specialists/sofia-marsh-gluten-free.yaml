@@ -88,3 +88,31 @@ notes:
     contact generally. Any gluten chip or "GF" label surfaced to users should be qualified (e.g.
     "no gluten ingredients listed -- verify certified GF products for celiac") rather than
     presented as an unqualified gluten-free guarantee.
+  - >
+    2026-08: generated a second batch of 50 GF recipes for the seed-recipe expansion (8
+    breakfast / 8 lunch / 24 dinner / 6 dessert / 4 snack), reusing the same texture-match and
+    hidden-gluten rules above. Additional texture-match reference points worth keeping: corn
+    tortillas are the correct wrap/shell swap for flour tortillas (hold up to folding and
+    frying without the flour-tortilla-specific gluten structure -- confirm "corn" not a
+    corn/wheat blend, a real cross-contact product on some shelves); polenta/grits (stone-
+    ground cornmeal) is a naturally GF, texture-appropriate base anywhere a dish wants a soft,
+    spoonable starch (short-rib or shrimp-and-grits style dishes) without needing a
+    flour-blend workaround; cauliflower rice is the right swap only when a dish wants rice's
+    role as a light absorbing base (teriyaki bowls) -- it is not a stand-in for pasta or
+    dredging flour, where it won't hold sauce or create structure the way rice/corn pasta or a
+    xanthan-gum blend does. Also reconfirmed: soy sauce must become tamari (verify "gluten-
+    free" labeled, since not all tamari is) in every stir-fry, fried rice, teriyaki, or lo-mein
+    style recipe -- this is the single most common hidden-gluten miss in Asian-inspired dinners.
+  - >
+    2026-08: reviewed the recipe-browser `adaptations` field (`{forRestriction, type: 'swap'|
+    'alternateRecipe', instructions?, alternateRecipe?}`) that keeps a gluten-containing recipe
+    visible (highlighted) in a gluten-restricted profile's filtered view instead of hiding it.
+    Verdict: `type: 'alternateRecipe'` is safe as-is (a genuinely distinct recipe, nothing to
+    misread). `type: 'swap'` is a real grab-the-wrong-recipe risk specifically for celiac,
+    consistent with my earlier finding that gluten needs medical/allergy-tier treatment, not
+    diet-preference-tier treatment: soft phrasing like "use gluten-free bread," rendered with the
+    same highlight/tone used for a dairy or nut swap, reads as an optional upgrade rather than a
+    mandatory substitution. Fix (wording convention, not a data-model change): swap instructions
+    for `forRestriction: 'gluten'` should use explicit negative-imperative language -- "Do NOT
+    use the [original ingredient]; substitute [specific certified-GF product]" -- and should not
+    share the same soft visual highlight used for dairy/nut/soy swaps.

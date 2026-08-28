@@ -88,6 +88,51 @@ tools_and_frameworks:
   - "Hook Model (trigger -> action -> variable reward -> investment)"
   - "Progressive disclosure (one focused question per screen)"
 notes:
+  - >
+    2026-08-28 (find-recipe skill design pass): for a single-recipe chat presentation (not a
+    week-long plan), the persona's voice line belongs FIRST, immediately under the recipe name --
+    it's the trigger/hook, not a footnote after a data dump. Order: name + 1-2 sentence
+    persona-voice summary -> at-a-glance strip (mealType/difficulty/prep+cook time, allergy/diet
+    tags -- same capped-with-overflow chip treatment as the recipe browser cards, safety-relevant
+    tags first) -> ingredients -> steps -> alternate/fork block last, clearly separated. Putting
+    the summary after the ingredient list makes a single-recipe response read like a spec sheet;
+    putting it first makes it read like a recommendation from someone, which is the actual value
+    a persona adds over a bare recipe lookup.
+  - >
+    2026-08-28 (find-recipe skill design pass): the alternate-vs-fork distinction from the Weekly
+    Plan tab (Sofia Marsh finding) needs a chat-visual analog, not just correct field naming under
+    the hood. A same-dish accommodation (fork) should render as a labeled sub-section directly
+    under the conflicting ingredient/step it patches ("For {name}'s gluten allergy: swap X for Y
+    at step 3") -- inline, small, clearly a patch. A genuinely different dish (alternate) should
+    get its own full second card-like block with its own name/summary/tag strip, visually
+    separated (heading rule, not just a new paragraph) so it can't be mistaken for a variant of
+    the first recipe. If both are present for the same request, forks come first (cheaper,
+    preserves the shared meal), the alternate dish last (more expensive escape hatch) -- same
+    "don't make the expensive option the path of least resistance" principle already applied to
+    plan-swap vs. regenerate.
+  - >
+    2026-08-28 (find-recipe skill design pass): recommended sourcing a real, properly-licensed/
+    attributed photo when this skill runs in Claude Code, reversing my browser-app default (deterministic
+    gradient+icon fallback). The gradient-card rationale was specifically about a *static, offline-first
+    browser bundle* where fetching per-recipe images isn't in scope and a placeholder repeated at
+    scale needs to read as "considered" rather than "broken." A single on-demand chat response has
+    neither constraint -- it's one image, fetched live, with WebFetch/WebSearch available -- and a
+    real photo of the actual dish materially helps a food decision ("is this what I think it is")
+    in a way an icon can't. Condition: only include a photo with a real source URL and attribution;
+    never fabricate/hotlink without checking license, and fall back to the deterministic gradient+
+    icon treatment (not a generic placeholder) if no properly licensed photo is found -- same
+    "honest gap over fabricated default" principle as any other missing field.
+  - >
+    2026-08-28 (find-recipe skill design pass): the independent fresh-instance review pass should
+    happen silently -- present one clean, already-reviewed recipe, not a draft-then-verdict
+    transcript. Showing both isn't transparency, it's just a second document the user now has to
+    read to figure out which parts changed, and it undercuts the "recommendation from someone
+    considered" framing the persona-voice summary is going for. The exception: if the review pass
+    changes something safety-relevant (an allergen correction) or materially changes the dish
+    itself, surface a single one-line provenance note near the tag strip ("allergy-checked" or
+    "corrected: recipe originally listed soy sauce, swapped to tamari for the gluten-free tag to
+    hold") rather than the full before/after -- same instinct as not hiding an edit that actually
+    matters, without turning every response into a visible two-pass log.
   - "2026-08-27 (recipe-browser.html mobile pass): the sidebar bug wasn't really "
   - "'defaults open' -- it's that .sidebar is a fixed-width (300px) box "
   - "layered on top of content via position:fixed with no backdrop/overlay and "
@@ -106,6 +151,41 @@ notes:
   - "narrow screens -- cap visible chips (safety-relevant ones like allergy "
   - "tags first) with a '+N more' expand, mirroring the card's existing "
   - "ingredients/steps expand-toggle rather than inventing a new pattern."
+  - >
+    2026-08-28 (recipe-browser adaptations review): the profile-conflict
+    adaptation highlight (`.adaptation-highlight`) reuses the exact same green
+    (#e8f5e9/#66bb6a) as `CATEGORY_COLORS.diet`'s true-compatibility chips.
+    These are two different trust levels ("compatible as-is" vs "compatible
+    only via a substitution") and sharing a color family lets them pattern-
+    match as the same signal at a glance, which is the failure mode this
+    persona already flags for allergy-vs-dislike chips -- the same logic
+    applies to different tiers of "compatible," not just safety-vs-preference.
+    Give the adaptation-available state its own color (amber, not green/red)
+    since both of those are already claimed.
+  - >
+    2026-08-28 (recipe-browser adaptations review): showing a full alternate
+    recipe's ingredients/steps inline after the primary's, separated only by
+    a top divider + heading, isn't enough once someone scrolls past that
+    divider -- the alternate's own sub-headings were generic ("Ingredients",
+    "Steps"), identical in wording/weight to the primary's, so a scrolled
+    view loses the "this is the alternate" context the top divider carried.
+    Fix: repeat the dish name in every sub-heading of a secondary block
+    ("Alt: {name} -- Ingredients"), not just once at the section's top --
+    the divider-plus-heading pattern from the find-recipe skill note handles
+    the at-a-glance case but not the scrolled-mid-list case, and multiple
+    stacked adaptation sections make this worse, not just duplicated.
+  - >
+    2026-08-28 (recipe-browser adaptations review): silent exclusion of a
+    recipe with an unresolved strict-allergy/diet conflict (no matching
+    `adaptations` entry) is still the right call -- a grayed "not compatible"
+    card for every excluded recipe adds scanning cost with no behavior it
+    reinforces, and it's inconsistent with the rest of the app's hard
+    exclusion for strict restrictions (dislikes downrank, allergies exclude,
+    no dangled "almost" tier for safety). The actual gap is the aggregate
+    count line not explaining *why* the grid shrank when a profile filter is
+    active -- fix at the summary-line level ("12 of 56 -- 44 excluded for
+    allergy/diet conflicts, 3 have alternates"), not by inventing a new
+    per-card excluded-state.
   - "Inline-expand-in-grid detail views are fine on desktop but cost more on "
   - "a 1-column mobile grid -- one expanded card pushes every later card far "
   - "down and loses scroll context. Recommended a full-screen sheet reusing "

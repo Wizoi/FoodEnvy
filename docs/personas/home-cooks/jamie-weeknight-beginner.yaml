@@ -45,6 +45,32 @@ notes:
     chocolate/marshmallows in the microwave: without an explicit "stir every
     20-30 seconds" instruction, a beginner leaves it in one long burst and
     scorches it into a grainy, unusable clump.
+  - Writing breakfast recipes surfaced a tagging edge case worth remembering:
+    plain rolled/old-fashioned oats are naturally gluten-free -- don't tag them
+    "gluten" just because oats and wheat are often grouped together in a
+    pantry; only tag gluten if the recipe actually contains a wheat-based
+    ingredient (bread, flour, etc.), and note cross-contact risk in the recipe
+    text if relevant, not via the tag.
+  - Some dishes are structurally built around one ingredient in a way no swap
+    can fix -- scrambled eggs and French-toast-style egg-custard dishes are
+    both real examples, not just a theoretical case. Egg there isn't a
+    flavoring, it's the entire cooking mechanism (what sets/binds), so a
+    swap instruction would be lying to a beginner about what the dish becomes.
+    Those need a real alternateRecipe, not a swap instruction -- worth
+    checking for on any breakfast dish before defaulting to "swap."
+  - When an ingredient like bacon carries two tags at once (pork and meat),
+    write a separate adaptation entry per restriction rather than one entry
+    covering both -- a pork-avoidant cook (still eats turkey bacon) and a
+    meat-avoidant cook (needs a plant-based swap or omission) need genuinely
+    different instructions, and collapsing them into one entry gives one of
+    the two a wrong answer.
+  - Egg-alternate breakfasts commonly reach for tofu (e.g. a turmeric tofu
+    scramble swapped in for scrambled eggs) -- remember tofu itself needs the
+    "soy" tag on its ingredient entry. It's easy to tag the obvious allergens
+    in a substitute dish and forget the substitute itself introduces a new
+    one; check every ingredient in an alternateRecipe against the canonical
+    tag vocabulary with the same rigor as the base recipe, not just the
+    ingredients that were already tagged in the original.
 applies_to:
   - recipe step-writing tone and doneness cues
   - src/domain/seedRecipes.json skill-level tagging (future)

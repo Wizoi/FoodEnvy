@@ -513,6 +513,14 @@
       font-size: 0.75rem;
     }
 
+    .recipe-meta .not-listed {
+      background: transparent;
+      border: 1px dashed #bbb;
+      color: #999;
+      font-style: italic;
+      font-weight: 400;
+    }
+
     .description {
       font-size: 0.9rem;
       color: #333;
@@ -759,11 +767,86 @@
       margin-bottom: 0.6rem;
     }
 
+    .allergen-footer-disclaimer {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      background: #fff3cd;
+      color: #856404;
+      border-top: 3px solid #ffc107;
+      padding: 0.7rem 1.5rem;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    }
+
     .diet-chip-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.3rem;
       margin-bottom: 0.8rem;
+    }
+
+    .diet-exclusion-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Amber/warning tone, deliberately NOT the green used for diet-compatibility badges --
+       this card is only safe via the alternate, never a plain match. Matches the app's existing
+       caution palette (the allergen footer disclaimer, #fff3cd/#856404/#ffc107). */
+    .adaptation-highlight {
+      background: #fff3cd;
+      color: #856404;
+      border-left: 3px solid #ffc107;
+      padding: 0.6rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+
+    .adaptation-warning-banner {
+      background: #fff3cd;
+      color: #856404;
+      border-left: 3px solid #ffc107;
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .adaptation-section {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      background: #fffdf5;
+    }
+
+    /* Stronger treatment for a same-dish swap against a Big-9/medical-tier restriction (gluten,
+       dairy, egg, etc.) vs. a plain diet-preference swap (meat/pork/beef) -- soft phrasing like
+       "use gluten-free bread" reads as an optional upgrade unless it's visually distinct from a
+       casual substitution. Per the gluten-free specialist's finding: celiac-safety swaps need
+       this weight; alternateRecipe sections (a genuinely separate dish) don't need it. */
+    .adaptation-section.safety-critical {
+      border: 2px solid #d32f2f;
+      background: #fff5f5;
+    }
+
+    .adaptation-heading {
+      color: #856404;
+      margin-bottom: 0.8rem;
+    }
+
+    .adaptation-section.safety-critical .adaptation-heading {
+      color: #b71c1c;
     }
 
     .sidebar-backdrop {
@@ -826,7 +909,16 @@
       }
 
       #recipeDetailModal .modal-content {
-        max-width: 500px;
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+      }
+
+      #recipeDetailModal .modal-body {
+        min-height: 0;
+        max-height: none;
       }
     }
 
@@ -936,6 +1028,16 @@
     </div>
   </div>
 
+  <!-- Single, always-visible disclaimer covering every recipe's allergen/diet chips --
+       replaces the old per-card disclaimer text (chips themselves still render on every
+       card, uncapped; this is just the boilerplate sentence, said once). -->
+  <footer class="allergen-footer-disclaimer" id="allergenFooterDisclaimer">
+    ⚠️ Allergen/diet tags on every recipe are hand-entered from listed ingredients only —
+    not verified against product labels or cross-contact risk. A missing tag doesn't
+    guarantee a recipe is free of that allergen. Always check packaging, and verify
+    certified gluten-free products for celiac safety.
+  </footer>
+
   <!-- Profile Modal -->
   <div id="profileModal" style="display: none;" class="modal-overlay" onclick="if(event.target === this) closeProfileModal()">
     <div class="modal-content">
@@ -991,7 +1093,7 @@
         <h2 id="detailTitle"></h2>
         <button class="modal-close" onclick="closeRecipeDetail()">✕</button>
       </div>
-      <div class="modal-body" id="detailBody" style="max-height: calc(90vh - 80px); overflow-y: auto;"></div>
+      <div class="modal-body" id="detailBody"></div>
     </div>
   </div>
 
@@ -1057,11 +1159,11 @@
         const cook = recipe.cookMinutes || 0;
         return (prep + cook) + ' min';
       }
-      return '';
+      return null;
     }
 
     function formatDifficulty(recipe) {
-      return recipe.difficulty || '';
+      return recipe.difficulty || null;
     }
 
     function formatIngredientLine(i) {
@@ -1087,7 +1189,37 @@
       const allergenChips = Array.from(allergenSet).map(tag =>
         '<span class="allergen-chip" style="background:' + CATEGORY_COLORS.allergy.chip + ';color:' + CATEGORY_COLORS.allergy.text + ';padding:0.3rem 0.7rem;border-radius:12px;font-size:0.8rem;font-weight:600;display:inline-block;margin-right:0.4rem;margin-bottom:0.3rem;">' + tag + '</span>'
       ).join('');
+      // Per-card disclaimer text was moved to a single persistent page footer
+      // (#allergenFooterDisclaimer) so it doesn't repeat on every one of 56 cards --
+      // the chips themselves (the actual safety-relevant data) still render on every
+      // card, uncapped; only the repeated boilerplate sentence moved.
       return '<div class="allergen-row">' + allergenChips + '</div>';
+    }
+
+    // Diet-preference exclusions (meat/pork/beef) -- distinct from the red allergy/medical
+    // tier above: these are lifestyle preferences, not safety-relevant, so they get their own
+    // purple tier (CATEGORY_COLORS.restriction) rather than being mixed in with allergens.
+    const DIET_EXCLUSION_TAGS = [
+      { label: 'Meat', tag: 'meat' },
+      { label: 'Pork', tag: 'pork' },
+      { label: 'Beef', tag: 'beef' },
+    ];
+
+    function renderDietExclusionChips(recipe) {
+      if (!recipe.ingredients || recipe.ingredients.length === 0) return '';
+      const present = new Set();
+      recipe.ingredients.forEach(ing => {
+        if (ing.tags) {
+          ing.tags.forEach(tag => {
+            if (DIET_EXCLUSION_TAGS.some(d => d.tag === tag)) present.add(tag);
+          });
+        }
+      });
+      if (present.size === 0) return '';
+      const chips = DIET_EXCLUSION_TAGS.filter(d => present.has(d.tag)).map(d =>
+        '<span class="diet-exclusion-chip" style="background:' + CATEGORY_COLORS.restriction.chip + ';color:' + CATEGORY_COLORS.restriction.text + ';padding:0.3rem 0.6rem;border-radius:12px;font-size:0.75rem;display:inline-block;margin-right:0.3rem;margin-bottom:0.3rem;">' + d.label + '</span>'
+      ).join('');
+      return '<div class="diet-exclusion-row">' + chips + '</div>';
     }
 
     function renderDietChips(recipe) {
@@ -1118,7 +1250,80 @@
       const modal = document.getElementById('recipeDetailModal');
       document.getElementById('detailTitle').textContent = recipe.name;
       const body = document.getElementById('detailBody');
-      let html = '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
+
+      let intro = renderAllergenChips(recipe);
+      intro += renderDietExclusionChips(recipe);
+      intro += renderDietChips(recipe);
+      const difficulty = formatDifficulty(recipe);
+      const time = formatTime(recipe);
+      intro += '<div class="recipe-meta">';
+      intro += '<span class="difficulty' + (difficulty ? '' : ' not-listed') + '">' + (difficulty || 'Not listed') + '</span>';
+      intro += '<span class="time' + (time ? '' : ' not-listed') + '">' + (time ? '⏱️ ' + time : 'Time not listed') + '</span>';
+      intro += '</div>';
+      if (recipe.description) {
+        intro += '<div class="description">' + recipe.description + '</div>';
+      }
+
+      // If a selected profile's restriction resolves to one of this recipe's `adaptations`,
+      // the alternate(s) render BEFORE the primary recipe, with an explicit warning banner --
+      // per the allergy-safety review, the original is reachable only by scrolling past it if
+      // it's shown first, and a rushed parent could grab the wrong one. Own heading per
+      // adaptation, visually separated, not skimmable as a variant of the primary (same
+      // principle as the plan-meal alternates/forks distinction).
+      const resolved = getProfileAdaptationStatus(recipe, getSelectedProfileIds()).resolved;
+
+      let adaptationsHtml = '';
+      resolved.forEach(r => {
+        const names = Array.from(new Set(r.profileNames)).join(', ');
+        // A same-dish swap against a Big-9/medical-tier restriction (gluten, dairy, egg, nuts,
+        // shellfish, soy, sesame) gets the stronger safety-critical treatment -- per the
+        // gluten-free specialist's finding, soft phrasing like "use gluten-free bread" needs to
+        // read as mandatory, not an optional upgrade. A genuinely separate alternateRecipe, or a
+        // swap against a plain diet preference (meat/pork/beef), doesn't need that weight.
+        const isSafetyCritical = r.adaptation.type === 'swap' && ALLERGEN_TAGS.includes(r.tag);
+        adaptationsHtml += '<div class="adaptation-section' + (isSafetyCritical ? ' safety-critical' : '') + '">';
+        if (r.adaptation.type === 'swap') {
+          adaptationsHtml += '<h3 class="adaptation-heading">' + (isSafetyCritical ? '⚠️ Required substitution' : 'Adaptation') + ' for ' + names + ' (' + r.tag + ')</h3>';
+          adaptationsHtml += '<p>' + r.adaptation.instructions + '</p>';
+        } else if (r.adaptation.type === 'alternateRecipe' && r.adaptation.alternateRecipe) {
+          const alt = r.adaptation.alternateRecipe;
+          adaptationsHtml += '<h3 class="adaptation-heading">Alternate for ' + names + ' (' + r.tag + '): ' + alt.name + '</h3>';
+          if (alt.description) {
+            adaptationsHtml += '<div class="description">' + alt.description + '</div>';
+          }
+          const altDifficulty = formatDifficulty(alt);
+          const altTime = formatTime(alt);
+          adaptationsHtml += '<div class="recipe-meta">';
+          adaptationsHtml += '<span class="difficulty' + (altDifficulty ? '' : ' not-listed') + '">' + (altDifficulty || 'Not listed') + '</span>';
+          adaptationsHtml += '<span class="time' + (altTime ? '' : ' not-listed') + '">' + (altTime ? '⏱️ ' + altTime : 'Time not listed') + '</span>';
+          adaptationsHtml += '</div>';
+          adaptationsHtml += '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
+          // Sub-headings repeat the alternate's own name so it can't be mistaken for the
+          // primary recipe's ingredients/steps if scrolled to out of context.
+          adaptationsHtml += '<h4 style="margin-bottom:0.5rem;">' + alt.name + ' — Ingredients</h4><ul style="margin-left:1.5rem;">';
+          (alt.ingredients || []).forEach(i => {
+            adaptationsHtml += '<li>' + formatIngredientLine(i) + '</li>';
+          });
+          adaptationsHtml += '</ul></div><div>';
+          adaptationsHtml += '<h4 style="margin-bottom:0.5rem;">' + alt.name + ' — Steps</h4><ol style="margin-left:1.5rem;">';
+          (alt.steps || []).forEach(s => {
+            adaptationsHtml += '<li style="margin-bottom:1rem;">' + s + '</li>';
+          });
+          adaptationsHtml += '</ol></div></div>';
+        }
+        adaptationsHtml += '</div>';
+      });
+
+      let html = intro;
+      if (resolved.length > 0) {
+        html += '<div class="adaptation-warning-banner">⚠️ As written, this recipe is NOT safe for ' +
+          Array.from(new Set(resolved.flatMap(r => r.profileNames))).join(', ') +
+          ' (' + resolved.map(r => r.tag).join(', ') + '). See the alternate below before the original.</div>';
+        html += adaptationsHtml;
+        html += '<h3 style="margin-bottom:1rem;">' + recipe.name + ' — Original (not safe as written)</h3>';
+      }
+
+      html += '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
       html += '<h3 style="margin-bottom:1rem;">Ingredients</h3><ul style="margin-left:1.5rem;">';
       if (recipe.ingredients) {
         recipe.ingredients.forEach(i => {
@@ -1133,6 +1338,7 @@
         });
       }
       html += '</ol></div></div>';
+
       body.innerHTML = html;
       modal.style.display = 'flex';
     }
@@ -1141,28 +1347,6 @@
       const modal = document.getElementById('recipeDetailModal');
       modal.style.display = 'none';
     }
-
-    // Ingredient substitutions for common allergens/restrictions
-    const INGREDIENT_SWAPS = {
-      dairy: [
-        { label: 'Lactose-free milk', ratio: '1:1', notes: 'Cup for cup in recipes.' },
-        { label: 'Lactose-free yogurt', ratio: '1:1', notes: 'Same tang, thicker consistency.' },
-        { label: 'Oat/soy milk', ratio: '1:1', notes: 'Oat is creamier; soy has more protein.' }
-      ],
-      gluten: [
-        { label: 'Gluten-free 1:1 flour', ratio: '1:1', notes: 'Includes xanthan gum.' },
-        { label: 'Rice or corn pasta', ratio: '1:1', notes: 'Use tubular shapes (rigatoni, penne).' },
-        { label: 'Gluten-free tamari', ratio: '1:1', notes: 'No malt barley—safe.' }
-      ],
-      egg: [
-        { label: 'Flax egg (1 tbsp flax + 2.5 tbsp water)', ratio: '1:1', notes: 'Best for baking.' },
-        { label: 'Applesauce (unsweetened)', ratio: '1:4', notes: 'Adds moisture; reduce liquid.' }
-      ],
-      meat: [
-        { label: 'White beans or legumes', ratio: '1:1 (cooked weight)', notes: 'For tacos, salads.' },
-        { label: 'Tofu or tempeh', ratio: '1:1', notes: 'Similar protein density.' }
-      ]
-    };
 
     const personaEmojis = {
       'jamie-weeknight-beginner': '👨‍🍳',
@@ -1549,33 +1733,55 @@
       });
     }
 
-    function isRecipeCompatible(recipe, profile) {
-      return !profile.restrictions.some(r => {
-        if (r.category !== 'allergy' && r.category !== 'diet' && r.category !== 'restriction') return false;
-        return recipe.ingredients.some(ing => ing.tags && ing.tags.includes(r.value.toLowerCase()));
-      });
+    function getSelectedProfileIds() {
+      return Array.from(document.querySelectorAll('#profileCheckboxes input:checked')).map(c => c.id.replace('profile_filter_', ''));
     }
 
-    function getRecipeAdaptations(recipe, profile) {
-      const adaptations = [];
-
+    // Restriction tags (allergy/diet/restriction categories only -- same as everywhere else in
+    // this file) that a profile's strict restrictions actually conflict with in this recipe's
+    // own ingredients.
+    function getConflictingRestrictions(recipe, profile) {
+      const tags = new Set();
       profile.restrictions.forEach(r => {
         if (r.category !== 'allergy' && r.category !== 'diet' && r.category !== 'restriction') return;
-
-        const conflictingIngredients = recipe.ingredients.filter(ing =>
-          ing.tags && ing.tags.includes(r.value.toLowerCase())
-        );
-
-        if (conflictingIngredients.length > 0 && INGREDIENT_SWAPS[r.value.toLowerCase()]) {
-          adaptations.push({
-            restriction: r.value,
-            category: r.category,
-            swaps: INGREDIENT_SWAPS[r.value.toLowerCase()]
-          });
+        const tag = r.value.toLowerCase();
+        if (recipe.ingredients && recipe.ingredients.some(ing => ing.tags && ing.tags.includes(tag))) {
+          tags.add(tag);
         }
       });
+      return Array.from(tags);
+    }
 
-      return adaptations;
+    // For every selected profile, splits this recipe's conflicts into resolved (the recipe's own
+    // `adaptations` field has a matching entry -- see find-recipe skill) vs. unresolved (no known
+    // fix). A recipe with any unresolved conflict isn't appropriate for the selected family and
+    // stays excluded from the "By Profile" filter; a fully-resolved conflict means the recipe can
+    // stay, highlighted, with its alternate(s) surfaced instead of the recipe just disappearing.
+    function getProfileAdaptationStatus(recipe, selectedProfileIds) {
+      const resolvedByTag = new Map();
+      const unresolved = [];
+      selectedProfileIds.forEach(pid => {
+        const prof = profiles.find(p => p.id === pid);
+        if (!prof) return;
+        getConflictingRestrictions(recipe, prof).forEach(tag => {
+          const adaptation = recipe.adaptations && recipe.adaptations.find(a => a.forRestriction === tag);
+          // A conflict only counts as resolved if the fix is actually safe for THIS profile --
+          // an `alternateRecipe` that removes one restricted ingredient but introduces a
+          // different one this same profile also can't have (e.g. an egg-free alternate built
+          // on tree nuts) must never be silently accepted. Flagged by the allergy-safety persona
+          // review: fixing one allergen can't be allowed to violate another.
+          const alternateIntroducesNewConflict = adaptation && adaptation.type === 'alternateRecipe' && adaptation.alternateRecipe
+            ? getConflictingRestrictions(adaptation.alternateRecipe, prof).length > 0
+            : false;
+          if (adaptation && !alternateIntroducesNewConflict) {
+            if (!resolvedByTag.has(tag)) resolvedByTag.set(tag, { tag, adaptation, profileNames: [] });
+            resolvedByTag.get(tag).profileNames.push(prof.name);
+          } else {
+            unresolved.push({ tag, profileName: prof.name });
+          }
+        });
+      });
+      return { resolved: Array.from(resolvedByTag.values()), unresolved };
     }
 
     async function loadRecipes() {
@@ -1630,7 +1836,7 @@
       }
     }
 
-    function renderRecipes(recipes, selectedProfileIds = []) {
+    function renderRecipes(recipes, selectedProfileIds = [], adaptationStatusById = null, excludedForProfileConflict = 0) {
       try {
         const grid = document.getElementById('recipeGrid');
         const loadingMsg = document.getElementById('loadingMsg');
@@ -1648,32 +1854,23 @@
           const pName = recipe.persona ? (personasMap[recipe.persona] ? personasMap[recipe.persona].name : 'Chef') : 'Chef';
           const emoji = recipe.persona ? (personaEmojis[recipe.persona] || '👨‍🍳') : '👨‍🍳';
 
-          // Get ingredient conflicts for selected profiles
-          let conflictInfo = '';
+          // Recipes with an unresolved conflict never reach here (filterRecipes already
+          // excludes them); a resolved one (conflict + matching `adaptations` entry) gets a
+          // highlight instead of the recipe just disappearing.
+          // Precomputed by filterRecipes (which already had to run this same check to decide
+          // inclusion) when available, to avoid recomputing it a second time per recipe here.
+          let adaptationHighlight = '';
           if (selectedProfileIds.length > 0) {
-            let allConflicts = [];
-            selectedProfileIds.forEach(pid => {
-              const prof = profiles.find(x => x.id === pid);
-              if (prof) {
-                prof.restrictions.forEach(r => {
-                  if (r.category === 'allergy' || r.category === 'diet' || r.category === 'restriction') {
-                    recipe.ingredients.forEach(ing => {
-                      if (ing.tags && ing.tags.includes(r.value.toLowerCase())) {
-                        allConflicts.push({ name: prof.name, restriction: r.value, ingredient: ing.name });
-                      }
-                    });
-                  }
-                });
-              }
-            });
-
-            if (allConflicts.length > 0) {
-              conflictInfo += '<div style="background: #fff3cd; padding: 0.8rem; border-radius: 4px; margin-bottom: 0.8rem; border-left: 3px solid #ffc107;">';
-              conflictInfo += '<div style="font-weight: 600; font-size: 0.85rem; color: #856404; margin-bottom: 0.4rem;">⚠️ Conflicts with selected profiles:</div>';
-              allConflicts.forEach(c => {
-                conflictInfo += '<div style="font-size: 0.8rem; color: #856404;">' + c.name + ' cannot have ' + c.ingredient + ' (' + c.restriction + ')</div>';
-              });
-              conflictInfo += '</div>';
+            const resolved = (adaptationStatusById && adaptationStatusById.has(recipe.id)
+              ? adaptationStatusById.get(recipe.id)
+              : getProfileAdaptationStatus(recipe, selectedProfileIds)).resolved;
+            if (resolved.length > 0) {
+              // Lead with the danger, not the fix -- this card is only safe via the alternate,
+              // it is NOT a plain match. Amber/warning styling, not the green "compatible" tone
+              // used elsewhere, so it can never read as "safe as-is."
+              adaptationHighlight = '<div class="adaptation-highlight">' + resolved.map(r =>
+                '⚠️ Contains ' + r.tag + ' — not safe as written for ' + Array.from(new Set(r.profileNames)).join(', ') + '. Alternate available — tap to view.'
+              ).join('<br>') + '</div>';
             }
           }
 
@@ -1697,27 +1894,24 @@
             recipeHtml += allergenRow;
           }
 
-          // 4. Diet chips
+          // 4. Diet chips (purple exclusion tags, then green compatibility badges)
+          recipeHtml += renderDietExclusionChips(recipe);
           recipeHtml += renderDietChips(recipe);
 
-          // 5. Existing conflict info
-          if (conflictInfo) {
-            recipeHtml += conflictInfo;
+          // 5. Adaptation-available highlight
+          if (adaptationHighlight) {
+            recipeHtml += adaptationHighlight;
           }
 
-          // 6. Recipe meta (difficulty, time)
+          // 6. Recipe meta (difficulty, time) -- always shown, "not listed" when data is missing
+          // (never hide the field: an absent slot makes cards inconsistent height and reads as
+          // broken; a muted "not listed" is honest, an omitted field or a guessed value is not)
           const difficulty = formatDifficulty(recipe);
           const time = formatTime(recipe);
-          if (difficulty || time) {
-            recipeHtml += '<div class="recipe-meta">';
-            if (difficulty) {
-              recipeHtml += '<span class="difficulty">' + difficulty + '</span>';
-            }
-            if (time) {
-              recipeHtml += '<span>⏱️ ' + time + '</span>';
-            }
-            recipeHtml += '</div>';
-          }
+          recipeHtml += '<div class="recipe-meta">';
+          recipeHtml += '<span class="difficulty' + (difficulty ? '' : ' not-listed') + '">' + (difficulty || 'Not listed') + '</span>';
+          recipeHtml += '<span class="time' + (time ? '' : ' not-listed') + '">' + (time ? '⏱️ ' + time : 'Time not listed') + '</span>';
+          recipeHtml += '</div>';
 
           // 7. Description and descriptive tags
           if (recipe.description) {
@@ -1732,7 +1926,19 @@
         });
 
         grid.innerHTML = html;
-        document.getElementById('recipeCount').textContent = 'Showing ' + recipes.length + ' recipe' + (recipes.length !== 1 ? 's' : '') + ' out of ' + allRecipes.length + ' total';
+        let countText = 'Showing ' + recipes.length + ' recipe' + (recipes.length !== 1 ? 's' : '') + ' out of ' + allRecipes.length + ' total';
+        if (selectedProfileIds.length > 0) {
+          const withAlternate = adaptationStatusById
+            ? recipes.filter(r => adaptationStatusById.has(r.id) && adaptationStatusById.get(r.id).resolved.length > 0).length
+            : 0;
+          if (withAlternate > 0) {
+            countText += ' (' + withAlternate + ' shown via an alternate)';
+          }
+          if (excludedForProfileConflict > 0) {
+            countText += ' — ' + excludedForProfileConflict + ' hidden: no safe alternate for the selected profile(s)';
+          }
+        }
+        document.getElementById('recipeCount').textContent = countText;
       } catch (e) {
         console.error('Render error:', e);
         document.getElementById('recipeGrid').innerHTML = '<div class="empty-state"><p>Error: ' + e.message + '</p></div>';
@@ -1743,8 +1949,13 @@
       const mealType = document.getElementById('mealType').value;
       const difficulty = document.getElementById('difficulty').value;
       const search = document.getElementById('search').value.toLowerCase();
-      const selectedProfileIds = Array.from(document.querySelectorAll('#profileCheckboxes input:checked')).map(c => c.id.replace('profile_filter_', ''));
+      const selectedProfileIds = getSelectedProfileIds();
       const selectedCollectionIds = Array.from(document.querySelectorAll('#collectionCheckboxes input:checked')).map(c => c.id.replace('collection_filter_', ''));
+
+      // Computed once here (not recomputed per recipe again inside renderRecipes) and passed
+      // through, since filterRecipes already has to run this same check to decide inclusion.
+      const adaptationStatusById = new Map();
+      let excludedForProfileConflict = 0;
 
       let filtered = allRecipes.filter(recipe => {
         if (mealType && recipe.mealType !== mealType) return false;
@@ -1752,11 +1963,16 @@
         if (search && !recipe.name.toLowerCase().includes(search)) return false;
 
         if (selectedProfileIds.length > 0) {
-          const allCompatible = selectedProfileIds.every(pid => {
-            const prof = profiles.find(p => p.id === pid);
-            return !prof || isRecipeCompatible(recipe, prof);
-          });
-          if (!allCompatible) return false;
+          const status = getProfileAdaptationStatus(recipe, selectedProfileIds);
+          // Exclude only on an UNRESOLVED conflict -- a conflict with a matching `adaptations`
+          // entry that's actually safe for this profile stays in the list; it gets highlighted
+          // on the card and shown alongside the primary in the detail view instead of
+          // disappearing.
+          if (status.unresolved.length > 0) {
+            excludedForProfileConflict++;
+            return false;
+          }
+          adaptationStatusById.set(recipe.id, status);
         }
 
         if (selectedCollectionIds.length > 0) {
@@ -1770,7 +1986,7 @@
         return true;
       });
 
-      renderRecipes(filtered, selectedProfileIds);
+      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict);
     }
 
     window.addEventListener('DOMContentLoaded', () => {

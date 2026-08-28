@@ -77,6 +77,32 @@ notes:
     an in-app network call. Any ask for true in-app automation needs an
     explicit backend/security decision made via update-app's approval
     gate, not an implementation shortcut."
+  - "As of 2026-08-28, there are TWO divergent recipe JSON files on disk with different schemas,
+    which any 'add a recipe' skill/feature needs to know about: root-level
+    foodenvy-complete-recipes.json (40 recipes, fields: name/mealType/difficulty/prepMinutes/
+    cookMinutes/ingredients[amount,unit,name,tags]/steps -- no id, no persona, no description, no
+    imageUrl) is stale leftover input consumed only by consolidate-all-recipes.js (which itself
+    still references the dead src/domain path); it is NOT what the built app serves.
+    public/foodenvy-complete-recipes.json (56 recipes) is the real, richer, currently-shipped
+    schema -- vite.config.js's custom copy-static-files plugin copies exactly this file into
+    dist/, and index.html's fetch('./foodenvy-complete-recipes.json') resolves to it in a real
+    build. Its schema is a superset: id ('seed-<slug>' for the original 56, or
+    'recipe-<uuid>' for the one hand-added example), name, mealType, tags (recipe-level, e.g.
+    'quick'/'vegetarian'/'make-ahead' -- distinct from ingredient-level allergen tags), difficulty,
+    prepMinutes, cookMinutes, description, imageUrl, persona, ingredients[{name, tags, amount?,
+    unit?}], steps[]. description, imageUrl, and persona are ALL already wired into
+    index.html/recipe-browser.html's rendering (renderMealTypeVisual falls back to a
+    mealType-keyed gradient+emoji tile -- MEALTYPE_VISUALS -- only when imageUrl is empty/unset;
+    openRecipeDetail prints description verbatim; persona is looked up against a personasMap/
+    personaEmojis keyed by the exact subagent id, e.g. 'priya-busy-parent') even though every
+    existing recipe currently ships with description/imageUrl empty and persona unset except one
+    ('persona': 'user-submitted' on the honeycomb candy recipe, the one entry that made it across
+    from the root file into public/ -- a real precedent for 'a recipe added outside the original
+    bulk-generation batch'). Net: a new recipe (e.g. from a future find-recipe skill) should target
+    public/foodenvy-complete-recipes.json's schema, can safely set persona to the authoring
+    subagent's id to get correct attribution display for free, and should leave imageUrl empty
+    rather than sourcing a real photo -- the gradient+emoji fallback is a real, already-live
+    rendering path, not a gap to fill, and avoids any photo-licensing question entirely."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

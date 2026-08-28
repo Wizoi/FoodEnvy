@@ -78,3 +78,22 @@ notes:
     not tooltip-only) one-line disclaimer near the chip row that this is not verified against
     product labels and does not represent cross-contact risk. Cross-contact has no tag
     representation at all and chips must never imply otherwise.
+  - >
+    2026-08: reviewed the "By Profile" filter's new adaptations-aware behavior in index.html
+    (find-recipe skill output: `adaptations[].forRestriction` + `type: 'alternateRecipe'|'swap'`).
+    Verdict: showing an allergen-containing recipe when a resolving adaptation exists is
+    conditionally acceptable, but as implemented it has one real safety gap and two UX gaps.
+    (1) GAP -- not just style: `getProfileAdaptationStatus` marks a conflict "resolved" once a
+    matching `adaptations` entry exists, but never re-checks the alternate recipe's OWN
+    ingredient tags against the profile's restrictions. A `type: 'alternateRecipe'` adaptation
+    that fixes egg by introducing tree nuts (or any other Big-9 tag) would be accepted as safe
+    with no check at all -- exactly the "fixing one allergen can't be allowed to violate another"
+    failure this persona exists to catch. Fix: `getConflictingRestrictions(adaptation.alternateRecipe,
+    prof)` must be called and be empty before treating the tag as resolved. (2) The card's
+    `.adaptation-highlight` reuses a green background + checkmark ("safe" vocabulary already used
+    elsewhere for diet-compatibility badges) right next to the red allergen chip -- ambiguous at a
+    glance, should be amber/warning-styled and lead with the danger ("Contains egg -- NOT safe as
+    written"), not the fix. (3) `openRecipeDetail` renders the unsafe original recipe's full
+    ingredients/steps before the alternate, reachable only by scrolling past it -- the alternate
+    should be primary (or the view should auto-scroll to it) whenever the detail was opened via a
+    profile filter with a resolved conflict. None of these are fixed as of this review.
