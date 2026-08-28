@@ -1720,24 +1720,6 @@
             recipeHtml += '<div class="tags">' + recipe.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>';
           }
 
-          // 8. Inline expand toggle (secondary affordance)
-          recipeHtml += '<button class="expand-toggle" onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle(\'expanded\'); this.textContent = this.nextElementSibling.classList.contains(\'expanded\') ? \'Hide ▲\' : \'View ▼\'">View ▼</button>';
-          recipeHtml += '<div class="recipe-details">';
-          if (recipe.ingredients) {
-            recipeHtml += '<div class="ingredients"><h4>Ingredients</h4><ul>';
-            recipe.ingredients.forEach(i => {
-              recipeHtml += '<li>' + formatIngredientLine(i) + '</li>';
-            });
-            recipeHtml += '</ul></div>';
-          }
-          if (recipe.steps) {
-            recipeHtml += '<div class="steps"><h4>Steps</h4><ol>';
-            recipe.steps.forEach(s => {
-              recipeHtml += '<li>' + s + '</li>';
-            });
-            recipeHtml += '</ol></div>';
-          }
-          recipeHtml += '</div>';
           recipeHtml += '</div></div>';
           html += recipeHtml;
         });
