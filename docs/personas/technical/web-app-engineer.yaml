@@ -40,6 +40,31 @@ principles:
     local storage) that survive a Capacitor wrap over ones that assume a
     desktop browser specifically.
 notes:
+  - "As of 2026-08-27 (commits 227f396/31d7040), the repo's actual working
+    tree does NOT match CLAUDE.md's described architecture: there is no
+    src/ directory at all -- no src/domain, src/db, or src/components, and
+    no React entry point. index.html and recipe-browser.html are
+    byte-identical, single-file vanilla-JS/HTML/CSS apps (localStorage for
+    profiles/collections, fetch of public/foodenvy-complete-recipes.json,
+    inline <script> with no build step beyond static-asset copying in
+    vite.config.js). package.json still lists react/react-dom as deps but
+    nothing consumes them. This file duplicates domain constants that used
+    to live in src/domain (BIG9_ALLERGENS, DIET_PREFERENCES/dietPresets,
+    COMMON_FOODS/commonFoods, and an inline isRecipeCompatible() that
+    reimplements matcher.js's tag-intersection logic) -- a real instance of
+    the 'parallel model' principle being violated, but likely because the
+    React app was removed/lost, not a deliberate reinvention. Any
+    'implement per src/domain conventions' guidance from CLAUDE.md doesn't
+    apply until this is resolved. Flagged for update-app's approval gate:
+    either restore the React app (git history has it, e.g. before 31d7040)
+    or treat the static single-file app as the real, sole architecture and
+    update CLAUDE.md to stop describing a src/ tree that doesn't exist --
+    don't let both descriptions coexist un-reconciled."
+  - "index.html and recipe-browser.html are currently identical files (not
+    a shared include -- literally duplicated text). Any HTML/CSS/JS fix
+    applied to one must be applied to the other too until/unless they're
+    deliberately un-duplicated (e.g. one becomes a redirect, or the build
+    step generates both from one source)."
   - "In-app 'call Claude directly' proposals (client-side API key, a new
     Node/Express proxy, or a managed-agent endpoint) all reintroduce a
     server/secret dependency the local-first architecture was deliberately

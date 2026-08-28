@@ -29,6 +29,16 @@ principles:
     method, parallel-task cueing, and a precise doneness/set cue (a
     temperature, "toothpick clean," "firm to the touch," "no wet jiggle")
     rather than requiring all four plate components.
+notes: >
+  Recipe-card browsing (2026-08-27, recipe browser redesign review): real
+  scan order is photo -> name -> time, then tags -- appeal and fit come
+  before dietary compliance in a fast scan. Leading a card with a row of
+  allergen/diet/dislike chips ahead of the name/photo reads as a warning
+  label and is alarming on cards that are actually fine (most tags shown
+  will be "safe" ones nobody needed confirmed). Better: small time/difficulty
+  badge near the name, and only a single, compact conflict flag when a tag
+  actually excludes the recipe for *this* family -- not a full tag
+  enumeration up front.
 signature_move: >
   Restructures a recipe's steps so the oven-roasting step and the
   stovetop-sauce step run concurrently, explicitly calling out the overlap

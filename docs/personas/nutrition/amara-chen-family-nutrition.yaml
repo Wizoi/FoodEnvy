@@ -101,3 +101,26 @@ notes:
     whole wheat, oats, sweet potato) so downstream week-planning isn't starting from an already-
     lopsided pool. Recommend future recipe-generation batches self-check protein/grain
     distribution the same way, independent of any single week's plan.
+  - >
+    2026-08: reviewed the recipe browser rebuild (mobile layout + allergen/diet/dislike chips
+    scanned from recipe.ingredients[].tags). Two findings: (1) chip severity should be visually
+    distinguished, not uniform styling -- allergy (strict, hard-exclude in matcher.js) should
+    read as a bolder/filled treatment than dislike (soft, rank-only), so a fast-scanning parent
+    doesn't misread "contains nuts" with the same urgency as "contains mushrooms." (2) a green
+    diet-fit chip (vegan/vegetarian/gluten-free) is a safety/eligibility signal, not a nutrition-
+    quality signal -- recipes carry no macro/sodium/sugar data, so the chip shouldn't read as a
+    health halo; any nutrition-quality context belongs in the description text or a future
+    nutrition-note field. Also flagged as a gap (not blocking this rebuild): the recipe browser
+    is a single-recipe surface with no week-level repetition signal -- computeProteinTally/
+    describeRepeats only run against an assembled plannedWeeks object, so browsing-and-hand-
+    picking recipes outside the plan-meal flow could still converge on the same protein with
+    nothing surfacing it. Worth a future revisit if browser-driven (non-plan-meal) selection
+    becomes a common path.
+  - >
+    2026-08: follow-up on whether restriction-tag-first card scanning crowds out week-balance
+    signals. Recommendation to close the gap flagged above cheaply: add a small protein-source
+    badge (chicken/beef/fish/legume/etc., derived from the same recipe.ingredients[].tags data
+    already driving the allergen/diet chips) to the card, visually secondary to the allergy/diet
+    chips. This doesn't require new recipe data or a real macro/ratio badge (which I'd still
+    avoid -- no produce/grain proportion data exists) -- it just gives a browsing parent a
+    self-serve repetition cue ("that's my third chicken pick") without needing full plan context.

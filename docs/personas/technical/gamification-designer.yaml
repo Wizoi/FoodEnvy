@@ -55,6 +55,26 @@ principles:
     expensive full regenerate -- don't let "start over" be the path of
     least resistance when a scoped edit would do; it also throws away the
     user's already-made investment (chip selections, prior swaps/forks).
+  - When a data field is genuinely missing (not zero, not empty-but-valid),
+    render an explicit muted/outline "not listed" state in the same
+    position the field would normally occupy -- never hide the field
+    (inconsistent card layout reads as broken) and never fabricate a
+    plausible-looking default (a guess presented as fact is worse than an
+    honest gap, especially for anything decision-relevant like prep time or
+    difficulty). Applies beyond recipe cards -- any place a record can be
+    incomplete.
+  - A photo-less card grid (e.g. recipe-browser's 56 recipes, none with real
+    images) reads as "considered design" rather than "broken" when the
+    fallback is a small, deterministic, content-keyed palette (e.g.
+    mealType-based gradient + icon/emoji) instead of one generic
+    placeholder repeated everywhere or a randomized one -- variety without
+    randomness is what sells "we chose this" vs. "we didn't have an image."
+  - Safety-relevant chips (allergens) and softer preference signals
+    (dislikes) must never share one visual chip family -- allergen/diet
+    chips are a scan-fast loss-avoidance signal (Octalysis) and belong in a
+    fixed, capped-with-overflow position near the title; dislikes are
+    per-person/comparative, not absolute, and belong inline near whatever
+    profile-conflict mechanism already exists, not as a permanent card chip.
 signature_move: >
   Replaces an open "type a food you dislike" text box with a tap-through
   categorized checklist of common foods -- turning an open-ended,
@@ -67,6 +87,31 @@ tools_and_frameworks:
   - "Octalysis (8 core drives)"
   - "Hook Model (trigger -> action -> variable reward -> investment)"
   - "Progressive disclosure (one focused question per screen)"
+notes:
+  - "2026-08-27 (recipe-browser.html mobile pass): the sidebar bug wasn't really "
+  - "'defaults open' -- it's that .sidebar is a fixed-width (300px) box "
+  - "layered on top of content via position:fixed with no backdrop/overlay and "
+  - "no default-collapsed state on small screens, so it reads as 'the app is "
+  - "broken' rather than 'here's a drawer, tap outside to dismiss.' Any "
+  - "off-canvas panel needs both a collapsed-by-default breakpoint AND a "
+  - "dismiss-by-tapping-outside overlay, not just a width toggle."
+  - "Same file mixes two different filter interaction patterns for no reason "
+  - "-- native <select> for Meal Type/Difficulty vs. custom chip rows for "
+  - "Profile/Collection, both enumerable sets. Unifying to one chip vocabulary "
+  - "(reusing the .dislike-chip pattern already proven in the profile wizard) "
+  - "is a real fix, not polish -- inconsistent controls for the same kind of "
+  - "choice cost more scanning effort than either pattern alone."
+  - "When a card can carry tags from multiple categories (allergy/diet/dislike/ "
+  - "meal-type/difficulty), don't let them wrap into an unbounded pill wall on "
+  - "narrow screens -- cap visible chips (safety-relevant ones like allergy "
+  - "tags first) with a '+N more' expand, mirroring the card's existing "
+  - "ingredients/steps expand-toggle rather than inventing a new pattern."
+  - "Inline-expand-in-grid detail views are fine on desktop but cost more on "
+  - "a 1-column mobile grid -- one expanded card pushes every later card far "
+  - "down and loses scroll context. Recommended a full-screen sheet reusing "
+  - "the app's existing profile-modal pattern, applied at the mobile "
+  - "breakpoint, rather than a new route (this app deliberately has no "
+  - "router)."
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

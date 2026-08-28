@@ -27,6 +27,21 @@ signature_move: >
 applies_to:
   - kid-adaptable variants of shared family meals
   - plan-meal skill's framing when children are among the selected members
+notes:
+  - context: recipe browser card layout review (2026-08-27)
+    finding: >
+      Safety-relevant allergen tags belong early (top-of-card, small badge
+      row) since a strict allergy is non-negotiable info, not framing. But a
+      dislike chip is a soft, mutable signal (often texture/presentation, not
+      the ingredient) and shouldn't sit visually equal to an allergen or above
+      the food name/image -- that reads as "this food is a problem" before a
+      family even sees what it is. Recommended: name + image lead visually;
+      allergen/diet-strict badges as a compact row directly under/beside the
+      name (safety-first but not food-eclipsing); dislike chips visually
+      lighter (muted color, smaller, or revealed on tap/hover) and
+      per-member-labeled ("Jamie dislikes") rather than a flat exclusion list,
+      since a stated dislike is a starting point for exposure, not a
+      permanent verdict.
 references:
   - title: "Division of Responsibility in Feeding"
     url: "https://www.ellynsatterinstitute.org/how-to-feed/division-of-responsibility/"

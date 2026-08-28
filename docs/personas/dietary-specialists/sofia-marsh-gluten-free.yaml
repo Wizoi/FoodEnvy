@@ -76,3 +76,15 @@ notes:
     filling, matching a wheat-roux's clarity rather than turning cloudy/starchy; a xanthan-gum-
     inclusive 1:1 flour blend is required for any baked good that needs to hold a chewy or
     biscuit-like shape (cookies, cobbler topping) -- plain rice flour alone crumbles.
+  - >
+    2026-08: reviewed the recipe-browser allergen/diet chip redesign (update-app skill, static
+    index.html card grid). Two findings: (1) gluten should NOT be bucketed with meat/pork/beef
+    in the purple "diet/restriction" tier -- celiac is a medical condition, not a preference, so
+    visually demoting gluten alongside meat-avoidance choices misrepresents its severity to a
+    celiac family member; it belongs in or visually adjacent to the red Big-9-style allergy row,
+    not lumped in with lifestyle exclusions. (2) A manually-authored `ingredients[].tags` absence
+    of `gluten` is NOT the same claim as "celiac-safe" -- it can't capture the malt-in-rice-cereal
+    or cross-contact-in-oats gaps already logged above, nor bulk-bin/shared-equipment cross-
+    contact generally. Any gluten chip or "GF" label surfaced to users should be qualified (e.g.
+    "no gluten ingredients listed -- verify certified GF products for celiac") rather than
+    presented as an unqualified gluten-free guarantee.

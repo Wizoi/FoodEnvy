@@ -722,6 +722,11 @@
       max-height: 500px;
     }
 
+    #profileModal .modal-body {
+      min-height: 500px;
+      max-height: 500px;
+    }
+
     .modal-footer {
       padding: 1.5rem;
       border-top: 1px solid var(--border);
@@ -731,6 +736,51 @@
       flex-shrink: 0;
     }
 
+    .recipe-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      overflow: hidden;
+    }
+
+    .allergen-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.6rem 0 0.2rem 0;
+    }
+
+    .allergen-disclaimer {
+      font-size: 0.7rem;
+      color: #856404;
+      margin-bottom: 0.6rem;
+    }
+
+    .diet-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .sidebar-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
+      display: none;
+    }
+
+    .sidebar-backdrop.visible {
+      display: block;
+    }
+
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -738,6 +788,12 @@
         top: 60px;
         height: calc(100vh - 60px);
         z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      .sidebar.mobile-open {
+        transform: translateX(0);
       }
 
       .main-layout {
@@ -761,6 +817,29 @@
       .filter-control input {
         min-width: 100%;
       }
+
+      .mobile-filter-details summary {
+        cursor: pointer;
+        padding: 0.5rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      #recipeDetailModal .modal-content {
+        max-width: 500px;
+      }
+    }
+
+    @media (min-width: 901px) {
+      #recipeDetailModal .modal-content {
+        max-width: 900px;
+      }
+
+      #recipeDetailModal .modal-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
     }
   </style>
 </head>
@@ -769,6 +848,8 @@
     <h1>🍽️ FoodEnvy</h1>
     <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Profiles & Collections</button>
   </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
   <div class="main-layout">
     <!-- SIDEBAR -->
@@ -903,6 +984,17 @@
     </div>
   </div>
 
+  <!-- Recipe Detail Modal -->
+  <div id="recipeDetailModal" style="display: none;" class="modal-overlay" onclick="if(event.target === this) closeRecipeDetail()">
+    <div class="modal-content" style="max-width:500px;">
+      <div class="modal-header">
+        <h2 id="detailTitle"></h2>
+        <button class="modal-close" onclick="closeRecipeDetail()">✕</button>
+      </div>
+      <div class="modal-body" id="detailBody" style="max-height: calc(90vh - 80px); overflow-y: auto;"></div>
+    </div>
+  </div>
+
   <script>
     // Constants
     const BIG9_ALLERGENS = [
@@ -947,6 +1039,108 @@
       diet: { bg: '#e8f5e9', border: '#66bb6a', chip: '#66bb6a', text: 'white' },
       dislike: { bg: '#fff3e0', border: '#ffa726', chip: '#ffa726', text: 'white' }
     };
+
+    const MEALTYPE_VISUALS = {
+      breakfast: { emoji: '🍳', gradient: 'linear-gradient(135deg,#f7b733,#fc4a1a)' },
+      lunch:     { emoji: '🥪', gradient: 'linear-gradient(135deg,#56ab2f,#a8e063)' },
+      dinner:    { emoji: '🍽️', gradient: 'linear-gradient(135deg,#2d5a3d,#3d6b4d)' },
+      dessert:   { emoji: '🍰', gradient: 'linear-gradient(135deg,#ff9a9e,#fecfef)' },
+      treat:     { emoji: '🍬', gradient: 'linear-gradient(135deg,#f857a6,#ff5858)' },
+      snack:     { emoji: '🥨', gradient: 'linear-gradient(135deg,#e8a537,#f5d76e)' }
+    };
+
+    const ALLERGEN_TAGS = ['dairy', 'gluten', 'nuts', 'shellfish', 'egg', 'soy', 'sesame'];
+
+    function formatTime(recipe) {
+      if (recipe.prepMinutes != null || recipe.cookMinutes != null) {
+        const prep = recipe.prepMinutes || 0;
+        const cook = recipe.cookMinutes || 0;
+        return (prep + cook) + ' min';
+      }
+      return 'Time not listed';
+    }
+
+    function formatDifficulty(recipe) {
+      return recipe.difficulty || 'Not rated';
+    }
+
+    function formatIngredientLine(i) {
+      if (i.amount != null && i.unit != null) {
+        return i.amount + ' ' + i.unit + ' ' + i.name;
+      }
+      return i.name;
+    }
+
+    function renderAllergenChips(recipe) {
+      if (!recipe.ingredients || recipe.ingredients.length === 0) return '';
+      const allergenSet = new Set();
+      recipe.ingredients.forEach(ing => {
+        if (ing.tags) {
+          ing.tags.forEach(tag => {
+            if (ALLERGEN_TAGS.includes(tag)) {
+              allergenSet.add(tag);
+            }
+          });
+        }
+      });
+      if (allergenSet.size === 0) return '';
+      const allergenChips = Array.from(allergenSet).map(tag =>
+        '<span class="allergen-chip" style="background:' + CATEGORY_COLORS.allergy.chip + ';color:' + CATEGORY_COLORS.allergy.text + ';padding:0.3rem 0.7rem;border-radius:12px;font-size:0.8rem;font-weight:600;display:inline-block;margin-right:0.4rem;margin-bottom:0.3rem;">' + tag + '</span>'
+      ).join('');
+      return '<div class="allergen-row">' + allergenChips + '</div>';
+    }
+
+    function renderDietChips(recipe) {
+      if (!DIET_PREFERENCES || !recipe.ingredients) return '';
+      const dietChips = [];
+      DIET_PREFERENCES.forEach(diet => {
+        if (diet.key === 'none') return;
+        const isCompatible = !recipe.ingredients.some(ing => ing.tags && diet.tags.some(dTag => ing.tags.includes(dTag)));
+        if (isCompatible) {
+          dietChips.push('<span class="diet-chip" style="background:' + CATEGORY_COLORS.diet.chip + ';color:' + CATEGORY_COLORS.diet.text + ';padding:0.3rem 0.6rem;border-radius:12px;font-size:0.7rem;display:inline-block;margin-right:0.3rem;margin-bottom:0.3rem;">' + diet.label + '</span>');
+        }
+      });
+      if (dietChips.length === 0) return '';
+      return '<div class="diet-chip-row" style="margin-bottom:0.8rem;">' + dietChips.join('') + '</div>';
+    }
+
+    function renderMealTypeVisual(recipe) {
+      if (recipe.imageUrl && recipe.imageUrl.trim()) {
+        return '<div class="recipe-image"><img src="' + recipe.imageUrl + '" alt="' + recipe.name + '" style="width:100%;height:100%;object-fit:cover;"></div>';
+      }
+      const visual = MEALTYPE_VISUALS[recipe.mealType] || MEALTYPE_VISUALS.dinner;
+      return '<div class="recipe-image" style="background:' + visual.gradient + ';width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:3rem;">' + visual.emoji + '</div>';
+    }
+
+    function openRecipeDetail(id) {
+      const recipe = allRecipes.find(r => r.id === id);
+      if (!recipe) return;
+      const modal = document.getElementById('recipeDetailModal');
+      document.getElementById('detailTitle').textContent = recipe.name;
+      const body = document.getElementById('detailBody');
+      let html = '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
+      html += '<h3 style="margin-bottom:1rem;">Ingredients</h3><ul style="margin-left:1.5rem;">';
+      if (recipe.ingredients) {
+        recipe.ingredients.forEach(i => {
+          html += '<li>' + formatIngredientLine(i) + '</li>';
+        });
+      }
+      html += '</ul></div><div>';
+      html += '<h3 style="margin-bottom:1rem;">Steps</h3><ol style="margin-left:1.5rem;">';
+      if (recipe.steps) {
+        recipe.steps.forEach(s => {
+          html += '<li style="margin-bottom:1rem;">' + s + '</li>';
+        });
+      }
+      html += '</ol></div></div>';
+      body.innerHTML = html;
+      modal.style.display = 'flex';
+    }
+
+    function closeRecipeDetail() {
+      const modal = document.getElementById('recipeDetailModal');
+      modal.style.display = 'none';
+    }
 
     // Ingredient substitutions for common allergens/restrictions
     const INGREDIENT_SWAPS = {
@@ -999,19 +1193,27 @@
 
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('collapsed');
-      if (!sidebar.classList.contains('collapsed')) {
-        sidebar.style.width = localStorage.getItem('foodenvy_sidebar_width') || '300px';
+      const backdrop = document.getElementById('sidebarBackdrop');
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        sidebar.classList.toggle('mobile-open');
+        backdrop.classList.toggle('visible');
+      } else {
+        sidebar.classList.toggle('collapsed');
+        if (!sidebar.classList.contains('collapsed')) {
+          sidebar.style.width = localStorage.getItem('foodenvy_sidebar_width') || '300px';
+        }
       }
     }
 
-    // Sidebar resize handling
-    document.addEventListener('DOMContentLoaded', () => {
+    function setupSidebarResize() {
+      if (window.matchMedia('(max-width: 768px)').matches) return;
       const sidebar = document.getElementById('sidebar');
       let isResizing = false;
 
       sidebar.addEventListener('pointerdown', (e) => {
-        if (e.target === sidebar && Math.abs(e.clientX - sidebar.offsetLeft - sidebar.offsetWidth) < 6) {
+        if (Math.abs(e.clientX - sidebar.offsetLeft - sidebar.offsetWidth) < 6) {
           isResizing = true;
           document.body.style.userSelect = 'none';
           document.body.style.cursor = 'col-resize';
@@ -1030,7 +1232,7 @@
         document.body.style.userSelect = '';
         document.body.style.cursor = '';
       });
-    });
+    }
 
     function closeProfileModal() {
       document.getElementById('profileModal').style.display = 'none';
@@ -1475,7 +1677,12 @@
             }
           }
 
-          let recipeHtml = '<div class="recipe-card" data-recipe="' + (recipe.id || '') + '">';
+          let recipeHtml = '<div class="recipe-card" data-recipe="' + (recipe.id || '') + '" onclick="openRecipeDetail(\'' + (recipe.id || '') + '\')" style="cursor:pointer;">';
+
+          // 1. Image/placeholder block
+          recipeHtml += renderMealTypeVisual(recipe);
+
+          // 2. Recipe header
           recipeHtml += '<div class="recipe-header">';
           recipeHtml += '<div class="persona-icon">' + emoji + '</div>';
           recipeHtml += '<div class="recipe-header-text">';
@@ -1484,26 +1691,42 @@
           recipeHtml += '</div></div>';
           recipeHtml += '<div class="recipe-body">';
 
+          // 3. Allergen chips + disclaimer
+          const allergenRow = renderAllergenChips(recipe);
+          if (allergenRow) {
+            recipeHtml += allergenRow;
+            recipeHtml += '<div class="allergen-disclaimer" style="font-size:0.7rem;color:#856404;margin-bottom:0.6rem;">Contains (from listed ingredients) — not a substitute for reading labels</div>';
+          }
+
+          // 4. Diet chips
+          recipeHtml += renderDietChips(recipe);
+
+          // 5. Existing conflict info
           if (conflictInfo) {
             recipeHtml += conflictInfo;
           }
 
+          // 6. Recipe meta (difficulty, time)
           recipeHtml += '<div class="recipe-meta">';
-          recipeHtml += '<span class="difficulty">' + recipe.difficulty + '</span>';
-          recipeHtml += '<span>⏱️ ' + (recipe.prepMinutes + recipe.cookMinutes) + ' min</span>';
+          recipeHtml += '<span class="difficulty">' + formatDifficulty(recipe) + '</span>';
+          recipeHtml += '<span>⏱️ ' + formatTime(recipe) + '</span>';
           recipeHtml += '</div>';
+
+          // 7. Description and descriptive tags
           if (recipe.description) {
             recipeHtml += '<div class="description">' + recipe.description + '</div>';
           }
           if (recipe.tags && recipe.tags.length) {
             recipeHtml += '<div class="tags">' + recipe.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>';
           }
-          recipeHtml += '<button class="expand-toggle" onclick="this.nextElementSibling.classList.toggle(\'expanded\'); this.textContent = this.nextElementSibling.classList.contains(\'expanded\') ? \'Hide ▲\' : \'View ▼\'">View ▼</button>';
+
+          // 8. Inline expand toggle (secondary affordance)
+          recipeHtml += '<button class="expand-toggle" onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle(\'expanded\'); this.textContent = this.nextElementSibling.classList.contains(\'expanded\') ? \'Hide ▲\' : \'View ▼\'">View ▼</button>';
           recipeHtml += '<div class="recipe-details">';
           if (recipe.ingredients) {
             recipeHtml += '<div class="ingredients"><h4>Ingredients</h4><ul>';
             recipe.ingredients.forEach(i => {
-              recipeHtml += '<li>' + i.amount + ' ' + i.unit + ' ' + i.name + '</li>';
+              recipeHtml += '<li>' + formatIngredientLine(i) + '</li>';
             });
             recipeHtml += '</ul></div>';
           }
@@ -1565,31 +1788,7 @@
       loadProfiles();
       loadCollections();
       loadRecipes();
-
-      // Sidebar resize handling
-      const sidebar = document.getElementById('sidebar');
-      let isResizing = false;
-
-      sidebar.addEventListener('pointerdown', (e) => {
-        if (Math.abs(e.clientX - sidebar.offsetLeft - sidebar.offsetWidth) < 6) {
-          isResizing = true;
-          document.body.style.userSelect = 'none';
-          document.body.style.cursor = 'col-resize';
-        }
-      });
-
-      document.addEventListener('pointermove', (e) => {
-        if (!isResizing) return;
-        const newWidth = Math.max(250, e.clientX - sidebar.getBoundingClientRect().left);
-        sidebar.style.width = newWidth + 'px';
-        localStorage.setItem('foodenvy_sidebar_width', newWidth + 'px');
-      });
-
-      document.addEventListener('pointerup', () => {
-        isResizing = false;
-        document.body.style.userSelect = '';
-        document.body.style.cursor = '';
-      });
+      setupSidebarResize();
     });
   </script>
 </body>

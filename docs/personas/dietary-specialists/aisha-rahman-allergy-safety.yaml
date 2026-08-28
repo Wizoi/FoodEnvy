@@ -56,3 +56,25 @@ notes:
     meals that were swapped. Every meal in an aging plan carries the same staleness risk.
     (src/db/plannedWeeks.js's revalidatePlan implements this -- confirm it's actually called
     on every render of the Weekly Plan view, not just after a swap action.)
+  - >
+    2026-08: reviewed the recipe-browser (index.html) allergen chip design (update-app skill).
+    Findings: (1) "contains allergen X" chips derived purely from manually-authored
+    ingredients[].tags need a persistent, non-buried disclaimer -- this is not verified against
+    product labels or cross-contact risk, and hand-authored tagging reliably misses hidden
+    allergens (soy lecithin, casein, sesame oil in a marinade). (2) Gluten should NOT be tiered
+    with meat/pork/beef in one generic purple "restriction" chip row -- gluten is a medical/
+    celiac-safety exclusion (the app's own MEDICAL_RESTRICTIONS list already separates it from
+    DIET_PREFERENCES like vegetarian/pescatarian), so it needs its own visual treatment even
+    though FDA's Big 9 covers "wheat" not "gluten" broadly. (3) The Big-9 allergy (red) chip row
+    must never be hidden behind a "+N more" overflow collapse -- glance-scannability is the
+    entire point of an allergy chip; overflow collapsing is only acceptable for lower-stakes
+    non-Big-9 chips.
+  - >
+    2026-08: re-reviewed the same chip design for the React recipe-browser rebuild (chips leading
+    the card, before name/description/image). Confirms prior finding is still the risk, restated
+    for this component: leading with chips is good for scannability but must not read as
+    "certified safe." Additional recommendation: word the allergen row as "Contains (from listed
+    ingredients)" rather than a bare allergen name, and keep a persistent (not collapsible,
+    not tooltip-only) one-line disclaimer near the chip row that this is not verified against
+    product labels and does not represent cross-contact risk. Cross-contact has no tag
+    representation at all and chips must never imply otherwise.
