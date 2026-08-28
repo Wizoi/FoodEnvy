@@ -41,6 +41,21 @@ export default [
     },
   },
   {
+    files: ['scripts/**/*.js', 'test-browser.js', 'consolidate-all-recipes.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+    rules: {
+      'no-undef': 'off',
+      'no-unused-vars': 'off',
+    },
+  },
+  {
     ignores: ['dist/', 'node_modules/'],
   },
 ];
