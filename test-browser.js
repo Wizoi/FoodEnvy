@@ -11,7 +11,7 @@ import { chromium } from 'playwright';
   page.on('pageerror', err => errors.push(err.message));
 
   try {
-    await page.goto('http://localhost:8002/', { waitUntil: 'networkidle', timeout: 10000 });
+    await page.goto('http://localhost:8000/', { waitUntil: 'networkidle', timeout: 10000 });
   } catch (e) {
     console.log('GOTO ERROR:', e.message);
   }
