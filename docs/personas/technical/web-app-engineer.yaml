@@ -123,6 +123,28 @@ notes:
     flagged (e.g. the ~1-hour-undercounted yeasted bread) are a known-wrong data point, not an
     honest gap, and deserve a targeted author->review batch fix via find-recipe's existing
     mechanism rather than a blanket guess across all 613."
+  - "2026-08-29, recipe-browser filter rework feasibility pass: toggleRecipeInCollection()
+    (index.html/recipe-browser.html ~line 1874) already exists and is exactly what a Favorites
+    heart-on-card feature needs, but it always calls saveCollections() -> filterRecipes() ->
+    renderRecipes(), i.e. a full grid re-render (up to 634 cards) on every single tap. Fine for the
+    sidebar's rare 'create/edit collection' actions; wrong for a one-tap heart meant to feel
+    instant -- and actively buggy if a 'Favorites' chip is the active filter, since un-favoriting
+    would make the card vanish out from under the tap mid-interaction. Any favorites-as-
+    reserved-collection implementation should give the card-face heart a lighter path: mutate
+    `collections`, persist, and update just that card's own button class (the targeted
+    querySelectorAll('[data-recipe=...] .collection-btn') update already at the end of
+    toggleRecipeInCollection is the right primitive -- it just needs to not be gated behind a full
+    filterRecipes() re-render when the action originates from a heart tap). Also: 'reserved'
+    collection needs an actual guard (by stable id, e.g. 'favorites', not by name string) in
+    editCollection/deleteCollection, or a rename unlocks deletion of what's supposed to be
+    permanent. Separately: filterRecipes() has no predicate on `recipe.tags` (the recipe-level
+    tag array, distinct from ingredient allergen tags) yet -- any curated-tag-tile or faceted-chip
+    feature needs that predicate added first, since building bespoke tag-tile UI before it exists
+    means redoing that UI as chip-bar UI later. Per-option live facet counts at 634 recipes are
+    computationally trivial client-side (low tens of thousands of comparisons worst case,
+    sub-millisecond) -- no memoization/worker needed, just compute once per filterRecipes() call
+    (mirroring the existing adaptationStatusById precompute-once-and-pass-through idiom at
+    ~line 2124) rather than recomputing inside renderRecipes()'s per-card loop."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

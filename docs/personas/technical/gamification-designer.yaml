@@ -291,6 +291,31 @@ notes:
     localStorage key too, not just in-memory/DOM state, or a later reload silently resurrects
     filters the user thought they'd cleared -- same "don't fabricate/leave a stale state behind"
     instinct as the missing-field notes above, applied to persisted UI state instead of data.
+  - >
+    2026-08-29 (recipe-browser top-of-page rework, 634-recipe scale): five distinct browse
+    concepts proposed beyond a tidied filter cluster -- persona "chef shelves" (14 personas is a
+    browsable editorial grouping the flat per-card badge wastes), curated occasion/mood tiles
+    from the tag long tail (make-ahead/one-pan/kid-friendly/weeknight/etc.), a filter/profile-
+    aware "surprise me" shuffle (variable-reward answer to decision fatigue on a 634-item wall,
+    cheap to build, reuses the existing filtered array + detail modal), a guided 3-tap "what fits
+    tonight" overlay (lowest-confidence of the five, largely redundant with a well-built filter
+    cluster -- build only if testing shows people bounce before touching filters), and upgrading
+    the raw filter bar into a real faceted panel with live per-option counts. The tag-tile concept
+    only works if capped to a hand-picked, frequency-thresholded subset (~10-14 of the 408 unique
+    tag values) -- rendering all 408 as a flat list/open tag-search reintroduces the exact
+    unstructured-long-list failure this persona exists to flag; the count data alone doesn't make
+    a long list safe to expose raw.
+  - >
+    2026-08-29 (recipe-browser top-of-page rework): favorites and collections are genuinely
+    different concepts (binary/personal/zero-config quick-recall vs. user-named/purposeful/
+    many-to-many), not one blended feature -- but the fix is cheap because `toggleRecipeInCollection()`
+    and `.collection-btn` already exist unwired (nothing in `renderRecipes()` emits a
+    `.collection-btn` on a card despite the CSS/function existing). Recommend implementing
+    Favorites as a reserved auto-seeded Collection using that same existing mechanism (no new data
+    model), surfaced as a heart icon directly on the card (zero-friction, one tap, matches its
+    quick-recall purpose), while other named collections stay behind a slightly higher-friction
+    "+" popover -- friction calibrated to how each is actually used, not two competing affordances
+    fighting for the same card real estate.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

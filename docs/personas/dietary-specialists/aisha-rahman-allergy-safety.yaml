@@ -251,3 +251,32 @@ notes:
     single shared vessel from step 1, they need the SAME treatment (both alternateRecipe, not one
     alternateRecipe and one same-pot swap) -- ask whether that ingredient's role in the base recipe
     is symmetric before assuming only the first-flagged allergen needs the upgrade.
+  - >
+    2026-08: reviewed the reconciled recipe-browser top-of-page rework proposal (Surprise-me
+    shuffle, persona chef shelves, Favorites-as-reserved-Collection) before implementation.
+    (1) Surprise-me drawing from the currently-filtered array (not allRecipes) is correct and
+    necessary, but not sufficient on its own: as long as the pre-existing gap I flagged earlier
+    stands (`getProfileAdaptationStatus` marks a conflict "resolved" once a matching adaptation
+    exists WITHOUT checking the alternate recipe's own tags), the filtered array can still contain
+    a recipe whose only path to inclusion is an unverified "resolved" adaptation -- shuffle landing
+    on one of those must open directly to the adaptation-safe view (per the earlier detail-view
+    finding), not the unsafe-as-written original with the alternate reachable only by scrolling.
+    Also: shuffle must read the live/current filtered set at click time, not a stale filtered array
+    captured before a just-toggled profile checkbox re-runs `filterRecipes()` -- same
+    snapshot-vs-current principle as `revalidatePlan`. (2) Chef shelves are orthogonal as designed
+    (a further narrowing of the already-filtered set) with one condition: a shelf's "See all" link
+    must ADD a persona filter to the existing filter state, never reset/replace mealType/By-Profile/
+    Collection selections -- if "See all" clears the profile checkbox as a side effect of applying
+    its own filter, that silently re-exposes the full unfiltered grid, the same failure mode the
+    "Clear filters" wording review flagged. (3) Favorites: the real risk isn't the heart-icon save
+    action itself, it's staleness -- a recipe favorited before a profile existed, or before a
+    restriction was added, carries no re-check by default. Two requirements: (a) a Favorites view
+    MUST route through the same `filterRecipes()` path as Collections (which already correctly
+    AND-composes with an active By-Profile filter) rather than a bespoke render path that could
+    accidentally skip the exclusion check; (b) because "favorite" signals intent to revisit weeks
+    or months later (unlike a one-time browse), a favorited recipe that conflicts with ANY strict
+    allergy on file for the household should carry a persistent visible marker even when the By-
+    Profile checkbox is NOT currently checked -- the checkbox-gated visibility that's acceptable for
+    general browsing is not acceptable for a "saved for later" list, since the whole point of
+    favoriting is to resurface it well after the browsing session (and the restriction) that
+    prompted the save.
