@@ -207,6 +207,25 @@ notes:
     description is sometimes the safer and correct minimal fix, not always a sign the technique
     itself needs restructuring.
   - >
+    2026-08: reviewed the draft "persist recipe-browser filter state across reload" change
+    (localStorage for meal-type/difficulty/search/"By Profile"/"In Collection", plus a new
+    "Clear filters" button). Verdict: net safety IMPROVEMENT over current behavior, not a risk --
+    today a silent reload resets "By Profile: [child]" back to the unfiltered full grid (including
+    recipes containing that child's allergen) with no visible signal anything changed; persisting
+    the checkbox closes that gap. One hard condition: localStorage must persist only WHICH member
+    checkbox was checked (an id), never a cached safe/unsafe verdict computed at save time -- on
+    restore, the eligibility check must be re-run live against the member's CURRENT stored
+    restrictions and CURRENT recipe tags, same principle already established for
+    `revalidatePlan` in src/db/plannedWeeks.js (a filter selection is a snapshot of intent, not of
+    safety). Persist by member id, not name/index, and fail safe (no selection shown, not a
+    silent unfiltered grid) if that id no longer resolves to a member. Separately: "Clear filters"
+    sitting next to a checkbox literally labeled with a family member's name and used to hide
+    allergen-unsafe recipes is ambiguous wording risk -- could read as "clear this member's
+    restrictions" rather than "reset which recipes are displayed." Recommended unambiguous
+    wording ("Reset recipe filters" / "Show all recipes") to the technical personas; not a
+    blocker, just a wording fix. Follow-up: confirm at implementation time that restore actually
+    re-runs the live check rather than replaying a stored verdict.
+  - >
     2026-08: signed off on two more flagged ben-osei-parallel-menu treat recipes, both examples of
     the "allergenic/base ingredient homogenized into ONE shared bowl/pot before any branch point"
     defect this persona has flagged repeatedly above -- reinforces that the fix is structural

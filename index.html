@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoodEnvy Recipe Library</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <style>
     * {
       margin: 0;
@@ -344,6 +345,16 @@
     .btn-delete {
       background: var(--danger);
       color: white;
+    }
+
+    .btn-reset-filters {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-reset-filters:hover {
+      background: var(--light);
     }
 
     .content {
@@ -1092,6 +1103,8 @@
         <div class="filter-control" style="flex: 1;">
           <input type="text" id="search" placeholder="Search recipes..." oninput="filterRecipes()" style="flex: 1;">
         </div>
+
+        <button type="button" class="btn-small btn-reset-filters" id="resetFiltersBtn" onclick="resetFilters()" style="display:none;">Reset recipe filters</button>
       </div>
 
       <!-- Profile & Collection Filters -->
@@ -1938,7 +1951,7 @@
           }
         }
 
-        renderRecipes(allRecipes);
+        filterRecipes();
       } catch (e) {
         console.error('Load error:', e);
         allRecipes = [
@@ -2091,6 +2104,21 @@
       const selectedProfileIds = getSelectedProfileIds();
       const selectedCollectionIds = Array.from(document.querySelectorAll('#collectionCheckboxes input:checked')).map(c => c.id.replace('collection_filter_', ''));
 
+      // Persist so the current narrowing survives a reload -- saved separately from the
+      // lowercased `search` local above (raw value here) so restoring never silently changes
+      // what the user actually typed.
+      localStorage.setItem('foodenvy_filters', JSON.stringify({
+        mealType, difficulty,
+        search: document.getElementById('search').value,
+        profileIds: selectedProfileIds,
+        collectionIds: selectedCollectionIds,
+      }));
+      const resetBtn = document.getElementById('resetFiltersBtn');
+      if (resetBtn) {
+        const hasActiveFilter = mealType || difficulty || search || selectedProfileIds.length > 0 || selectedCollectionIds.length > 0;
+        resetBtn.style.display = hasActiveFilter ? '' : 'none';
+      }
+
       // Computed once here (not recomputed per recipe again inside renderRecipes) and passed
       // through, since filterRecipes already has to run this same check to decide inclusion.
       const adaptationStatusById = new Map();
@@ -2128,9 +2156,52 @@
       renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict);
     }
 
+    // Re-applies the last-saved filter/search state on load. Must run after loadProfiles()/
+    // loadCollections() -- the profile/collection checkboxes it re-checks don't exist until
+    // those have rendered -- and before loadRecipes(), whose success path now calls
+    // filterRecipes() itself so the restored state is what actually gets applied to the grid.
+    function restoreFilters() {
+      const stored = localStorage.getItem('foodenvy_filters');
+      if (!stored) return;
+      let saved;
+      try { saved = JSON.parse(stored); } catch (e) { return; }
+
+      if (saved.mealType) document.getElementById('mealType').value = saved.mealType;
+      if (saved.difficulty) document.getElementById('difficulty').value = saved.difficulty;
+      if (saved.search) document.getElementById('search').value = saved.search;
+
+      (saved.profileIds || []).forEach(id => {
+        const cb = document.getElementById('profile_filter_' + id);
+        if (cb) { cb.checked = true; cb.parentElement.classList.add('active'); }
+      });
+      (saved.collectionIds || []).forEach(id => {
+        const cb = document.getElementById('collection_filter_' + id);
+        if (cb) { cb.checked = true; cb.parentElement.classList.add('active'); }
+      });
+    }
+
+    // Resets both the on-screen controls and the persisted state -- clearing only the DOM would
+    // let the old filters silently reappear on the next reload.
+    function resetFilters() {
+      document.getElementById('mealType').value = '';
+      document.getElementById('difficulty').value = '';
+      document.getElementById('search').value = '';
+      document.querySelectorAll('#profileCheckboxes input:checked').forEach(cb => {
+        cb.checked = false;
+        cb.parentElement.classList.remove('active');
+      });
+      document.querySelectorAll('#collectionCheckboxes input:checked').forEach(cb => {
+        cb.checked = false;
+        cb.parentElement.classList.remove('active');
+      });
+      localStorage.removeItem('foodenvy_filters');
+      filterRecipes();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadProfiles();
       loadCollections();
+      restoreFilters();
       loadRecipes();
       setupSidebarResize();
     });

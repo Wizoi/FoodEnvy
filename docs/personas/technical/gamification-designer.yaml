@@ -269,6 +269,28 @@ notes:
     so absent-vs-zero collapses to one state (hidden) rather than getting its own muted badge --
     expanding "not listed" to also mean "optional field unpopulated" dilutes what the badge
     means everywhere else it's used.
+  - >
+    2026-08-29 (recipe-browser filter-persistence review): silently restoring persisted filter
+    state on reload is the right call here, but only because every persisted filter already has
+    a visible affordance in the filter bar itself (dropdown showing "Dinner" not blank "All", an
+    active chip, a checked checkbox) -- the persisted state IS the signal, no separate toast/
+    banner needed (an interrupt with no variable reward is just noise, per Octalysis). Silent
+    restore becomes a problem only when the affected UI is off-screen or ambiguous; that's not
+    the case here since the recipe-count line ("N of 56") already exists as a redundant textual
+    confirm per an earlier note. The one real risk (a same-day narrow-down forgotten by next
+    reload, page reads as "emptier than expected") is solved by the visible controls + count
+    line already being enough to explain it on a glance, not by adding an interrupt.
+  - >
+    2026-08-29 (recipe-browser filter-persistence review): persisting filters indefinitely
+    removes a capability that reload used to provide for free -- "clear everything and start
+    over" -- so a "Clear filters" affordance isn't optional polish here, it's owed as a direct
+    consequence of the persistence change, not a separate nice-to-have. Concrete: small
+    text-link-style button in the filter bar (reuse existing small-button vocabulary, e.g. the
+    collection-btn secondary treatment, not a new component), shown/enabled only when at least
+    one filter is non-default so it doesn't sit as dead chrome on first load. Must clear the
+    localStorage key too, not just in-memory/DOM state, or a later reload silently resurrects
+    filters the user thought they'd cleared -- same "don't fabricate/leave a stale state behind"
+    instinct as the missing-field notes above, applied to persisted UI state instead of data.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"
