@@ -141,12 +141,58 @@ touches live data:
   dropped — worth an occasional human skim, especially for anything visually distinctive
   (technique-payoff dishes, anything where a wrong photo would actively mislead).
 
+## A fourth tier, for when automated variants top out: curated queries
+
+The three programmatic tiers (dish name + variants, ranked ingredient, equipment) plateaued
+around 80% of the library having a real photo. The remaining recipes mostly weren't failing for
+a fixable mechanical reason -- they were failing because the *literal* dish name just isn't how
+anyone photographs or captions food ("Backyard Sundae Bar" the recipe vs. "ice cream sundae bar
+toppings" the way a photo actually gets titled), or the name carries meal-kit/parallel-menu
+framing ("Chili, Ladled Off Before the Beef") that has nothing to do with the dish itself.
+
+For this last stretch, hand-write 5 search terms per remaining recipe using actual food/cuisine
+knowledge -- the authentic regional name, the restaurant-menu phrasing, a plated-dish descriptor,
+a synonym for the format -- save them to a simple `{id, name, queries}` array (see
+`scripts/manual-search-queries.json`), and run them through the same license-filter-and-score
+logic via `scripts/run-manual-queries.js` (try each query in order, stop at the first hit). This
+raised the fill rate from ~80% to ~89% on this library. It is NOT mechanical -- writing good
+queries requires knowing, e.g., that "Bo Luc Lac" is more likely to be captioned as "shaking beef"
+in English-language stock photography, or that a "Coq au Vin" photo is more likely titled "chicken
+braised red wine" than the French name. Don't try to automate this step; it's the one place actual
+judgment earns its keep.
+
+**Even more of a reason to visually review this tier's results** (see below) -- curated queries
+are deliberately closer to natural photo-caption language, which means a wrong match is more
+likely to *look* plausible at a glance than the mechanical tiers' failures. This run's visual
+review still caught: a literal frozen-food-box product photo (not real food at all) matched to
+"Beef & Black Bean Burrito Bowls", a bowl of pho matched to "Vietnamese Banh Mi Breakfast Bowl",
+and tater tots matched to "Egg Salad Sandwiches" — all with a title that read close enough to pass
+a casual glance.
+
 ## Running it
 
 ```bash
 node scripts/backfill-recipe-images.js [--limit N]   # search; writes scripts/image-backfill-log.json
 node scripts/merge-image-backfill.js                 # sanity-filter + merge into live data
+
+# Once the above plateaus (recipes still missing an image after a full run), write curated
+# queries for what's left and run those instead:
+#   1. build scripts/manual-search-queries.json -- [{id, name, queries: [5 hand-picked terms]}]
+#      for every recipe still missing an image, using real food/cuisine knowledge
+node scripts/run-manual-queries.js                   # tries each recipe's queries in order,
+                                                       # writes scripts/manual-search-log.json
+#   2. merge that into the main log (dedupe by recipeId, manual entries win), then merge as usual:
+node -e "const fs=require('fs');const main=JSON.parse(fs.readFileSync('scripts/image-backfill-log.json'));const manual=JSON.parse(fs.readFileSync('scripts/manual-search-log.json'));const ids=new Set(manual.map(e=>e.recipeId));fs.writeFileSync('scripts/image-backfill-log.json',JSON.stringify([...main.filter(e=>!ids.has(e.recipeId)),...manual],null,2)+'\n');"
+node scripts/merge-image-backfill.js
 ```
+
+**Always do a visual review pass after merging**, regardless of which tier(s) ran -- build an
+HTML contact-sheet grid of the newly-added photos (recipe name + thumbnail + matched title, ~12
+per page) and eyeball it page by page rather than trusting the word-overlap filter alone. See "A
+real gap the sanity filter doesn't catch" above for why: some of the worst mismatches (a coat of
+arms, a product package photo, party decorations) had a title that technically passed the word
+check. This is cheap (a few dozen screenshots, not per-image tool calls) and has caught a real
+mismatch in every batch run so far.
 
 Both scripts scope themselves to whatever's currently missing a photo, so re-running after
 adding new items (or after improving the search logic itself) just works — no need to pass ids.
