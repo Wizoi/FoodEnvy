@@ -778,26 +778,39 @@
       margin-bottom: 1rem;
     }
 
-    /* Base (mobile-default): stacked. The @media (min-width: 901px) rule below turns this
-       into the real two-column ingredients|steps split on desktop. */
-    .detail-body-columns {
+    /* Ingredients always sit above Steps (steps tend to run much longer -- a side-by-side split
+       squeezed them into an undersized second column). Ingredient lines are short, so they can
+       still use two columns of their own once there's room; steps stay a single full-width
+       column throughout. */
+    .detail-body-stack {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
 
-    .detail-body-columns h3,
-    .detail-body-columns h4 {
+    .detail-body-stack h3,
+    .detail-body-stack h4 {
       margin-bottom: 1rem;
     }
 
-    .detail-body-columns ul,
-    .detail-body-columns ol {
+    .detail-body-stack ul,
+    .detail-body-stack ol {
       margin-left: 1.5rem;
     }
 
-    .detail-body-columns li {
+    .detail-body-stack li {
       margin-bottom: 1rem;
+    }
+
+    @media (min-width: 641px) {
+      .detail-ingredients ul {
+        columns: 2;
+        column-gap: 2rem;
+      }
+
+      .detail-ingredients li {
+        break-inside: avoid;
+      }
     }
 
     #recipeDetailModal .description {
@@ -1004,15 +1017,6 @@
         max-width: 900px;
       }
 
-      /* Fixed: this used to be applied to `.modal-body` itself, which has 5-10 flat sibling
-         blocks (chips, meta, description, adaptation sections, then ingredients/steps) -- a
-         2-column grid auto-placed all of them into alternating cells essentially at random
-         relative to reading order. Scoped to the dedicated wrapper instead. */
-      .detail-body-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
-      }
     }
   </style>
 </head>
@@ -1305,16 +1309,20 @@
       return html;
     }
 
-    // Shared ingredients/steps two-column block, reused for both the primary recipe and any
+    // Shared ingredients-then-steps block, reused for both the primary recipe and any
     // alternateRecipe -- previously the alternate block hand-inlined an equivalent structure
-    // that could drift from the primary's; now there's exactly one implementation.
+    // that could drift from the primary's; now there's exactly one implementation. Ingredients
+    // sit above steps (steps run much longer and don't fit a side-by-side split); ingredients
+    // themselves can lay out in two columns since each line is short.
     function renderIngredientsSteps(recipeLike, headingPrefix) {
-      let html = '<div class="detail-body-columns"><div>';
+      let html = '<div class="detail-body-stack">';
+      html += '<div class="detail-ingredients">';
       html += '<h3>' + headingPrefix + 'Ingredients</h3><ul>';
       (recipeLike.ingredients || []).forEach(i => {
         html += '<li>' + formatIngredientLine(i) + '</li>';
       });
-      html += '</ul></div><div>';
+      html += '</ul></div>';
+      html += '<div class="detail-steps">';
       html += '<h3>' + headingPrefix + 'Steps</h3><ol>';
       (recipeLike.steps || []).forEach(s => {
         html += '<li>' + s + '</li>';
