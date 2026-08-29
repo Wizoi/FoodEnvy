@@ -34,6 +34,7 @@ exists to prevent). A complete recipe:
   "difficulty": "beginner-plus",
   "prepMinutes": 10,
   "cookMinutes": 25,
+  "restMinutes": 0,
   "description": "One pan, thirty-five minutes, and everyone at the table eats the same thing -- that's the whole job description. (persona-voice, 1-2 sentences)",
   "persona": "priya-busy-parent",
   "tags": ["quick", "one-pan"],
@@ -61,6 +62,18 @@ exists to prevent). A complete recipe:
   `beginner`); that's a separate, small app bug, not something to fix here or work around by
   avoiding the `beginner` value.
 - `prepMinutes`/`cookMinutes`: always present, always a number. Never omit.
+- `restMinutes`: always present (explicit `0` if there's genuinely none -- never omit it the way
+  `prepMinutes`/`cookMinutes` must never be omitted; omission is reserved for the pre-existing
+  library recipes that predate this field, not for new ones). Must agree with what the recipe's
+  own `steps` text actually says: if a step describes yeast rise, dough rest, chilling,
+  marinating, or resting after cooking, `restMinutes` must reflect it (summed if the steps
+  narrate more than one stage -- e.g. a 15-minute butter-cool before mixing plus a separate
+  30-60-minute dough chill before baking is `restMinutes: 45` at minimum, not two separate
+  fields). If no step describes passive time, `restMinutes: 0` -- don't pad a plausible-sounding
+  number, and don't fold rest time into `cookMinutes` (that's the exact defect class that made
+  this field necessary -- a review pass on an earlier batch found a yeasted bread recipe
+  undercounting total time by roughly an hour because its rise time had been silently absorbed
+  into `cookMinutes`).
 - Every ingredient: always has `amount`, `unit`, `name`, and `tags` (an empty array is fine;
   `undefined` is not). Free-text-only ingredients ("salt to taste") should still get an explicit
   `amount`/`unit` if at all reasonable (e.g. `"amount": "", "unit": "to taste"`) -- the rendering
@@ -124,15 +137,16 @@ const results = await pipeline(
   // 1. Author
   (unit) => agent(
     `You are authoring ${unit.count} complete ${unit.difficulty} ${unit.mealType} recipes for FoodEnvy's recipe library, in your own voice. ` +
-    `Read your own persona file first. Every recipe needs every field from the schema (id, name, mealType, difficulty, prepMinutes, cookMinutes, description, persona, ingredients with amount/unit/name/tags, steps), ` +
+    `Read your own persona file first. Every recipe needs every field from the schema (id, name, mealType, difficulty, prepMinutes, cookMinutes, restMinutes, description, persona, ingredients with amount/unit/name/tags, steps) -- restMinutes must be explicit 0 if there's no passive rise/rest/chill/marinate time, and must match what the steps text actually describes otherwise (never fold rest time into cookMinutes), ` +
     `plus an "adaptations" entry for every allergen/diet tag (dairy, gluten, nuts, shellfish, egg, soy, sesame, meat, pork, beef, fish) actually present among that recipe's own ingredients -- ` +
     `type "swap" with instructions text when a same-dish swap genuinely works, type "alternateRecipe" with a COMPLETE second recipe object (same full schema, not a stub) when the dish is structurally built around the restricted ingredient. ` +
-    `Attempt a real photo via WebSearch/WebFetch from a source that clearly permits reuse (Openverse, Wikimedia Commons, similar) -- set imageUrl + imageAttribution {source,url,license} on success, leave imageUrl "" and imageAttribution null if nothing qualifies. Never use an image without a positively-confirmed reuse license.`,
+    `Leave imageUrl "" and imageAttribution null -- do not attempt to source a photo yourself. Photo sourcing is a separate, deterministic follow-up step (see below), not an authoring-time task.`,
     { agentType: unit.persona, phase: 'Author', schema: RECIPE_SCHEMA, label: `author:${unit.persona}:${unit.mealType}:${unit.difficulty}` }
   ),
   // 2. Review -- a SEPARATE agent() call, fresh context, same persona id
   (batch, unit) => agent(
     `Independently review this batch of recipes you did not author. Check every recipe: ingredient tags only from the canonical vocabulary, plausible steps/times, correct mealType/difficulty, ` +
+    `restMinutes matches what the steps text actually describes -- flag any recipe where the steps mention rise/rest/chill/marinate language but restMinutes is 0 or missing, or vice versa (restMinutes claiming rest time the steps never describe), ` +
     `and every "adaptations" entry actually resolves its stated restriction -- for type "alternateRecipe", check the embedded recipe field-by-field with the SAME rigor as a base recipe (incomplete = fail, not a pass with a caveat). ` +
     `Batch to review: ${JSON.stringify(batch)}`,
     { agentType: unit.persona, phase: 'Review', schema: REVIEW_SCHEMA, label: `review:${unit.persona}:${unit.mealType}:${unit.difficulty}` }
@@ -143,6 +157,23 @@ const results = await pipeline(
 //    outside the pipeline, since it's conditional per-unit rather than every unit needing it.
 // 4. Assign fresh unique ids, write validated recipes into public/foodenvy-complete-recipes.json.
 ```
+
+Photo sourcing is intentionally NOT part of the authoring step above (WebSearch/WebFetch asked a
+judgment-task agent to positively confirm a license from page prose, competing against every
+other authoring rule, for a step whose failure has zero consequence -- measured at 0% success
+across earlier batches). After a batch is written, run the deterministic follow-up instead:
+
+```bash
+node scripts/backfill-recipe-images.js   # queries Openverse for recipes still missing imageUrl,
+                                          # writes candidate matches to scripts/image-backfill-log.json
+node scripts/merge-image-backfill.js     # applies a title-word sanity filter, merges the accepted
+                                          # matches' imageUrl/imageAttribution into the live library
+```
+
+Both scripts already scope themselves to whatever recipes currently lack an `imageUrl`, so re-run
+them as-is after any new batch -- no need to pass the new ids explicitly. `merge-image-backfill.js`
+is a heuristic, not a guarantee of a correct match (see its file header) -- expect roughly 15-25%
+of missing recipes to gain a real photo per run; the rest keep the honest gradient+emoji fallback.
 
 Key mechanics to actually follow, not just structure:
 - The **author** and **review** calls for a unit must be genuinely separate `agent()` invocations
