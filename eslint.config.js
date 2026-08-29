@@ -41,7 +41,7 @@ export default [
     },
   },
   {
-    files: ['scripts/**/*.js', 'test-browser.js', 'consolidate-all-recipes.js'],
+    files: ['scripts/**/*.js', 'test-browser.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
