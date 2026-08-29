@@ -172,8 +172,11 @@ node scripts/merge-image-backfill.js     # applies a title-word sanity filter, m
 
 Both scripts already scope themselves to whatever recipes currently lack an `imageUrl`, so re-run
 them as-is after any new batch -- no need to pass the new ids explicitly. `merge-image-backfill.js`
-is a heuristic, not a guarantee of a correct match (see its file header) -- expect roughly 15-25%
-of missing recipes to gain a real photo per run; the rest keep the honest gradient+emoji fallback.
+is a heuristic, not a guarantee of a correct match (see its file header) -- expect roughly 40-50%
+of missing recipes to gain a real photo per run (dish, ingredient, or equipment tier combined);
+the rest keep the honest gradient+emoji fallback. See the `photo-lookup` skill for the full
+rationale behind how these scripts search (query-variant tricks, ranked ingredient/equipment
+fallback tiers, the independent sanity filter) -- read it before changing either script.
 
 Key mechanics to actually follow, not just structure:
 - The **author** and **review** calls for a unit must be genuinely separate `agent()` invocations
