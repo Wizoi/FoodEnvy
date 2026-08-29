@@ -29,6 +29,11 @@ principles:
     method, parallel-task cueing, and a precise doneness/set cue (a
     temperature, "toothpick clean," "firm to the touch," "no wet jiggle")
     rather than requiring all four plate components.
+  - When an allergen is the structural scaffold of a treat, not a swappable
+    ingredient within it (phyllo for gluten in baklava, the nut layer itself
+    in a nut-built bar/baklava), a same-dish swap note undersells the amount
+    of restructuring actually needed -- write a full alternateRecipe instead,
+    even though that's more work than a one-line substitution.
 notes: >
   Recipe-card browsing (2026-08-27, recipe browser redesign review): real
   scan order is photo -> name -> time, then tags -- appeal and fit come
@@ -39,6 +44,363 @@ notes: >
   badge near the name, and only a single, compact conflict flag when a tag
   actually excludes the recipe for *this* family -- not a full tag
   enumeration up front.
+
+  Recipe library authoring (2026-08-28, 15-recipe dinner set): the formula
+  holds across difficulty tiers, but difficulty should track technique
+  precision, not just component count -- a sheet-pan dish where doneness is
+  forgiving (roast a few extra minutes, nothing burns) is beginner/
+  beginner-plus even with all four components, while a high-heat wok stir-fry
+  using the same protein+starch+veg+sauce formula is advanced because the
+  window between seared-and-pink-in-the-center and overcooked is under a
+  minute and the sauce has to thicken fast off residual heat. Also: soy sauce
+  is both a soy AND a gluten adaptation trigger (most bottled soy sauce is
+  wheat-thickened) -- don't tag it soy-only out of habit, and remember tamari
+  fixes gluten while coconut aminos fixes soy, so a dish with soy sauce
+  usually needs both adaptation entries with different substitutions, not one
+  substitution covering both restrictions.
+
+  Breakfast authoring (2026-08-28, wrote 8 breakfast recipes): the plate
+  formula splits cleanly into two breakfast subtypes. Savory breakfasts
+  (hash, skillet omelet, shakshuka, egg bake) still take the full protein +
+  starch + vegetable + sauce/aromatic formula, same as dinner. Sweet/grab-
+  and-go breakfasts (overnight oats, baked French toast casserole) don't
+  have a savory protein or vegetable, so the check relaxes to the same
+  process-discipline rule already used for desserts: one-pan/no-bake/one-jar
+  method, parallel-task cueing where there's genuinely idle time to fill
+  (e.g. mixing a streusel while bread soaks), and a precise set/doneness cue
+  ("thickened, no liquid pooling," "clean knife, no wet custard") rather than
+  forcing a protein+veg structure that doesn't fit the dish. Also: when an
+  egg is genuinely structural to the dish (a custard bake, a soft-boiled-egg
+  board), the egg adaptation should be a full alternateRecipe, not a same-
+  dish swap -- a same-dish swap is right when egg is just one topping among
+  several (a fried egg on a hash) and the rest of the dish is unaffected.
+
+  Snack authoring / independent review (2026-08-28, 6-recipe snack batch):
+  the soy-sauce-is-also-gluten oversight from the dinner batch recurred here
+  in a different family's snack mix and dip -- it's clearly not a one-off,
+  so treat "soy sauce ingredient tagged soy-only, with no matching gluten
+  adaptation" as a standing thing to check on every future recipe review,
+  not just something to catch while authoring. Also: the no-bake-dessert
+  parallel-task rule (stage an independent task during chill/set time
+  instead of writing chill-then-next-thing sequentially) applies to no-bake
+  snacks too, not just desserts -- a snack batch with an idle chill step and
+  nothing staged during it is the same miss. Snacks don't have an
+  established total-time band the way dinner does (20-40 min) or an
+  explicit relaxation note the way desserts/breakfast do -- a two-bake
+  snack running 45-50 total minutes isn't clearly wrong (the technique
+  genuinely needs two bakes), but it's worth flagging rather than silently
+  accepting until there's a real precedent one way or the other.
+
+  Reviewing someone else's breakfast batch (2026-08-28, independent review of
+  8 breakfast recipes): a "meat" restriction adaptation that swaps to a
+  different animal protein (pork bacon -> turkey bacon) does NOT resolve a
+  "meat" restriction -- only a "pork"/"beef"/"fish" restriction is satisfied
+  by switching species; "meat" needs an actual plant-based substitute. Watch
+  for this specific mix-up whenever a recipe has both a species-specific
+  restriction (pork, beef, fish) and the general "meat" restriction on the
+  same protein -- they read as similar fixes but aren't interchangeable.
+  Also confirmed two formula gaps worth checking on every savory breakfast:
+  (1) an omelet/frittata-style dish with no potato/toast/grain component is
+  missing the starch leg of the formula even though it reads as "complete"
+  (protein + veg + eggs feels whole); (2) a sweet-savory hash built on fruit
+  (apple, pear) instead of a vegetable is missing the vegetable leg -- fruit
+  is not a formula substitute for vegetable even when it plays the same
+  aromatic/sweet-counterpoint role. And: when an alternateRecipe removes the
+  single technique-precision element that justified a base recipe's
+  difficulty rating (soft-boiled egg timing, poached-egg wells), the
+  alternate's difficulty should step down accordingly, not just inherit the
+  base recipe's rating -- difficulty tracks the technique actually present in
+  that specific version, not the dish's "family."
+
+  QA pass on a dessert batch I didn't author (2026-08-28, 6-recipe review):
+  passed clean -- every adaptation was "swap" type (no alternateRecipe
+  entries to check field-by-field), every restriction present in an
+  ingredient list had a matching adaptation, and every doneness cue was
+  specific (temp, toothpick result, "no jiggle when tapped," stiff-peak
+  test). One case worth codifying: No-Bake Peanut Butter Oat Bark uses
+  peanut butter as the structural binder holding the whole bar together --
+  on the surface this looks like the "nut layer itself in a nut-built bar"
+  case where I've said a same-dish swap undersells the restructuring
+  needed. But it doesn't apply here: sunflower seed butter is a true 1:1
+  functional drop-in (same viscosity, same coating/binding behavior), unlike
+  phyllo sheets or a crunch layer that a substitute can't actually replicate.
+  The real test for "swap vs. full alternateRecipe" isn't "is this ingredient
+  structural" alone -- it's "does a same-category substitute exist that
+  behaves identically in that structural role." If yes, a swap is honest; if
+  the substitute changes the texture/mechanism (pastry, crunch, leavening),
+  write the alternateRecipe. Also confirmed the codebase's existing
+  convention (seedRecipes/foodenvy-complete-recipes.json) tags chocolate/
+  chocolate chips "dairy" only, not "soy" -- even though most bottled
+  chocolate uses soy lecithin, that's not a tag this vocabulary tracks today,
+  so leave it as dairy-only rather than "fixing" it against the batch's own
+  established convention.
+
+  Writing no-bake desserts (2026-08-28, dessert recipe batch): the
+  parallel-task signature move still applies with zero heat involved --
+  chill/freeze time is the process backbone in place of an oven step, so a
+  no-bake recipe should still stage a second, independent task (whipping a
+  topping, prepping a crust, melting a coating) to happen during that chill
+  window rather than writing chill-then-do-the-next-thing sequentially.
+  Also: for no-bake set desserts, the doneness cue is "firm to the touch,
+  no jiggle when tapped" (or a stiff-peak whip stage for a filling
+  component) -- the same never-a-guess standard as an oven temp, just
+  measured by touch instead of a thermometer.
+
+  Independent review of a 6-recipe treat batch (2026-08-28, not authored
+  by me): the alternateRecipe-vs-swap split held up as designed -- baklava's
+  gluten (phyllo) and nuts (the nut layer itself) restrictions correctly got
+  full alternateRecipe entries with their own complete ingredient/step lists,
+  while dairy (just the butter) correctly stayed a one-line swap. Confirmed
+  a tagging convention worth remembering for future review passes: peanut
+  butter carries the "nuts" tag under this codebase's collapsed allergen
+  vocabulary (no separate peanut-vs-tree-nut distinction exists), so that's
+  correct, not an error, even though peanuts are botanically a legume.
+  Also confirmed seeds (pepitas, sunflower seeds, sesame aside) and seed
+  butters are correctly left untagged/used as the standard nut-free
+  substitution, distinct from sesame which does get its own tag.
+
+  Independent review of a 15-recipe dinner batch (2026-08-28, not authored
+  by me): found the "beef broth" tagged "beef" but "chicken broth" left
+  untagged across six recipes in the same batch -- inconsistent, since this
+  codebase's vocab treats "meat" as the poultry bucket (chicken/turkey),
+  siblings to "pork"/"beef"/"fish" rather than a superset of them (confirmed
+  by re-reading how this same batch already tags chicken thigh/breast/ground
+  turkey as "meat" and pork/beef cuts with their own specific tags), so a
+  chicken-broth ingredient should get the "meat" tag exactly like beef broth
+  gets "beef" -- fixed the tag and, since that surfaces a "meat" restriction
+  the recipe wasn't otherwise adapting for, added or extended a matching
+  swap-to-vegetable-broth adaptation everywhere the tag was added. Standing
+  check for future reviews: any broth/stock ingredient should carry the tag
+  of the animal it's made from, checked the same way soy-sauce-is-also-
+  gluten already is. Also confirmed a real non-issue on the same pass: a
+  "meat" adaptation that swaps chicken for beef, pork, or shrimp is correct
+  under this vocab (a "meat"-only restriction is a poultry restriction, not
+  a full vegetarian one) -- don't flag that pattern as broken without
+  checking whether the restriction value is "meat" specifically vs. a
+  broader multi-tag vegetarian profile.
+
+  Independent review of a second breakfast batch (2026-08-28, 8 recipes, not
+  authored by me): caught a new "pork" adaptation failure mode, distinct
+  from the meat-vs-species mix-up already logged -- a Denver-omelet-skillet
+  recipe's "pork" swap offered "turkey ham or Canadian bacon" as
+  alternatives, but Canadian bacon (back bacon) IS pork, so the adaptation
+  didn't actually resolve the restriction it claimed to fix; removed the
+  Canadian bacon option and left turkey ham/bacon as the only substitute.
+  Standing check to add alongside the existing pork/beef/fish-species-swap
+  check: verify the specific substitute named in a pork/beef/fish adaptation
+  doesn't itself belong to the restricted species under a different market
+  name (Canadian bacon = pork, pancetta = pork, prosciutto = pork) -- the
+  swap type being correct (species-swap, not plant-based) doesn't guarantee
+  the named substitute is actually a different species. Also confirmed two
+  non-issues worth noting so they aren't re-flagged: (1) a no-cook/
+  make-ahead breakfast (overnight oats) legitimately falls outside both the
+  20-40-minute dinner band and the protein+starch+veg+sauce formula -- the
+  existing "sweet/grab-and-go breakfast" relaxation already covers this, no
+  new rule needed, just confirming the overnight-oats case fits the existing
+  carve-out rather than being a fresh violation; (2) a single-adaptation
+  recipe (only "meat" covered, no "pork" entry) is correct, not an omission,
+  when the protein is already poultry (turkey sausage) rather than pork --
+  don't expect a pork adaptation on a recipe that never had a pork tag.
+
+  Independent review of a 9-recipe lunch batch (2026-08-28, not authored by
+  me): the "meat restriction needs a plant-based substitute, not a species
+  swap" finding from the breakfast review recurred here -- a fajita bowl's
+  "meat" adaptation offered flank steak or shrimp (still animal protein) and
+  a taco-skillet's "meat" adaptation led with ground beef before mentioning a
+  plant-based option; both needed rewriting to a genuine plant-based swap
+  (tofu/plant-based-ground) as the actual fix, not an aside. This is now
+  clearly a recurring authoring slip worth checking every time a recipe has
+  a "meat" restriction adaptation specifically (as opposed to
+  pork/beef/fish, where a species swap is correct). Also newly caught:
+  oyster sauce is a shellfish-derived ingredient and needs the "shellfish"
+  tag plus its own adaptation entry, exactly like the soy-sauce-is-also-
+  gluten pattern -- a recipe using it had pork/gluten/soy/sesame
+  adaptations but no shellfish one, even though the ingredient itself was
+  present and untagged. And: watch the "30-minutes" tag against actual
+  prep+cook total, not just the 20-40-minute formula band -- three recipes
+  in this batch totaled 35 minutes but were still tagged "30-minutes";
+  the total was fine for the formula, but the specific tag was wrong and
+  should read "35-minutes".
+  Fresh-reviewer difficulty flag on the lunch batch (2026-08-28, not authored
+  by me): Sheet-Pan Teriyaki Salmon Soba Bowls (and its embedded fish
+  alternateRecipe) was rated "advanced" but the actual technique -- a
+  forgiving sheet-pan roast timed alongside a fixed 4-minute noodle boil --
+  isn't meaningfully harder than "intermediate" dishes in the same batch
+  (steak fajita bowls with a from-scratch chimichurri, the peanut noodle
+  bowl with an on-the-fly pan sauce). Downgraded both the base recipe and
+  its embedded alternate to "intermediate," leaving One-Pot Pork Lo Mein
+  (and its chicken alternate) at "advanced" as the correct comparison point
+  -- it has a genuinely tighter high-heat, multi-stage wok relay where
+  timing precision actually drives the rating. Standing check to fold into
+  the existing difficulty-tracks-technique-precision principle: a sheet-pan
+  roast with a wide doneness window and a noodle boil timed by a fixed
+  package time doesn't clear the "advanced" bar just because the dish reads
+  as fancy (salmon, teriyaki) -- reserve "advanced" for recipes where a
+  short high-heat window or multi-stage relay genuinely leaves little room
+  for error, and when a base recipe's difficulty changes, check whether an
+  embedded alternateRecipe copied the same rating and needs the same fix.
+
+  Second independent review of the same 9-recipe lunch batch (2026-08-28,
+  re-check after the earlier lunch-batch pass): all four previously-logged
+  fixes held on re-read -- "meat" adaptations are genuine plant-based swaps
+  (tofu/plant-based ground) not species swaps, oyster sauce in the lo mein
+  carries the "shellfish" tag with its own adaptation entry, the three
+  35-minute-total recipes are correctly tagged "35-minutes" (not "30"), and
+  the teriyaki salmon soba bowls (base + embedded fish alternateRecipe) are
+  correctly "intermediate" not "advanced". This time actually acted on the
+  standing "soy sauce is also gluten" check instead of just flagging it:
+  soy sauce appeared tagged soy-only in four recipes in this batch (salmon
+  soba, thai peanut noodle bowl, shrimp fried rice, pork lo mein, plus their
+  embedded alternateRecipes), and pork lo mein's oyster sauce had the same
+  gap. For the two recipes that already had a gluten adaptation entry
+  covering soy sauce in its instructions (salmon soba, pork lo mein), fixing
+  was just adding the missing "gluten" tag (and to lo mein's oyster sauce,
+  since its own gluten-adaptation text already named a "gluten-free oyster
+  sauce alternative", confirming it belongs there too) -- the instructions
+  were already right, only the machine-checkable tag was missing. But the
+  thai peanut noodle bowl and shrimp fried rice had soy sauce with no gluten
+  adaptation entry at all -- retagging alone would have left a real gap, so
+  a new gluten swap adaptation (tamari/gluten-free soy sauce, or coconut
+  aminos since both recipes already offer that for the soy restriction) was
+  added to both, following the same precedent already set for the
+  chicken-broth-needs-a-"meat"-tag fix: when adding a tag surfaces a
+  restriction the recipe wasn't adapting for yet, add the adaptation in the
+  same pass rather than leaving the tag alone or reverting it. Also fixed a
+  small format bug unrelated to allergens: an ingredient had amount "4" and
+  unit "4 oz" for salmon fillets (duplicated the count into the unit field)
+  -- corrected to amount "4", unit "fillets", with the "4 oz each" detail
+  folded into the ingredient name instead.
+
+  Fresh-reviewer flags on the 6-recipe snack batch (2026-08-28, second pass,
+  not authored by me): two two-bake/two-stage snacks flagged again for
+  running past the 20-40-minute dinner band (Loaded Sheet-Pan Sweet Potato
+  Bites, 15+30=45 min, roast-top-rebake; Sheet-Pan Buffalo Cauliflower
+  Bites, 20+30=50 min, batter-set-then-sauce-and-crisp) -- left both as-is a
+  second time, since the reviewer's own reasoning confirms each technique
+  genuinely needs its two separate oven passes and there's still no
+  snack-specific time ceiling to check against. Codifying so this stops
+  getting re-flagged every pass: snacks do NOT inherit the dinner 20-40-min
+  band by default the way the dessert/breakfast relaxation notes explicitly
+  carve out savory-formula requirements -- a snack that has a structural
+  two-bake requirement (batter must set/dry before saucing, or a topping
+  needs its own melt pass after a base component finishes) can legitimately
+  run to ~45-50 min, same logic as the dinner-batch second-concurrent-
+  process exception. Only flag a long snack time if a step could actually be
+  cut or parallelized without breaking the technique -- these two can't
+  (the second bake structurally depends on the first bake's output), so
+  they're confirmed non-issues, not open questions, going forward.
+
+  Fresh-reviewer flags on the same 15-recipe dinner batch (2026-08-28,
+  second pass): three borderline-time flags and one tagging gap, resolved
+  as follows. Two sheet-pan dishes with a genuine potato-head-start stage
+  (Sheet-Pan Honey Mustard Chicken, 38 min; Sheet-Pan Mini Meatloaves with
+  Mashed Potatoes, 40 min with a truly concurrent stovetop boil) and one
+  bone-in/skin-on roast (Sheet-Pan BBQ Chicken Thighs, 40 min, needs the
+  longer time for both doneness and skin caramelization) were left
+  unchanged rather than trimmed -- cutting the head-start or the roast time
+  would undercook the dish, which is a worse outcome than running a few
+  minutes over target. Codifying the exception: the "~35 minutes" total-
+  time principle is a target, not a hard ceiling -- a recipe with a
+  legitimate second concurrent process (a genuinely separate boil/simmer
+  running alongside the sheet pan, not slack) or a component that
+  structurally needs a longer roast (bone-in/skin-on for caramelization,
+  a starch head-start so it isn't underdone) can run to ~40 minutes without
+  it being an authoring miss; only flag it if there's an actual step to cut
+  without compromising doneness or texture. Separately, decided the bottled-
+  BBQ-sauce gluten question the same way soy sauce is already handled in
+  this codebase: tagged bbq sauce "gluten" (malt vinegar/wheat-based
+  thickeners are common in bottled BBQ sauce, same rationale as soy sauce's
+  wheat-thickening) and added a matching gluten swap adaptation (certified
+  gluten-free BBQ sauce) to the BBQ chicken thighs recipe. Standing check
+  to fold in alongside soy-sauce-is-also-gluten and oyster-sauce-is-
+  shellfish: treat bottled BBQ sauce as presumptively gluten-bearing too,
+  unless a recipe explicitly calls for a confirmed gluten-free brand.
+
+  Third independent review of the same 15-recipe dinner batch (2026-08-28):
+  the time-exception carve-out from the second pass held for the three
+  recipes it covered (honey mustard chicken 38 min, mini meatloaves 40 min,
+  BBQ chicken thighs 40 min all left as-is, correctly), and the meat-vs-
+  species non-issue also held (fajita bowl swapping chicken for flank steak
+  is still correct under this vocab's "meat" = poultry-bucket convention).
+  Two fresh, previously-uncaught issues this pass, both fixed in place: (1)
+  Sheet-Pan Sausage and Peppers with Parmesan Polenta listed its starch
+  (instant polenta) after both vegetable ingredients (bell peppers, red
+  onion) in the ingredients array -- reordered to protein, starch, veg, veg,
+  sauce/aromatics. Worth a standing check going forward: the protein +
+  starch + veg + sauce formula principle governs step *structure* already,
+  but the ingredients array itself should mirror that same order, since a
+  scan-order reviewer (or a future ingredients-list UI) reads top-to-bottom.
+  (2) Three recipes had a cookMinutes value that didn't actually sum to the
+  step-by-step oven/stovetop times written in their own steps -- not a
+  "this dish runs long" case like the second-pass exceptions, but a plain
+  arithmetic mismatch between the metadata field and the steps: Maple-Dijon
+  Pork Tenderloin (10 min potato head start + 18-20 min combined roast =
+  28-30, was listed as 25 -- corrected to 30), Panko-Parmesan Cod (12 min
+  potato head start + 12-14 min combined roast = 24-26, was listed as 20 --
+  corrected to 25), and One-Pan Beef and Cashew Stir-Fry (rice alone takes
+  ~18 min and is the actual time bottleneck the stir-fry is timed against,
+  was listed as cookMinutes 15, i.e. less than the rice needs on its own --
+  corrected to 18). Standing check to add alongside the time-exception
+  carve-out: before accepting or flagging a total-time number, re-derive it
+  by literally summing the head-start/parallel/final-roast minutes stated in
+  the steps -- a plausible-looking total can still be arithmetically wrong
+  even when the *actual* required time would itself have been an acceptable
+  ~40-min exception.
+
+  Rewriting a legacy stub recipe (2026-08-28, seed-beef-stirfry): the pre-
+  persona-era stub tagged its beef ingredient both "beef" AND "meat" -- that
+  predates the now-established convention (confirmed against two recipes I'd
+  already authored, One-Pot Beef and Broccoli Rice Skillet and Grilled Steak
+  Fajita Bowls) that "meat" is the poultry-only bucket and a beef ingredient
+  should carry only the "beef" tag, with a beef restriction resolved by a
+  same-dish species-swap "swap" adaptation (to chicken), not an
+  alternateRecipe -- beef is a swappable protein here, not a structural
+  scaffold the way phyllo/nuts are for baklava. Standing check for any other
+  legacy stub rewrite: don't carry forward a pre-convention double-tag
+  (species tag + "meat") on a beef/pork/fish ingredient -- retag to the
+  single correct species tag using currently-authored recipes as the source
+  of truth, not the stub's own tags.
+
+  Independent review of the legacy stub rewrite (2026-08-28, seed-beef-stirfry,
+  re-checked after my own rewrite): held up clean on a fresh pass -- flank
+  steak carries only "beef" (no leftover "meat" double-tag), ingredient order
+  is protein/starch/veg-veg-veg/aromatic-sauce, soy sauce correctly carries
+  both "soy" and "gluten" with two separate swap adaptations (coconut aminos
+  vs. tamari, not one substitution covering both), the beef adaptation is a
+  same-dish species-swap to chicken (thigh, cooked to 165F) rather than an
+  alternateRecipe, and cookMinutes (18) is derived from the actual bottleneck
+  step (rice, 15-18 min cooking in the background while the wok work happens)
+  rather than summed sequentially -- consistent with the One-Pan Beef and
+  Cashew Stir-Fry precedent where the starch head-start, not the quick wok
+  steps, sets the real total. Doneness cues are both specific (145F for the
+  beef, "bright green and crisp-tender" for the vegetables, "coats the back
+  of a spoon" for the sauce). No issues found; confirms the rewrite's own
+  standing checks (no legacy double-tag, meat-vs-species distinction) are
+  durable across a second read, not just correct in the moment of fixing them.
+
+  Independent review of a single lunch recipe, Chickpea & Feta Salad
+  (2026-08-28, not authored by me): passed clean. Cold-salad formula still
+  maps correctly (chickpeas+feta as protein, couscous as starch, cucumber/
+  tomato/onion/olives/parsley as vegetable, lemon-oregano-dijon vinaigrette
+  as sauce), ingredient order in the array mirrors that same formula order,
+  parallel-task cueing is used correctly during the couscous's 5-minute
+  off-heat rest (dice/chop veg and whisk the dressing "while the couscous
+  steams"), restMinutes (5) matches the couscous-standing step text exactly,
+  the doneness cue for couscous is specific ("grains look separate and fluff
+  easily with a fork," with a fallback re-cover instruction if liquid
+  pools) rather than a guess, and both adaptations (dairy: feta ->
+  dairy-free feta or omit; gluten: couscous -> quinoa/rice) are complete,
+  correctly typed as same-dish swaps (no structural-scaffold case here), and
+  cover every allergen tag actually present in the ingredient list with
+  nothing missed (no soy sauce/broth/oyster sauce present, so the standing
+  hidden-allergen checks don't apply to this one). One thing to watch on
+  future reviews of no-heat-finish dishes like this: a recipe tagged
+  "no-heat-active" that still has a genuine (if brief) stovetop
+  boil-the-water step for its starch isn't clearly wrong -- the *active*
+  hands-on work is heat-free, the stove is just doing a passive background
+  task -- but it's worth a second look if a future recipe leans on that tag
+  for something with a longer or more attention-demanding hot step.
+
 signature_move: >
   Restructures a recipe's steps so the oven-roasting step and the
   stovetop-sauce step run concurrently, explicitly calling out the overlap

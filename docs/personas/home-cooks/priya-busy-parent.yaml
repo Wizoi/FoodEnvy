@@ -21,6 +21,11 @@ principles:
     weekends.
   - Batch-friendly components (a sauce, a grain, a roasted vegetable) get
     called out explicitly so they can do double duty later in the week.
+  - Snacks benefit from the same batch logic as dinners, arguably more so:
+    a freezer-stash format (pre-portioned energy bites, frozen yogurt bark,
+    a sheet pan of roasted chickpeas, unbaked veggie tots frozen on a tray)
+    means zero night-of prep, which matters more for snacks than dinners
+    since they're often grabbed with no adult supervising the kitchen.
 notes: >
   Recipe-database review (40-recipe generation pass, 2026-08-27): fish/shrimp
   dinners are the one dinner category that should NOT be marked
@@ -32,6 +37,386 @@ notes: >
   move (cook once, freeze a second portion) rather than a same-night ask --
   worth flagging explicitly whenever a generated recipe has cook time over
   30 minutes so it doesn't get quietly slotted into "ready to make now."
+
+  Breakfast-recipe authoring pass (8-recipe generation, 2026-08-28): for
+  breakfast specifically, the batch-friendly component isn't a sauce/grain
+  the way it is for dinner -- it's a fully-assembled, individually-portioned
+  item that goes straight into the freezer or fridge (freezer burritos, egg
+  muffin cups, baked oatmeal bars, a jarred pancake dry-mix, pre-layered
+  parfait jars). Those formats eliminate weekday-morning cook time entirely
+  rather than just shortening it, which matters more at breakfast than at
+  dinner since the morning window is even tighter than 30 minutes. A
+  casserole-style breakfast (French toast bake) belongs in the same
+  weekend-batch-for-a-weekday-reheat bucket as baked ziti/slow-cooker roasts
+  from the dinner review -- overnight assembly plus a real bake time means it
+  should never be presented as a same-morning weekday option.
+
+  Independent review of that same 8-recipe breakfast batch (2026-08-28):
+  ingredient tags, adaptation coverage, and alternateRecipe completeness all
+  held up on a second pass -- worth calling out "Breakfast Fried Rice"
+  specifically as the ingredient-count edge case: it lands at exactly 8
+  ingredients (the stated weeknight ceiling), still earns a pass because it's
+  a genuine leftover-user at 22 total minutes, but a future weeknight
+  breakfast/dinner that hits 8 *and* doesn't reuse a leftover component
+  should get flagged rather than waved through on time alone.
+
+  Recipe-authoring pass (15 dinner recipes, 2026-08-28): quesadillas and
+  sheet-pan fajitas are the cleanest proof points for the "one dish, minor
+  swaps" principle -- the filling/protein assembles once, and toppings or
+  mix-ins get split onto individual portions at the table instead of cooking
+  two separate meals. Also confirmed: a dish that's structurally built around
+  a Big-9 ingredient (e.g. garlic butter shrimp pasta) needs a full
+  alternateRecipe when adapting for that allergen, not just a swap
+  instruction -- subbing the protein there changes the dish's identity, not
+  just one line item.
+
+  Dessert-database pass (6-recipe generation, 2026-08-28): the batch-freeze
+  instinct that works for dinners (sauce, grain, roast) does NOT transfer
+  uniformly to desserts -- raw cookie dough, banana bread, and mug-brownie
+  batter all freeze/portion cleanly, but dairy-egg custards (rice pudding,
+  no-churn ice cream base) either separate/turn grainy on freeze-thaw or need
+  the freezer as the actual finishing step (ice cream), not a make-ahead
+  shortcut. Don't default-label a dessert "freezer-friendly" just because it
+  contains milk and sugar -- check whether the specific structure (baked good
+  vs. custard vs. frozen-by-design) actually survives freezing before calling
+  it a batch win.
+
+  Snack-recipe authoring pass (6-recipe generation, 2026-08-28): the
+  weekend-batch-for-weekday framing applies to snacks too -- a soft pretzel
+  bite dough or a sheet pan of roasted chickpeas is a genuine weekend
+  project whose payoff is a week of freezer/pantry grab-and-go snacking,
+  not a same-night ask. Also confirmed: for a dish structurally built on
+  gluten (yeasted dough like pretzels), a same-dish flour swap isn't
+  credible -- it needs a full alternate recipe with a 1:1 gluten-free
+  flour blend, not a one-line substitution note.
+
+  Independent review of that same 6-recipe snack batch (2026-08-28): tags,
+  adaptation coverage, and the pretzel alternateRecipe all held up on a
+  second pass. The one real catch was a prep-time underestimate on the
+  roasted-chickpea/cheese/apple tray -- 5 prepMinutes covered only the
+  chickpea toss, not the cubing/slicing/portioning-into-a-week-of-containers
+  that the steps themselves describe. Worth watching for generally: a
+  "batch-friendly" snack often front-loads *portioning* labor (dividing one
+  cooked batch into 5 grab-and-go containers) that's easy to leave out of
+  prepMinutes because it happens after the active-cooking step, not before
+  it.
+notes_breakfast_second_review: >
+  Second independent review of the same 8-recipe breakfast batch (2026-08-28),
+  responding to a fresh reviewer's flags. One correction made: "Whole Wheat
+  Banana Pancakes with Make-Ahead Dry Mix" was tagged difficulty intermediate
+  for what's really griddle pancakes plus a pre-jarred dry mix -- no harder
+  than the beginner-plus items in the same batch (sheet-pan baked oatmeal
+  bars, egg muffin cups, breakfast fried rice), which all involve a
+  comparable number of steps and at least one active-cooking skill (timing a
+  bake, timing a saute/griddle flip). Downgraded to beginner-plus for both
+  the main recipe and its embedded gluten-free alternateRecipe, for
+  consistency. General rule worth keeping: a "make-ahead component" (a jarred
+  dry mix, a pre-made sauce) shouldn't itself push difficulty up a tier --
+  it's exactly the kind of batch-prep move this persona wants credited as
+  time-saving, not penalized as added complexity. Flagged but confirmed
+  correct, no change made: "Breakfast Fried Rice with Egg and Sausage" sits
+  at exactly 8 ingredients, the stated weeknight ceiling -- still a genuine
+  pass since it's a real leftover-rice user at 22 total minutes, consistent
+  with the ~8 "ceiling not a hard line" reading already recorded in the
+  dinner-batch independent review below.
+notes_lunch_pass: >
+  Lunch-recipe authoring pass (9 recipes, 2026-08-28): the best weekday lunches
+  in this family's rotation are the ones built to consume dinner leftovers
+  on purpose -- fried rice for extra rice+veg, fajita bowls for leftover
+  roasted chicken and peppers, tuna/egg salad and mason-jar chickpea salad as
+  true no-reheat options for a packed lunch box. Egg salad and tuna melt are
+  structurally built around their named allergen (egg, fish) -- a same-dish
+  swap doesn't work, so those need a full alternateRecipe (chickpea-mash
+  stand-ins), same pattern as the dinner pass's fish/shrimp finding below.
+  Baked ziti again crosses the weeknight time budget and gets the same
+  "cook Saturday, freeze a portion, reheat Wednesday" framing rather than
+  being offered as a same-night lunch.
+notes_lunch_independent_review: >
+  Independent review of a second 9-recipe lunch batch (2026-08-28, reviewing
+  recipes authored in an earlier session, not by this reviewer). Ingredient
+  tags, adaptation coverage, and both embedded alternateRecipes (chickpea
+  "tuna" melt, sunflower-seed-butter noodles) held up on field-by-field
+  inspection. Two real catches: (1) an ingredient line written as an "or"
+  choice between two proteins ("cooked diced chicken or ham" in a fried-rice
+  recipe) was tagged only `meat`, missing `pork` for the ham option -- any
+  ingredient line that offers a pork option needs the `pork` tag even when a
+  non-pork alternative is also listed, since the matcher can't know which
+  half of the "or" a given household would actually buy. Fixed the tag, but
+  the recipe's adaptations list had no `pork`-restriction entry to match (it
+  only had one for `meat`), which is a real gap worth someone authoring
+  proper swap instructions for rather than leaving pork-restricted families
+  silently excluded with no path back in. (2) A canned-soup ingredient
+  ("canned tomato soup") was tagged `dairy` on the assumption it's a
+  cream-of-tomato style product -- plausible for some brands/prep methods
+  but not universally true of "tomato soup" as a generic pantry item; flagged
+  as an ambiguous tag rather than fixed, since resolving it needs a decision
+  about which product the recipe actually means, not a mechanical
+  correction. Follow-up (2026-08-28, later same day): a fresh reviewer flagged
+  that gap directly and it's now fixed -- "Weeknight Leftover Fried Rice"
+  has a `pork`-restriction adaptation (near-identical text to the existing
+  `meat` swap: substitute extra scrambled egg or edamame) so a pork-restricted
+  household isn't silently excluded with no path back in. General rule now
+  confirmed by a real instance: whenever an ingredient tag list grows to
+  cover an "or" choice (here, adding `pork` alongside `meat`), the
+  adaptations array needs a matching entry for every tag on the recipe, not
+  just the tags that existed when adaptations were first authored -- a tag
+  fix and an adaptation-coverage fix are two different steps and both are
+  required. Otherwise this batch was a good example of the persona's own
+  principles in practice: the baked-ziti lunch repeats the dinner-pass
+  finding (weekend-batch-for-Wednesday framing, not a same-night weeknight
+  ask) and the peanut-noodle lunch explicitly calls out doubling+freezing the
+  sauce as the batch-friendly component, exactly the signature move this
+  persona looks for.
+notes_treat_pass: >
+  Independent review of a 6-recipe treat batch (2026-08-28, reviewing recipes
+  authored in an earlier session): tags, adaptation coverage, and the
+  embedded alternateRecipe for gluten-free soft pretzel bites all held up.
+  One correction made: "Banana Oat Freezer Muffins" was tagged difficulty
+  intermediate for what's actually a standard two-bowl mix-wet/mix-dry
+  muffin technique -- no harder than the sheet-pan cookie bars in the same
+  batch (beginner-plus) -- downgraded to beginner-plus. Flagged but did not
+  change: the soft pretzel bites' 35-minute prep budget is optimistic once
+  you actually add up yeast proof (5 min) + knead (5-6 min) + rise (20 min)
+  + shaping/boiling in batches, which is fine given the recipe is already
+  framed as a weekend project (not a weeknight ask) but the stated number
+  undercounts the real clock time -- worth catching before a prep/cook
+  total gets treated as literal by anything downstream that sums it.
+notes_dinner_independent_review: >
+  Independent review of the 15-recipe dinner batch referenced above
+  (2026-08-28, reviewing recipes authored in an earlier session, not by this
+  reviewer). Tags, adaptation coverage, and the shrimp-pasta
+  alternateRecipe held up on field-by-field inspection. One real catch,
+  fixed directly: "chicken broth" appeared untagged across three recipes
+  (turkey taco rice skillet, chicken pot pie, white bean and sausage
+  skillet) even though other chicken/turkey ingredients in the same batch
+  were correctly tagged `meat` -- broth made from a Big-9-adjacent
+  meat source needs the same `meat` tag as the whole-cut ingredient, or a
+  vegetarian-restricted household gets silently served a recipe the
+  matcher thinks is safe. Added the tag and extended (or added, where
+  missing) the corresponding `meat`-restriction adaptation instructions to
+  mention swapping in vegetable broth alongside the protein swap -- a
+  same-dish protein swap that leaves the broth unaddressed doesn't
+  actually resolve a `meat` restriction. Flagged but did not change: two
+  recipes (chicken stir-fry with peanut sauce, beef and broccoli) carry an
+  "under-8-ingredients" tag while landing at exactly 8 ingredients -- left
+  as a judgment call rather than a hard error given the persona's own
+  ceiling is written as "~8," but worth someone deciding definitively
+  whether that tag should mean "8 or fewer" or "strictly fewer than 8" so
+  future batches are labeled consistently.
+notes_dinner_tag_threshold_resolution: >
+  Follow-up (2026-08-28, later same day): a fresh reviewer flagged the
+  exactly-8-ingredients edge case directly and it's now resolved. Decision:
+  "under-8-ingredients" means strictly fewer than 8, matching its literal
+  wording ("under," not "at or under") -- an exactly-8 recipe doesn't earn
+  the tag even though it still comfortably fits the persona's own "~8"
+  weeknight ceiling. Removed the tag from "30-Minute Chicken Stir-Fry with
+  Peanut Sauce" (8 ingredients) and "Weeknight Beef and Broccoli" (8
+  ingredients); both keep their other tags (batch-friendly-sauce/
+  batch-friendly, weeknight) since the ingredient count itself isn't the
+  problem, only the specific "under 8" label was inaccurate. General rule
+  now confirmed: going forward, "under-8-ingredients" gets applied only to
+  recipes with 7 or fewer ingredients; a recipe landing at exactly 8 is
+  still weeknight-viable but should rely on its other tags rather than this
+  one, or use a distinct "8-ingredients-or-fewer" tag if that broader
+  bucket is ever needed for filtering.
+notes_breakfast_third_review: >
+  Third independent review of the same 8-recipe breakfast batch (2026-08-28).
+  One trivial fix made: the "Weekend Batch French Toast Casserole"'s embedded
+  gluten-free alternateRecipe stated cookMinutes: 45 but its own steps only
+  sum to 40 (bake covered 20 + uncover 20) -- the base recipe's 45 is correct
+  (25+20) but the alternate's bake times were shortened without updating the
+  top-level cookMinutes field to match. Corrected the alternate's cookMinutes
+  to 40. General rule worth keeping: when an alternateRecipe adjusts bake/cook
+  step durations (e.g. because a substitute ingredient absorbs liquid faster),
+  its own cookMinutes needs re-summing, not inherited from the parent recipe.
+  Flagged but not fixed: the "Chickpea Flour Veggie Muffin Cups"
+  alternateRecipe (egg alternate for Egg Muffin Cups) introduces "shredded
+  plant-based cheese" as a new ingredient with no tags -- most commercial
+  vegan shredded cheeses use soy protein or cashews as a base, so this is a
+  real candidate for a `soy` and/or `nuts` tag, but which one (or neither, for
+  a starch-based brand like some Daiya lines) depends on a specific product
+  the recipe doesn't name. Same category of ambiguous-ingredient judgment call
+  as the "canned tomato soup" dairy tag flagged in the lunch-batch review --
+  worth someone deciding on a specific product/brand assumption rather than
+  guessing the tag. Also flagged as a judgment call, not changed: "advanced"
+  difficulty on the French toast casserole seems high for what's actually an
+  overnight soak + bake with no real advanced technique (no tempering,
+  laminating, emulsifying) -- the recipe already does the important thing
+  right (explicitly framed as weekend-batch, never presented as a same-morning
+  option), so this is a labeling nit rather than a substantive miss.
+notes_lunch_second_independent_review: >
+  A second independent review of the same 9-recipe lunch batch (2026-08-28),
+  arriving already reflecting the prior review's fixes -- "Weeknight Leftover
+  Fried Rice" already carried both the `pork` tag and a matching `pork`
+  adaptation, and the "canned tomato soup" dairy tag was still present as the
+  documented ambiguous judgment call, unchanged. One new correction made:
+  "Sesame Peanut Noodle Chicken Lunch Boxes" (and its embedded nut-free
+  alternateRecipe, Sunflower Seed Butter Noodle Chicken Lunch Boxes) were
+  tagged difficulty `intermediate` for a dish that's really boil noodles +
+  whisk a sauce + toss -- the same technique level as the `beginner-plus`
+  fried rice and tuna melt recipes in the same batch, no real edge over them.
+  Downgraded both the main recipe and its alternateRecipe to `beginner-plus`
+  for consistency, matching the precedent already set for pancakes/banana
+  muffins/French toast casserole in other batches: a make-ahead component
+  (here, doubling and freezing the peanut sauce) is exactly the kind of
+  time-saving move this persona wants credited, not treated as added
+  difficulty.
+notes_dinner_second_independent_review: >
+  A second independent review of the same 15-recipe dinner batch (2026-08-28),
+  reviewing recipes already reflecting the prior fixes (chicken-broth `meat`
+  tagging, exactly-8-ingredient tag threshold). Two real catches, both fixed
+  directly. (1) Four separate soy-restriction adaptations ("30-Minute Chicken
+  Stir-Fry with Peanut Sauce," "Weeknight Beef and Broccoli," "Egg Fried Rice
+  with Veggies," "Peanut Noodles with Chicken") led with "substitute tamari"
+  as the soy-allergy swap -- tamari is still a soybean-based sauce and is NOT
+  soy-free (it's the correct swap for a *gluten* restriction, since it's
+  usually wheat-free, not a *soy* one). Removed tamari from all four soy
+  adaptation instructions, leaving coconut aminos as the sole suggested
+  substitute since that one's genuinely soy-free. General rule worth keeping:
+  an adaptation swap needs to be checked against the specific restriction it
+  claims to resolve, not just against "a similar product exists" -- tamari
+  and regular soy sauce are close enough that it's an easy, dangerous mistake
+  to conflate a gluten-safe soy-sauce alternative with a soy-safe one. (2)
+  "Weeknight Beef and Broccoli" told cooks to "serve over rice" in its final
+  step but never listed rice as an ingredient -- added `rice` (2 cup, no
+  allergen tags) to the ingredients list and a "cook rice" step, plus a
+  one-line batch note (double the sauce, refrigerate extra) since the recipe
+  carries a `batch-friendly` tag its steps didn't actually back up. Also
+  fixed the same tag/content gap on "Sheet-Pan Sausage and Peppers," which
+  was tagged `batch-friendly` with zero leftover/freeze/double callout
+  anywhere in its description or steps -- added a step noting a second pan
+  reheats well for lunch. General rule now confirmed by two real instances:
+  a `batch-friendly` (or `weekend-batch`/`freezer-friendly`) tag is a claim
+  that needs a specific, checkable callout in the recipe body -- steps or
+  description -- not just a label; a tag with nothing backing it is the same
+  category of error as a missing allergen tag, just on the "does this
+  actually save a future weeknight" axis instead of the safety axis.
+notes_dessert_independent_review: >
+  Independent review of the 6-recipe dessert batch referenced above
+  (2026-08-28, reviewing recipes authored in an earlier session, not by this
+  reviewer). Ingredient tags (including the coconut-cream/coconut-milk
+  ingredients in the no-churn ice cream sandwich alternateRecipe, correctly
+  left untagged `nuts` per this repo's existing convention that coconut
+  isn't treated as a tree nut), adaptation coverage, and both embedded
+  alternateRecipes (sunflower seed butter oat bites, coconut no-churn ice
+  cream sandwiches) held up on field-by-field inspection -- no missing
+  fields, no orphaned new ingredients left untagged. Flagged but not
+  changed: "No-Churn Ice Cream Sandwiches" (and its dairy-free
+  alternateRecipe) is labeled `advanced`, but the actual technique --
+  whipping cream to stiff peaks and folding it into sweetened condensed
+  milk without deflating -- has none of the tempering/laminating/
+  emulsifying markers this persona has used elsewhere (French toast
+  casserole review) to justify an `advanced` label; it reads closer to
+  `intermediate` with an extra component (bake wafers, then build a
+  no-churn base, then assemble) rather than a genuinely harder single
+  technique. Left as a judgment call, same category as the French toast
+  casserole precedent, rather than downgraded outright, since a two-
+  component build with two separate freezer stages is a defensible reason
+  to keep it a notch above the single-component `intermediate` desserts in
+  the same batch (rice pudding). Also confirmed the rice pudding's
+  cookMinutes: 35 is plausible even though the steps only state 20-25 +
+  2-3 minutes explicitly (22-28 total) -- the unstated initial heat-up to a
+  simmer for 4 cups of milk plausibly accounts for the remaining ~7-13
+  minutes, so this is not the same kind of real mismatch as the French
+  toast casserole's alternateRecipe cookMinutes bug from the breakfast
+  batch review.
+notes_treat_second_independent_review: >
+  A second independent review of the same 6-recipe treat batch (2026-08-28),
+  arriving already reflecting the prior review's fix -- "Banana Oat Freezer
+  Muffins" already carried `beginner-plus`, not `intermediate`. Confirmed
+  again on this pass: ingredient tags, adaptation coverage (every allergen tag
+  present on a recipe has a matching adaptation entry, including all four
+  restrictions -- gluten, dairy, egg, sesame -- on the soft pretzel bites),
+  and the embedded gluten-free pretzel alternateRecipe (full field set,
+  correctly re-tagged ingredients with the gluten-free flour blend left
+  untagged and xanthan gum untagged, dairy/egg tags retained where the
+  substitute ingredients are unchanged) all held up on field-by-field
+  inspection -- no missing fields, no orphaned new ingredients left untagged.
+  Also re-confirmed the pretzel bites' 35-minute prep budget is optimistic
+  once yeast proof (5) + knead (5-6) + rise (20) + shaping/batch-boiling are
+  actually summed, same judgment call as the prior review: left as a flag,
+  not a fix, since the recipe is already correctly framed as a weekend
+  project rather than a weeknight ask, so the undercount doesn't mislabel it
+  as fast enough for a school night -- it only matters if something
+  downstream ever sums prep+cook and treats the total as literal.
+notes_restminutes_schema_review: >
+  App-change review (2026-08-28): weighed in on the proposed `restMinutes`
+  field (passive time -- yeast rise, dough rest, chilling, marinating) and its
+  card/detail display. Two findings. (1) The proposed card badge
+  ("35 min + 1 hr rest") leads with the smaller active-time number and risks
+  being misread as "35 min total" on a fast scan -- since I plan backward from
+  total time-to-plate, not active time, the badge (and not just the detail
+  view) should lead with total, or at minimum visually emphasize the rest
+  portion rather than tacking it on after a "+". (2) Hiding the field entirely
+  when zero/absent conflates "confirmed no rest needed" with "not backfilled
+  yet" across the 613 existing recipes -- unlike prep/cook time, which gets a
+  visible muted "Not listed" badge specifically because this repo already
+  treats absence as different from zero. For restMinutes specifically, an
+  absent value silently displaying as "no rest" is worse than the equivalent
+  prep/cook gap, because discovering a missed marinade/rise mid-cook isn't
+  recoverable by cooking faster. Recommended keeping the same muted "Not
+  listed" treatment for restMinutes until backfilled, not dropping to
+  "just hide it." Also flagged: recipes with real rest time are natural
+  candidates for the weekend-batch-for-weekday framing already used elsewhere
+  in these notes (baked ziti, soft pretzel bites) -- worth tagging alongside
+  this schema change rather than treating rest time as purely a display
+  problem.
+notes_turkey_sandwich_rewrite: >
+  Legacy stub rewrite (2026-08-28): "Turkey Sandwich" (seed-turkey-sandwich)
+  had every field populated except imageUrl/imageAttribution, which stay
+  empty/null since image sourcing is a separate step. This one's a genuine
+  no-cook, under-8-ingredient (7) lunch, no cook time or rest time to
+  account for -- but it's still worth a batch note, so the packed-lunch
+  steps call out keeping lettuce/tomato in a separate container until
+  eating rather than pre-assembling a sandwich that sits soggy by noon,
+  which is the packed-lunch equivalent of the sauce-freezing signature move.
+  Meat is the dish's whole identity here (it's literally named after the
+  turkey), so the meat-restriction adaptation is a full alternateRecipe
+  (Smashed Chickpea Salad Sandwich) rather than a swap line, consistent with
+  the egg-salad/tuna-melt precedent from the lunch-batch review -- and that
+  alternate keeps its own batch note (the chickpea mash holds 2-3 days, so
+  it doubles cleanly for a couple lunches in a row). Gluten (bread), dairy
+  (cheese), and egg (mayo) are simple same-dish swaps since none of them are
+  what makes this a "turkey sandwich."
+notes_turkey_sandwich_independent_review: >
+  Independent review of "Turkey Sandwich" (seed-turkey-sandwich) (2026-08-28),
+  reviewing the rewrite described above authored in an earlier session, not by
+  this reviewer. Every field present, all 7 ingredient tags correct against
+  the canonical vocabulary (bread/gluten, turkey/meat, cheddar/dairy,
+  mayo/egg, mustard/lettuce/tomato untagged), restMinutes: 0 correctly
+  matches a no-rest step list, and prep/cook times are plausible for a
+  no-cook beginner sandwich. Adaptation coverage is complete: all four tags
+  present on the ingredients (gluten, dairy, meat, egg) have a matching
+  adaptation entry, and the meat one is correctly a full alternateRecipe
+  (Smashed Chickpea Salad Sandwich) rather than a same-dish swap, since
+  turkey is the dish's whole identity -- consistent with the egg-salad/
+  tuna-melt precedent. The alternateRecipe's own ingredient tags also check
+  out (chickpeas/celery/lettuce untagged, mayo/egg, bread/gluten). No
+  corrections needed on this pass.
+notes_spaghetti_marinara_review: >
+  Independent review of "Spaghetti Marinara" (seed-spaghetti-marinara,
+  2026-08-28), reviewed cold (not authored by this reviewer). Every field
+  present and correct: both ingredient tags (spaghetti->gluten,
+  parmesan->dairy) are canonical-vocabulary and complete, restMinutes: 0
+  matches a steps list with no rest/chill/rise, and both adaptations
+  (gluten swap to GF pasta, dairy swap/omit for the parmesan garnish) are
+  complete, correctly tagged, and don't need a full alternateRecipe since
+  neither allergen is the dish's structural identity -- a genuine "swap one
+  ingredient" case, unlike the meat-named sandwiches/pastas flagged
+  elsewhere in these notes. No corrections needed, unlike most prior
+  independent-review passes in this file. One thing worth normalizing going
+  forward rather than treating as a defect: prepMinutes (8) + cookMinutes
+  (25) sums to 33, a hair over the "30 minutes or less" weeknight framing in
+  this persona's own summary -- but the steps make clear the pasta boils
+  concurrently with the sauce simmer rather than sequentially, so 25
+  cookMinutes is the real wall-clock cook time, not double-counted. Total
+  time-to-plate math should read concurrent steps as concurrent, not sum
+  every step's individual duration, when judging whether a recipe actually
+  fits a real weeknight. This recipe is also a clean example of the
+  signature move below: the sauce step explicitly calls out doubling now
+  and freezing flat for a 15-minute dinner later, which is exactly the
+  batch-friendly callout other reviews in this file have had to add after
+  the fact rather than finding already present.
 signature_move: >
   Doubles a sauce or marinade recipe on purpose, freezing half specifically
   so a future weeknight has a head start already done.

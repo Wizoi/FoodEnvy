@@ -71,6 +71,371 @@ notes:
     one; check every ingredient in an alternateRecipe against the canonical
     tag vocabulary with the same rigor as the base recipe, not just the
     ingredients that were already tagged in the original.
+  - Writing a batch of dinners surfaced two more edge cases worth remembering.
+    First: bottled Worcestershire sauce traditionally contains anchovies, so
+    it's a hidden-fish trap the same way "cook until fragrant" is a hidden-
+    clock trap -- either skip it in a beginner recipe (simpler) or call out
+    the fish content explicitly and tag it, don't treat it as a plain
+    seasoning. Second: a dish with two components that finish on different
+    timelines (e.g. an oven meatloaf plus stovetop mashed potatoes) needs an
+    explicit "start the second component when X minutes are left on the
+    first" cue in the steps -- a beginner cook won't reliably infer that
+    timing on their own, and without it one component goes cold waiting on
+    the other.
+  - Some dishes are named directly after their star protein (shrimp scampi,
+    coconut shrimp, fish tacos) in a way that makes a same-dish swap feel
+    like it's describing a different meal entirely -- for those, write a full
+    alternateRecipe (e.g. coconut chicken tenders for coconut shrimp) even
+    though the cooking mechanism transfers fine, because the dish identity
+    itself is built around the named protein. Contrast with a stir-fry or
+    pasta dish where the protein is genuinely interchangeable and a same-dish
+    swap instruction doesn't misrepresent what's being served.
+  - No-bake/freezer treats (oat bars, yogurt bark) need the same concrete-cue
+    treatment as stovetop cooking, just applied to chilling/freezing: "1 hour"
+    or "3 hours" alone isn't a doneness cue, because fridge/freezer strength
+    varies by household. Pair the time with a visual/touch check ("firm and
+    doesn't smudge when touched lightly," "completely solid and firm to the
+    touch") so a beginner doesn't cut into or unmold something that's still
+    soft in the middle. Also worth noting when writing these: cookMinutes
+    should reflect only active stovetop/oven time, not passive chill/freeze
+    time -- but the passive wait still needs its own explicit, cued step so
+    it isn't silently skipped.
+  - Yeast dough is a legitimate stretch for this persona (twice-a-week
+    cooking doesn't mean never-baked-bread), but only with hand-holding at
+    every ambiguous point: what "warm water" actually feels like (a warm
+    bath, not hot -- hot water kills yeast), what "foamy" looks like after
+    proofing (and what it means if nothing happens), and what "doubled in
+    size" looks like. A technique like a baking-soda water bath (for soft
+    pretzels) is exactly the "one new technique per recipe, explained
+    inline" case the equipment/technique principle already covers -- explain
+    *why* it matters (chewy crust, brown color) so it doesn't read as an
+    arbitrary extra step to skip.
+  - Desserts have their own hidden-gluten trap worth remembering: standard
+    "crisp rice cereal" (the kind Rice Krispie treats are made from) usually
+    contains malt flavoring derived from barley, so it needs the "gluten" tag
+    even though rice itself doesn't -- don't assume a rice-named product is
+    automatically gluten-free the way plain oats are. Certified gluten-free
+    crisp rice cereal exists and is a straightforward mandatory swap.
+  - Egg's "structural, not swappable" role isn't limited to breakfast: a
+    baked custard-style dessert (cheesecake filling that sets via egg in the
+    oven) is the same category as scrambled eggs/French toast -- egg there is
+    doing real setting work, not just binding like it does in a cookie. A
+    genuinely honest egg-free version needs a real alternateRecipe (e.g. a
+    no-bake filling that sets by chilling whipped cream folded into cream
+    cheese instead), not a same-dish swap instruction. Contrast this with a
+    cookie, where egg is more of a binder among several -- a flax egg swap
+    instruction is honest there because the dish doesn't fundamentally change.
+  - A cheesecake-style dessert doesn't require buying a springform pan to
+    stay within the one-pan/one-pot/baking-sheet equipment rule: line a
+    regular square baking pan with a foil sling (foil pressed into the pan
+    with extra hanging over two sides) so the whole thing lifts out cleanly
+    for slicing. Worth reaching for this pattern whenever a recipe would
+    otherwise assume specialty bakeware.
+  - Lunch recipes surfaced a tagging trap that's easy to miss because it's
+    not the headline ingredient: "as sold" jarred/bottled condiments often
+    carry a hidden allergen that a beginner wouldn't think to check --
+    mayonnaise is egg-based (tag egg even when the ingredient line just says
+    "mayonnaise"), and bottled Caesar dressing traditionally contains both
+    egg and anchovy (fish). Tag the condiment itself, not just the obvious
+    named protein in the dish, and for Big-9 tags on a condiment, still write
+    the swap as a mandatory "Do NOT use X -- substitute Y" (egg-free
+    mayonnaise brands exist and are easy to name; a fish-free/vegan Caesar
+    dressing likewise).
+  - Some proteins are the headline of a dish's name (tuna melt, shrimp fried
+    rice) without being the actual cooking mechanism the way egg is in
+    scrambled eggs -- the eggs-are-structural rule from breakfast doesn't
+    automatically extend to every named-protein lunch dish. A tuna melt is
+    still "protein + mayo, spread on bread, cheese melted on top" with
+    canned/mashed chickpeas standing in for the tuna, so that's a legitimate
+    same-dish swap, not a forced alternateRecipe. Shrimp fried rice, by
+    contrast, got a full alternateRecipe (chicken fried rice) because it
+    reads better as its own named dish family on a menu, not because the
+    technique actually requires it -- when in doubt, ask whether the
+    replacement protein cooks the same way in the same pan at the same
+    point in the method; if yes, a swap instruction is honest and simpler
+    for a beginner to follow than sending them to a second recipe.
+  - Snack recipes surfaced two more of the same "hidden ingredient" trap:
+    jarred mayonnaise is almost always soybean-oil-based, so it needs a
+    "soy" tag alongside "egg" even though nothing about mayo reads as
+    soy-flavored -- worth a reflex check on any bottled condiment, not just
+    obvious soy foods like tofu/edamame/soy sauce. The mirror case: plain
+    semisweet chocolate chips are typically dairy-free by default (unlike
+    milk chocolate), so don't reflexively tag them "dairy" without checking
+    which chocolate the recipe actually calls for -- same discipline as the
+    oats-aren't-gluten finding above, applied to chocolate.
+  - Deviled eggs confirmed the "structural ingredient" pattern from the
+    breakfast egg-custard finding extends past breakfast: egg is the entire
+    filling mechanism (mashed, bound with mayo), so it needs a real
+    alternateRecipe (e.g. a mashed-chickpea filling on cucumber rounds), not
+    a swap instruction pretending some other ingredient could stand in for
+    a hard-boiled yolk.
+  - When a single ingredient (bacon bits) carries two restriction tags at
+    once, the pork-vs-meat split from the earlier finding held again here --
+    wrote them as two separate adaptation entries with genuinely different
+    substitutions (turkey bacon bits for pork-avoidant, coconut bacon or
+    omission for meat-avoidant) rather than one entry trying to cover both.
+  - A snack-recipe review caught a real instance of the no-bake time-cue rule
+    getting missed: a peanut butter-oat energy bite recipe said "refrigerate
+    20 minutes -- this firms the dough up" but never gave a touch/visual
+    check for when it's actually ready to roll (dough should feel firm and
+    hold together, not stick to your fingers, when pressed). Fixed in place.
+    Worth treating this as a checklist item on every review, not just a
+    one-time fix: any "chill/rest X minutes" step needs its own concrete
+    ready-check, the same as active cooking does.
+  - Reviewing a breakfast batch caught a cookMinutes-math trap worth
+    remembering: when a one-pan recipe cooks several components in sequence
+    in the same pan (e.g. sausage, then hash browns, then eggs, because
+    there's only one pan to share), cookMinutes has to be the *sum* of each
+    component's active time, not just the longest single step -- a burrito
+    recipe listing "15" when the steps actually add up to roughly 20-23
+    minutes (8-10 sausage + 8-10 hash browns + ~3 eggs) understates real
+    stovetop time by close to a third, which matters a lot to a cook
+    planning a tight weeknight window around the stated number. Add up every
+    sequential step's time explicitly before trusting the top-level field.
+  - A dessert-recipe batch review reconfirmed the semisweet-chocolate-chip
+    dairy-tagging trap: three recipes in one batch (a mug brownie, no-bake
+    oat bars, and a skillet cookie) all reflexively tagged "semisweet
+    chocolate chips" / "mini chocolate chips" as dairy and then told the
+    reader to hunt down a dairy-free chocolate chip brand unnecessarily.
+    Fixed in place each time -- removed the dairy tag from the chip
+    ingredient line and rewrote the dairy adaptation to only cover the
+    ingredient that's actually dairy (butter/milk/cream), with a one-line
+    "double-check the label, brands vary" caveat instead of a mandatory
+    swap. This is clearly a recurring mistake worth a standing checklist
+    item on every dessert review, not just a one-off fix.
+  - The "one new technique per recipe" rule needs to be checked separately
+    for a recipe's alternateRecipe entries, not just the base recipe -- an
+    egg-free no-bake cheesecake alternate stacked two new-to-a-beginner
+    moves (whipping cream to stiff peaks, then folding it in) into one
+    beginner-plus dish. Both were individually well-explained with concrete
+    cues, so this wasn't flagged as a hard failure, but it's worth watching:
+    an alternateRecipe inherits the same one-new-technique budget as any
+    other recipe, it doesn't get a pass just because it's nested inside an
+    adaptation.
+  - Refining the "egg is structural, not a swap" call: it depends on whether
+    egg IS the dish or is just one component of a bigger dish. Scrambled eggs
+    and French-toast custard are the whole recipe, so egg needs a genuine
+    alternateRecipe there. But a breakfast sandwich or burrito that includes a
+    fried/scrambled egg alongside bread, cheese, and meat is a composite dish
+    -- a swap instruction naming a concrete substitute (a pressed, seasoned,
+    pan-fried tofu slab in place of a fried egg; crumbled turmeric tofu in
+    place of scrambled egg within a burrito) is honest there because the rest
+    of the dish still carries the identity. Same logic for egg as a binder,
+    not the main event -- pancake batter only needs egg to hold together, so
+    a flax egg (1 tbsp ground flaxseed + 3 tbsp water, rested 5 minutes to
+    gel) is a legitimate swap, not a different dish. Check whether egg
+    defines the whole dish or just does a job within it before deciding
+    swap vs. alternateRecipe.
+  - A full treat-batch review (no-bake bars, mug cake, s'mores dip, yogurt
+    bark, soft pretzel bites, skillet cookie) came back clean against every
+    prior finding in this file -- doneness cues concrete, chocolate chips
+    correctly left untagged for dairy per the earlier finding, no structural
+    egg/nuts/dairy ingredient left without a swap, equipment within the
+    one-pan/one-pot/baking-sheet baseline. One new thing worth checking going
+    forward: yeast-dough treats can quietly produce a much bigger yield than
+    the recipe seems to imply -- doing the batch math (rope length divided
+    into bite-size pieces) on the soft pretzel bites recipe came out to
+    roughly 150+ pieces from one batch of dough, which is a lot more than
+    "shareable" suggests without an explicit serving-count callout. Worth
+    adding a stated yield/serving count on any recipe where a beginner cook
+    could otherwise be surprised by how much food one batch actually makes.
+  - A follow-up fix pass actually resolved the soft-pretzel-bites yield gap
+    flagged above: added an explicit "Makes about 160 bite-size pretzels
+    (roughly enough for 10-12 people as a shared snack, with extras to
+    freeze)" line to the description and a parenthetical bite-count reminder
+    on the dividing step, rather than leaving the finding as an open note.
+    Standing rule going forward: any recipe using an approximate/loose yield
+    unit (ropes, sheets, batches) needs its description to translate that
+    into a concrete total-piece-count and rough serving-size estimate, the
+    same way doneness cues need a concrete signal instead of a vague one --
+    "shareable" or "party" as a tag is not itself a yield count.
+  - A reviewer pass on the lunch batch surfaced a "packaged seasoning blend"
+    variant of the hidden-condiment trap: a taco seasoning packet has the same
+    wheat-thickener risk profile as the tortilla chips served alongside it in
+    Beef Taco Salad Bowl, but only the chips carried a check-the-label caveat
+    -- the seasoning packet had none. Rather than adding a hard "gluten" tag
+    (typical taco-seasoning-packet composition varies too much by brand to
+    assert confidently), the fix was a check-the-label caveat sentence added
+    directly to the seasoning step, matching the tomato-soup-can pattern
+    elsewhere in this batch (caveat in the step/adaptation text, no tag,
+    when confidence in the underlying claim is genuinely mixed). The
+    companion finding from the same review, deliberately left unfixed:
+    bottled Caesar dressing may be soybean-oil-based the same way jarred
+    mayonnaise is (an already-established finding above), which would mean a
+    soy restriction isn't covered by the wrap's existing adaptation list --
+    but dressing bases vary more than mayo's does, so this needs an actual
+    label check across a few real bottled Caesar products before adding a
+    soy tag/adaptation, not a guess. General rule: when a recipe already
+    hedges one ingredient in a step with a "brands vary, check the label"
+    caveat, scan every other packaged/bottled ingredient in that same recipe
+    for the identical risk before calling the review done -- and when
+    genuinely unsure whether a claim is true across brands, a caveat sentence
+    is the honest move, not a confident tag either way.
+  - A second independent pass over the same lunch batch (grilled cheese/tomato
+    soup, turkey & cheddar, PB banana, egg salad, ham & cheese quesadilla,
+    tuna melt, chicken Caesar wrap, shrimp fried rice, beef taco salad bowl)
+    came back clean against every prior finding -- the taco-seasoning caveat
+    fix from the earlier pass had held, both alternateRecipe entries (chickpea
+    "egg" salad, chicken fried rice) had every new ingredient correctly
+    tagged, and doneness cues/equipment/one-new-technique were all fine. One
+    new candidate instance of the "packaged condiment, brand-variable
+    allergen" pattern surfaced and was deliberately left unfixed rather than
+    guessed at: bottled Caesar dressing is tagged egg+fish (correct -- Big-9,
+    high confidence) but not dairy, even though a meaningful share of bottled
+    Caesar dressings include parmesan or a dairy-based emulsifier. This sits
+    right next to the already-documented open soy question for the same
+    ingredient. Rather than tag on a guess, the right move is the same as the
+    soy case: a real label check across a few actual bottled Caesar products
+    before adding a dairy tag/adaptation. Worth remembering as a standing
+    pattern -- once one brand-variable allergen risk on an ingredient has been
+    identified, check whether *other* Big-9 categories might also apply to
+    that same ingredient before considering the review done, not just the one
+    that was already caught.
+  - A follow-up snack-batch pass (ants on a log, energy bites, quesadilla
+    wedges, trail mix, cinnamon-sugar tortilla chips, loaded deviled eggs)
+    came back clean against every prior finding -- the quesadilla cookMinutes
+    fix and the energy-bite chill touch-cue fix from the earlier pass both
+    held, and Loaded Deviled Eggs' chickpea alternateRecipe still had every
+    field and every carried-over tag (soy on vegan mayo, pork+meat on bacon
+    bits, split into separate adaptation entries) correct. One new open
+    question surfaced and was deliberately left unfixed rather than guessed
+    at, in the same spirit as the bottled-Caesar-dressing soy/dairy question:
+    semisweet/mini chocolate chips are reflexively left untagged for dairy
+    per the established finding, but real-world bags (e.g. Toll House
+    semi-sweet) commonly list soy lecithin as an emulsifier, which would mean
+    a soy restriction isn't actually covered wherever chocolate chips appear
+    without a soy tag/adaptation (Energy Bites, Trail Mix here). Brand
+    formulations vary enough that a confident tag would be a guess -- this
+    needs an actual label check across a few real chocolate chip products
+    before either adding a soy tag or writing a check-the-label caveat,
+    matching the established pattern of leaving brand-variable allergen
+    claims uncertain rather than asserting them without evidence.
+  - A snack-batch reviewer flagged two things worth logging. First, Loaded
+    Deviled Eggs' "intermediate" difficulty (20 min prep / 12 min cook) was
+    the only non-beginner/beginner-plus entry in its batch -- reviewed
+    against the yeast-dough precedent above and left as intermediate on
+    purpose: it's a single genuinely new technique (residual-heat egg
+    cooking, explained inline with a concrete "exactly 11 minutes, lid on,
+    off heat" cue plus a cold-water stop-cooking step), not a difficulty
+    creep from stacking multiple new things. An occasional intermediate
+    stretch recipe is fine under the same "legitimate stretch, fully
+    hand-held" logic as yeast dough -- it doesn't need to be downgraded just
+    because it's the only one in a batch. Second, this confirmed a
+    cookMinutes-math check that applies whenever a one-pan recipe cooks
+    multiple items *sequentially rather than simultaneously* (echoing the
+    breakfast-burrito sum-the-steps finding, but for repeated identical
+    items, not different components): Cheesy Quesadilla Wedges cooks two
+    tortillas one after another in the same pan at 2-3 min/side each,
+    which is 8-12 minutes total, not the 8 minutes originally listed (only
+    true at the fastest possible pace for both tortillas). Fixed to 10
+    (the range's midpoint) as a more honest number for someone timing a
+    weeknight window. Standing rule: when steps say "repeat with the
+    second X," multiply that step's per-item time range by the item count
+    before trusting a single cookMinutes figure, same as summing distinct
+    sequential components.
+  - A reviewer follow-up on Baked Cheesecake Bars actually fixed the
+    technique-stacking problem flagged earlier for its egg alternateRecipe
+    (No-Bake Egg-Free Cheesecake Bars): whipping heavy cream to stiff peaks
+    by hand and then folding it into the cream cheese base was two new
+    techniques in one dish, over budget even though both were individually
+    well-cued. Fix: swap the from-scratch whipped cream for a tub of thawed
+    frozen whipped topping (Cool Whip or similar) folded straight into the
+    cream cheese mixture -- this drops the whipping step entirely (nothing
+    left to whip, it's already whipped) and leaves folding as the one
+    genuinely new technique, still explained inline with the same
+    no-white-streaks check. General pattern worth reusing: when a
+    from-scratch step (whipping cream, tempering chocolate, etc.) is only in
+    a recipe to produce an intermediate ingredient state, check whether a
+    store-bought already-in-that-state product can stand in before assuming
+    the technique itself must be taught -- it can turn a two-technique dish
+    into a one-technique dish without changing what the finished bars taste
+    or feel like.
+  - The companion flag on the same recipe -- Baked Cheesecake Bars (the base
+    recipe, not the egg alternateRecipe) being the only "intermediate" dish
+    in its batch -- was reviewed against the Loaded Deviled Eggs precedent
+    above and left as intermediate on purpose. The steps that make it feel
+    fussier than a typical beginner-plus dish (room-temp cream cheese beaten
+    lump-free, adding eggs one at a time without overbeating, a jiggle-test
+    doneness cue, then a slow counter-cool before refrigerating) are all
+    facets of one cohesive new skill -- baking a custard-style filling low
+    and slow so it sets without cracking -- the same way yeast-dough proofing
+    bundles a warm-water check, a foamy check, and a doubled-in-size check
+    under one technique umbrella rather than counting as three. An occasional
+    intermediate stretch recipe built around a single, fully hand-held new
+    skill doesn't need downgrading just because every other recipe in its
+    batch topped out at beginner-plus.
+  - A later independent review of this same six-recipe dessert batch (mug
+    brownie, no-bake PB oat bars, rice krispie treats, skillet cookie, apple
+    crisp, baked cheesecake bars + its egg alternateRecipe) came back clean --
+    every prior fix in this file had held: chocolate chips left untagged for
+    dairy, crisp rice cereal tagged gluten for its malt content, plain oats
+    left untagged, the cheesecake egg alternateRecipe using thawed whipped
+    topping (not from-scratch whipped cream) as its one new technique,
+    cookMinutes on the cheesecake bars matching the sum of its two sequential
+    bake steps (8 + 30), and the intermediate difficulty on the cheesecake
+    bars left as-is per the single-cohesive-new-skill precedent. No new fixes
+    were needed. The one thing still deliberately left unresolved, consistent
+    with the standing pattern: whether semisweet/mini chocolate chips need a
+    soy tag (soy lecithin is a common emulsifier in real bags) remains an open
+    question requiring an actual label check across products, not a guess --
+    it recurred here in three recipes (mug brownie, PB oat bars, skillet
+    cookie) and should keep getting flagged rather than resolved by
+    assumption until that check happens.
+  - A third independent pass over the six-recipe treat batch (no-bake choc PB
+    oat bars, chocolate mug cake, baked s'mores dip, frozen yogurt bark, soft
+    pretzel bites, skillet chocolate chip cookie) again came back clean --
+    doneness cues concrete throughout (including the freezer/chill touch-cues
+    on the no-bake bars and yogurt bark), oats/chocolate chips left untagged
+    for gluten/dairy per the established findings, the pretzel-bites yield
+    callout ("about 160 bite-size pretzels... 10-12 people") still present,
+    every restriction actually present in each recipe's ingredients had a
+    matching adaptation entry, and none of the six recipes used an
+    alternateRecipe (all adaptations were same-dish swaps, correctly so --
+    none of these treats has an egg/dairy/nuts ingredient playing a
+    structural role the way scrambled eggs or baked cheesecake filling do).
+    The chocolate-chip soy-lecithin question remains open across four of the
+    six recipes here (oat bars, mug cake, s'mores dip, yogurt bark, skillet
+    cookie all contain chocolate chips) and continues to be deliberately left
+    unresolved pending a real label check, per the standing pattern -- this is
+    now the fourth batch where that same open question has recurred without
+    being confidently resolved either way; it's due for an actual check
+    rather than another flag if it comes up again.
+  - Rewriting the legacy Overnight Oats stub surfaced a variant of the no-bake
+    concrete-cue rule for a soaking (not chilling) process: "refrigerate
+    overnight" needs both a translated hour number (8 hours, not just the
+    word "overnight" -- fridges and schedules vary the same way freezer
+    strength does) and a liquid-absorption doneness cue (oats feel soft and
+    creamy, almost all the milk/yogurt absorbed, not crunchy or watery) so a
+    beginner can tell soaked-enough from under-soaked the same way they'd
+    check a chilled bar for firmness. Also confirmed dairy (milk + yogurt) is
+    a plain swap here, not a structural ingredient needing an alternateRecipe
+    -- unlike egg in French toast, the liquid's identity doesn't change the
+    absorption mechanism, so oat milk/soy milk plus a dairy-free yogurt is an
+    honest same-dish substitution.
+  - Reviewing Peanut Butter Banana Smoothie caught a new cross-adaptation
+    hazard worth a standing checklist item: the recipe already carries a
+    separate nuts adaptation (peanut butter -> sunflower seed butter), but the
+    dairy adaptation's swap instructions casually mentioned almond milk as a
+    thinner alternative to oat/soy milk -- almond milk is itself a tree-nut
+    product, so a cook using both adaptations at once (dairy- and
+    nut-restricted) could follow the dairy swap in isolation and reintroduce
+    the exact allergen the nut swap just removed. Fixed by dropping the
+    almond milk mention and keeping the swap to genuinely nut-free options
+    (oat milk, soy milk). General rule: whenever a recipe has more than one
+    active allergen adaptation, re-read each adaptation's instructions against
+    every *other* adaptation's restriction, not just its own -- a suggestion
+    that's safe on its own can still contradict a sibling adaptation.
+  - An independent review of Scrambled Eggs & Toast (seed-scrambled-eggs) came
+    back clean against every relevant prior finding: egg correctly got a real
+    alternateRecipe (turmeric tofu scramble) rather than a swap instruction
+    since egg is the structural cooking mechanism, not a component; the tofu
+    substitute correctly carried its own "soy" tag; dairy (milk/butter) and
+    gluten (bread) were correctly handled as plain swaps, not structural;
+    doneness cues were concrete on both the eggs ("just barely wet and glossy
+    in a couple of spots") and the butter ("stops foaming"); and each recipe
+    (base and alternate) stayed within the one-new-technique budget (fold-
+    and-wait for eggs, tofu-pressing for the alternate), both explained
+    inline. No fixes needed.
 applies_to:
   - recipe step-writing tone and doneness cues
   - src/domain/seedRecipes.json skill-level tagging (future)

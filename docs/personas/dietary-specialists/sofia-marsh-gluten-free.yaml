@@ -104,6 +104,19 @@ notes:
     free" labeled, since not all tamari is) in every stir-fry, fried rice, teriyaki, or lo-mein
     style recipe -- this is the single most common hidden-gluten miss in Asian-inspired dinners.
   - >
+    2026-08: authored 9 standalone lunch recipes for the recipe library (parallel-track pad
+    see ew, cornmeal chicken tenders + polenta fries, sesame-tamari turkey rice bowl, quinoa
+    tabbouleh, cauliflower-rice teriyaki bowl, corn-tortilla tacos, GF-flour-blend chicken pot
+    pie, blackened shrimp-and-polenta, rice-pasta tuna salad). Confirmed the shrimp-and-polenta
+    dish needed a full `alternateRecipe` (blackened chicken swapped in for shrimp) rather than a
+    `swap`, since the dish is structurally built around the shellfish the way pad see ew is
+    built around noodles, not an add-on ingredient like feta or a sauce garnish -- a useful test
+    going forward: if removing the allergen leaves "the same dish minus a topping," it's a swap;
+    if it leaves "not really the same dish," it's an alternateRecipe. Also reconfirmed corn
+    tortillas need the "certified corn-only, not a corn/wheat blend" caveat spelled out in the
+    ingredient line itself, not just in a note, since it's the single most-missed hidden-gluten
+    check across every taco/enchilada-style recipe I've written.
+  - >
     2026-08: reviewed the recipe-browser `adaptations` field (`{forRestriction, type: 'swap'|
     'alternateRecipe', instructions?, alternateRecipe?}`) that keeps a gluten-containing recipe
     visible (highlighted) in a gluten-restricted profile's filtered view instead of hiding it.
@@ -116,3 +129,232 @@ notes:
     for `forRestriction: 'gluten'` should use explicit negative-imperative language -- "Do NOT
     use the [original ingredient]; substitute [specific certified-GF product]" -- and should not
     share the same soft visual highlight used for dairy/nut/soy swaps.
+  - >
+    2026-08: authored 6 treat recipes for the library (energy bites, crispy-rice marshmallow
+    bars, flourless peanut butter cookies, GF-flour-blend blondies, a flourless chocolate torte,
+    peanut butter freezer fudge). Reconfirmed the crispy-rice-cereal malt trap applies to potluck
+    bar treats just as much as breakfast cereal -- named it explicitly in the recipe rather than
+    assuming "rice cereal" reads as safe by default. New finding on adaptation type choice: egg is
+    Big-9/medical-tier like nuts/dairy/gluten, but whether it takes a `swap` or an
+    `alternateRecipe` depends on whether the egg is doing structural work in that specific dish,
+    not on the tag alone -- a flourless peanut-butter cookie's single egg is a binder (flax egg
+    swap works fine as a `type: swap`), but a flourless chocolate torte's four whipped eggs *are*
+    the cake's rise and crumb (no flour to fall back on), so a same-dish swap instruction would be
+    dishonest about the result -- that one needed a full `alternateRecipe` (aquafaba-whipped
+    version). Same logic that already governs nuts-as-identity (peanut butter cookies/fudge ->
+    alternateRecipe, not a swap) extends to egg once the egg itself is the structural ingredient,
+    not just a binder.
+  - >
+    2026-08: authored 6 snack recipes for the library. Two more hidden-gluten checkpoints worth
+    keeping alongside the rice-cereal/oats ones already logged: (1) corn tortilla chips and corn
+    tostada/taco shells are naturally gluten-free by ingredient but not automatically safe --
+    some lines blend in wheat starch as a cheap filler or share fryer oil/equipment with wheat
+    products, so "corn chips" on a bag needs the same "check the label" treatment as tamari, not
+    an assumption. (2) A double-dredge fried/baked coating (e.g. breaded zucchini fries) is a
+    genuine egg-is-structural case, not a swap-tier one -- egg wash is what makes a GF panko
+    coating adhere through baking, so the fork belongs at the alternateRecipe tier using an
+    unsweetened dairy-free-milk-plus-cornstarch slurry as the tacky substitute, not a same-dish
+    swap instruction.
+  - >
+    2026-08: independent review of that same 6-snack batch caught a miss in the nacho board
+    recipe -- taco seasoning packets are a real hidden-gluten source (wheat flour used as an
+    anti-caking/thickening filler in some blends) but the recipe left it as plain "taco
+    seasoning" with no certified-GF callout, unlike every other cross-contact-risk ingredient in
+    the batch (chips, tostada shells, cereal, oats). Adding taco seasoning to the standing
+    hidden-gluten checklist alongside soy sauce/tamari, malt-flavored rice cereal, oats, and
+    corn-chip/tortilla cross-contact -- any spice blend with an anti-caking agent deserves the
+    same label-check treatment as a sauce. Also corrected two difficulty ratings that didn't
+    match their own steps on re-read: a no-bake stir/roll energy-bite recipe rated "intermediate"
+    (should track with the other no-bake snack at "beginner"/"beginner-plus", not jump a full
+    tier) and a 3-station double-dredge zucchini fries recipe rated "advanced" (real technique,
+    but ~40 minutes of pantry-staple breading doesn't clear the bar "advanced" should be reserved
+    for -- moved to "intermediate," matching its own alternateRecipe fork).
+  - >
+    2026-08: independent QA pass on an 8-recipe GF breakfast batch (not authored by me). Two
+    reusable findings: (1) chocolate-hazelnut spread is a hidden-dairy ingredient, not just a
+    nuts one -- most commercial brands (the category, not a specific one) contain milk, so the
+    ingredient-tag list needs both `nuts` and `dairy` even when the recipe's dairy-adaptation
+    text only vaguely says "check the label"; the tag should never be softer than the prose
+    warning. (2) When a recipe includes an explicit passive-rest step (batter refrigerated 30
+    min for xanthan-gum hydration, e.g.), that rest time has to be counted in `prepMinutes` --
+    a 20-minute prep budget next to a written "rest 30 minutes" step is not just optimistic, it's
+    internally inconsistent with the recipe's own text. Also reconfirmed my egg-structural-vs-
+    binder rule from the treats batch generalizes cleanly to breakfast: whipped egg whites for
+    waffle lift and whole eggs for crepe-batter pliability are both structural, not binder, uses
+    -- a `type: swap` that admits in its own instructions the result will be "denser" or "more
+    fragile" is the same red flag as the flourless-torte case and should be an `alternateRecipe`
+    instead, even if writing the full alternate recipe is deferred to a follow-up pass.
+  - >
+    2026-08: independent QA pass on the 6-recipe treats batch (energy bites, crispy-rice
+    marshmallow bars, flourless peanut butter cookies, GF-flour-blend blondies, flourless
+    chocolate torte, peanut butter freezer fudge) -- no author memory retained, reviewed as if
+    someone else wrote it. Passed clean: every ingredient tag matched the canonical vocabulary
+    (including correctly leaving sunflower-seed-butter and aquafaba untagged -- neither is a
+    tree-nut/peanut, dairy, or Big-9 item), the crispy-rice-cereal malt callout was present and
+    explicit, the egg-structural-vs-binder rule was applied correctly in both directions (flax-egg
+    `swap` for the cookies' and blondies' binder-role egg, full aquafaba `alternateRecipe` for the
+    torte's four structural whipped eggs), and the nuts-as-identity rule was applied correctly too
+    (peanut-butter-as-flour-substitute cookies got a full `alternateRecipe`, while peanut butter's
+    binder/layer role in the energy bites and freezer fudge only needed a same-texture `swap`).
+    Embedded `alternateRecipe` objects in both the nuts and egg adaptations were complete
+    (name/mealType/difficulty/prep/cook/description/ingredients/steps, no missing fields). No
+    corrections needed -- logging the clean pass so a future review of this same batch doesn't
+    redo the same checks from scratch.
+  - >
+    2026-08: a third blind QA pass on the same 6-recipe treats batch (still no author memory
+    retained) reconfirms the prior clean-pass verdict -- same field-by-field check on both
+    embedded `alternateRecipe` objects, same tag audit, same swap-vs-alternateRecipe structural
+    test, still nothing to correct. One judgment call surfaced and deliberately left as-is rather
+    than "fixed": the freezer fudge's `difficulty: "intermediate"` (melt, layer, freeze, no oven)
+    reads borderline against the "no-bake energy-bite should be beginner/beginner-plus" precedent
+    logged from the snacks-batch review, but the two-stage layer-and-set timing (each layer must
+    firm before the next goes on, plus a freezer-to-cuttable temperature window) is a real
+    difference from a one-bowl roll-and-chill recipe, so intermediate stands. Flagging the
+    reasoning here rather than downgrading it, in case a future reviewer weighs it differently.
+  - >
+    2026-08: independent QA pass (blind, no memory of authorship) on the 9-recipe GF lunch batch
+    logged above. Every ingredient tag, adaptation, and the shrimp-polenta `alternateRecipe` held
+    up on rigorous field-by-field re-check -- no corrections needed, which is itself worth noting
+    as a positive signal that the standing checklist (rice-cereal malt, oats cross-contact, corn-
+    chip/tortilla cross-contact, taco-seasoning anti-caking wheat, tamari-not-soy-sauce,
+    swap-vs-alternateRecipe by structural-role test) is catching real issues rather than being
+    applied inconsistently. One gap worth adding to the checklist going forward, not urgent enough
+    to force a rewrite here: canned/boxed chicken broth and commercial baking powder are both
+    real-world hidden-gluten risks (some broth bouillon bases use wheat-derived flavoring; some
+    baking powders use wheat starch rather than cornstarch as the anti-caking agent) that the
+    checklist hasn't been calling out with the same "certified GF" language used for tamari, rice
+    cereal, oats, and corn chips -- add both to the standard label-check callout list for any
+    recipe using boxed broth or baking powder.
+  - >
+    2026-08: a fourth independent QA pass (blind) on the same 9-recipe GF lunch batch. This
+    time actually applied the broth/baking-powder fix flagged as a gap in the prior pass rather
+    than deferring it again: renamed "chicken broth" to "gluten-free chicken broth" in both the
+    pot pie and the blackened-shrimp-and-polenta recipes (including its embedded
+    `alternateRecipe`), and "baking powder" to "cornstarch-based baking powder" in the pot pie,
+    matching the same explicit-labeling convention already used for tamari and corn tortillas.
+    Also caught a real timing gap this pass missed before: the blackened shrimp-and-polenta
+    bowl's `cookMinutes: 20` only accounts for the polenta simmer -- the shrimp sear plus the
+    garlic/tomato/spinach sauté happen sequentially *after* the polenta is done in the written
+    steps, adding ~5 more active minutes not reflected in the total; corrected to 25. Everything
+    else (tag vocabulary, all three `swap` adaptations, the `alternateRecipe` field-by-field
+    check, difficulty/mealType enums) held up clean again. Standing takeaway: a "no corrections
+    needed" verdict on a prior pass shouldn't be read as license to skip a full re-check next
+    time -- the broth/baking-powder and timing issues were both real and both fixable, they'd
+    just been logged as gaps instead of applied.
+  - >
+    2026-08: a fifth independent QA pass (blind) on the same 9-recipe GF lunch batch, after the
+    broth/baking-powder/shrimp-timing fixes from pass four were confirmed still in place. Found
+    one more timing mismatch the prior four passes missed: the quinoa tabbouleh's `cookMinutes: 12`
+    doesn't cover its own written step ("cook [quinoa] ... about 15 minutes"), even before adding
+    the parallel chicken sear -- corrected to 15 (the longer of the two parallel tracks, same
+    logic used for the shrimp-and-polenta fix). Everything else -- tag vocabulary, all
+    adaptations, the shrimp-polenta `alternateRecipe` fields, difficulty/mealType enums, the
+    standing hidden-gluten checklist (tamari, rice-cereal malt, oats, corn-chip/tortilla
+    cross-contact, taco seasoning, broth/baking-powder) -- held up clean. Flagged but did not
+    change: the blackened-shrimp bowl's cajun seasoning is the same anti-caking-filler risk class
+    as taco seasoning (logged from the snacks batch) but isn't called out as "certified GF" in
+    that recipe's ingredient line -- worth applying the same explicit-label convention next pass
+    rather than deferring it again, the way broth/baking-powder sat as a logged-but-unapplied gap
+    for one full pass before being fixed.
+  - >
+    2026-08: a fresh reviewer flagged the Beef Lo Mein recipe's `soy` adaptation for only
+    addressing soy sauce, when the same dish's oyster sauce (already tagged `gluten` for its
+    wheat thickener) also varies by brand on whether it includes soy-derived ingredients.
+    Resolution: added a caution note to the `soy` adaptation's instructions telling a
+    soy-allergic eater to also confirm the oyster sauce label, rather than adding a hard `soy`
+    tag to the oyster-sauce ingredient itself -- unlike wheat-thickened oyster sauce (a near-
+    universal fact worth a firm tag) soy content in oyster sauce is brand-dependent, so a
+    blanket tag would overclaim certainty the ingredient itself doesn't have. Standing rule
+    going forward: when a secondary sauce/condiment's allergen content is real but
+    brand-variable (not a near-universal fact like wheat-thickened oyster sauce or malt-flavored
+    rice cereal), the right fix is a prose caution pointing the eater to check that label, not a
+    tag change -- reserve hard tag additions for cases confirmed true across the product
+    category, matching the same evidentiary bar already used for "confirmed" vs. "unverified"
+    references in this file.
+  - >
+    2026-08: independent QA pass (blind) on a 15-recipe GF dinner batch. Applying the
+    near-universal-vs-brand-variable evidentiary bar from the prior Lo Mein finding surfaced two
+    real gaps, both fixed in place: oyster sauce (Beef Lo Mein) was tagged `gluten` for its wheat
+    thickener but missing `shellfish` -- oyster extract is the defining, near-universal ingredient
+    of oyster sauce (not a brand-variable trace like its soy content), so it clears the same bar
+    that earned the gluten tag and needed a hard `shellfish` tag plus a new shellfish `swap`
+    adaptation (the recipe had swaps for gluten/soy/sesame/beef/meat but no shellfish one, despite
+    carrying a shellfish-derived ingredient). Same logic applied to Worcestershire sauce (Classic
+    Meatloaf, Shepherd's Pie): traditional Worcestershire is anchovy-fermented by definition, not
+    a variable trace ingredient, so it needed a hard `fish` tag alongside its existing `gluten`
+    tag plus a new fish `swap` adaptation pointing to a labeled vegan/anchovy-free Worcestershire
+    alternative. Standing addition to the hidden-allergen checklist: when auditing a sauce/
+    condiment for hidden gluten, also check whether its defining ingredient (not an incidental
+    one) crosses into another Big-9 category -- oyster sauce -> shellfish, Worcestershire ->
+    fish, fish sauce -> fish -- and add the tag plus a matching adaptation, not just a prose
+    caveat, whenever that source is the product's namesake ingredient rather than a variable
+    additive.
+  - >
+    2026-08: a fresh reviewer flagged the Tamari-Glazed Chicken Skewers' `meat` adaptation
+    (tofu swap for the chicken) as a cross-restriction gap worth naming even though it's
+    schema-compliant: tofu is soy-based, so an eater avoiding both meat and soy would be
+    steered into a new allergen by a `meat`-tagged adaptation that only reads against the
+    `meat` restriction in isolation. Fix applied: added a parenthetical caution directly in
+    the `meat` swap's instructions ("contains soy -- not suitable if the eater also avoids
+    soy") rather than a data-model change, since the `adaptations` schema has no field for
+    "this alternative itself introduces restriction X." Standing gap to flag, not yet fixed:
+    the matcher/adaptation schema only checks one restriction at a time per adaptation entry
+    -- it doesn't cross-check whether a proposed swap or alternateRecipe reintroduces a
+    *different* Big-9/diet restriction for a family member who holds both. Any adaptation
+    that substitutes a common allergen-adjacent ingredient (tofu/soy, seitan/gluten, cashew
+    cream/nuts) for the flagged one should get the same prose-caution treatment until a
+    stricter data-driven cross-restriction check exists.
+  - >
+    2026-08: another independent QA pass (blind) on the same 6-recipe snack batch, after the
+    taco-seasoning, difficulty (energy bites, zucchini fries), and tofu-soy-caution fixes from
+    earlier passes were confirmed still in place. Re-ran the full checklist -- tag vocabulary
+    (including the sesame/soy/nuts/shellfish/dairy/beef/meat/egg tags and the correctly-untagged
+    new ingredients in both embedded `alternateRecipe`s), difficulty/mealType enums, the
+    swap-vs-alternateRecipe structural test (egg in the zucchini fries and shrimp in the ceviche
+    both correctly at `alternateRecipe` tier; dairy/soy/sesame/nuts/beef/meat swaps all correctly
+    at `swap` tier per the binder-vs-identity rule) -- nothing new to correct. One judgment call
+    surfaced and deliberately left as-is, same "flag don't force" treatment as the freezer-fudge
+    timing call: the crispy-rice treats' 30-minute set/cool time before cutting isn't reflected in
+    either `prepMinutes` (10) or `cookMinutes` (5), which is in tension with the breakfast-batch
+    rule that passive rest must be counted in `prepMinutes` -- but unlike a xanthan-gum batter
+    rest (which changes the dough's usability), this is post-assembly cooling before slicing, a
+    step most recipe formats exclude from active-time totals. Flagging the tension rather than
+    picking a side unilaterally, in case a future reviewer standardizes it either way.
+  - >
+    2026-08: a fresh reviewer flagged the Flourless Chocolate Torte's `dairy` adaptation for
+    originally addressing only the butter, when dark baking chocolate itself commonly contains
+    milkfat or carries a "may contain milk" cross-contact warning. Fix applied in place: the
+    `dairy` swap's instructions now also require a certified dairy-free/vegan dark chocolate bar,
+    not just a dairy-free butter substitute. Deliberately did NOT add a blanket `dairy` tag to the
+    dark-chocolate ingredient line itself -- unlike Worcestershire's anchovy or oyster sauce's
+    oyster extract (near-universal, namesake ingredients that clear the hard-tag bar), a meaningful
+    share of baking dark chocolate is genuinely dairy-free, so tagging it dairy outright would
+    incorrectly exclude the base recipe for dairy-restricted members who could eat it with a
+    verified brand. This is the same evidentiary bar as the Lo Mein oyster-sauce/soy finding, just
+    landing on the prose-caution side rather than the hard-tag side: dark chocolate's dairy risk is
+    real but brand-variable, not a defining ingredient of the product category. Standing addition
+    to the checklist: dark/baking chocolate joins tamari, rice cereal, oats, corn chips/tortillas,
+    taco seasoning, broth, and baking powder as an ingredient needing a "certified dairy-free/vegan"
+    label-check callout whenever it appears in a dairy-adaptation instruction, even when the base
+    recipe's ingredient tag correctly stays untagged.
+  - >
+    2026-08: independent QA pass (blind) on a 6-recipe GF dessert batch (flourless torte, rice
+    pudding, apple crisp, coconut macaroons, mixed-berry galette, chocolate-chip cookies). Confirmed
+    the Torte's dark-chocolate/dairy prose-caution fix from the prior finding is present and intact
+    in this copy of the recipe. One real gap found and fixed: the Chocolate-Dipped Coconut
+    Macaroons tag "dairy-free semisweet chocolate" as `soy` (correct -- soy lecithin is the same
+    brand-common-enough call already made for the Chewy Chocolate Chip Cookies' chocolate chips in
+    this same batch, which DO carry a matching `soy` swap) but the macaroons had no `soy` adaptation
+    at all -- an eater avoiding soy would have the recipe correctly excluded by the tag but no path
+    back in, unlike every other soy-tagged chocolate in this batch. Added a `soy` swap
+    (certified soy-free chocolate bar, check label each time) matching the cookie recipe's existing
+    wording. Standing rule this confirms: a hard allergen tag on an ingredient obligates a matching
+    adaptation entry for that restriction within the same recipe, not just correctness of the tag
+    itself -- consistent with the earlier oyster-sauce/shellfish and Worcestershire/fish findings,
+    now generalized to same-batch internal consistency (if one recipe in a batch treats an
+    ingredient's tag as adaptation-worthy, every recipe with that same tagged ingredient should too).
+    Everything else -- full field-by-field check on both embedded `alternateRecipe`s (aquafaba
+    torte, aquafaba macaroons), difficulty/mealType enums, prep/cook time plausibility against
+    written steps, and the egg-structural-vs-binder call (both chocolate recipes' whipped-air eggs
+    correctly routed to `alternateRecipe`, the rice pudding's yolk-as-thickener and galette's
+    egg-wash correctly routed to `swap`) -- held up clean.

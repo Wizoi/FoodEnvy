@@ -186,12 +186,89 @@ notes:
     active -- fix at the summary-line level ("12 of 56 -- 44 excluded for
     allergy/diet conflicts, 3 have alternates"), not by inventing a new
     per-card excluded-state.
+  - >
+    2026-08-28 (recipe detail view redesign pass, researched against real recipe sites):
+    `openRecipeDetail()` in index.html never calls `renderMealTypeVisual()` -- that function
+    (deterministic mealType gradient+emoji, or a real `imageUrl` `<img>` when present) is only
+    wired into the card grid (line ~1946), not the detail modal, so today's detail view has
+    literally no hero image, real or fallback -- straight from title to allergen/diet chip rows.
+    That's a bug to fix, not a design choice to weigh. Also: `.modal-body` has a fixed
+    `min-height:500px; max-height:500px` regardless of content length, which is a likely
+    contributor to the "smooshed/cramped" complaint on a short recipe (dead space padded to a
+    fixed box) as much as any styling issue -- should be `min-height` dropped or made small, and
+    `max-height` viewport-relative (e.g. `80vh`) so box size follows actual content.
+  - >
+    2026-08-28 (recipe detail view redesign pass): researched 5 sources since this needed to be
+    grounded, not designed from memory -- NYT Cooking (via IXD@Pratt's 2025 mobile-app critique:
+    hero image/video first, then a quick-facts strip -- time/cost/difficulty/ingredient count --
+    "highlighted at the top of the page," then ingredients, then steps, in that scroll order),
+    AllRecipes (explicit labeled "HANDS-ON / TOTAL / SERVES" horizontal metadata strip directly
+    under the title), SideChef's published recipe-platform UX best-practices article (hero
+    image/video top; metadata "highlighted at the top of the page" for quick fit-or-skip
+    decisions; ingredient checkboxes + serving-size scaler; steps "numbered... with visual
+    breaks," optional step photos), general CSS-recipe-card guidance (two-column
+    ingredients|instructions grid on desktop collapsing to one column below a breakpoint -- exactly
+    the pattern FoodEnvy's own `@media (min-width: 901px) #recipeDetailModal .modal-body { grid-template-columns: 1fr 1fr }`
+    already implements, so that part just needs the rest of the page built around it, not
+    replaced), and WP Recipe Maker/Tasty-Recipes-style plugin cards (the de facto food-blog
+    standard -- Pinch of Yum, Budget Bytes, Minimalist Baker, etc. -- title+metadata bar, then
+    image, then the two-column ingredients|instructions block, notes/nutrition collapsed below).
+    Cross-site consensus: hero image is always the first thing seen (full-width, above
+    everything else); a compact metadata strip sits directly under the title/image, above the
+    fold, separate from any tag/chip row; ingredients and steps are the two dominant blocks,
+    side-by-side on desktop. Applied to FoodEnvy: hero image (real photo or the existing
+    deterministic gradient+emoji fallback) goes first in `.modal-body`, full-bleed to the modal's
+    edges (not inheriting the body's 1.5rem padding the rest of the content uses); difficulty +
+    Active/Rest/Time-to-table collapse into one horizontal metadata strip (not two stacked
+    mini-blocks as today) directly under the image; allergen/diet/diet-exclusion chips stay in
+    their existing near-title position but as one grouped row immediately after the metadata
+    strip, not interleaved before it competing for top-of-fold attention; description follows;
+    then the existing ingredients|steps two-column grid, unchanged in mechanism. This is
+    primarily an information-hierarchy and fixed-height-box fix, not a gamification mechanic --
+    no Octalysis drive is being invoked here beyond the existing loss-avoidance framing already
+    applied to allergen chips; resist the urge to add one for its own sake.
+  - >
+    2026-08-28 (recipe detail view redesign pass): the alternateRecipe block inside an
+    `.adaptation-section` reproduces the ingredients|steps two-column layout with a hand-inlined
+    `style="display:flex;gap:2rem;flex-direction:column;"` div instead of reusing whatever CSS
+    class/grid the primary recipe's ingredients|steps block gets once that's cleaned up -- two
+    code paths producing what should be the same visual pattern is how they drift out of sync
+    (one gets the redesign, the other doesn't, six months from now). Extract one shared class for
+    "two-column ingredients+steps block" and use it for both the primary and every alternate.
+  - >
+    2026-08-28 (photo sourcing, scoped note): whichever mechanism the technical team builds to
+    populate `recipe.imageUrl` for the 634 recipes, the rendering contract doesn't need new UI --
+    `renderMealTypeVisual()` already branches correctly on imageUrl-present vs. absent (real
+    `<img>` with `object-fit:cover` vs. the deterministic mealType gradient+emoji). The only asks
+    are (1) wire that function into the detail view per the note above, and (2) do not invent a
+    third state (a generic "photo coming soon" placeholder, a camera icon, etc.) for the ~613
+    recipes that won't have a sourced photo on day one of whatever mechanism ships -- the
+    deterministic gradient already reads as "considered design" at scale per this persona's
+    existing finding, and a mixed rollout (some real photos, most still gradients) is exactly the
+    partial-completeness case that finding was written for.
   - "Inline-expand-in-grid detail views are fine on desktop but cost more on "
   - "a 1-column mobile grid -- one expanded card pushes every later card far "
   - "down and loses scroll context. Recommended a full-screen sheet reusing "
   - "the app's existing profile-modal pattern, applied at the mobile "
   - "breakpoint, rather than a new route (this app deliberately has no "
   - "router)."
+  - >
+    2026-08-28 (active vs. total time design pass): when a recipe gains a passive/rest-time
+    field (yeast rise, chill, marinate), the card badge should combine it into one string
+    ("35 min + 1 hr rest"), not add a second badge -- doubling `.recipe-meta`'s visual weight
+    on every one of 600+ cards for a secondary number disturbs card-height consistency and
+    scanning speed for no real gain. Detail view has room to break it out explicitly (Active /
+    Rest / Total, with Total visually heaviest since it's the number someone plans backward
+    from -- "when do I start this to eat at 6").
+  - >
+    2026-08-28 (active vs. total time design pass): not every missing/zero field deserves the
+    existing muted "Not listed" badge treatment -- that convention should stay scoped to fields
+    where absence itself is informative (difficulty, prep+cook time: the recipe should have
+    been scored and wasn't, go verify). A field like passive/rest time is legitimately zero for
+    most recipes and a backfill can't tell "genuinely none" from "never recorded" apart anyway,
+    so absent-vs-zero collapses to one state (hidden) rather than getting its own muted badge --
+    expanding "not listed" to also mean "optional field unpopulated" dilutes what the badge
+    means everywhere else it's used.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

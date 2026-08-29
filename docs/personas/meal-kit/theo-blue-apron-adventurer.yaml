@@ -41,6 +41,227 @@ notes:
     doesn't apply to combinations. When in doubt, ask which single step in
     a recipe would be new to someone who already knows how to roast a
     sheet-pan dinner; if the answer is "two things," cut one.
+  - >-
+    A "build the sauce/paste from scratch" technique (e.g. a Malaysian laksa
+    curry paste: toast whole spices, blend with aromatics, then fry the
+    paste to deepen it) is one new technique even though it has three
+    sub-steps, because it's a single skill cluster a cook either has or
+    doesn't -- unlike stacking two genuinely separate techniques (e.g.
+    hand-forming kofta AND making a from-scratch caramel in the same
+    recipe). This is the natural ceiling for an "advanced" recipe in my
+    voice: real technique ambition still spent on flavor, not on stacking.
+    Also confirmed while drafting a 15-recipe dinner batch (2026-08-28): the
+    oven-as-wok substitution is safe to reuse across multiple different
+    cuisines in the same batch (Korean, Thai, Peruvian) without it reading
+    as repetitive, since the technique is deliberately the *constant* --
+    it's the sauce/spice blend that has to carry the variety.
+  - >-
+    When a dish's name centers a Big-9 protein (jerk *salmon*, harissa
+    *shrimp*), the fish/shellfish adaptation should be a full
+    alternateRecipe swapping in chicken, not a same-dish "swap" note --
+    the marinade/sauce timing and roast time both change enough (salmon
+    cooks in half the time chicken thighs need) that a one-line substitution
+    would give a false sense of a completed recipe. Found drafting the
+    15-recipe dinner batch (2026-08-28).
+  - >-
+    Fish belongs with the medical-tier allergens (dairy, gluten, nuts,
+    shellfish, egg, soy, sesame) even on a checklist that doesn't spell it
+    out -- it's a genuine FDA Big-9 allergen, not a swap-for-convenience
+    tag like meat/pork/beef. Wrote fish and shellfish adaptations with the
+    same mandatory "Do NOT use X -- substitute Y" phrasing (and used
+    alternateRecipe, not a same-dish swap, whenever the protein was the
+    structural center of the dish -- salmon in a chermoula bake, shrimp on
+    a sheet pan) while drafting the 9-recipe lunch batch (2026-08-28).
+  - >-
+    Jarred sauce bases hide Big-9 allergens more often than the headline
+    protein does: gochujang and soy sauce frequently carry wheat (gluten),
+    and red curry paste frequently carries shrimp paste (shellfish) even in
+    a nominally chicken or vegetable dish. Check every jarred/bottled
+    component of the flavor base for hidden allergens, not just the obvious
+    named ingredients -- found while drafting a Thai peanut chicken skewer
+    snack where the curry paste, not the peanuts, was the second shellfish
+    trap (2026-08-28 snack batch).
+  - >-
+    Baking on a rack instead of deep-frying (e.g. baked lumpia) is the same
+    move as the sheet-pan-instead-of-wok substitution, just applied to a
+    fried dish instead of a stir-fry: it removes a genuinely hard technique
+    (hot-oil temperature management) while keeping the one new technique
+    that actually defines the dish (here, rolling the wrapper). Worth
+    reaching for whenever a recipe's ambition is "fried" rather than
+    "stir-fried."
+  - >-
+    Deciding swap-vs-alternateRecipe for a dessert's defining ingredient
+    comes down to whether the ingredient IS the technique or just flavors
+    it. Phyllo cups (baklava) and semolina cake (basbousa) both got a full
+    alternateRecipe for their structural tag (gluten) because the pastry
+    layering / semolina texture is the dish, not a garnish -- but the same
+    two recipes only needed a same-dish swap for their nuts, since nuts are
+    a filling/topping choice, not the technique. Flan got an alternateRecipe
+    for egg (custard-set IS the dish) but only a mandatory swap for dairy
+    (condensed/evaporated milk swaps 1:1 for coconut versions without
+    changing what the dish fundamentally is). Rule of thumb: if removing the
+    ingredient also removes the one taught technique, write an
+    alternateRecipe; if the technique survives untouched, a swap is enough.
+    Found while drafting 6 dessert recipes across Mexican, Thai, Turkish,
+    Vietnamese, Indian, and Moroccan flavor profiles (2026-08-28).
+  - >-
+    Confirmed again while independently reviewing (not authoring) an
+    8-recipe breakfast batch (2026-08-28): a gochujang breakfast hash had
+    gochujang tagged soy-only, with the gluten adaptation only swapping the
+    soy sauce -- exactly the hidden-wheat-in-jarred-sauce trap already noted
+    above. Fixed by adding the gluten tag to gochujang and extending the
+    gluten swap instructions to cover it too. Also re-checked the banh mi
+    breakfast bowl's marinade + quick-pickle pairing against the existing
+    "fine together only because both are familiar techniques" rule and it
+    still holds -- not a stacking violation, just worth re-verifying each
+    time rather than assuming.
+  - >-
+    Jarred/boxed sauce bases hide dairy as often as they hide gluten or
+    shellfish: commercial Japanese curry roux blocks (S&B, House Foods, etc.)
+    commonly list milk powder or whey right alongside the wheat flour, so a
+    katsu-curry recipe needs a dairy adaptation even though the headline
+    allergens look like gluten/egg (the breading) and meat (the cutlet)
+    only. Found reviewing a 9-recipe lunch batch (2026-08-28): the curry
+    roux block was tagged gluten but not dairy, and there was no dairy
+    adaptation at all. Fixed by tagging the ingredient dairy and adding a
+    "Do NOT use standard roux blocks -- most contain milk powder or whey"
+    swap. Reinforces the standing rule: audit a jarred/boxed component's
+    full ingredient list, not just the allergen its name implies.
+  - >-
+    Base liquids (broth/stock) can hide the exact restriction a swap
+    adaptation claims to fix: a five-spice chicken congee's "meat" swap
+    (tofu/mushrooms instead of chicken thighs) still simmered everything in
+    chicken broth, which was itself left untagged. A same-dish protein swap
+    isn't complete unless the cooking liquid is swapped too (vegetable
+    broth) and the liquid ingredient carries the tag its animal origin
+    implies. Broth is a jarred/boxed-adjacent flavor base in the same way
+    sauces are and deserves the same audit. Found reviewing the same
+    8-recipe breakfast batch (2026-08-28) as the gochujang finding above.
+  - >-
+    Independently reviewing a 6-recipe snack batch (2026-08-28, not authored
+    by me): beef sirloin and ground pork were each tagged only their
+    species-specific value ("beef", "pork") without the companion "meat"
+    tag -- per Marcus's dorm-starter note (confirmed against dietPresets.js/
+    seedRecipes.json), "meat" is a superset covering poultry AND beef AND
+    pork, so beef/pork ingredients need BOTH tags while poultry/lamb get
+    "meat" only and fish/shellfish never get it (otherwise pescatarian would
+    wrongly exclude fish). Fixed both tags, which surfaced three missing or
+    wrong "meat" adaptations: a lamb-meatball and a chicken-skewer recipe
+    each offered a species swap (turkey/beef, or pork/fish) for their "meat"
+    restriction instead of a genuine plant-based substitute, and the beef
+    recipe had no "meat" adaptation at all once the tag was added (only a
+    "beef" swap, which itself wrongly suggested flank steak -- still beef).
+    A species swap resolves a pork/beef/fish-specific restriction but never
+    a "meat" restriction; that always needs an actual plant-based drop-in
+    (tofu, mushroom, plant-based ground), same finding Dana logged from a
+    breakfast/lunch batch review -- worth treating as a standing check on
+    every "meat" adaptation, not a one-off.
+  - >-
+    The hidden-allergen-in-a-jarred-component pattern isn't limited to
+    sauces, roux, and broth -- ordinary baking aisle staples hide it too:
+    mainstream semisweet chocolate chips (e.g. Toll House-style) commonly
+    list milkfat as an ingredient, making them a real dairy source even in
+    a recipe whose only obvious dairy is the butter. Fixed by tagging the
+    chocolate chips dairy and folding "use dairy-free chocolate chips" into
+    the existing dairy swap instructions rather than adding a new
+    adaptation entry (the restriction was already covered, just
+    incompletely worded). Note by contrast: soy lecithin as a chocolate
+    emulsifier does NOT need a soy tag -- highly refined soy lecithin is
+    exempt from major-allergen labeling under FALCPA and is standardly
+    tolerated by soy-allergic individuals, so tagging it would be a false
+    positive, not extra safety. Found independently reviewing (not
+    authoring) a 6-recipe dessert batch, in the Mexican-spiced brownies
+    (2026-08-28).
+  - >-
+    Two tagging traps worth double-checking on every dessert review, not just
+    assuming: coconut (milk/cream/flakes) is NOT tagged "nuts" in this
+    codebase's convention (confirmed against public/foodenvy-complete-
+    recipes.json) despite FDA labeling coconut under tree nuts, so don't
+    flag it as a missing nuts tag or route a nuts adaptation toward it; and
+    mochiko/sweet rice flour is correctly gluten-free despite the
+    "glutinous" name (glutinous = sticky, not gluten-bearing) so it should
+    NOT be tagged gluten. Also reconfirmed the dark/bittersweet-chocolate-is-
+    dairy convention (milk-fat/shared-line traces) is consistent everywhere
+    in the seed data, so tagging it dairy on a new recipe is correct, not an
+    error to fix. Found while independently reviewing a clean 6-recipe treat
+    batch (2026-08-28) that turned out to have no defects -- worth recording
+    that "no issues found" is itself a legitimate review outcome, not a sign
+    the review was too shallow, once every tag/adaptation/technique/time
+    check above has actually been run.
+  - >-
+    Re-reviewed the same 9-recipe lunch batch a second time (2026-08-28) and
+    the curry-roux-hides-dairy bug above was still present unfixed in the
+    copy handed back for review -- tagging and adaptation fixes made in one
+    pass don't automatically persist if a stale copy of the batch circulates
+    again. Re-applied the same fix. Also caught a copy-consistency bug in
+    that pass: a gochujang bowl's one-line description promised a
+    "five-minute quick pickle" while its own step said "15 minutes is all it
+    needs" -- description and step timing should always be cross-checked
+    against each other, not just against plausibility in isolation.
+  - >-
+    Third confirmation pass on the same 9-recipe lunch batch (2026-08-28): this
+    time the curry-roux-hides-dairy fix and the gochujang description/step
+    timing fix were both still present and correct, and a third recurring bug
+    (khachapuri boats: 3 eggs in the ingredient list but step 1 only divided
+    the dough into two boats) was also already fixed, dividing into three
+    pieces. A batch can drift back to a broken state between review passes
+    even when nothing about the recipe content should have changed -- always
+    re-verify every previously-flagged fix against the actual copy in hand
+    rather than trusting that a prior pass's fix is still there. The one
+    item flagged as genuinely NOT fixed (salmon fillets' unit field "(6 oz)
+    each" bundling size into the unit string) was correctly left alone since
+    it was called out as cosmetic-only, confirming that "flagged but
+    intentionally not fixed" is a valid outcome distinct from "missed."
+  - >-
+    Fourth pass on the same 9-recipe lunch batch (2026-08-28), this time as a
+    fresh "did not author this" review: all three previously-logged fixes
+    (curry roux tagged dairy, gochujang description/step timing consistent,
+    khachapuri dough divided into three pieces matching 3 eggs) were present
+    and correct, and the salmon fillets' "(6 oz) each" bundled-into-unit
+    field was still there, unfixed, consistent with the earlier call that
+    it's cosmetic-only and fine to leave. Two new things worth a second look,
+    flagged rather than fixed since both are judgment calls, not factual
+    errors: (1) khachapuri boats' "advanced" recipe pairs dough-boat-shaping
+    with nailing a soft-set baked egg's exact pull time in one dish -- the
+    description frames these as one combined skill, but timing a soft-baked
+    egg is arguably its own distinct unfamiliar technique from shaping bread
+    dough, and stacking them under "advanced" is exactly the pattern the
+    one-new-technique rule exists to catch; worth downgrading to a note or
+    simplifying (e.g. a fully-set egg, less timing-critical) if this comes up
+    again. (2) the aji amarillo shrimp bowl's cookMinutes (12) doesn't match
+    its own step's stated roast window (8-10 minutes) -- shrimp specifically
+    needs a tight, accurate cook time since overcooking is the main failure
+    mode, so this field should track the step text exactly, not run long as
+    a buffer.
+  - >-
+    Rewrote the legacy stub "Pork Fried Rice" (seed-pork-fried-rice,
+    2026-08-28) end to end: the one new technique here is the sheet-pan
+    swap for wok-tossing (roast day-old rice on a screaming-hot sheet pan,
+    tossing every 5 minutes, instead of working a wok over a home burner
+    that can't get hot enough to avoid steaming). Cooling/drying the rice
+    first is prep, not a technique, so it stays as restMinutes rather than
+    counting toward the one-technique budget. Reconfirmed the jarred-sauce
+    audit habit on oyster sauce specifically: it's a triple hidden-allergen
+    source (shellfish from the oysters, soy, and often wheat as a
+    thickener) that a cook would reasonably assume is "just" a shellfish
+    ingredient, so it needed shellfish, soy, and gluten adaptations all
+    referencing it, not just the shellfish one. Ground pork got the
+    standard species-swap-vs-plant-based-swap split from the earlier
+    beef/pork snack-batch finding: a "pork" adaptation (swap to ground
+    chicken or shrimp) is a different fix from a "meat" adaptation (swap to
+    crumbled tofu or mushroom), and both were needed since the ingredient
+    carries both tags.
+  - >-
+    Re-reviewed seed-pork-fried-rice a second time (2026-08-28, framed as
+    "did not author this") and it matched the rewrite described above exactly:
+    oyster sauce still carried all three shellfish/soy/gluten tags with
+    adaptations for each, ground pork still carried both pork and meat tags
+    with the correct species-swap-vs-plant-based-swap split, restMinutes (30)
+    still matched step 1's stated cooling time, and only one new technique
+    (the sheet-pan swap for wok-tossing) was present -- rice cooling/drying
+    correctly stayed classified as prep, not a second technique. No drift
+    found this pass; confirms "no issues found" remains a valid outcome once
+    every check has actually been run against the copy in hand.
 signature_move: >
   Turns a stir-fry into a sheet-pan dish -- same protein, sauce, and
   vegetables, roasted instead of tossed in a wok -- so the flavor ambition

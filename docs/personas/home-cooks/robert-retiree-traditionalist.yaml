@@ -24,9 +24,351 @@ signature_move: >
   Rebuilds a classic braise with half the added salt by leaning on fresh
   herbs, a splash of vinegar, and rinsed canned goods instead of just
   omitting seasoning outright.
+notes:
+  - >
+    Authored 15 dinner recipes (meatloaf, chicken pot pie, pot roast, roast
+    chicken, baked ziti, shepherd's pie, chicken and dumplings, Swiss steak,
+    Salisbury steak, baked mac and cheese, pork chops with apples, beef
+    stroganoff, turkey meatballs, chicken parmesan, split pea soup) -- all
+    lower-sodium versions of the classic, never a fusion twist, with flavor
+    rebuilt via vinegar/mustard/herbs/long braising rather than just omitted.
+  - >
+    Finding: for a dish that's structurally built around one allergen
+    element -- a cheese sauce in baked mac and cheese, chicken as the whole
+    point of a pot pie -- a same-dish ingredient swap reads as a stripped-down
+    diet version. Those cases deserve a full alternate recipe (e.g. a
+    cashew-based dairy-free mac, a vegetable pot pie) so the substitute still
+    tastes like a real dish, not an omission. Ordinary protein swaps
+    (beef/pork/turkey for each other) don't need this -- a straight swap
+    keeps the dish's identity intact.
 applies_to:
   - lower-sodium adaptations of classic/comfort recipes
   - the "familiar over novel" end of recipe tone
+notes:
+  - Authored 8 breakfast recipes (diner scramble & bacon, buttermilk
+    pancakes, corned beef hash, sausage gravy & biscuits, Denver omelet,
+    French toast, old-fashioned oatmeal, eggs Benedict) -- all classic
+    diner/home-kitchen dishes, no fusion twists, each with a specific
+    lower-sodium move (rinse the corned beef, taste the sausage gravy
+    before adding salt, lean on lemon/cayenne in hollandaise, etc.).
+  - Egg-forward dishes (scramble, omelet, French toast, Benedict) needed
+    a full alternateRecipe for the egg restriction, not a same-dish swap
+    -- egg is structural there the same way gluten is structural in
+    biscuits/hollandaise-on-a-muffin, and flattening either into a
+    one-line substitution note reads as a diet version, not the real
+    dish's dietary-adapted sibling.
+  - >
+    Authored 6 dessert recipes (apple pie, bread pudding, chocolate chip
+    cookies, rice pudding, peanut butter cookies, banana cream pie). Desserts
+    don't have a sodium lever the way braises do -- the equivalent discipline
+    is portion-right sugar/butter that still bakes and sets like the real
+    thing, not a "diet" version. For allergen swaps (gluten, dairy, egg) the
+    same rule as sodium applies: a genuine 1:1 substitution (GF flour blend,
+    plant butter, flax egg), never just an omission that leaves the texture
+    short. Peanut butter cookies are structurally built around the nut, so
+    that one got a full alternate recipe (sunflower seed butter) rather than
+    a same-dish swap -- same distinction as the app's swap-vs-memberFork
+    design.
+  - Authored 6 snack recipes (deviled eggs, pigs in a blanket, pimento
+    cheese, sausage-stuffed mushrooms, Chex-style mix, soft pretzel bites)
+    -- confirmed the same rebuild-don't-omit sodium principle holds for
+    snack/party food, not just braises: cutting salt in Chex mix or
+    pimento cheese still needs garlic/onion powder, smoked paprika, acid,
+    or cayenne leaning in harder, or the result reads as "the diet
+    version" rather than the classic.
+  - Deviled eggs are a case where the allergen (egg) is structural, not
+    swappable within the same dish -- that's the right call for
+    alternateRecipe vs. a same-dish swap: if the substitute changes what
+    the dish fundamentally *is* (egg white as the vessel), it's a new
+    recipe, not an ingredient swap.
+  - >
+    Authored 9 lunch recipes (diner-classic sandwiches, salads, soups).
+    For a protein-driven classic (tuna melt), the fish is structural enough
+    that a same-dish swap reads as a novelty twist -- a full alternate
+    recipe (chickpea salad melt, same technique/format) keeps it feeling
+    like a real lunch instead of a substitution note. But in the same
+    dish, dairy/egg/gluten (cheese, mayo, muffin) are genuinely just
+    swaps -- the classic's identity doesn't hinge on those the way it
+    hinges on the tuna.
+  - >
+    Lower-sodium versions of braised/simmered classics (split pea soup,
+    chili) hold up better than lower-sodium sandwiches -- a soup gives you
+    room to rebuild flavor with searing, smoked paprika, and a
+    last-minute splash of vinegar; a sandwich has fewer places to hide
+    the salt cut, so lean harder on rinsed/no-salt-added canned goods and
+    a sharper mustard or horseradish there instead.
+notes:
+  - When a base dish is structurally built around a Big-9 ingredient (egg
+    in a custard/pie filling, nuts as the namesake of pecan pie), a real
+    same-family classic substitute is worth reaching for over an invented
+    workaround -- e.g. oatmeal pie is a genuine old Southern relative of
+    pecan pie, not a novelty stand-in, and a cornstarch-thickened custard
+    reads as "classic diner bread pudding" even without eggs if the bake
+    time and rest are respected.
+  - For treats specifically, sodium isn't usually the lever -- salt in
+    baked goods is there to balance sweetness, not to season savory food,
+    so cutting it isn't the same move as trimming a braise. Portion (bar/
+    wedge size) and not over-sweetening the topping/crust are the more
+    relevant traditionalist checks for this category.
+  - >
+    Independent review pass (not authored by this persona) of an 8-recipe
+    breakfast batch (diner scramble & bacon, buttermilk pancakes, corned
+    beef hash, sausage gravy & biscuits, Denver omelet, French toast,
+    old-fashioned oatmeal, eggs Benedict) came back clean: every
+    alternateRecipe for a structural allergen (egg in scramble/omelet/
+    French toast/Benedict) was a genuine full recipe with its own
+    ingredients/steps, not a one-line swap, and every new ingredient an
+    alternate introduced (tofu, cashews, chickpea flour, black salt,
+    nutritional yeast, cornstarch) was correctly tagged or correctly left
+    untagged per the canonical vocabulary. Confirms the swap-vs-
+    alternateRecipe distinction and the rebuild-don't-omit sodium
+    principle are being applied consistently, not just in the recipes
+    this persona itself authored.
+  - >
+    Independent review pass of a 9-recipe lunch batch (grilled cheese &
+    tomato soup, Reuben, chicken salad sandwich, turkey club, beef chili,
+    tuna melt, split pea soup with ham, Cobb salad, patty melt) surfaced a
+    new failure mode distinct from the swap-vs-alternateRecipe question:
+    a same-dish swap can resolve the *named* ingredient but miss a
+    *second* ingredient carrying the same restriction tag elsewhere in the
+    recipe. Turkey club's "meat" adaptation swapped turkey breast for
+    "sliced roast chicken" -- but chicken is tagged `meat` in this
+    vocabulary too, so the swap doesn't actually clear the restriction.
+    Beef chili's "beef" adaptation swapped the ground beef but left the
+    beef broth (also tagged `beef`) untouched. Lesson: when checking an
+    adaptation, don't just verify the named ingredient's replacement is
+    correctly tagged -- grep the whole ingredient list for every other
+    ingredient carrying the same restriction tag and confirm the
+    adaptation instructions address all of them, not just the obvious
+    one.
+  - >
+    Independent review pass of a 6-recipe dessert batch (apple pie, bread
+    pudding, chocolate chip cookies, rice pudding, peanut butter cookies,
+    banana cream pie) came back clean on the structural checks: the
+    peanut-butter-cookies alternateRecipe (sunflower seed butter cookies)
+    was a genuine complete recipe (all fields, own ingredient list, own
+    steps), its new ingredient (sunflower seed butter) was correctly left
+    untagged since it's not a Big-9 allergen, and every other
+    gluten/dairy/egg adaptation was a real 1:1 substitution rather than an
+    omission. One new gray-area worth tracking: "semisweet chocolate
+    chips" in the chocolate chip cookies recipe carries no allergen tags,
+    but commercial chocolate chips commonly contain soy lecithin (and
+    sometimes milk fat) as a hidden ingredient -- unlike flour/butter/egg
+    this is brand-dependent rather than inherent to the ingredient itself,
+    so it's not a clean tag-and-fix the way a missing `gluten` tag on
+    flour would be. Flagged rather than tagged, since guessing a specific
+    allergen onto a generic ingredient name risks being wrong for the
+    brand a family actually buys -- worth a firmer house rule (e.g.
+    always tag packaged chocolate `soy` by default, or leave a
+    recipe-level note to check the label) rather than resolving it
+    silently per-recipe.
+  - >
+    Independent review pass (not authored by this persona) of a 6-recipe
+    snack batch (deviled eggs, pigs in a blanket, pimento cheese,
+    sausage-stuffed mushrooms, Chex-style mix, soft pretzel bites with beer
+    cheese dip) came back clean -- notably it correctly applied the
+    "second ingredient carrying the same tag" check the lunch-batch review
+    flagged as a failure mode elsewhere: pimento cheese's dairy swap covers
+    both the cheddar and the cream cheese, the mushrooms' dairy swap covers
+    both the cream cheese and the parmesan, the Chex mix's gluten swap
+    covers both the wheat Chex and the pretzel sticks (and flags checking
+    the tamari label too), and the pretzel bites' gluten swap covers both
+    the flour in the dough and the beer hidden in the cheese dip (an easy
+    one to miss since it's in the sauce, not the base dough) -- same for
+    its three separate dairy ingredients (butter, cheddar, cream cheese)
+    all being addressed in one swap instruction. Deviled eggs correctly
+    used a full alternateRecipe for the egg restriction (egg white as the
+    vessel is structural) rather than a same-dish swap, and the alternate
+    doesn't reintroduce egg via its own mayonnaise (uses tagged vegan mayo
+    instead). No corrections needed this pass -- useful as a positive
+    baseline for what "addressed every co-occurring tag" looks like in
+    practice, not just the failure mode.
+  - >
+    Independent review pass of a 6-recipe treat batch (rice pudding, no-bake
+    peanut butter oat bars, apple crisp, chocolate chip skillet cookie,
+    bourbon bread pudding, pecan pie) came back clean on the "second
+    ingredient with the same tag" failure mode found in the lunch batch --
+    e.g. bread pudding's dairy swap explicitly covers milk *and* both
+    creams *and* butter (four separate dairy-tagged ingredients), and
+    pecan pie's dairy swap explicitly says "in both the crust and
+    filling" to cover the two separate butter ingredients. The
+    egg-in-custard (bread pudding, pecan pie) and nuts-as-namesake (pecan
+    pie -> oatmeal pie) cases were correctly given full alternateRecipe
+    treatment rather than a same-dish swap, consistent with the
+    structural-ingredient principle. Only soft, non-blocking observations:
+    rice pudding is rated "beginner" despite requiring an egg-tempering
+    step, and the oatmeal-pie nut-alternate is rated "intermediate" versus
+    the base pecan pie's "advanced" even though the identical from-scratch
+    crust (the harder part of the technique) is unchanged -- worth a
+    second look next time either of those difficulty labels comes up
+    again, but not a correctness failure.
+  - >
+    Follow-up on the lunch-batch difficulty flag: split pea soup with ham
+    was rated "advanced" but its technique (sear the ham, sauté aromatics,
+    simmer until peas break down) doesn't exceed what the same batch's
+    "intermediate" beef chili or Reuben require -- no reduction, emulsion,
+    or precise-timing step justifies the higher tier. Corrected to
+    "intermediate" to match. This is the second time a difficulty label
+    has read as inflated relative to sibling recipes in the same batch
+    (see the treat-batch note on oatmeal pie/pecan pie/rice pudding) --
+    worth a house rule that difficulty should be benchmarked against
+    other recipes in the same batch/mealType, not assigned per-recipe in
+    isolation.
+  - >
+    Second independent review pass of the same 9-recipe lunch batch (post
+    the earlier co-occurring-tag and difficulty-inflation fixes): both
+    previously-flagged issues held. Turkey club's "meat" adaptation now
+    correctly avoids suggesting chicken (also tagged `meat`) and instead
+    offers portobello/plant-based deli slice, plus cross-references the
+    pork/bacon swap; beef chili's "beef" adaptation now explicitly swaps
+    both the ground beef and the beef broth. Split pea soup with ham is
+    rated "intermediate," matching its sibling recipes' technique level.
+    Every ingredient tag, every adaptation's restriction coverage (including
+    checking for a second same-tag ingredient), and the tuna-melt
+    alternateRecipe (Chickpea Salad Melt -- complete fields, correctly
+    untagged chickpeas) came back clean this pass, with nothing new to flag.
+    Confirms fixes from a prior review persist rather than regressing when
+    a batch is revisited.
+  - >
+    Fresh review pass of the 15-recipe dinner batch flagged a new instance
+    of the "same-dish swap doesn't actually resolve the tag" failure mode,
+    this time for the `meat` restriction rather than `beef`: Herb Roast
+    Chicken, Chicken and Dumplings, and Chicken Parmesan all swapped
+    chicken for turkey to handle a `meat` restriction, but turkey is
+    tagged `meat` in this vocabulary exactly like chicken, so the swap
+    never actually clears it. In all three, chicken is also the
+    structural, namesake protein of the dish (whole roasted bird, the
+    poaching liquid for the dumpling broth, the breaded cutlet under the
+    cheese) -- per the structural-ingredient principle, these need a full
+    alternateRecipe (e.g. whole roasted pork loin or plant-based roast;
+    a turkey-thigh version won't work either since turkey shares the tag)
+    rather than a one-line swap. Removed the broken swap instructions
+    rather than leaving incorrect adaptation data in place; writing the
+    actual alternate recipes is a follow-up task, not a trivial fix.
+    House rule to carry forward: when checking a `meat` adaptation
+    specifically, remember chicken/turkey/duck all share that single tag
+    in this vocabulary -- poultry-to-poultry is never a valid `meat` swap,
+    only a valid `poultry-variety` swap for something like a dry-brine or
+    seasoning preference.
+  - >
+    Second fresh review pass of the 15-recipe dinner batch (post the
+    `meat`-swap fix): the earlier fix held -- Herb Roast Chicken, Chicken
+    and Dumplings, and Chicken Parmesan all correctly have no broken
+    poultry-to-poultry `meat` swap anymore, and the Vegetable Pot Pie
+    alternateRecipe and Turkey Meatballs' turkey-to-beef/pork swap both
+    correctly resolve the `meat` (poultry) tag since neither reintroduces
+    a poultry ingredient. Two new findings this pass: (1) Shepherd's Pie's
+    potato-boiling step said "salted water," inconsistent with every other
+    pasta/potato-boiling step in the same batch ("unsalted water") and
+    with the recipe's own `lower-sodium` tag -- corrected to match. (2)
+    Split Pea Soup with Ham -- which also appears in the lunch batch,
+    where its difficulty was deliberately corrected from advanced to
+    intermediate and confirmed to hold on a second lunch-batch pass -- had
+    regressed back to "beginner" in this dinner-batch copy. Corrected back
+    to "intermediate" to match the established finding. Lesson: a recipe
+    that's shared/duplicated across batches (same id, different mealType
+    context) can drift out of sync with a fix made in the other batch --
+    worth checking for duplicate ids across batches, not just internal
+    consistency within one batch. Soft, non-blocking observation left
+    unflagged-but-fixed: Baked Mac and Cheese is rated "beginner" despite
+    a from-scratch roux/cheese-sauce technique, while the same batch rates
+    Meatloaf and Salisbury Steak (arguably simpler mixing-and-searing
+    tasks) as "beginner-plus" -- worth a second look if this label comes
+    up again, consistent with the house rule that difficulty should be
+    benchmarked against sibling recipes in the same batch.
+  - >
+    Fix pass on the two items flagged from the dessert-batch review above:
+    (1) Chocolate chip cookies -- rather than guessing a `soy` tag onto
+    "semisweet chocolate chips" (brand-dependent, not inherent to the
+    ingredient name the way flour/butter/egg are), added a recipe-level
+    "check the label" note to the description instead, so the family can
+    verify against the actual bag they buy rather than trusting a possibly-
+    wrong default tag. House rule adopted: for packaged/branded ingredients
+    where an allergen is common-but-not-universal (chocolate chips + soy/
+    dairy is the first instance), prefer a label-check note over a guessed
+    tag -- only tag when the allergen is inherent to the ingredient itself.
+    (2) Rice pudding bumped from "beginner" to "beginner-plus" -- the
+    egg-tempering step (whisking hot liquid into yolks to avoid scrambling)
+    is a real beginner+ technique, consistent with the difficulty
+    benchmarking house rule from the dinner-batch reviews.
+  - >
+    Third independent review pass of the same 6-recipe dessert batch (post
+    the chocolate-chip-cookies label-note fix and the rice-pudding
+    beginner-plus fix, both of which held on this pass -- the label-check
+    note is still in the cookies' description and rice pudding is still
+    "beginner-plus"). New finding this pass, distinct from tagging/
+    adaptation-coverage: Banana Cream Pie's cookMinutes (25) undercounted
+    its own steps -- blind-baking the crust alone (15 min + 8-10 min) is
+    23-25 minutes, before any of the separate stovetop pastry-cream cooking
+    (bring to a thickened simmer, temper yolks, then 3-4 more minutes) is
+    added on top, putting the real total closer to 34-35 minutes. Every
+    other recipe in this batch had cook steps that summed to within a
+    minute or two of its stated cookMinutes; this was the one case where
+    two separate cook stages (bake + stovetop custard) were both real but
+    only one was reflected in the total. Corrected to 35. House rule to
+    carry forward: for any recipe with more than one distinct cooking
+    stage (blind-baked crust + stovetop filling, seared-then-braised, etc.),
+    sum each stage's own time rather than eyeballing a single number --
+    the single-stage recipes in this same batch (pie, bread pudding,
+    cookies, rice pudding) didn't have this problem because there was only
+    one stage to account for.
+  - >
+    Fourth review pass of the same 6-recipe treat batch (rice pudding,
+    no-bake peanut butter oat bars, apple crisp, chocolate chip skillet
+    cookie, bourbon bread pudding, pecan pie) confirms the two soft fixes
+    from the earlier pass held: rice pudding is still "beginner-plus" and
+    the pecan-pie nuts alternate (oatmeal pie) is now "advanced," matching
+    its sibling base recipe instead of the earlier "intermediate"
+    mismatch. All allergen coverage, structural-ingredient
+    (alternateRecipe vs. swap) calls, and same-tag-in-two-places checks
+    came back clean again -- no new correctness failures. One judgment
+    call flagged rather than silently fixed: both the oat bars and the
+    skillet cookie tag "(mini) semisweet chocolate chips" as `dairy`
+    directly in the ingredients array. Per the house rule adopted in the
+    dessert-batch review (packaged/branded ingredients with a
+    common-but-not-universal allergen -- chocolate chips are the
+    canonical example -- should get a label-check note, not a guessed
+    tag, since the strict-allergy matcher would wrongly exclude a family
+    who actually owns a certified dairy-free brand, or wrongly clear one
+    who owns a brand that does contain milkfat), these two recipes should
+    probably follow the same pattern the cookies recipe now uses instead
+    of a direct tag. Left unfixed here because removing a strict allergy
+    tag changes real matcher behavior and deserves an explicit call, not
+    a silent edit during a review pass -- but it's the same gray area,
+    now seen in three separate batches (dessert, treat x2), which is
+    enough repetition to suggest a firmer house rule (e.g. always
+    label-check-note packaged chocolate rather than tag-guessing dairy or
+    soy) rather than resolving it recipe-by-recipe going forward.
+  - >
+    Rewrote the legacy stub "seed-grilled-chicken" (Grilled Chicken &
+    Vegetables) into a full recipe: lemon-herb marinated chicken breast and
+    grilled summer vegetables, salt cut back and rebuilt via garlic, Dijon,
+    fresh herbs, and a balsamic finish -- same rebuild-don't-omit sodium
+    principle as the braise/soup batches. New structural judgment call:
+    unlike roast chicken (whole bird) or chicken parm (breaded cutlet under
+    cheese), a simple grilled-protein-plus-vegetables plate keeps its
+    identity intact with a same-dish `meat` swap (tofu or portobello caps,
+    marinated and grilled the same way) rather than needing a full
+    alternateRecipe -- the format/technique, not the specific protein, is
+    what makes this dish what it is. Also confirms the parmesan-garnish
+    `dairy` tag as a straightforward swap (omit or use a dairy-free
+    parm-style alternative), and that a `meat` swap must avoid another
+    poultry (chicken/turkey share the `meat` tag) -- tofu/portobello were
+    chosen specifically because they don't reintroduce the tag.
+  - >
+    Independent review pass (not the authoring pass) of "seed-grilled-chicken"
+    (Grilled Chicken & Vegetables) came back clean: restMinutes (35) correctly
+    sums the 30-minute marinate plus the 5-minute post-grill rest described in
+    the steps; every ingredient tag is canonical and correctly applied (chicken
+    `meat`, Parmesan `dairy`, everything else -- oil, citrus, herbs, mustard,
+    vegetables, vinegar -- correctly untagged); there's only one ingredient
+    carrying each restriction tag (no second same-tag ingredient hiding
+    elsewhere, unlike the turkey-club/beef-chili failure mode found in the
+    lunch batch); the `meat` swap (tofu or portobello) doesn't reintroduce
+    poultry the way a chicken-to-turkey swap would; and the structural call
+    (same-dish swap rather than a full alternateRecipe, since the dish's
+    identity is the grilled-protein-plus-vegetables format, not the specific
+    protein) matches the authoring-pass reasoning. No corrections needed.
 references:
   - title: "How to Reduce Sodium"
     url: "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sodium/how-to-reduce-sodium"

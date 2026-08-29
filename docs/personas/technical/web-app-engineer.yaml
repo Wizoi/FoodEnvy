@@ -103,6 +103,26 @@ notes:
     subagent's id to get correct attribution display for free, and should leave imageUrl empty
     rather than sourcing a real photo -- the gradient+emoji fallback is a real, already-live
     rendering path, not a gap to fill, and avoids any photo-licensing question entirely."
+  - "2026-08-28, active-vs-total time proposal: recommended an additive `restMinutes` field
+    (optional number, default absent/0, meaning 'passive time -- rise/chill/marinate/rest -- the
+    cook must plan around but doesn't actively work during') alongside prepMinutes/cookMinutes,
+    applying identically to `adaptations[].alternateRecipe` sub-objects since those already share
+    the full recipe schema. Explicitly rejected folding rest into cookMinutes (that's the bug
+    being fixed, not a fix) and rejected a single override `totalMinutes` (throws away the
+    active/passive breakdown that's the actual point). formatTime() in index.html/
+    recipe-browser.html (both must stay byte-identical) needs to keep summing everything for the
+    card badge (a cook plans around total elapsed time first) but the detail view should show an
+    explicit Prep/Cook/Rest/Total breakdown line when restMinutes is present -- 'omit the field
+    when honestly unknown, but never silently fold a known passive-time number into the active
+    total' is the same honest-gap-over-guess precedent CLAUDE.md already established for
+    difficulty/time. Also flagged a real pre-existing rough edge surfaced by this change: current
+    formatTime() renders raw minutes ('115 min') with no hour conversion -- more visible once rest
+    time pushes totals past 60 routinely, worth a small formatDuration() helper regardless of
+    whether restMinutes ships. Backfill stance: default 0/absent is fine for the 613 existing
+    recipes as a schema migration, but the specific recipes the find-recipe review passes already
+    flagged (e.g. the ~1-hour-undercounted yeasted bread) are a known-wrong data point, not an
+    honest gap, and deserve a targeted author->review batch fix via find-recipe's existing
+    mechanism rather than a blanket guess across all 613."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

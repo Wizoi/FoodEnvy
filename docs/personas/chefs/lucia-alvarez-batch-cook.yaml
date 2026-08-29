@@ -113,3 +113,172 @@ notes:
     from (a `batchableComponent` field, not just a flat ingredient list) so the matcher/shopping-
     list logic can eventually surface "you already have rice batched this week" the same way a
     human batch-cook would, rather than only de-duping identical ingredient names.
+  - >
+    2026-08: authored 15 complete dinner recipes for the recipe library, deliberately built
+    around 7 reusable batch components (cooked rice, cooked quinoa, shredded chicken, a
+    roasted bell-pepper/zucchini/red-onion medley, black beans, roasted sweet potatoes, and a
+    marinara/ground-meat base) so each component appears across 3-6 dishes. Also gave two
+    dishes (beef bolognese, chicken parmesan) a full alternateRecipe for their meat tag rather
+    than a same-dish swap, since a lentil bolognese or eggplant parmesan changes technique
+    enough that a simple 1:1 ingredient substitution note would undersell what actually has
+    to change -- everything else used a same-dish swap. Finding worth flagging for whoever
+    curates recipe data further: when a dish's name itself names the star ingredient (e.g.
+    "Beef Bolognese," "Chicken Parmesan") a full alternateRecipe reads as more honest and
+    useful to a family with that restriction than a swap instruction bolted onto a recipe
+    still titled after the excluded ingredient.
+  - >
+    2026-08: authored 9 full lunch recipes for the library, deliberately built around the same
+    six batch components from the 25-recipe set (rice, quinoa, shredded chicken, roasted veggie
+    medley, black beans, roasted sweet potato) so a family batch-cooking on Sunday can rotate
+    those components across all 9 lunches with only the dressing/protein/format changing --
+    e.g. the same roasted bell-pepper/zucchini/onion medley shows up in both the rice bowl and
+    the quinoa salad, and the same black-bean/sweet-potato batch underlies both the burrito bowl
+    and the quesadillas. Also used the shellfish-forward shrimp bowl as the one recipe genuinely
+    structured around its named protein, so it got a full alternateRecipe (chicken swap) rather
+    than a same-dish substitution instructions string -- a useful line to keep drawing going
+    forward: if the dish's *name* is the allergen ingredient (e.g. "Shrimp Bowl"), it's an
+    alternateRecipe; if the allergen is one ingredient within an otherwise-stable dish (e.g. feta
+    in a quinoa salad, egg in fried rice), a same-dish swap instruction is enough.
+  - >
+    2026-08: independent review of that 9-lunch batch caught a real bug in the Chicken Caesar
+    Wraps recipe's egg adaptation: the swap instruction told an egg-restricted family to replace
+    the egg yolk with "2 extra tbsp mayonnaise" -- but standard mayonnaise is itself egg-based, so
+    the substitution doesn't actually resolve the restriction it claims to. Fixed the instructions
+    to point at egg-free/vegan mayonnaise instead, and tagged the mayonnaise ingredient itself with
+    `egg` (it was untagged even though the recipe already carried a separate egg-yolk ingredient
+    with the tag). Worth internalizing going forward: any ingredient that is commonly made from an
+    allergen (mayonnaise/egg, Worcestershire/fish, some pestos/nuts) needs its own tag even when a
+    more "obviously" tagged version of that allergen also appears elsewhere in the same ingredient
+    list -- and a swap instruction that substitutes "more of X" for a restricted item must be
+    checked that plain X doesn't itself carry the restricted allergen.
+  - >
+    2026-08: independently reviewed an 8-recipe breakfast batch I did not author. Ingredient
+    tags, adaptation coverage (one adaptation per allergen tag actually present), and the one
+    alternateRecipe entry (chickpea-flour egg-free muffin cups) all checked out field-by-field.
+    Found one real defect worth remembering as a recurring check: a recipe's descriptive `tags`
+    array (e.g. "no-cook", "freezer-friendly") can silently contradict its own `steps` -- the
+    chia pudding jars recipe was tagged "no-cook" but its steps roast apples in a 400F oven for
+    18-20 minutes. Fixed by dropping the "no-cook" tag. Worth adding to the standard review
+    pass alongside ingredient-tag and adaptation checks: read the recipe-level `tags` array
+    against the actual `steps`, not just against the ingredient list -- a batch-cook recipe
+    especially is likely to claim "no-cook"/"one-pot"/etc. shortcuts that a roasting or
+    parallel-oven step (common in my own batch-cook recipes, since I roast alongside dinner)
+    quietly violates.
+  - >
+    2026-08: independently reviewed a 6-recipe dessert batch I did not author. Ingredient
+    tags, adaptation coverage, and recipe-level `tags` vs `steps` consistency all checked out.
+    One judgment call left flagged rather than auto-fixed: a "Chocolate Tahini Swirl Brownies"
+    recipe listed "dark chocolate" untagged for dairy. Unlike mayo/egg or Worcestershire/fish
+    (an allergen is *always* present in those), dark baking chocolate is inconsistent by
+    brand/percentage -- genuinely dairy-free in many baking bars, but "may contain milk" or
+    milkfat-containing in others -- so it fails the "commonly made from" test that would
+    justify auto-tagging it dairy the way I would mayo. Worth a standing rule: ingredients
+    that *always* carry an allergen get force-tagged on sight; ingredients that only
+    *sometimes* do (dark chocolate/dairy, cured meats/soy from some brines, some broths/gluten)
+    get flagged for a human or the recipe's data curator to check the actual product, not
+    silently tagged either way -- an unnecessary dairy tag wrongly excludes the recipe for a
+    dairy-avoiding family who could safely use a dairy-free bar just as much as a missing tag
+    wrongly includes it for one who can't.
+  - >
+    2026-08: independently reviewed a 6-recipe snack batch I did not author (rice-bean cakes,
+    hummus flatbread bites, shredded-chicken lettuce cups, loaded sweet potato skins, quinoa
+    energy bites, chickpea-parmesan snack mix). Ran the full checklist -- ingredient tags,
+    adaptation-per-tag coverage, alternateRecipe field completeness (none present this batch,
+    all adaptations were same-dish swaps), descriptive `tags` vs `steps` contradiction (e.g. a
+    false "no-cook" claim) -- and found nothing to fix. Worth noting as a data point: batch-cook
+    snacks built on already-cooked components (a batched rice, bean, veggie, or protein) are
+    lower-risk for the tags-vs-steps contradiction specifically because the batch component's
+    own cooking happened "off-recipe" (in an earlier dinner's batch session), so the snack's
+    own steps genuinely are just assembly/reheat -- a "no-cook" or "no-cook-veggies" claim on
+    this kind of recipe is more likely to be honestly earned than to need a second look, though
+    still worth the check.
+  - >
+    2026-08: re-reviewed the 9-recipe lunch batch after the earlier Caesar Wraps mayo/egg fix
+    (see the note above) landed. Confirmed the fix held: mayonnaise now carries the `egg` tag and
+    the swap instructions point at egg-free/vegan mayo rather than "more regular mayo." Ran the
+    full checklist again -- ingredient tags (including anchovy paste/fish, all soy/sesame/gluten/
+    dairy/nuts/shellfish sources), one adaptation per allergen tag actually present in each
+    recipe's ingredient list (no missing, no orphaned adaptations), the one alternateRecipe entry
+    (Garlic-Lime Chicken & Black Bean Rice Bowl, subbing for the Shrimp Bowl's shellfish) checked
+    field-by-field with all required fields and correctly tagged chicken-thigh ingredient, and
+    cross-utilization of the six batch components (rice, quinoa, shredded chicken, roasted
+    pepper/zucchini/onion medley, black beans, roasted sweet potato) across the set. Found nothing
+    left to fix -- a genuinely clean batch on the second pass, which is itself worth recording:
+    not every independent review should be expected to find a new defect; confirming a prior fix
+    stuck and re-verifying the whole checklist has value even when the answer is "no changes."
+  - >
+    2026-08: independently reviewed a 15-recipe dinner batch I did not author. Ingredient tags,
+    adaptation-per-allergen-tag coverage, and both alternateRecipe entries (Lentil Bolognese for
+    beef, Eggplant Parmesan for meat -- both named after their dish the way my own "name is the
+    allergen ingredient" rule predicts) checked out field-by-field with all required fields
+    present and correctly tagged ingredients. Fixed one trivial defect: the Sheet-Pan Roasted
+    Veggie & Quinoa Buddha Bowl listed cookMinutes: 5 with zero actual cooking steps (it's pure
+    assembly of already-batched components -- roasted veggies, cooked quinoa, roasted chickpeas
+    -- plus a whisked dressing); corrected to cookMinutes: 0. Left one judgment call unfixed and
+    flagged instead: the Shrimp & Black Bean Rice Bowl is marked "intermediate" difficulty for
+    what's largely a reheat-and-assemble dish with one searing step -- shrimp's narrow
+    doneness window can justify the label, but it reads high next to comparably-simple
+    "beginner" dinners in the same batch (tacos, buddha bowl), so I left it for the recipe's
+    author/curator to confirm rather than silently downgrading it myself.
+  - >
+    2026-08: re-reviewed the same 6-recipe dessert batch referenced above (freezer cookie dough
+    bites, roasted stone-fruit yogurt parfaits, batch-rice pudding, peanut butter freezer fudge,
+    chocolate tahini swirl brownies, banana walnut blondies). Ingredient tags, one-adaptation-per-
+    allergen-tag coverage (all six restrictions present across the batch -- dairy, egg, gluten,
+    nuts, sesame -- had a correctly-resolving swap; no alternateRecipe entries this batch to check
+    field-by-field), and difficulty/time plausibility all held up on the second pass. The dark
+    chocolate/dairy ambiguity in the brownies recipe is unchanged and still deliberately left
+    untagged+flagged rather than fixed, per the standing rule recorded above (force-tag ingredients
+    that *always* carry an allergen; flag-for-human ingredients that only *sometimes* do). Another
+    "no changes, confirms prior review" data point worth keeping alongside the lunch-batch
+    re-review note.
+  - >
+    2026-08: independently reviewed a 6-recipe treat batch I did not author (freezer-batch PB
+    oat energy bites, honey almond granola bars, fudgy cocoa brownies, frozen yogurt bark, a
+    tres leches sheet cake with egg-free and dairy-free alternateRecipe entries, and a skillet
+    chocolate chunk cookie). Ingredient tags, one-adaptation-per-allergen-tag coverage, and both
+    alternateRecipe entries (egg-free tres leches via yogurt+cornstarch structural rebuild,
+    dairy-free tres leches via coconut milk/cream) checked out field-by-field with all required
+    fields present and correctly tagged new ingredients (no new nuts/dairy/egg introduced by any
+    substitute). Found and fixed one violation of the standing dark-chocolate/dairy rule
+    recorded above: the skillet cookie recipe's "chopped dark chocolate" was force-tagged
+    `dairy` even though dark chocolate only *sometimes* carries milk depending on brand/cacao %
+    -- removed the tag and flagged it for a human/data curator instead, consistent with how the
+    Chocolate Tahini Swirl Brownies case was handled (the dairy-swap adaptation instruction was
+    left in place as a safe-side option, just no longer force-excluding the base recipe for
+    dairy-restricted families). By contrast, "mini chocolate chips" (used in the energy bites,
+    granola bars, and yogurt bark) were left tagged `dairy`, since mainstream mini/semisweet
+    chocolate chips near-universally list milk/milkfat as an ingredient even when not labeled
+    "milk chocolate" -- a different product norm than a dark baking bar, so the same standing
+    rule correctly produces different tagging outcomes for the two. Also made one trivial fix:
+    the egg-free tres leches alternateRecipe's `cookMinutes` (35) didn't match its own bake-step
+    range (28-32 min, deliberately shorter than the original due to the denser egg-free batter)
+    -- corrected to 30.
+  - >
+    2026-08: weighed in on the update-app draft adding a `restMinutes` field (yeast rise, dough
+    rest, chilling, marinating) plus Active/Rest/Total detail-view breakdown. Endorsed keeping
+    restMinutes a raw number (not baked into a display string) so it stays computable later.
+    Flagged two batch-cook-specific gaps: (1) an undifferentiated "Total" reads as blocking time,
+    which is backwards for a "Sunday Batch:" recipe -- the rest window is exactly when a
+    batch-cooker starts a second component (roasted veggies, rice) in parallel, so the detail
+    view should label rest as hands-off/free time rather than fold it into one elapsed-feeling
+    Total; (2) a single restMinutes number conflates fully-hands-off rest (marinating, chilling,
+    a first bulk rise) with rest that needs a mid-window check-in (punch-down before a second
+    rise, occasional stir) -- not a blocker for this change, but the next thing to model if a
+    future iteration wants to actually help sequence a Sunday session rather than just report
+    time honestly. Worth checking both points on any future "Sunday Batch:" recipe review once
+    restMinutes ships.
+  - >
+    2026-08: independently reviewed a single lunch recipe (seed-lentil-soup) I did not author.
+    Ran the full checklist -- required fields present, ingredient tags from the canonical
+    vocabulary only (Greek yogurt garnish correctly tagged dairy, crusty bread correctly tagged
+    gluten, no under- or over-tagging elsewhere), prep/cook times plausible for beginner-plus
+    (15 prep + 35 cook lines up with the 6-8 min saute + ~1 min bloom + 25-30 min simmer in the
+    steps), restMinutes: 0 correctly matches a recipe with no rest/chill/rise step, and both
+    adaptations (dairy swap for the yogurt garnish, gluten swap for the bread) each map to an
+    allergen actually present with no missing or orphaned adaptation -- no alternateRecipe entries
+    in this one to check. Found nothing to fix. Worth noting as a positive batch-cook data point:
+    this is exactly the shared-mirepoix-base pattern I look for (the onion-carrot-celery saute is
+    explicitly called out in the description as reused across the week's dinners), and the soup's
+    own freezer-friendly framing is honestly earned by its steps (cools flat, freezes in bags) --
+    another example of the tags-vs-steps consistency check holding up cleanly.

@@ -37,6 +37,329 @@ signature_move: >
 applies_to:
   - dietPresets.js vegan preset
   - fusion/substitution suggestions in the plan-meal skill
+notes:
+  - date: "2026-08-28"
+    finding: >
+      Recipe-authoring pass (8 vegan breakfasts): corn tortillas are not
+      automatically gluten-free -- some blends cut in wheat flour for
+      pliability, so the label-check habit applies even to a food that reads
+      as inherently gluten-free, not just to obviously packaged goods like
+      ramen seasoning.
+  - date: "2026-08-28"
+    finding: >
+      For a soy-allergic fork of a tofu/tempeh-anchored dish, seared king
+      oyster mushroom or coconut flakes (for a "bacon" texture) are the
+      go-to structural swaps -- they hold up to searing/glazing the way
+      tofu does, unlike a straight vegetable substitution that goes mushy.
+  - date: "2026-08-28"
+    finding: >
+      Cashew cream is vegan's most common hidden nut allergen -- it reads as
+      "obviously dairy-free" but is just as exclusionary as dairy cream for
+      a nut allergy; always tag and offer a sunflower-seed-cream or
+      silken-tofu-based swap alongside it.
+  - date: "2026-08-28"
+    finding: >
+      Authoring a 9-recipe vegan lunch set surfaced two more recurring
+      hiding spots worth remembering alongside the ramen/tonkatsu/graham-
+      cracker list: (1) vegan mayo, vegan butter, and vegan
+      cheese/mozzarella shreds are very often soy-based (soy lecithin or a
+      soy-protein base) even when the packaging leads with "vegan" or
+      "dairy-free" -- always flag "check the label" for a soy-strict
+      household rather than assuming vegan branding means soy-free; (2)
+      soba noodles are traditionally milled from a buckwheat/wheat-flour
+      blend, so a gluten-strict swap needs an explicit call-out to buy
+      100%-buckwheat soba (juwari) or switch to rice noodles -- the name
+      "soba" alone does not imply gluten-free.
+  - date: "2026-08-28"
+    finding: >
+      Authoring a 15-recipe vegan dinner set clarified when a same-dish
+      "swap" adaptation is genuinely enough versus when it needs a full
+      alternateRecipe fork: tofu in a stir-fry or a sauce base (cashew/soy
+      milk in a cream) is almost always a clean swap, but seitan (Seitan
+      Steak) and tempeh (Tempeh Bourguignon) are the dish's entire
+      structural protein -- for those, a soy- or gluten-strict fork needs a
+      complete alternate recipe (seared king oyster mushroom "steaks"/
+      "bourguignon" chunks), not an ingredient substitution line, because
+      the cooking method (steaming/kneading for seitan, braising whole
+      cubes for tempeh) doesn't transfer to a swapped-in ingredient without
+      rewriting the steps. Also confirmed gluten-free puff pastry is now a
+      real commercial swap (not just an alternateRecipe-only situation) --
+      worth defaulting to "swap" with a call-out to a certified GF puff
+      pastry brand for pastry-wrapped dishes rather than assuming the whole
+      dish needs reinventing.
+  - date: "2026-08-28"
+    finding: >
+      Authoring a 6-recipe vegan treats set confirmed the cashew-cream
+      nut-allergen pattern applies just as much to desserts (tiramisu's
+      mascarpone stand-in) as savory sauces -- offered the sunflower-seed-
+      cream alternate recipe called for in the earlier note. Two more
+      treat-specific hiding spots: (3) even "vegan" ladyfingers/savoiardi
+      can lean on a gluten-heavy blend to fake the structure whipped egg
+      normally gives, so the gluten-strict swap for tiramisu needs its own
+      explicit call-out rather than assuming a vegan label already solved
+      it; (4) baklava and other phyllo-and-nut pastries are structurally
+      built around the nut layer, not just topped with it, so a nut
+      restriction there needs a full alternate recipe (toasted pepitas/
+      sunflower seeds/coconut) rather than a same-dish swap -- consistent
+      with the king-oyster-mushroom/coconut-flake texture-swap principle
+      already logged for savory dishes.
+  - date: "2026-08-28"
+    finding: >
+      Authoring a 6-dessert set reinforced the soy-in-"vegan butter" finding
+      from the lunch pass -- for a soy-strict household, defaulting a baking
+      recipe to melted coconut oil instead of a vegan butter stick sidesteps
+      the hidden-soy risk entirely rather than requiring a label check every
+      time. Also confirmed aquafaba (chickpea can brine) whipped with cream
+      of tartar is a fully allergen-clean egg-white-meringue replacement --
+      no swap/adaptation needed since nothing in it maps to a Big-9 tag --
+      making it the go-to for meringue-style desserts over an egg-replacer
+      product. And for a cashew-anchored no-bake cheesecake, silken tofu
+      (not just sunflower-seed cream) is a strong structural nut-free
+      alternate base since it sets with the same body a soaked-cashew blend
+      gives, not just a flavor stand-in.
+  - date: "2026-08-28"
+    finding: >
+      Authoring a 6-recipe vegan snack set surfaced two more patterns worth
+      keeping: (1) any dish structurally built on vital wheat gluten
+      (seitan jerky, seitan bites) needs a full alternateRecipe for a
+      gluten-strict fork, not a swap -- there's no gluten-free ingredient
+      that reproduces seitan's chew, so king oyster mushroom (sliced along
+      the grain, marinated the same smoky-umami way) is the go-to
+      structural replacement, same as it is for a soy-strict tofu/tempeh
+      fork; (2) rice crackers, like corn tortillas, are not automatically
+      gluten-free -- some blends add wheat flour for crispness, so the
+      label-check habit extends to them too, not just to grain-adjacent
+      packaged snacks that obviously read as risky.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a 9-recipe vegan lunch batch: homemade-seitan
+      dishes are the one recipe type where the stated cookMinutes reliably
+      undercounts reality -- steaming/simmering the seitan log itself
+      (30-40 minutes) is easy to leave out of the total when it's tucked
+      inside one step alongside a faster saute/sear/broil sequence, so
+      always sum the steaming time separately and add it to cookMinutes
+      rather than defaulting to a number that only covers the "assembly"
+      cooking. Also reconfirms: an alternateRecipe fork built on king
+      oyster mushroom + jackfruit needs no such correction since it skips
+      the steam step entirely, which is part of why it's the right
+      structural swap for a gluten-strict seitan fork.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of an 8-recipe vegan breakfast batch (not authored
+      by this persona in-session): the corn-tortilla gluten-labeling habit
+      logged above wasn't consistently applied within a single batch -- a
+      breakfast-tacos recipe using corn tortillas as the base (not a
+      substitution) had a step warning about wheat-flour-blended corn
+      tortillas but no matching formal "gluten" adaptations[] entry to back
+      it up. Added one (check-label + certified-GF-corn-tortilla
+      instruction) for consistency with how the same caution is handled
+      elsewhere as a real adaptation, not just prose in a step. Lesson: an
+      in-step caution about a hidden allergen is not a substitute for a
+      formal adaptation entry -- if a restriction is worth warning about in
+      the steps, it's worth a matching adaptations[] entry too, otherwise an
+      app that only surfaces adaptations[] (not step text) would miss it
+      entirely.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a 6-recipe vegan snack batch: the soy-allergy
+      alternateRecipe for an edamame-miso dip ("White Bean & Roasted Garlic
+      Herb Dip") had a step ("serve with rice crackers") referencing an item
+      never listed in that alternate's own ingredients array -- the base
+      recipe had rice crackers as a real ingredient line, but the fork
+      dropped it when rewriting the ingredient list. Fixed by adding rice
+      crackers back to the alternate's ingredients. Lesson: when checking an
+      embedded alternateRecipe field-by-field, cross-reference its steps
+      against its own ingredients array too, not just the base recipe's --
+      a fork can silently lose an ingredient line during the rewrite even
+      when every other field looks complete.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a 6-recipe vegan dessert batch (not authored by
+      this persona in-session): a no-bake cashew cheesecake carried the
+      recipe-level tag "gluten-free" but its crust ingredient was plain
+      "rolled oats" with no "certified gluten-free" qualifier -- oats are
+      gluten-free by botany but routinely cross-contaminated with wheat in
+      processing, so a recipe that claims the gluten-free tag needs the
+      qualifier on the ingredient name itself, not just an absence of a
+      wheat-flour line. Fixed in both the base recipe and its nut-free
+      silken-tofu alternateRecipe (which inherited the same oat crust).
+      Otherwise the batch held up well: dairy-free chocolate/chips correctly
+      left untagged since "dairy-free" was already in the ingredient name,
+      soy/nut/sesame/gluten tags were all present where expected, aquafaba
+      meringues correctly carried an empty adaptations[] (nothing in the
+      recipe maps to a Big-9 tag), and the cashew-cheesecake nut alternate
+      correctly re-tagged its new tofu ingredient as soy.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a 15-recipe vegan dinner batch (not authored by
+      this persona in-session) surfaced three fixable patterns: (1) dark
+      sweet soy sauce (kecap manis) was tagged only "soy" in a pad see ew
+      recipe -- like regular soy sauce, it's traditionally fermented with
+      wheat, so it needs the same "soy"+"gluten" tag pair, and the recipe's
+      gluten-swap instructions needed to explicitly call it out alongside
+      the plain soy sauce, not just assume "soy sauce" in the instruction
+      text covers it; (2) the same missing-gluten-tag bug showed up on plain
+      soy sauce inside a mushroom-wellington filling (tagged "soy" only)
+      even though every other recipe in the same batch correctly tagged soy
+      sauce "soy"+"gluten" -- a same-batch consistency check catches this
+      kind of one-off miss that a single-recipe read-through won't; (3) the
+      corn-tortilla-caution-needs-a-formal-adaptation-entry lesson (logged
+      above from the breakfast-batch review) recurred twice more in this
+      dinner batch -- a mole enchiladas recipe and a jackfruit carnitas
+      tacos recipe both had (or should have had) an in-step "check the
+      corn tortilla package for a wheat blend" caution with no matching
+      adaptations[] entry; added a gluten swap entry to both. This is now a
+      confirmed recurring gap, not a one-off -- worth checking for on every
+      corn-tortilla recipe going forward, not just re-discovering it batch
+      by batch. Also reconfirmed the seitan-steaming cookMinutes-undercount
+      finding once more (a seitan "steak" recipe listed cookMinutes: 20 but
+      its own steps call for a 40-minute steam plus a seared finish).
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a 6-recipe vegan treats batch (not authored by
+      this persona in-session): the batch was otherwise clean (every present
+      allergen tag had a matching formal adaptations[] entry, both
+      alternateRecipe forks -- Coconut-Seed Baklava Bites and Sunflower Seed
+      Cream Tiramisu -- were complete field-by-field with correctly tagged
+      new ingredients), but a nut-allergy swap instruction for peanut-butter
+      oat bites offered "sunflower seed butter (SunButter) or tahini" as
+      interchangeable options without flagging that tahini is a sesame-seed
+      paste -- fine for a nut-only restriction but a real risk for a
+      household also avoiding sesame. Fixed by keeping sunflower seed butter
+      as the primary swap and adding an explicit sesame caveat on tahini
+      rather than presenting it as a plain alternative. Lesson: a same-dish
+      swap instruction that names multiple substitute options needs each
+      option cross-checked against the *other* Big-9 tags, not just
+      confirmed clear of the one restriction it's written for.
+  - date: "2026-08-28"
+    finding: >
+      Same review also surfaced a hidden-animal-product category the current
+      ingredient-tag vocabulary (Big-9 allergens only) can't capture:
+      refined cane sugar is sometimes filtered through bone char in
+      processing, a well-known vegan-strictness concern distinct from any
+      allergen. Not actionable as a tag fix (no schema field for it), but
+      worth carrying as a verbal caveat -- "use beet sugar or a
+      certified-vegan cane sugar if bone-char filtering is a concern" -- the
+      same way ramen packets/tonkatsu sauce get a check-the-label callout,
+      since it's the same "obviously vegan food, actually isn't guaranteed"
+      pattern this persona already tracks for chocolate chips and graham
+      crackers.
+  - date: "2026-08-28"
+    finding: >
+      Reviewer flag on an 8-recipe vegan breakfast batch: Besan Chilla
+      (chickpea flour savory crepe) was labeled "intermediate" despite a
+      single-batter, whisk/pour/flip technique and only 10 min prep / 15 min
+      cook -- squarely comparable to other beginner-plus recipes in the same
+      batch (e.g. the miso-glazed tofu bowl, also 10/15). Re-graded to
+      beginner-plus for rubric consistency: a well-seasoned or nonstick pan
+      makes the flip forgiving enough that it doesn't need the same label as
+      a multi-component dish (e.g. French toast's blended cashew cream plus
+      fried batter, or tempeh bacon pancakes' marinate-fry-griddle sequence).
+      Lesson: difficulty should track total technique load and number of
+      sub-components within the batch, not just "does this involve a flip" --
+      a single-pan, single-batter recipe with a short prep/cook time belongs
+      at beginner-plus even when one step (the flip) has a minor skill
+      threshold, reserving intermediate for recipes stacking multiple
+      cooked components.
+  - date: "2026-08-28"
+    finding: >
+      Second-pass independent review of the same 8-recipe vegan breakfast
+      batch referenced above (the corn-tortilla-adaptation fix was already
+      applied from the prior pass) caught a bug that pass missed: the Seitan
+      Breakfast Sausage and Sweet Potato Hash's "soy sauce" ingredient (used
+      in the seitan dough itself) was tagged only ["soy"], not the
+      ["soy","gluten"] pair this persona already established for generic
+      soy sauce (as opposed to tamari, which is genuinely gluten-free and
+      correctly left untagged elsewhere in the same batch). Fixed by adding
+      the gluten tag; confirmed it doesn't break either adaptation --the
+      gluten-strict alternateRecipe never used soy sauce to begin with (vital
+      wheat gluten was already the disqualifying ingredient), and the
+      soy-strict swap replaces the soy sauce with coconut aminos outright.
+      Lesson: this soy-sauce-missing-gluten-tag bug is now confirmed across
+      three separate batches (dinner x2, breakfast) -- worth treating as a
+      standing checklist item ("is every plain soy sauce, as opposed to
+      tamari, tagged soy+gluten?") on every future review rather than
+      something to rediscover per batch.
+  - date: "2026-08-28"
+    finding: >
+      Reviewer flag on the 9-recipe vegan lunch batch: Mushroom Miso
+      Risotto's "advanced" difficulty is a judgment call, not a clear error
+      -- continuous stirring/ladling over 25-30 minutes is genuinely
+      demanding, but is more conventionally "intermediate" when set against
+      the same batch's Seitan Philly Sandwich (intermediate, despite
+      stacking more distinct techniques: dough kneading, steaming, searing,
+      broiling). Left unchanged rather than unilaterally downgraded --
+      "advanced" is defensible for the sustained-attention requirement even
+      if a technique-count comparison alone would suggest intermediate.
+      Flagging as a standing open question for the next persona-group
+      difficulty-rubric pass rather than resolving solo. Same review also
+      reconfirmed the vegan-mayo/vegan-butter/vegan-cheese soy-tagging
+      default (white miso paste included) already logged above -- soy-free
+      versions of all of these exist (coconut-oil butter, chickpea miso,
+      avocado-oil mayo/cheese), so the "soy" tag is a reasonable
+      allergy-safety default from the ingredient name alone, not a verified
+      fact about a specific brand; worth continuing to note this
+      distinction explicitly rather than presenting the tag as certain.
+  - date: "2026-08-28"
+    finding: >
+      Third independent review of what appears to be the same 9-recipe vegan
+      lunch batch referenced in the two notes above: the plain-soy-sauce-
+      missing-its-gluten-tag bug (confirmed across dinner x2, breakfast x1
+      previously) had recurred here too -- six ingredient lines (Tofu Banh
+      Mi Bowl, Seitan Philly Sandwich's base, Tempeh Buddha Bowl, Black Bean
+      & Walnut Burger, Tofu Pad Thai, Soba Noodle Salad) all listed plain
+      "soy sauce" tagged only ["soy"] instead of ["soy","gluten"]. Fixed all
+      six. This also had a second-order effect worth logging as its own
+      pattern: fixing the tag turned three recipes (Tofu Banh Mi Bowl,
+      Tempeh Buddha Bowl, Tofu Pad Thai) from "no gluten present" into "has
+      a gluten-tagged ingredient with zero matching adaptations[] entry" --
+      a silent allergy-safety gap that only became visible once the
+      ingredient tag itself was corrected. Added a gluten swap
+      (tamari/coconut aminos) to each. For the two recipes that already had
+      a gluten adaptation for an unrelated ingredient (Black Bean & Walnut
+      Burger's breadcrumbs/buns, Soba Noodle Salad's soba noodles), the
+      existing instructions text didn't mention soy sauce either -- updated
+      both to add it rather than assuming the existing gluten entry already
+      covered every gluten-tagged ingredient in the recipe. Lesson: a
+      missing-ingredient-tag bug isn't just a tagging fix in isolation --
+      always re-check whether fixing the tag now requires a new or updated
+      adaptations[] entry, since the matcher/plan-import logic only sees the
+      tags, not the intent behind them.
+  - date: "2026-08-28"
+    finding: >
+      Full rewrite of the legacy "seed-tofu-curry" stub: Thai-style red curry
+      paste is a fifth recurring hidden-animal-product hiding spot worth
+      adding alongside ramen packets/tonkatsu/graham crackers/vegan-butter --
+      most commercial red curry paste brands include shrimp paste (kapi) even
+      though the paste itself reads as an "obviously vegan" spice product.
+      Applied the same conservative-default tagging already used for soy
+      sauce (tag it "fish" and offer a formal swap -- certified vegan-labeled
+      paste or a quick DIY chili/garlic/ginger/lemongrass paste -- rather than
+      assuming a curry recipe is automatically clean). Also reconfirmed: tofu
+      as the headline protein in a sauce-based curry is a clean same-dish
+      "swap" for a soy allergy (seared king oyster mushroom + coconut aminos
+      in place of the soy sauce), not an alternateRecipe fork -- consistent
+      with the stir-fry/sauce-base precedent already logged above, since the
+      cooking method (sear, then simmer in sauce) transfers directly to the
+      substitute protein.
+  - date: "2026-08-28"
+    finding: >
+      Independent review of a single recipe, "seed-black-bean-bowl" (Black
+      Bean & Rice Bowl): the two previously-confirmed recurring bugs (plain
+      soy sauce missing its "gluten" tag; a corn-tortilla wheat-blend caution
+      in the step text with no matching formal adaptations[] entry) were both
+      already handled correctly here -- soy sauce carried ["soy","gluten"],
+      and the gluten adaptation's instructions explicitly named both the
+      tortilla-brand check and the soy-sauce substitution. One real fix made:
+      difficulty was "beginner-plus" for a dish stacking five timed
+      sub-components (rice, sauteed/mashed bean filling, charred corn, fried
+      tortilla strips requiring oil-temp management, whisked crema) --
+      per the stacking-multiple-cooked-components rubric already established
+      from the breakfast-batch review (besan chilla vs. french toast/tempeh
+      bacon pancakes), this belongs at "intermediate," not "beginner-plus."
+      Upgraded. Also confirmed vegan mayo's "soy" tag and the soy-swap
+      instructions (coconut aminos + soy-free avocado-oil mayo) match the
+      established default.
 references:
   - title: "Vitamin B12"
     url: "https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-b12"

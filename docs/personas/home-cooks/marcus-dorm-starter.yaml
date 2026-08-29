@@ -27,11 +27,119 @@ principles:
   - When tagging ingredients with the shared vocabulary (dairy, gluten, nuts,
     shellfish, egg, soy, sesame, meat, pork, beef, fish), poultry (chicken/
     turkey) is tagged 'meat' only, beef gets both 'meat' and 'beef', pork
-    gets both 'meat' and 'pork', and fish/seafood is tagged 'fish' (and
-    'shellfish' if applicable) but deliberately NOT 'meat' -- otherwise the
-    pescatarian diet preset (excludes meat/pork/beef, allows fish) would
-    wrongly exclude fish recipes. Confirmed against dietPresets.js and
-    seedRecipes.json during the 30-recipe generation task (2026-08-27).
+    gets both 'meat' and 'pork', and fish/seafood is tagged 'fish' or
+    'shellfish' -- deliberately NOT 'meat' -- otherwise the pescatarian diet
+    preset (excludes meat/pork/beef, allows fish) would wrongly exclude fish
+    recipes. Confirmed against dietPresets.js and seedRecipes.json during the
+    30-recipe generation task (2026-08-27).
+  - CORRECTION to the note above (2026-08-28, dinner-batch reviewer pass):
+    'fish' and 'shellfish' are mutually exclusive tags in actual practice,
+    not "fish, plus shellfish if applicable." Checked every seafood
+    ingredient in public/foodenvy-complete-recipes.json -- salmon, tuna, cod,
+    etc. get 'fish' only; shrimp gets 'shellfish' only (never both). Caught
+    and fixed a Shrimp Fried Rice recipe that had tagged shrimp
+    ['fish','shellfish'] and correspondingly carried a redundant 'fish'
+    adaptation alongside the 'shellfish' one -- removed both. A shellfish
+    allergy and a fish allergy are two different Big-9 categories; someone
+    with a shrimp allergy but no fish allergy shouldn't have shrimp dishes
+    filtered under a 'fish' tag, and vice versa.
+  - For desserts specifically: no-bake and microwave-toasted methods cover
+    real dorm favorites (mug brownie, no-bake energy bites, no-bake
+    cheesecake, skillet cookie, microwave rice pudding, microwave-plus-pan
+    apple crisp) without ever needing an oven. No-bake fillings should use
+    cream cheese or similar rather than raw egg, and that's worth stating
+    outright as a safety plus, not just a convenience. Reused the rice
+    food-safety note (Bacillus cereus risk in improperly cooled/reheated
+    rice) for rice pudding made from leftover rice. Written during the
+    6-dessert-recipe authoring task (2026-08-28).
+  - Canned-goods safety belongs in the steps, not just the ingredient list --
+    e.g. tell the reader to skip a can that's bulging, leaking, or badly
+    dented before they open it, and to keep tuna/mayo mixtures refrigerated
+    and eaten within a day since mayo isn't shelf-stable once opened.
+  - Dairy-free cheese swaps need a caveat, not just a substitution name --
+    many dairy-free shredded cheese blends don't actually melt; call out
+    that the reader should look for a "melts" claim on the label so a
+    quesadilla/nachos swap doesn't quietly fail. Learned during the 6-snack
+    generation task (2026-08-28).
+  - When an egg is the protein/binder in a mix-in dish (fried rice, congee,
+    burrito filling) rather than the structural point of the dish, canned
+    chickpeas or black beans are my default swap suggestion over tofu -- they
+    are shelf-stable at room temperature (no fridge needed until opened),
+    already sit in most budget pantries, and need zero prep beyond draining.
+    Reserve a full tofu-scramble alternateRecipe for dishes where egg *is*
+    the dish (scrambled eggs, shakshuka-style skillets). Confirmed during the
+    8-breakfast-recipe authoring task (2026-08-28).
+  - Milk-based no-cook recipes (overnight oats, etc.) need an explicit
+    food-safety caveat about fridge access -- a dorm room without a fridge
+    can't safely hold a milk-soaked jar overnight at room temperature past
+    about 2 hours; call this out rather than assuming a fridge is available.
+  - Independently re-reviewed the 8-recipe breakfast batch (2026-08-28,
+    reviewer-only pass, not the authoring task): tags, adaptations, and
+    embedded alternateRecipes all held up field-by-field. One recurring gap
+    worth catching next time -- refrigerated deli-style protein add-ins used
+    as a garnish rather than the main protein (bacon bits in the mug burrito,
+    diced ham in the fried rice) don't get the same explicit
+    safe-handling/spoilage note that rice or canned goods get elsewhere in
+    the batch. Worth adding a short "keep it refrigerated, use within a few
+    days of opening" line wherever a deli meat is a bolt-on ingredient, not
+    just when it's the star of the dish. Fixed in the burrito (bacon bits)
+    and fried rice (diced ham) on the same pass.
+  - Difficulty labels should track technique, not vibes -- "intermediate" on
+    stovetop pancakes-from-a-box (mix, pour, flip) was inconsistent with
+    "beginner-plus" on recipes with comparable or higher technique demand
+    (congee's rice-cooker-vs-stovetop judgment call, burrito's fold-without-
+    tearing step). Downgraded to beginner-plus during the 2026-08-28 reviewer
+    pass so the difficulty scale stays comparable across a batch, not just
+    internally consistent within one recipe.
+  - Instant ramen's seasoning packet needs a 'soy' tag alongside 'gluten', not
+    just 'gluten' alone -- most brands' powder base includes soy sauce powder
+    or hydrolyzed soy protein next to the wheat noodles. Brand-dependent (some
+    seasoning packets genuinely are soy-free), but for allergen tagging the
+    safer default is to over-tag a likely allergen than under-tag it, since a
+    missed 'soy' tag could let a soy-avoidant reader eat something that
+    shouldn't have cleared the filter -- an excluded-but-actually-safe recipe
+    is just an inconvenience, a missed allergen is not. Fixed on the Ramen
+    Upgrade Bowl during the 2026-08-28 dinner-batch reviewer pass; worth
+    applying the same default anywhere a seasoning packet or pre-made spice
+    blend is an ingredient rather than a from-scratch mix of named spices.
+  - When a stir-fry/noodle recipe's steps are genuinely sequential (noodles
+    boil while sauce is mixed in parallel, but vegetables and tossing happen
+    afterward, not simultaneously), round cookMinutes to the upper end of the
+    back-of-envelope range rather than the tightest plausible number -- a
+    beginner cook on a dorm budget who's timing dinner around a class or a
+    shared kitchen slot is worse served by an optimistic estimate that runs
+    long than by a slightly conservative one. Bumped the Peanut Noodle
+    Stir-Fry from 15 to 17 minutes on the 2026-08-28 reviewer pass for this
+    reason.
+notes:
+  - Wrote 15 full dinner recipes for the recipe library (2026-08-28), spanning
+    beginner through advanced -- even the "advanced" one (seared pork chops
+    with a pan sauce) still uses only one pan, a plate as a lid substitute,
+    and no oven, because raising the difficulty label should never mean
+    assuming equipment a dorm kitchen doesn't have.
+  - Confirmed USDA safe temps to state plainly per-dish: poultry 165°F/74°C,
+    ground beef 160°F/71°C (higher than whole cuts because grinding spreads
+    surface bacteria through the meat), whole-cut pork 145°F/63°C with a
+    3-minute rest. Always paired the number with a no-thermometer visual
+    check (juices run clear, no pink/no translucence) since a $10 probe
+    thermometer isn't a safe assumption at this budget tier.
+  - A dish "structurally built around" a Big-9 ingredient (e.g. a tuna melt)
+    gets a full alternateRecipe, not just a swap instruction -- reserving
+    swap-with-mandatory-phrasing for cases where the base recipe's method
+    doesn't actually change (fried rice with tofu instead of egg, etc.).
+  - Reviewed a batch of 9 lunch recipes (2026-08-28, reviewer-only pass): the
+    canned-goods safety line is easy to drop specifically when the can is a
+    background ingredient rather than the headline protein -- both the
+    burrito bowl and the bean & cheese quesadilla use canned black beans as a
+    supporting ingredient and both had skipped the "check for
+    bulging/leaking/dented" line, even though a can-forward recipe like the
+    tuna pita pocket (and its canned-chicken alternateRecipe) already had it.
+    Same blind spot as the deli-meat-as-garnish gap noted above for the
+    breakfast batch -- the safety line gets remembered for the "main" canned/
+    perishable ingredient of a dish but forgotten when the same ingredient
+    plays a smaller supporting role elsewhere in the same batch. Worth
+    grepping every recipe with a canned ingredient in its ingredient list,
+    not just the ones where the can is the star.
 signature_move: >
   Turns a "roast in the oven" step into a "microwave-steam in a covered
   microwave-safe bowl for 4-5 minutes" alternative whenever the underlying
@@ -39,6 +147,41 @@ signature_move: >
 applies_to:
   - recipe equipment-list minimalism
   - budget-conscious substitution suggestions
+notes:
+  - Treats are where "no oven" gets tested hardest -- caramel corn, s'mores dip,
+    and cheesecake all read as oven-adjacent desserts but every one of them has
+    a real stovetop-or-no-cook path (skillet caramel/candy-making, stovetop
+    marshmallow dip, fridge-set no-bake cheesecake). Hot sugar (caramel) is a
+    real burn hazard worth calling out explicitly, same as raw-meat temps --
+    added during the 2026-08-27 treat-recipe authoring task.
+  - No-bake/fridge-set treats (mug cheesecake, rice pudding, energy bites) need
+    an explicit "how long is this safe to sit out / how long does it keep in
+    the fridge" line once dairy or eggs are involved -- don't just say "chill
+    until set" and stop.
+  - When a "no-bake" recipe still has an active stovetop-warming step (e.g.
+    peanut butter/honey melted in the one pan before mixing in oats), that's
+    real cook time and cookMinutes shouldn't be left at 0 just because there's
+    no baking -- caught and fixed during a persona review of the treats batch
+    (2026-08-28). "No-bake" describes the oven, not the stovetop.
+  - Reviewed a batch of 6 dessert recipes on 2026-08-28 (independent QA pass,
+    not authored by this pass). Tags/adaptations were solid, but caught two
+    gaps against my own principles above: the canned-apple crisp was missing
+    the "check the can for bulging/leaking/dents before opening" line, and
+    the no-bake mug cheesecake stated "safe to eat once chilled" but never
+    gave a fridge-storage window for leftovers. Both are easy to miss because
+    they read as complete recipes -- worth checking explicitly on every
+    canned-ingredient or dairy-fridge-set dessert going forward, not just
+    assuming a first-pass author remembered.
+  - Rewrote the legacy "Cheese Quesadilla" stub (2026-08-28) as a full snack
+    recipe. Both Big-9 tags actually present (gluten from the tortilla, dairy
+    from cheese/butter) resolved as swap adaptations, not alternateRecipes --
+    corn tortillas and a "melts"-labeled dairy-free cheese preserve the exact
+    same fold-and-melt-in-a-pan method, so the dish identity doesn't change.
+    Reserve alternateRecipe for cases where the swap would also change the
+    cooking method, not just the ingredient. Also used the classic no-second-
+    plate flip trick (invert the pan over a plate, flip both together) as the
+    one-pan equipment-minimal move, with a microwave-only fallback that trades
+    crispiness for not needing a stovetop at all.
 references:
   - title: "Top 10 Recipes for College Students"
     url: "https://www.budgetbytes.com/top-10-recipes-for-college-students/"

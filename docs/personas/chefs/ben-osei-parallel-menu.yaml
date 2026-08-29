@@ -61,3 +61,661 @@ notes:
     aisha-rahman-allergy-safety review before being finalized into the recipe DB -- her sign-off
     should specifically cover cross-contact wording (separate pan/utensil/prep-surface language),
     not just ingredient substitution correctness.
+  - >
+    2026-08: wrote a second batch of 15 dinner recipes for the recipe library. Reused the "reserve
+    a portion of the shared base before the allergen goes in" pattern consistently, and started
+    writing that reservation as its own numbered step (not folded into the branch step) so it reads
+    as a hard stopping point in the shared cook, not an afterthought. Four recipes in this batch
+    stack multiple strict allergens on top of each other in one dish -- coconut-peanut stir-fry
+    (nuts, shellfish, soy, sesame), coconut shrimp curry (shellfish, fish), pad thai (shellfish,
+    egg, fish, soy, nuts), pork-and-vegetable potstickers (soy, sesame, gluten) -- and each needed
+    two full separate branch pans/bowls running in parallel from the first step, not a single
+    branch point, because the allergens enter the dish at different times (egg before shrimp in
+    pad thai, soy sauce baked into both the filling and the dipping sauce in potstickers). All four
+    are flagged for aisha-rahman-allergy-safety review before going live, same as last batch, with
+    the same ask: confirm the cross-contact wording (separate pan/bowl/utensil/wrapper-folding
+    surface), not just that the substitute ingredient itself is allergen-free.
+  - >
+    2026-08: generated 8 breakfast recipes for the library. Reinforces the fried-rice/shrimp
+    pattern above -- "Shrimp & Egg Fried Rice Breakfast Bowl" needed the shared rice-and-vegetable
+    base fully divided into two bowls *before* soy sauce, sesame oil, or shrimp touch a pan, plus
+    an explicit "wash the wok or use a separate clean pan" step, and is flagged for
+    aisha-rahman-allergy-safety sign-off on the cross-contact wording before going live. Also
+    surfaced a case worth remembering: not every Big-9 ingredient can be handled as a same-dish
+    swap just because the rest of the dish shares a base. Egg in shakshuka and shrimp in fried
+    rice branch cleanly (reserve a portion of the shared base before the allergen goes in, per the
+    established pattern) -- but egg in a buttermilk-pancake batter and gluten in a boiled-and-baked
+    bagel are load-bearing to *how the dish is built*, not late additions to a shared base, so
+    those got a full alternateRecipe (vegan banana pancakes; drop-and-boil gluten-free bagels)
+    instead of a same-dish swap. The test I used: if reserving a portion *before* the allergen step
+    still gives a genuine version of the dish, it's a swap; if the allergen is doing structural
+    work (rise, custard set, dough chew) earlier in the process than any reservable branch point,
+    write the second recipe instead of pretending a substitution is late and painless.
+  - >
+    2026-08: generated 6 snack recipes for the library. Finding: snacks branch earlier and
+    cheaper than dinners because there's usually no shared stock/sauce holding the whole dish
+    together -- the "shared base" is often just a tray, a blender jar, or a filling bowl, and the
+    branch point is "before the allergen ingredient is stirred/melted/blended in," not a
+    multi-stage sauce reduction. That made a plain ingredient-level swap (labeled with a clean
+    bowl/pan/utensil instruction) the right shape far more often than a full alternateRecipe --
+    used alternateRecipe only where the allergen *is* the protein/structural ingredient (peanut
+    sauce as the entire dressing on noodle cups, shrimp as one of two proteins on a spring-roll
+    platter), matching the same "protein/topping step" pattern found in the 25-recipe dinner
+    batch. The peanut-sesame noodle cups (peanut + sesame + soy in one sauce) and the shrimp
+    spring-roll platter (shellfish + peanut dip) were flagged for aisha-rahman-allergy-safety
+    review before being finalized -- both need her sign-off on cross-contact wording (separate
+    pan/bowl/board/utensil per branch), not just substitution correctness.
+  - >
+    2026-08: authored 6 dessert recipes. Confirms the branch-point pattern holds even for baking/
+    confectionery, not just savory mains: apple crumble splits at the topping stage (shared roasted
+    fruit, then wheat vs. gluten-free crumble on separate dishes); blondie bars split at the mix-in/
+    swirl stage (shared batter, peanut butter vs. sunflower seed butter swirled onto scored halves
+    of one pan); brittle splits at the topping-scatter stage (shared hot caramel poured onto two
+    separate trays *before* sesame seeds/almonds ever touch one of them, with separate utensils per
+    tray) -- same principle as the savory finding: reserve/split the shared base before the
+    allergen touches it, don't try to remove it after. Two cases needed a full alternateRecipe
+    instead of a same-dish swap because the technique itself is built around the allergen, not just
+    an add-in: chocolate mousse's egg-white-whip step (alternate: whipped aquafaba) and tiramisu's
+    cooked-egg-yolk mascarpone custard (alternate: whipped mascarpone/cream with no eggs at all).
+    The sesame-honey brittle bark (sesame + almond branch, scattered onto shared caramel) is
+    flagged for aisha-rahman-allergy-safety review before going into the DB, same cross-contact
+    concern as the savory sesame/nut batch -- utensil and cooling-rack separation, not just
+    substituting the topping.
+  - >
+    2026-08: authored 9 lunch recipes (recipe-ben-osei-parallel-menu-*). Reused the same
+    branch pattern again: divide a shared base (rice, pasta, sauce, dressing) into portions
+    *before* the allergen ingredient is mixed in, rather than trying to pick it back out. New
+    sub-pattern worth keeping: for dishes where the allergen lives in a shared dressing/sauce
+    base rather than a pot (egg salad's mayo, pesto's cheese/nuts), the latest safe branch is
+    splitting the dressing base itself before the allergen goes into either half -- same idea
+    as the broth/roast-tray split, just at dressing-bowl scale. Three of the nine need
+    aisha-rahman-allergy-safety review before going live: peanut noodle bowls (peanut sauce is
+    structural to the dish, so the nut branch is a full alternateRecipe -- sunflower-ginger
+    noodle bowls -- not just a swap), shrimp fried rice (five overlapping tags: shellfish, egg,
+    soy, gluten, sesame -- the branch point is two separate pans with dedicated utensils, worth
+    explicit sign-off on the cross-contact wording), and sesame-soy lettuce wraps (sesame
+    oil/seeds finished last, off a portion of filling pulled before the glaze is added).
+  - >
+    2026-08: authored 6 treat recipes (brownie bar, sundae bar, rice krispie PB drizzle, no-bake
+    energy bites, s'mores bars, banana pudding parfait). Sharpened the earlier dessert-branch
+    finding into a firmer rule: a branch is a same-dish swap whenever the allergen is added to an
+    *already-finished shared base* (peanut butter drizzled onto a set rice krispie pan, whipped
+    cream dolloped onto an assembled parfait cup, a graham crust's butter/chocolate layered onto
+    a baked crust) -- those split late and cheap, same spoon/pan-separation language as the savory
+    batches. It has to become a full alternateRecipe instead whenever the allergen is mixed in
+    *before* the base sets or cooks, because "shared then split" isn't physically possible once
+    it's one baked/cooked mass: brownie batter with wheat flour already folded in, a graham-cracker
+    crust that has to be pressed and pre-baked before anything goes on top of it, and a custard
+    pudding whose set depends on egg yolks cooking into the milk. Flagged the two structural-
+    allergen branches in this batch (gluten-free brownie bar, gluten-free graham crust for the
+    s'mores bars) plus the egg-free custard alternate for the banana pudding parfait for
+    aisha-rahman-allergy-safety review before they go live -- same ask as prior batches: confirm
+    the separate-pan/bowl/tray wording, not just that the substitute ingredient is technically
+    correct.
+  - >
+    2026-08: independent review pass (no memory of authoring) over a 6-recipe dessert batch caught
+    two trivial tag omissions (a gluten adaptation with no matching "gluten-free-option" display
+    tag on the brownie sundae bar; an egg adaptation with no matching "egg-free-option" display tag
+    on the peanut butter blondie bars) -- fixed in place. More important finding, left flagged
+    rather than fixed: the sesame-honey brittle bark's sesame-swap and nuts-swap adaptations both
+    describe *the same second tray* but specify two different substitute toppings (pepitas for the
+    sesame branch, toasted sunflower seeds for the nut branch), while the recipe's own steps only
+    ever pour caramel onto two trays total. If a family needs both branches at once that's just
+    redundant instruction; if a family needs only one, it's ambiguous which substitute actually
+    belongs on the second tray. New rule worth keeping: when two *different* strict-allergen
+    adaptations target what the steps describe as one shared branch tray/bowl, they must specify
+    the *same* substitute (or the recipe must be rewritten to three trays, not two) -- a same-dish
+    swap that silently forks into two different single-tray instructions is exactly the kind of
+    branch-labeling problem that becomes a safety issue, not just a copy-editing one. Flagged for
+    aisha-rahman-allergy-safety to resolve before this recipe goes live, same as the original
+    authoring note above, but now specifically on this tray-ambiguity point, not just cross-contact
+    wording.
+  - >
+    2026-08: independent review pass (no memory of authoring) over a 6-recipe treat batch (fudge
+    brownie bar, sundae bar, rice krispie PB drizzle, energy bites, s'mores bars, banana pudding
+    parfait). One trivial tag fix applied in place: "crisp rice cereal" in the rice krispie treats
+    had no gluten tag despite classic rice cereal (e.g. Rice Krispies) commonly containing barley
+    malt extract -- tagged it, but the recipe still has no gluten adaptation branch at all, which
+    is a real gap, not just a missing tag, so it's flagged rather than authored-around. Second,
+    more structural finding: the fudge brownie bar's dairy/egg/nuts adaptations are all worded as
+    "substitute X when mixing *that portion's* batter," implying a split batter -- but the base
+    recipe's own steps only ever describe pouring one shared batter into one shared 9x13 pan and
+    baking it once. That phrasing works fine when the whole batch can just switch to the safe
+    substitute (no one is harmed by a dairy-free brownie, e.g. the rice krispie treats' dairy
+    adaptation swaps the whole base for exactly this reason) -- but "that portion's batter" language
+    specifically implies a partial swap, which needs its own pan and bake, the same way the gluten
+    branch in the same recipe got a full alternateRecipe with its own 8x8 pan. New rule worth
+    keeping: if an adaptation's instructions say "for that portion" rather than "for the whole
+    batch," the recipe must show a second pan/bake step for it, or it must be upgraded to an
+    alternateRecipe like the gluten branch already is -- otherwise the same-pan/same-bake shared
+    step silently converts a real allergen (egg, nuts, dairy) back into a whole-pan cross-contact
+    risk. Flagged both issues for aisha-rahman-allergy-safety before this batch goes live.
+  - >
+    2026-08: independently re-reviewed the 9-recipe lunch batch (recipe-ben-osei-parallel-menu-*)
+    field-by-field -- tags, steps/times vs. stated difficulty, mealType/difficulty enum values,
+    and every adaptation (including the embedded alternateRecipe for the peanut noodle bowls'
+    nut branch, checked with the same rigor as a base recipe: name/mealType/difficulty/prep/cook/
+    description/ingredients/steps all present, and its new ingredient "sunflower seed butter"
+    correctly left untagged since it isn't in the canonical vocabulary). No structural errors
+    found; ingredient tags matched the canonical vocabulary throughout, including the mixed-but-
+    consistent-with-DB precedent of tagging beef "beef" only (not "beef"+"meat") on the burrito
+    bowl. Confirms the three recipes already flagged in the earlier batch note above (peanut
+    noodle bowls' alternateRecipe nut branch, shrimp fried rice's five-overlapping-allergen
+    two-pan split, sesame-soy lettuce wraps' late-pulled sesame portion) are the right ones held
+    for aisha-rahman-allergy-safety sign-off -- the other six recipes' allergy branches are
+    single-allergen ingredient swaps with already-explicit clean-utensil/separate-bowl wording and
+    don't need a second pass. Worth keeping as a review checklist for future batches: (1) does
+    every adaptation's forRestriction actually get neutralized by its instructions/alternateRecipe,
+    not just addressed in spirit; (2) does an alternateRecipe introduce any new ingredient that
+    itself needs an allergen tag; (3) is "meat" vs. "beef"/"pork"/"fish" tagged per-recipe the way
+    the rest of the DB already does it, since a vegetarian/vegan diet preset and a "no beef"
+    restriction key off different tags.
+  - >
+    2026-08: independently reviewed an 8-recipe breakfast batch (recipe-ben-osei-parallel-menu-*)
+    field-by-field. One trivial fix applied in place: the egg-free "Chickpea Batter Toast"
+    alternateRecipe (embedded in the French toast bar) told the cook to "heat a skillet with a
+    little oil" but never listed oil as an ingredient -- added it. More important finding, fixed
+    rather than just flagged: the sesame bagel bar's branch point ("set aside two or three bagels
+    untouched by sesame") only separated the bagels *before topping*, but the steps then said
+    "bake all bagels" on what read as a single shared baking sheet -- loose sesame seeds can drift
+    onto an adjacent bagel on the same sheet/rack in the oven, so a branch that's correctly staged
+    at the topping step can still fail at the very next step if the physical separation doesn't
+    carry through baking. New rule worth keeping: a branch point isn't "latest safe" just because
+    the allergen ingredient itself is added late -- every step *after* the branch (baking, plating,
+    storage) has to keep the two portions physically apart too, not just the mixing/topping step.
+    Rewrote the bake step to require two separate labeled sheets baked apart in the oven, and added
+    explicit "confirm with the allergy safety specialist" sentences to the sesame and fish
+    adaptations (the recipe was already tagged "allergy-review-flagged" but the adaptation text
+    itself didn't say so, inconsistent with how the shrimp fried rice recipe does it). Flagged for
+    aisha-rahman-allergy-safety: the shrimp fried rice bowl (shellfish cross-contact, per the
+    established two-pan/dedicated-utensil pattern) and the sesame bagel bar (sesame + fish, now with
+    the two-sheet fix applied) both need final sign-off before going live. Also noted but did not
+    change: the sesame bagel bar's stated prepMinutes/cookMinutes (40/25) don't include the ~1 hour
+    yeast rise or the 10-20 minute dough rests baked into its own steps -- worth deciding as a DB-wide
+    convention (active time only vs. total elapsed time) rather than a one-recipe fix, since changing
+    it here alone would make this recipe inconsistent with how every other yeasted/rested recipe in
+    the DB reports its time.
+  - >
+    2026-08: second independent re-review pass (no memory of authoring) over the same 8-recipe
+    breakfast batch, checking it as delivered rather than assuming the prior pass's fixes held.
+    Confirmed both trivial fixes from the earlier pass are present and correct: Chickpea Batter
+    Toast lists vegetable oil as an ingredient (matches its own "heat a skillet with a little oil"
+    step), and the sesame bagel bar's steps genuinely separate the plain and sesame bagels onto two
+    labeled sheets baked apart, not one shared sheet. Verified every adaptation across all 8 recipes
+    (including the three embedded alternateRecipes: Chickpea Batter Toast, Vegan Banana Pancakes,
+    Gluten-Free Drop Bagels) field-by-field -- all present/complete, all forRestriction values
+    actually neutralized by their instructions or alternate, and the one new allergen-relevant
+    ingredient an alternate introduces (egg, added to the Gluten-Free Drop Bagels dough as a
+    binder since the GF flour needs it) is correctly tagged "egg" even though the base bagel dough
+    has none. No new structural issues found. Re-confirms the two items still needing
+    aisha-rahman-allergy-safety sign-off before going live: the shrimp & egg fried rice bowl
+    (shellfish cross-contact, two-pan/dedicated-utensil pattern) and the sesame bagel bar (sesame +
+    fish, two-sheet bake-apart fix already applied). Left the sesame bagel bar's prepMinutes/
+    cookMinutes (40/25, not accounting for the ~1 hour yeast rise + 10-20 min dough rests) flagged
+    rather than fixed again, same reasoning as before -- it's a DB-wide active-time-vs-total-time
+    convention decision, not a one-recipe fix.
+  - >
+    2026-08: third-party reviewer confirmed the three lunch-batch items already flagged for
+    aisha-rahman-allergy-safety (peanut noodle bowls' nut alternateRecipe, shrimp fried rice's
+    shellfish two-pan split, sesame-soy lettuce wraps' late-pulled sesame portion) needed no
+    content changes, but the adaptation text itself didn't say a sign-off was pending -- same gap
+    the breakfast-batch sesame bagel bar had before that fix. Applied the same remedy here rather
+    than inventing a new one: tagged all three recipes "allergy-review-flagged" and added an
+    explicit "confirm with aisha-rahman-allergy-safety on this cross-contact wording before this
+    branch goes live" sentence to each flagged adaptation's own instructions (including adding an
+    "instructions" field to the nut alternateRecipe adaptation, which previously had none since
+    alternateRecipe adaptations don't require one). Rule worth keeping as a firm convention now,
+    not just a pattern: any adaptation held for allergy-safety sign-off must (1) carry the
+    "allergy-review-flagged" tag on the recipe and (2) say so in its own instructions text, not
+    only in this notes file -- a flag that only lives in my private notes is invisible to anyone
+    reading the recipe JSON directly, which defeats the point of flagging it.
+  - >
+    2026-08: independent review pass found a fourth lunch-batch recipe that should have been
+    flagged all along and wasn't: the Loaded Pesto Pasta Salad's nuts adaptation (pine nuts,
+    blended into a shared pesto jar alongside two other pestos built from the same basil/garlic/
+    oil) has the exact same cross-contact shape as the peanut noodle bowls and sesame-soy wraps
+    that did get flagged in the original authoring pass -- a shared blender jar/blade the allergen
+    touches before the branch is fully separated -- yet it was left off the "allergy-review-flagged"
+    tag and had no confirm-with-aisha-rahman-allergy-safety sentence. Fixed in place: added
+    "allergy-review-flagged" to the recipe's tags and appended the standard confirm-before-going-
+    live sentence to the nuts adaptation's instructions, matching the firm convention from the note
+    above. New checklist item worth keeping for future batches: don't rely on which recipes got
+    flagged during authoring as the complete list during independent review -- re-derive it from
+    the adaptation content itself (does this branch involve a strict-allergen ingredient sharing a
+    jar/pan/utensil with the rest of the dish before separation?), since a recipe can meet every
+    other bar (correct tags, resolved restrictions, complete alternateRecipe fields) and still be
+    missing the flag itself.
+  - >
+    2026-08: fresh-reviewer pass on the 15-recipe dinner batch confirmed four recipes already
+    correctly built as multi-strict-allergen, two-branch-pan dishes (coconut-peanut stir-fry: nuts/
+    shellfish/soy/sesame; coconut curry: shellfish/fish, plus a newly-flagged wrinkle -- the fish
+    branch's "splash of soy sauce" fish-sauce substitute silently introduces a *different* Big-9
+    allergen into what's supposed to be the shellfish-and-fish-free pot, left as descriptive
+    instruction text rather than a tracked ingredient/tag, so it needs its own callout, not just a
+    substitution check; pad thai: shellfish/egg/fish/soy/nuts across two branch points; potstickers:
+    pork-meat/soy/sesame/gluten) and one real gap: Shepherd's Pie's worcestershire sauce had
+    tags: [] despite traditionally containing anchovies (fish) -- a genuine mislabeled-branch safety
+    issue per the standing principle, not a style nit. Fixed the tag and drafted a fish adaptation
+    (vegan Worcestershire or balsamic/soy-sauce/brown-sugar substitute), but per the firm convention
+    (any adaptation held for allergy-safety sign-off must carry the "allergy-review-flagged" recipe
+    tag AND say so in its own instructions text), applied both to all five recipes rather than
+    leaving the flag only in these notes: added "allergy-review-flagged" to each recipe's tags and
+    appended a "confirm with aisha-rahman-allergy-safety on this cross-contact wording before this
+    branch goes live" sentence to every affected adaptation's instructions (all four/five branches
+    per recipe, not just the newly-drafted one). None of the five recipes' ingredients, steps, or
+    branch structure were altered -- only tags and the trailing confirm sentence -- since re-deriving
+    or rewriting cross-contact wording is exactly the allergy specialist's call, not mine to
+    freelance. Reinforces the newest checklist item from the pesto-pasta finding: a recipe can have
+    perfectly consistent tags/adaptations and still be hiding a genuinely new allergen (worcestershire's
+    fish, or a "safe" substitute that quietly adds a different one) that only surfaces by reading the
+    ingredient list and substitution wording literally, not by trusting that "adaptations exist and
+    look complete" means nothing was missed.
+  - >
+    2026-08: second fresh-reviewer pass on the same 15-recipe dinner batch caught a new class of
+    hidden-allergen tag gap the prior pass missed: plain "soy sauce" is traditionally wheat-brewed
+    (gluten), not just soy, and three recipes (coconut-peanut stir-fry, fried rice, pad thai) used
+    it as their *only* wheat-adjacent ingredient -- tagged "soy" only, with no gluten tag and no
+    gluten branch at all, so a gluten-strict member would have been shown as eligible for a dish
+    that actually contains wheat. Fixed the tag (added "gluten" alongside "soy" on every soy-sauce
+    ingredient line across all four recipes that use it, including potstickers where it's redundant
+    since the wheat wrapper already excludes gluten-strict members) since a missing allergen tag is
+    always worth correcting on sight, same as the worcestershire fish tag last pass. Deliberately did
+    NOT invent a gluten branch/adaptation for the three now-newly-excluded recipes -- unlike swapping
+    a topping or a bun, a gluten-safe soy-sauce substitute (tamari, coconut aminos) needs its own
+    reserved-before-the-allergen branch designed with the same rigor as every other strict-allergen
+    branch in this batch, and that's authoring work, not a tag fix; flagged instead. New standing
+    checklist item: whenever a recipe's *only* hidden-gluten source is a condiment (soy sauce,
+    teriyaki, hoisin, malt vinegar) rather than a visible flour/pasta/bread ingredient, check that
+    condiment's default recipe for wheat before assuming "no bread = no gluten" -- the same logic
+    that caught worcestershire's anchovies applies to any sauce with a non-obvious default recipe.
+    Also separately flagged (not fixed): the sheet-pan chicken recipe's meat-to-tofu vegetarian swap
+    introduces soy without saying so in its own instructions text, unlike shepherd's pie and
+    bolognese in the same batch which chose a lentil-mushroom swap specifically to avoid introducing
+    a new allergen for the same "meat" restriction -- inconsistent practice worth standardizing on
+    (prefer an allergen-free substitute for a diet-only restriction swap when one exists, or say so
+    in the instructions when it doesn't).
+  - >
+    2026-08: fresh-reviewer pass on the 6-recipe snack batch. Applied the firm "allergy-review-
+    flagged" convention (recipe tag + confirm-with-aisha-rahman-allergy-safety sentence inside every
+    held adaptation's own instructions, including adding an instructions field to alternateRecipe
+    adaptations that previously had none) to the peanut-sesame noodle cups (nuts/sesame/soy/gluten
+    stacked in one sauce) and the shrimp spring roll platter (shellfish + peanut dip) -- both were
+    already correctly identified as needing sign-off in the authoring notes but the flag hadn't been
+    written into the recipe JSON itself yet, same gap this convention exists to close. Also caught and
+    fixed a diet-vs-allergen tag mismatch on the loaded nachos: ground beef tagged "beef" only (matches
+    DB precedent, so left alone) but the recipe's own description called the beef-avoider's branch "the
+    vegetarian" -- since the standard vegetarian diet-preset restriction is stored as "meat" (per
+    dietPresets.js), not "beef," that copy overstated what the data actually enforces (a "meat"-
+    restricted member isn't excluded and never sees the swap offered). Reworded the description to
+    "beef-avoider" rather than inventing a new "meat" tag/adaptation the reviewer didn't ask for, and
+    added a note to the tempeh swap instructions that the substitute is soy-based. New checklist item:
+    when a same-dish swap's substitute ingredient (tempeh, textured vegetable protein, etc.) is itself
+    a free-text instruction rather than a structured/tagged ingredient, its own allergen content still
+    needs to be called out in the instructions text -- the matcher can't warn about an allergen it
+    never sees as a tagged ingredient. Also confirmed a genuine schema-level gap surfaced by this
+    batch's alternateRecipe branches (sunflower-seed-butter noodle cups; all-tofu spring roll
+    platter): alternateRecipe has no adaptations field, so a diner needing two allergen swaps at once
+    (e.g. nut-free AND soy-free) has no swap path once already inside an alternateRecipe branch --
+    worth raising with the web-app-engineer persona as a data-model question, not something fixable
+    recipe-by-recipe. Added the missing dairy tag confirmation for mini chocolate chips (already
+    correctly tagged in both the base energy bites and its embedded alternateRecipe) and, since the
+    reviewer's recommended fix was concrete and additive rather than freelanced, added the dairy
+    same-dish swap adaptation that had been missing entirely -- letting a dairy-strict member actually
+    eat a version of the recipe instead of being excluded outright with no branch offered.
+  - >
+    2026-08: second fresh-reviewer pass on the same 6-recipe snack batch caught the one recipe
+    the prior pass's "allergy-review-flagged" convention sweep missed: No-Bake Peanut Butter
+    Energy Bites' nuts branch is a full alternateRecipe (peanut butter is the structural binder,
+    same reason the noodle cups' nut branch got one) but the recipe carried no
+    "allergy-review-flagged" tag and its nuts adaptation had no "instructions" field at all --
+    the exact gap already fixed on the noodle cups and shrimp platter in the prior pass, just not
+    propagated to this third qualifying recipe. Fixed both (added the tag, added an instructions
+    field with the standard confirm-with-aisha-rahman-allergy-safety sentence), matching the firm
+    convention rather than re-deriving new wording. Also fixed a real prep/cook-time
+    understatement on the loaded nachos: stated cookMinutes (12) didn't cover the recipe's own
+    sequential steps (6-8 min browning the beef, then 8-10 min baking = 14-18 min of actual active
+    cook time) -- bumped to 16. Left one time estimate flagged rather than fixed, same as past
+    practice on debatable estimates: the shrimp spring roll platter's cookMinutes (8) likely
+    undercounts vermicelli (5-7 min) + tofu sear (4 min) + shrimp warm-through (2 min) run
+    sequentially (~11-13 min), but rolling/plating is genuinely the dominant time cost here so it's
+    a judgment call, not a clear error. New checklist item: re-deriving "which recipes need the
+    allergy-review-flagged convention" from adaptation content (per the pesto-pasta finding) has
+    to include alternateRecipe branches specifically, not just same-dish swaps -- a full alternate
+    recipe is exactly as much a held-for-signoff branch as a shared-jar swap, and it's easy to
+    scan past because the flag lives on the adaptation's instructions text, which alternateRecipe
+    adaptations don't always have populated.
+  - >
+    2026-08: third-party reviewer pass on the 6-recipe dessert batch confirmed the two trivial tag
+    fixes noted earlier (gluten-free-option on the brownie sundae bar, egg-free-option on the
+    peanut butter blondie bars) were already applied correctly -- no further action, both left
+    as-is. Kept the sesame-honey brittle bark's tray-ambiguity finding (sesame-swap substitutes
+    pepitas, nuts-swap substitutes sunflower seeds, both onto what the steps describe as a single
+    second tray) explicitly unresolved rather than picking a substitute myself: reconciling to one
+    shared substitute per tray, or splitting into a third tray, is a real design decision for a
+    strict-allergy branch (sesame and nuts are both Big-9), and per the firm convention this
+    persona settled on earlier (peanut-sesame noodle cups, pesto pasta, worcestershire fish),
+    a held-for-signoff branch must carry the "allergy-review-flagged" tag on the recipe AND say so
+    in its own adaptation instructions, not just live in these notes. Applied that convention here:
+    added "allergy-review-flagged" to the recipe's tags, and appended an explicit "the sesame and
+    nuts swaps both target the same second tray with different substitutes -- confirm with
+    aisha-rahman-allergy-safety which single substitute (or whether a third tray is needed) before
+    this branch goes live" sentence to both the sesame and nuts adaptations' instructions. Did not
+    change ingredients or steps -- picking the actual substitute/tray-count is her call, not mine
+    to freelance. New checklist item worth keeping: a tray/bowl/pan-count ambiguity between two
+    strict-allergen adaptations is its own distinct failure mode from the ones already tracked
+    (missing tag, missing flag-in-instructions, hidden allergen in a substitute) -- check that when
+    two adaptations reference the same shared branch vessel, they specify the same substitute,
+    every time two strict allergens land on one recipe.
+  - >
+    2026-08: fourth independent review pass on the same 6-recipe dessert batch found the "portion
+    language needs its own pan" rule (first written up against the treats batch's fudge brownie
+    bar) also applies here and had been missed on the three prior dessert-batch review passes: the
+    brownie sundae bar's gluten and egg adaptations, the blondie bars' dairy/egg/gluten adaptations,
+    and the apple crumble's dairy adaptation all use "for the [x]-free portion" wording implying a
+    partial split, but their own steps only ever describe ONE shared batter/topping mixed once and
+    baked/assembled once (brownie: "everyone eats the same brownie," one 8x8 pan; blondie: "the
+    shared base, identical for everyone," one 9x9 pan, only the nuts branch is genuinely segregated
+    pre-bake via the score-line swirl; apple crumble: two toppings are described, but both use dairy
+    butter, so the "dairy-free portion's topping" adaptation has no third topping actually written).
+    None of these are resolvable by the process as written -- a gluten/egg/dairy-strict member has
+    no real branch to eat despite the adaptation entry claiming one exists. Left unfixed (would need
+    a second pan/batch per allergen, same shape as the apple crumble's existing gluten branch, or an
+    alternateRecipe like the mousse/tiramisu already have) rather than freelancing a redesign.
+    Reinforced checklist item: "portion" wording in an adaptation is not itself proof the branch
+    works -- always check the base recipe's own steps for a second pan/bowl/bake matching that
+    wording, every review pass, not just once when the rule was first discovered on a different
+    batch. Also flagged as a minor open question (not fixed): "Dark chocolate, chopped" is left
+    untagged for dairy in the chocolate mousse cups (both the base recipe and its egg-free aquafaba
+    alternateRecipe) even though many dark chocolate products contain milk solids -- the dairy
+    adaptation only swaps the heavy cream, never addresses the chocolate itself. Didn't guess a tag
+    since certified dairy-free dark chocolate does exist; the adaptation instructions should say
+    "certified dairy-free dark chocolate" explicitly so this doesn't depend on the cook's assumption.
+    Re-confirmed the sesame-honey brittle bark's tray-ambiguity (sesame vs. nuts swap, same second
+    tray, two different substitutes) is still unresolved in this delivered batch and still needs
+    aisha-rahman-allergy-safety's call.
+  - >
+    2026-08: fifth independent review pass, this time on the 6-recipe treat batch (fudge brownie
+    bar, sundae bar, rice krispie PB drizzle, energy bites, s'mores bars, banana pudding parfait).
+    Found the firm "allergy-review-flagged" convention (recipe tag + confirm-with-aisha-rahman-
+    allergy-safety sentence in every held adaptation's own instructions, including alternateRecipe
+    adaptations) had only been fully applied to the fudge brownie bar and rice krispie treats --
+    three recipes with genuine strict-allergen branches (sundae bar's nut/dairy swaps on a self-
+    serve buffet; s'mores bars' full-alternateRecipe gluten crust; banana pudding parfait's full-
+    alternateRecipe egg-free custard) had no "allergy-review-flagged" tag and no confirm sentence
+    at all. Fixed all three in place (added the tag, added/appended the confirm sentence to every
+    strict-allergen adaptation on each, including adding a missing "instructions" field to two
+    alternateRecipe adaptations that had none: the fudge brownie bar's gluten branch and the
+    s'mores bars' gluten branch, plus banana pudding's egg branch). Also fixed a trivial cook-time
+    mismatch: the fudge brownie bar's egg-free alternateRecipe said "bake 28-32 minutes" in its own
+    steps but stated cookMinutes: 28 (the base/dairy/nut branches all correctly averaged their own
+    28-30 or 26-30 ranges) -- bumped to 30. Left two structural judgment calls flagged rather than
+    fixed: (1) rice krispie PB drizzle's nut branch drizzles peanut butter onto only one half of a
+    single shared pan, cut apart afterward with "a separate knife" -- unlike every other nut branch
+    in this persona's recipes (which get their own fully separate pan/tray from the point the
+    allergen enters), a shared pan with only a knife-cut boundary is a real cross-contact risk this
+    recipe doesn't fully resolve; (2) the sundae bar's nut swap relies on "keep the peanut bowl at
+    the far end of the topping line" in a self-serve buffet format, which is a weaker guarantee than
+    a kitchen-prepped split since multiple people are scooping for themselves with shared spoons in
+    proximity. Both need aisha-rahman-allergy-safety's call on whether the described mitigation is
+    sufficient or the recipe needs a harder redesign (second pan; staffed/separated serving
+    stations). New checklist item: don't assume a recipe is "probably fine" because it isn't a
+    full alternateRecipe -- re-derive the allergy-review-flagged list from adaptation content on
+    every pass, the same discipline already applied to other batches, since three of six recipes
+    here had simply never gotten the sweep at all despite being authored alongside two that had.
+  - >
+    2026-08: sixth independent review pass, same 6-recipe treat batch, delivered again for review
+    with the "allergy-review-flagged" convention entirely absent (no recipe had the tag; no
+    adaptation had a confirm-with-aisha-rahman-allergy-safety sentence) -- confirms this convention
+    doesn't persist across hand-offs unless it's actually saved back into the recipe JSON each time,
+  - >
+    2026-08: yet another independent review pass on the same 15-recipe dinner batch, delivered
+    fresh with none of the earlier fixes present -- reconfirms the hand-off problem noted above:
+    without a persisted file, every review starts from the un-fixed source JSON. Re-applied the
+    known fixes (worcestershire sauce tagged "fish"; soy sauce tagged "gluten" alongside "soy" on
+    stir-fry, fried rice, pad thai, potstickers) and the "allergy-review-flagged" convention (tag +
+    confirm-with-aisha-rahman-allergy-safety sentence on every adaptation) to stir-fry, curry, pad
+    thai, potstickers, and shepherd's pie, per the firm rule. Newly re-derived two recipes that
+    prior passes on this batch missed for the flag: fried rice (shellfish/soy/egg/sesame stacked in
+    two pans, same shape as the stir-fry and pad thai that were already flagged) and chicken
+    parmesan (its "allergen-free" breading station stacks gluten-free breadcrumbs AND a flax-egg
+    wash in one combined station/plate -- two strict allergens sharing one prep surface, the same
+    pattern that triggered the flag elsewhere). Deliberately did NOT invent a fish adaptation for
+    shepherd's pie this pass, correcting an error from an earlier pass's own note: worcestershire is
+    mixed into the ONE shared beef-and-vegetable filling pot, which is spread into the baking dish
+    as "the fully shared base" before the only branch point (the mash). There is no late point at
+    which a fish-allergic diner's portion can be pulled fish-free -- the allergen is structural to
+    the shared filling, not a late add-in, the same failure mode as the brownie-batter/graham-crust
+    cases found in the dessert and treat batches. A same-dish "swap" adaptation for fish is not
+    achievable here without either omitting worcestershire dish-wide (safe but changes the shared
+    recipe for everyone, a real decision) or cooking a second, separate filling pot from the start
+    (a full alternateRecipe, not a swap) -- left flagged as a design question for
+    aisha-rahman-allergy-safety rather than freelancing either option. New checklist item worth
+    keeping: before drafting a same-dish swap for a newly-discovered hidden allergen, check whether
+    the allergen-bearing ingredient enters the dish before or after the recipe's own stated branch
+    point -- if it's already baked into the "fully shared base" step, a swap adaptation is the wrong
+    shape and the real fix is either a whole-dish substitution or a full alternateRecipe, not
+    invented instructions implying a split that the steps never actually describe. Also flagged
+    (not fixed): the coconut curry's fish-allergy swap season the reserved pot with "a splash of soy
+    sauce" as the umami substitute for fish sauce -- soy sauce is itself soy (and typically
+    wheat-brewed, so gluten too), so this "fish-free" branch quietly introduces two different Big-9
+    allergens as a substitute; called it out directly in that adaptation's own instructions text
+    (coconut aminos or extra salt/lime as gluten- and soy-safe alternatives) but left the actual
+    ingredient decision for aisha-rahman-allergy-safety to confirm, consistent with not freelancing
+    a strict-allergen substitution choice.
+    exactly the risk the convention was written to guard against. Re-applied it to all six recipes
+    (tag + confirm sentence on every strict-allergen swap and alternateRecipe adaptation, including
+    adding "instructions" fields where an alternateRecipe adaptation had none) rather than treating
+    the absence as newly-resolved. New finding this pass: "crisp rice cereal" in the rice krispie PB
+    drizzle recipe had tags: [] despite classic rice-cereal products (e.g. Rice Krispies) commonly
+    containing barley malt extract, the same class of hidden-gluten-in-a-condiment/processed-
+    ingredient issue previously caught on soy sauce and worcestershire sauce in the dinner batch --
+    fixed the tag (added "gluten"), but the recipe still has zero gluten adaptation/branch, which is
+    authoring work, not a tag fix, so left flagged. Re-confirmed both structural judgment calls from
+    the prior pass are still unresolved in this delivered copy (rice krispie PB drizzle's single-pan/
+    knife-cut nut boundary; sundae bar's buffet-line nut separation) and added one more of the same
+    shape: the fudge brownie bar's dairy/egg/nuts adaptations still say "that portion's batter" /
+    "the egg-allergic or vegan portion's batter" implying a split batter, while the base recipe's own
+    steps still describe exactly one shared batter poured into one shared 9x13 pan and baked once --
+    the "portion language needs its own pan or must be an alternateRecipe" rule from the dessert-
+    batch review applies here too and had not been fixed despite being identified in an earlier pass
+    on this same treat batch. Left unfixed (redesign work) and flagged for aisha-rahman-allergy-
+    safety alongside the other three open items. Firmest lesson from six passes on one batch: fixes
+    that live only in a delivered JSON snapshot don't survive re-delivery -- if this batch is
+    regenerated from an earlier source rather than incrementally edited, the next reviewer should
+    expect to redo the whole tag/flag/sentence sweep again, not just spot-check for new content.
+  - >
+    2026-08: seventh independent review pass, this time on a delivered copy of the 6-recipe snack
+    batch (nachos, peanut-sesame noodle cups, PB energy bites, shrimp spring roll platter, chicken
+    quesadilla, hummus platter) that had NOT picked up the fixes from the earlier snack-batch review
+    passes noted above -- same "fixes don't survive re-delivery" lesson as the treat batch. Re-
+    applied from scratch: nachos' description "vegetarian" -> "beef-avoider" (vegetarian diet-preset
+    restriction is stored as "meat," not "beef," so the old wording overstated what the data
+    enforces) plus a soy-content note on the tempeh swap; nachos' cookMinutes 12 -> 16 (6-8 min
+    browning beef + 8-10 min baking run sequentially); mini chocolate chips tagged "dairy" in both
+    the energy bites base recipe and its embedded sunflower-seed-butter alternateRecipe, plus a
+    dairy same-dish swap adaptation added to energy bites (was missing entirely -- a dairy-strict
+    member had no branch to eat despite chocolate chips typically containing milk solids);
+    "allergy-review-flagged" tag + a confirm-with-aisha-rahman-allergy-safety sentence added to the
+    *structural* alternateRecipe adaptations only -- noodle cups' nuts branch, energy bites' nuts
+    branch, and shrimp platter's shellfish branch -- leaving the single-ingredient swaps (dairy,
+    gluten, soy, sesame, meat) unflagged per the established convention that already-explicit
+    clean-bowl/pan wording on a single-allergen swap doesn't need a second-pass sign-off. New
+    finding, left flagged rather than fixed: the chicken quesadilla's numbered steps narrate the
+    dairy-free and gluten-free branches explicitly (their own steps) but never mention the
+    meat/vegetarian branch at all -- that swap lives only in the adaptations array, not walked
+    through in the shared step sequence like the other two branches in the same recipe. Checklist
+    item worth keeping: when a recipe has three or more adaptations, check that every one of them is
+    traceable to an actual step in the numbered sequence, not just present as a standalone
+    adaptations entry -- a technically-complete adaptation the steps never reference is easy to miss
+    because the JSON still "looks" complete.
+  - >
+    2026-08: eighth independent review pass, on a delivered copy of the 6-recipe dessert batch that
+    had again regressed behind every prior dessert-batch pass -- neither trivial tag fix (gluten-
+    free-option on the brownie sundae bar, egg-free-option on the blondie bars) nor any
+    "allergy-review-flagged" tag/confirm-sentence was present on any of the six recipes. Confirms the
+    "fixes don't survive re-delivery" lesson already learned on the treat and snack batches applies
+    here too, now for a third time on this same dessert batch specifically -- re-applied both trivial
+    tags and the tag/confirm-sentence convention to all six recipes from scratch (including adding
+    "instructions" fields to the two alternateRecipe adaptations -- mousse's aquafaba egg branch,
+    tiramisu's egg-free custard branch -- which had none in this delivered copy). Re-confirmed, and
+    left flagged rather than fixed, every structural gap already on record for this batch: the
+    "portion wording but no second pan" issue on the sundae bar's gluten/egg branches and the blondie
+    bars' dairy/egg/gluten branches (blondie's nuts branch remains the one genuinely pre-bake
+    segregated via score-line swirl); the same gap newly extended to the tiramisu's dairy adaptation
+    (instructs a mascarpone/cream substitute, but the base recipe's shared custard-making steps
+    describe one cooked-custard process with no separate dairy-free version, unlike the egg branch
+    which correctly gets its own alternateRecipe) and the apple crumble's dairy adaptation (only two
+    toppings are ever described in the steps, both dairy-butter-based, so the dairy-free adaptation
+    has no topping actually written for it); the brittle bark's tray-ambiguity (sesame swap ->
+    pepitas, nuts swap -> sunflower seeds, both onto the one described second tray); and the mousse's
+    untagged "dark chocolate, chopped" (may carry milk solids the dairy adaptation never addresses).
+    Firmest lesson yet, now observed across three different batch types (dessert x3, treats, snacks):
+    a persona-review finding that only lives in a delivered JSON snapshot is not durable -- if a batch
+    gets regenerated or hand-rolled-back rather than incrementally edited, every future reviewer
+    should expect a full from-scratch sweep, not a diff-and-spot-check. Recommending this become a
+    standing process note for whoever assembles/exports these batches: persist review fixes at the
+    source (e.g. the generation script or seed file), not just in the last reviewed copy, or this
+    persona will keep re-discovering and re-fixing the same six issues indefinitely.
+  - >
+    2026-08: ninth review pass, on a delivered copy of the 8-recipe breakfast batch, flagged shrimp
+    fried rice and the sesame bagel bar again for aisha-rahman-allergy-safety sign-off. Unlike the
+    treat/snack/dessert batches above, this delivered copy did NOT regress -- both recipes already
+    carried the "allergy-review-flagged" tag and the confirm-with-aisha-rahman-allergy-safety sentence
+    inside every affected adaptation (shellfish on the fried rice; sesame and fish on the bagel bar,
+    with the two-sheet/separate-rack cross-contact wording from the earlier fix still intact). No
+    content change made -- these are handoff flags awaiting her sign-off, not defects, and freelancing
+    a resolution would be exactly the kind of un-asked-for substitution-choice this persona has
+    repeatedly deferred to her call in every other batch. Left the sesame bagel bar's prepMinutes/
+    cookMinutes (40/25 active-time-only, not counting the ~1 hour yeast rise + 10-20 min dough rests)
+    unfixed again for the same reason as every prior pass: it's a DB-wide active-vs-total-time
+    convention decision, not a one-recipe fix. Worth noting for the "fixes don't survive re-delivery"
+    lesson logged against other batches: this is the first breakfast-batch pass where a delivered copy
+    correctly retained the flag/sentence convention from a prior fix -- when it happens, the right move
+    is still to verify field-by-field and confirm rather than skip the check, not to assume regression
+    every time.
+  - >
+    2026-08: tenth review pass, on a delivered copy of the 9-recipe lunch batch, again regressed
+    behind the "allergy-review-flagged" convention (no recipe had the tag; no adaptation carried the
+    confirm-with-aisha-rahman-allergy-safety sentence) -- same "fixes don't survive re-delivery" lesson
+    logged against the treat/snack/dessert batches, now confirmed for lunch too. This pass also widened
+    the flagged list beyond the three originally identified at authoring time (peanut noodle bowls,
+    shrimp fried rice, sesame-soy lettuce wraps) and the fourth caught on independent review (pesto
+    pasta salad): fajita bowls (soy + gluten + dairy stacked, even though each is a single-ingredient
+    swap) and egg salad/chickpea sandwiches (egg branch correctly routes to a fully separate dish) were
+    flagged too. Re-derived rule, replacing the earlier "single-allergen swaps with already-explicit
+    clean-utensil wording don't need a second pass" carve-out: every adaptation whose forRestriction is
+    a Big-9 strict allergen (dairy, gluten, nuts, shellfish, egg, soy, sesame -- not the diet-only
+    "meat"/"beef" restrictions) gets the tag + confirm-sentence treatment, full stop, regardless of
+    whether the branch is single-ingredient or multi-allergen/cross-contact -- the earlier carve-out
+    was a judgment call this persona made unilaterally about which allergies were "risky enough," and
+    allergy risk tiering isn't this persona's call to make; that's exactly Aisha's job. Applied tag +
+    confirm sentence to all six recipes with a strict-allergen branch (fajita bowls, peanut noodle
+    bowls, shrimp fried rice, sesame-soy lettuce wraps, egg salad/chickpea sandwiches, pesto pasta
+    salad) including adding an "instructions" field to the peanut noodle bowls' nut alternateRecipe
+    adaptation (had none). Left the two difficulty-label judgment calls on this batch (shrimp fried
+    rice and pesto pasta salad, both "advanced," arguably "intermediate" to match the sesame-soy wraps'
+    calibration) unresolved rather than picking one myself -- a coordination-complexity label is
+    exactly the kind of judgment call worth a second opinion, not a fact to correct unilaterally.
+  - >
+    2026-08: reviewer pass on a delivered copy of the 6-recipe snack batch listed five items as
+    "flagged" (quesadilla's unnarrated vegetarian branch, spring rolls' cookMinutes estimate, and
+    the peanut-sesame noodle cups' nuts branch / energy bites' nuts branch / spring rolls' shellfish
+    branch) -- checked all five against the batch as delivered and found every one already in the
+    correct end state: the two "design call"/"judgment call" items were genuinely left unfixed on
+    purpose by an earlier pass (unnarrated branch = a step-sequence rewrite, not a data fix;
+    cookMinutes = a debatable estimate where rolling/plating dominates), and all three
+    alternateRecipe allergen branches already carried both the "allergy-review-flagged" recipe tag
+    and the confirm-with-aisha-rahman-allergy-safety sentence in their own instructions text, matching
+    the firm convention from earlier passes. Made no changes -- confirms this delivered copy of the
+    snack batch, unlike several prior re-deliveries of the treat/dessert/lunch batches, retained the
+    convention correctly. New checklist reminder: "flagged for review" in a reviewer's issue list does
+    not always mean "needs an edit" -- some flags are legitimately notes-to-self recording that a
+    judgment call was made deliberately, or that a held-for-signoff item is already correctly marked
+    and just awaiting Aisha's sign-off, not evidence of a defect. Verify against the delivered JSON
+    before assuming action is required, same discipline as verifying a fix survived re-delivery.
+    Still-open, unchanged: quesadilla's meat/vegetarian branch not narrated in steps (index 4);
+    spring rolls' cookMinutes possibly undercounting sequential prep (index 3); both allergen branches
+    (peanut-sesame noodle cups' nuts, energy bites' nuts, spring rolls' shellfish) awaiting
+    aisha-rahman-allergy-safety's actual sign-off on cross-contact wording, not just the flag/tag.
+  - >
+    2026-08: eleventh review pass, on a delivered copy of the same 9-recipe lunch batch, applying
+    my own firm rule from the tenth pass ("every adaptation whose forRestriction is a Big-9 strict
+    allergen gets the tag + confirm-sentence treatment, full stop") all the way through instead of
+    just to the six recipes already carrying multi-allergen or alternateRecipe branches. Found three
+    recipes the tenth pass's re-derivation still missed because their allergy branches read as
+    "simple" table-side-topping swaps: Turkey & Black Bean Chili Rice Bowls (dairy -- cheese/sour
+    cream kept off the pot), Grilled Cheese & Tomato Soup (dairy -- cream/butter/cheese; gluten --
+    bread), and Beef & Black Bean Burrito Bowls (dairy -- cheddar topping). All three had a genuine
+    Big-9 strict-allergen adaptation with correct substitution logic but no "allergy-review-flagged"
+    tag and no confirm-with-aisha-rahman-allergy-safety sentence in the adaptation's own instructions.
+    Fixed in place (tag + sentence added to all three, on every Big-9 adaptation in each, not just
+    one). Left the diet-only meat/beef adaptations in these same recipes untouched -- they don't
+    qualify under the rule and don't need a specialist sign-off. Firmest restatement of the rule after
+    two passes catching gaps in it: "allergy-review-flagged" is not a proxy for "this branch looks
+    complicated" -- it's a proxy for "this branch's forRestriction is a Big-9 allergen," full stop,
+    even when the swap is a single ingredient kept off a plate. A build-your-own-toppings recipe with
+    a strict-dairy topping swap is exactly as much a held-for-signoff item as a five-allergen two-pan
+    split; the mitigation is simpler but the sign-off requirement is identical.
+  - >
+    2026-08: twelfth review pass, on a delivered copy of the same 6-recipe dessert batch, found the
+    structural gaps from the eighth pass's notes had, this time, actually been fixed at the source:
+    apple crumble now genuinely bakes three separate dishes/toppings (everyone, gluten-free, and a
+    real dairy-free batch that previously didn't exist); the sundae bar and blondie bars now bake a
+    real second small pan for their gluten/egg/dairy branches instead of just using "portion" wording
+    with no second pan; the tiramisu's dairy branch is now a full alternateRecipe (separate cooked
+    custard) instead of a same-dish swap with no separate process; and the brittle bark now pours onto
+    three trays (everyone/sesame-free/nut-free) instead of two, resolving the earlier same-tray
+    substitute conflict. All "allergy-review-flagged" tags and confirm-with-aisha-rahman-allergy-safety
+    sentences were already present and correct -- no regression this pass, unlike most prior dessert-
+    batch deliveries. One trivial tag gap recurred and was re-fixed: the brownie sundae bar's egg
+    adaptation still had no matching "egg-free-option" display tag (this specific gap has now recurred
+    across at least three separate review passes on this recipe). Two new findings, left flagged rather
+    than fixed: (1) the chocolate mousse cups' base recipe whips raw egg whites (not cooked/pasteurized)
+    directly into a dessert that will be served without further cooking -- every prior pass on this
+    batch checked the egg *branch* (aquafaba alternateRecipe) but none flagged that the egg-eating
+    branch itself is a raw-egg food-safety question, distinct from allergen-swap correctness; added a
+    pasteurized-egg-whites note to the step as a low-risk mitigation but left the real question (is raw
+    egg white acceptable in this dish at all, given it's already being treated as a strict-restriction
+    branch point) for aisha-rahman-allergy-safety to confirm. New checklist item: a "confirm before this
+    branch goes live" review has been narrowly scoped to allergen-swap correctness in every pass so far
+    -- broaden it to include raw/undercooked ingredients in the *base* recipe too, not just the
+    substitute. (2) The brittle bark's three-tray redesign fixed the substitute-conflict from the
+    eleventh pass but left the adaptations' own descriptive parentheticals inconsistent with the new
+    steps: the sesame-free tray is described as "still contains almonds" and the nut-free tray as
+    "still contains sesame," but the actual scatter steps only ever place the single substitute topping
+    (pepitas or sunflower seeds) onto each of those two trays -- neither the almonds nor the sesame
+    seeds are re-added to them. Given the ingredient amounts (1/3 cup of each topping, sized for what
+    reads as one tray's worth) it's unclear whether the redesign intended trays 2/3 to carry the other
+    allergen too (requiring an added scatter step) or intended them allergen-free on that axis too
+    (requiring the parentheticals to be deleted, and possibly changing whether a fourth combined tray is
+    still needed) -- did not guess since this directly determines whether a nut-allergic diner can
+    safely eat off tray 2 or a sesame-allergic diner off tray 3. Left flagged for
+    aisha-rahman-allergy-safety, same as every prior brittle-bark finding on this batch.
+  - >
+    2026-08: thirteenth pass, actually redesigning (not just re-flagging) the three structural gaps
+    a fresh reviewer caught on the 6-recipe treat batch, since these were concrete, fixable defects
+    rather than judgment calls needing Aisha's input first. (1) Fudge brownie bar: upgraded the
+    dairy, egg, and nuts adaptations from same-pan "portion" swaps to full alternateRecipe branches
+    (each its own name/ingredients/steps, its own 9x13 pan, mixed and baked separately from the
+    shared batter) -- matching the shape the gluten branch already had. Resolves the "portion wording
+    but no second pan" defect that at least six prior review passes on this same recipe identified
+    and left unfixed. (2) Backyard sundae bar: rewrote the nuts adaptation from "keep the peanut bowl
+    at the far end of a self-serve buffet line" (weak, proximity-dependent) to "build the nut-
+    allergic diner's full bowl in the kitchen ahead of time, using a scoop/spoons that never touch
+    the peanut bowl, and serve it directly rather than having them queue at the shared line" -- a
+    kitchen-prepped, pre-portioned mitigation instead of a spatial buffet-line guarantee. (3) Rice
+    krispie PB drizzle: split the base into two separate pans *before* the peanut butter drizzle is
+    even warmed (previously one shared 9x13 pan drizzled on one half and cut apart with "a separate
+    knife" after the fact), and added a full alternateRecipe gluten branch (certified gluten-free
+    crisp rice cereal, its own pot and pan) the recipe had zero coverage for despite the cereal
+    itself being correctly tagged gluten in an earlier pass. All three still carry
+    "allergy-review-flagged" and an explicit confirm-with-aisha-rahman-allergy-safety sentence on
+    every affected adaptation, since a structural redesign is exactly the kind of change her sign-off
+    should double-check even when it's already fixed once, not a substitute for her review. New
+    checklist item worth keeping alongside the "fixes don't survive re-delivery" lesson: when a
+    fresh-reviewer finding is *authoring/redesign work* (a named, concrete defect with a known fix
+    pattern already proven elsewhere in this persona's own recipes -- e.g. "give it its own pan like
+    the gluten branch already has," "pre-portion in the kitchen like other batches do") rather than a
+    genuine open judgment call, do the redesign in the same pass instead of re-flagging it yet again
+    -- flagging is for decisions that are actually Aisha's to make, not a way to defer work this
+    persona already knows how to do correctly.

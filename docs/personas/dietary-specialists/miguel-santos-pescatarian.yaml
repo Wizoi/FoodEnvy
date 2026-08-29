@@ -47,3 +47,201 @@ notes:
     shrimp tacos, dinner baja fish tacos) plus the burger/pasta/stir-fry formulas --
     confirms the "same dinner, swapped protein" approach scales across meal types,
     not just dinner.
+  - For the 6-recipe dessert batch, the meat-gelatin gotcha showed up in both
+    marshmallow (s'mores bars) and unflavored gelatin (panna cotta) -- agar-agar is
+    the reliable swap in both cases (roughly half the volume of powdered gelatin,
+    briefly simmered to activate) and is worth defaulting to as the stated
+    substitution rather than just "a vegetarian gelatin." Also confirmed: when a
+    dish's name/identity is literally built on a Big-9 ingredient (tres leches'
+    three dairy milks, flan's condensed/evaporated milk), a same-dish swap
+    undersells it -- write a full alternateRecipe instead, same as the egg-in-choux
+    case for churros.
+  - For the 8-recipe breakfast batch, most familiar breakfast formulas (bagel +
+    lox, tuna melt, fried rice + fried egg, omelette, avocado toast) already have
+    an obvious fish slot -- breakfast didn't need forcing, just picking widely
+    stocked species (smoked salmon/trout, canned tuna/sardines, Gulf shrimp,
+    Pacific cod) per the sustainability notes above.
+  - When a breakfast recipe's protein is genuinely structural (kedgeree's smoked
+    fish, shrimp-and-grits' shrimp), a fish/shellfish adaptation needs a full
+    alternateRecipe, not a same-dish swap instruction -- same rule as dinner
+    tacos, just confirmed for breakfast too.
+  - Fish and shellfish aren't in the app's Big-9 mandatory-phrasing tier (that's
+    reserved for dairy/gluten/nuts/shellfish/egg/soy/sesame per the recipe schema
+    -- note shellfish IS in that tier even though fish isn't), so a fish-allergic
+    family member's adaptation gets ordinary swap phrasing, not the "Do NOT use"
+    mandatory wording -- worth remembering since it's easy to assume all seafood
+    tags are treated the same.
+  - For the 9-recipe lunch batch, treated "fish"/"shellfish" as an allergen tag
+    like any other Big-9 item: every recipe built around salmon/shrimp/cod/tuna/
+    sardines/trout needed its own `alternateRecipe` adaptation for a fish-allergic
+    or shellfish-allergic family member, using the exact same dish formula
+    (tacos/burger/pasta/sandwich/bowl) with chicken or turkey swapped in for the
+    seafood -- the signature move runs in reverse for that one restriction, and
+    it's worth remembering that a pescatarian-forward recipe still needs a
+    non-fish escape hatch for allergy coverage, not just diet-preference coverage.
+  - Fish sauce (in pad thai) is a sneaky secondary "fish" tag independent of the
+    main protein -- worth checking condiments/sauces for hidden fish content even
+    when the headline protein is shellfish, not fish.
+  - For the 6-recipe treat/dessert batch: none needed fish at all (treats are
+    pescatarian by default), but the marshmallow/gelatin meat gotcha from above
+    showed up twice (rice krispie treats, s'mores dip) and both got a straightforward
+    "vegetarian, agar-agar-set marshmallow" swap rather than a full alternateRecipe --
+    genuine single-ingredient swaps cover meat/pork/beef in baked treats almost every
+    time, so alternateRecipe is rarely needed outside dishes literally built around
+    the excluded protein (e.g. a fish taco).
+  - Standard chocolate chips are a hidden "soy" tag (lecithin) almost as often as
+    fish sauce is a hidden "fish" tag in savory dishes -- worth checking every treat
+    recipe's chocolate for soy the same way condiments get checked for fish.
+  - Sesame shows up in unexpected sweet contexts too (toasted sesame garnish on
+    mango sticky rice) -- treat recipes need the same tag-by-tag Big-9 check as
+    savory ones, not just an assumption that "dessert = simple ingredient list."
+  - Independent review of a 6-recipe snack batch (not authored by this pass) found
+    4 of 6 recipes -- Smoked Salmon Cucumber Bites, Crispy Sesame Tuna Poke Nachos,
+    Baja Fish Taco Bites, Smoky Tuna Salad Lettuce Wraps -- had NO fish-allergy
+    adaptation at all, despite the fish being the entire structural protein/identity
+    of the dish (exactly the "dinner taco"/kedgeree case this file already flags as
+    needing a full alternateRecipe with chicken or turkey swapped in). Snack batches
+    are not exempt from the structural-protein rule just because the format is
+    smaller/simpler -- worth double-checking every future snack batch explicitly for
+    this, since it's an easy gap to miss when a recipe reads as "just a garnish-y
+    bite" rather than a full meal. One recipe in the same batch (Shrimp Ceviche
+    Tostada Bites) also used a same-dish "swap" for its shellfish adaptation instead
+    of a full alternateRecipe, even though shrimp is equally structural to that
+    dish's name -- the swap instructions do functionally resolve the restriction, but
+    it's an inconsistent application of the same rule within one batch.
+  - Confirmed again on independent re-review of a 6-recipe dessert batch: both
+    "semisweet chocolate chips" and "dark chocolate, chopped" were tagged dairy
+    but missing the soy tag (lecithin emulsifier) -- fixed the tags in place and
+    added the matching soy adaptation swap. This is now the second/third time this
+    exact gap has been caught, so treat "chocolate ingredient present -> check
+    for soy tag" as a near-automatic step, not just a reminder.
+  - Independent review of the 8-recipe breakfast batch confirmed the swap-vs-
+    alternateRecipe judgment call holds up: kedgeree and shrimp-and-grits got a
+    full alternateRecipe because the fish/shellfish is woven into the cooking
+    technique itself (poaching liquid, sauce reduction), while tuna melt, sardine
+    toast, smoked trout bagel, salmon fried rice, and the crab omelette stayed as
+    ordinary swaps because only a topping/mix-in changes and the technique
+    (mash-and-broil, toast-and-top, stir-fry, fold) is protein-agnostic -- even
+    though the fish is literally in the dish name in most of those cases. Naming
+    isn't the test; technique-dependence is.
+  - Open item (not yet a fixable pattern, just worth tracking): several egg-swap
+    instructions in the breakfast batch substitute tofu for egg (e.g. breakfast
+    tacos, kedgeree, salmon fried rice). Tofu is soy, but a same-dish "swap" type
+    adaptation has no ingredients array to tag, so a family member with an
+    egg-only restriction gets no structured warning that the suggested
+    substitute introduces soy. Doesn't block anything today (soy isn't excluded
+    for that member), but if the recipe schema ever lets "swap" carry a
+    lightweight ingredient/tag list, this is the first place to backfill it.
+  - Independent review of the 6-recipe treat batch confirmed the marshmallow/meat,
+    chocolate/soy, and mango-sticky-rice sesame gotchas above were all already
+    handled correctly (swap-type adaptations present for every tag actually in the
+    ingredient list). One trivial miss caught: the rice krispie treats recipe's
+    descriptive `tags` (not ingredient tags) claimed "5-ingredient" while the
+    ingredient list actually had 6 -- worth a quick count-check on any recipe
+    carrying an "N-ingredient" marketing tag, since that's not schema-enforced
+    anywhere and drifts silently when a recipe gets an extra ingredient added
+    later. Also flagged (not fixed, needs a persona/product call): the sesame
+    adaptation for mango sticky rice offers crushed peanuts as the first
+    suggested substitute, which quietly introduces a nut allergen into an
+    adaptation meant for a *different* restriction -- an "omit entirely" or
+    nut-free option should probably lead, not follow.
+  - Independent review of the dinner batch confirmed the tofu/soy open item above
+    recurs outside breakfast too (shrimp fried rice's egg swap: "substitute 4 oz
+    crumbled firm tofu") -- same gap, same fix if the schema ever grows a
+    lightweight tag list for "swap" adaptations.
+  - Second independent review of the 15-recipe dinner batch (post the malt-vinegar
+    finding below) found the fish-allergy gap recurring at much larger scale than
+    the earlier snack-batch case: 11 of 15 recipes (Baja Fish Tacos, Salmon
+    Burgers, Blackened Tilapia, Beer-Battered Fish and Chips, Salmon Teriyaki
+    Bowl, Catfish Po'boy, Trout Almondine, Tuna Melt, Pacific Cod Chowder,
+    Sardine Puttanesca Pasta, Mahi Mahi Sheet Pan Fajitas) had NO fish-allergy
+    adaptation at all, despite fish being the entire structural protein of each
+    dish -- only the 4 shellfish-based dinners (shrimp stir-fry, shrimp pasta,
+    shrimp fried rice, shrimp scampi) had their allergy adaptation covered. Tags
+    and embedded alternateRecipes that WERE present were all correct and
+    complete on this pass (no trivial tag fixes needed) -- the gap is
+    structural/missing content, not sloppy tagging, so flagged rather than
+    authored in place, matching how the earlier snack-batch gap was handled
+    (writing 11 new alternateRecipes/swaps is not a "trivial fix"). Worth
+    treating "does every fish-structural dinner recipe have its own fish
+    adaptation" as a mandatory checklist item before a dinner batch ships, not
+    an occasional spot-check -- this is now the second batch in a row to slip
+    on exactly this.
+  - Second independent re-review of the 6-recipe snack batch (Smoked Salmon
+    Cucumber Bites, Shrimp Ceviche Tostada Bites, Crispy Sesame Tuna Poke Nachos,
+    Baja Fish Taco Bites, Crispy Coconut Shrimp, Smoky Tuna Salad Lettuce Wraps)
+    confirmed the two gaps flagged in the earlier review of this same batch were
+    both fixed: every fish/shellfish-structural recipe now carries a full
+    alternateRecipe (chicken/turkey for fish, cod for shellfish), and the Shrimp
+    Ceviche shellfish adaptation was upgraded from a same-dish swap to a full
+    alternateRecipe, matching the structural-protein rule consistently across
+    the batch this time. No new tag/adaptation gaps found on this pass. Also
+    confirmed a tagging precedent while checking "unsweetened shredded coconut"
+    in the coconut shrimp recipe: coconut is intentionally left untagged "nuts"
+    in this app's vocabulary (matches existing seed data, e.g. coconut milk in
+    the Thai curry recipe) -- botanically a drupe, not a tree nut, and this repo
+    doesn't follow the FDA Big-9 labeling convention that lumps it in with tree
+    nuts. Worth remembering so a future pass doesn't "fix" this as a missing tag.
+  - Second opinion requested on a flagged treat-batch difficulty call: Peanut
+    Butter Miso Blondies was tagged "advanced" for a whisk/fold/bake bar recipe
+    with no technique harder than the "intermediate" churro recipe's choux
+    pastry + hot-oil deep-frying. Agreed with the reviewer and downgraded to
+    "intermediate" -- miso balancing is a flavor-judgment nuance, not a
+    knife-skills/technique jump, so it doesn't clear the "advanced" bar on its
+    own. Worth a standing rule: reserve "advanced" for recipes with a genuinely
+    harder physical technique (lamination, tempering, emulsifying, deep-frying,
+    multi-stage doughs), not just an unusual or bolder flavor combination.
+  - New finding from the dinner batch: malt vinegar (fish and chips) is a genuine
+    gray area, not an obvious miss -- it's barley-derived but the distillation
+    process removes essentially all protein, so US/UK food-safety guidance
+    generally treats distilled malt vinegar as gluten-safe even though the name
+    says "malt." Left untagged and unflagged in the recipe itself, but worth
+    a standing note: don't reflexively tag malt vinegar "gluten" the way malt
+    syrup or malted barley flour would be tagged, but do mention the distillation
+    caveat if a strict-celiac family member's plan ever surfaces this ingredient.
+  - Rewrote the legacy "seed-shrimp-tacos" stub into a full recipe: confirmed
+    mayonnaise (used in the chipotle-lime crema) carries a hidden soy tag
+    (soybean oil) on top of the obvious egg tag -- same "check the condiment"
+    discipline as fish sauce/chocolate chips above, just for mayo specifically.
+    Shellfish stayed a full alternateRecipe (chicken tacos, same formula) rather
+    than a same-dish swap, consistent with the structural-protein rule -- shrimp
+    is the entire protein/identity of this dish, not a topping.
+  - Rewrote the legacy stub "seed-salmon-quinoa" (Baked Salmon with Quinoa) with a
+    full ingredient list, steps, and adaptations. Confirmed the structural-protein
+    rule once more: salmon is the entire identity of the dish, so its fish
+    adaptation is a full alternateRecipe (Baked Chicken with Quinoa, same
+    formula/sides) rather than a same-dish swap, even though fish isn't in the
+    app's Big-9 mandatory-phrasing tier. Also confirmed a smaller recurring
+    pattern: a toasted-almond garnish is a common, easy-to-miss "nuts" tag on an
+    otherwise fish-forward dinner plate -- worth checking every baked-fish recipe's
+    garnish, not just its protein and cheese, for hidden allergen tags.
+  - Independent review of "seed-salmon-quinoa" (Baked Salmon with Quinoa) found all
+    ingredient tags, adaptations (dairy swap, nuts swap, full fish alternateRecipe
+    with correctly-tagged "meat" chicken), restMinutes-to-steps consistency, and
+    times/difficulty plausible and correct -- no gaps. One trivial descriptive-tags
+    fix made: the recipe's marketing `tags` array claimed "one-pan-protein" but the
+    method actually uses four vessels (sheet pan, saucepan, and two skillets for
+    spinach and almonds) -- same category of drift as the earlier "5-ingredient"
+    rice krispie treats miss, just for a "one-pan" claim instead of an ingredient
+    count. Swapped it for "sheet-pan" to match what's actually true. Worth adding
+    "does the pan/vessel count match any 'one-pan'/'one-pot' marketing tag" to the
+    standing descriptive-tags check alongside ingredient-count claims.
+  - Third independent review of the same 6-recipe treat batch found both
+    previously-flagged issues already resolved: the rice krispie treats' `tags`
+    field no longer carries a stale "5-ingredient" claim (list still has 6
+    ingredients, count matches), and the mango sticky rice sesame swap now leads
+    with "omit the garnish" and only offers crushed peanuts as a caveated
+    secondary option (explicit nut-allergy warning attached) rather than leading
+    with peanuts. Peanut Butter Miso Blondies difficulty is "intermediate",
+    matching the earlier downgrade decision. No new tag, adaptation, or
+    plausibility issues found this pass -- confirms fixes from prior reviews
+    stick rather than regressing when a batch is re-touched.
+  - Independent review of "seed-shrimp-tacos" (Shrimp Tacos) confirmed the earlier
+    rewrite holds up: all fields present, ingredient tags canonical and correct
+    (shellfish on shrimp, dairy on sour cream/cotija, egg+soy on mayonnaise), the
+    shellfish adaptation is a full alternateRecipe (Chicken Tacos, same formula,
+    correctly tagged "meat") rather than a same-dish swap per the structural-protein
+    rule, and dairy/egg/soy swap adaptations are present and complete for every tag
+    actually in the ingredient list. No gluten/nuts/sesame/pork/beef/fish tags
+    present so no adaptation needed for those, correctly omitted. No trivial fixes
+    needed this pass.

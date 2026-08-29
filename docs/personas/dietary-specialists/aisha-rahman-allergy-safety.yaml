@@ -97,3 +97,138 @@ notes:
     ingredients/steps before the alternate, reachable only by scrolling past it -- the alternate
     should be primary (or the view should auto-scroll to it) whenever the detail was opened via a
     profile filter with a resolved conflict. None of these are fixed as of this review.
+  - >
+    2026-08: signed off on ben-osei-parallel-menu's flagged cross-contact wording for three
+    two-pan/shared-base recipes. General finding worth remembering: when a recipe writes an
+    allergenic seasoning (soy sauce, sesame oil, mayonnaise, etc.) directly INTO a single shared
+    base/bowl that later gets divided or folded into two branches, an adaptation that claims to
+    swap that ingredient "for their portion" is not actually achievable -- the allergen is
+    already homogenized into both branches before the split. The fix is structural, not just
+    wording: move the allergenic seasoning's addition to AFTER the base is divided, so each
+    branch gets it added independently (or, for a same-bowl case like mayonnaise-based dressing,
+    make the allergic diner's batch from scratch in a separate clean bowl rather than splitting
+    from the shared one). Caught this in "Shrimp & Veggie Fried Rice, Two-Pan Split" (soy sauce
+    and sesame oil were stirred into the shared wok base before the pan split) and "Egg Salad &
+    Smashed Chickpea Salad Sandwiches" (mayonnaise -- itself an egg-containing ingredient -- was
+    whisked into one shared dressing bowl before splitting into egg-salad/chickpea-salad halves,
+    so the "chickpea salad" side still contained regular mayo unless remade separately). For the
+    shrimp/shellfish branch specifically, dedicated-utensil labeling alone isn't enough given
+    shellfish's steam/splatter risk on a shared stovetop -- added a redundancy step (plate the
+    shellfish-allergic portion from pan A before pan B's shrimp ever goes on the heat, non-adjacent
+    burners). By contrast, a true build-your-own topping design (Turkey & Black Bean Chili Rice
+    Bowls -- cheese/sour cream added only at the table, never into the shared pot) needed no
+    fix; that pattern is the model to point authors toward.
+  - >
+    2026-08: signed off on two more ben-osei-parallel-menu recipes. (1) "Shepherd's Pie, Split at
+    the Mash" -- worcestershire sauce (fish) is stirred into the single shared beef-and-vegetable
+    filling before the only branch point (the mash topping), so no fish-free portion is reachable
+    from this dish; correctly, NO fish adaptation was authored for it. Confirmed this is the right
+    call, not an oversight to fix: the app's matcher excludes a recipe outright for a strict
+    allergy when no adaptation resolves the conflicting tag, so a fish-allergic member simply
+    won't be offered this dish -- that is the safe behavior, and inventing a same-dish "fish-free
+    branch" here would be the unsafe move (see the fried-rice/egg-salad finding above -- the
+    allergen is already homogenized into the shared base). General rule reinforced: absence of an
+    adaptation is a valid, safe outcome when the steps genuinely can't support one; only reject a
+    recipe outright when an UNSAFE adaptation is being claimed, not when a safe adaptation is
+    simply impossible and none was offered. Tagged the recipe `contains-fish-whole-dish-no-branch`
+    so this is explicit rather than silent, and removed the stray "Confirm with
+    aisha-rahman-allergy-safety" placeholder text now that sign-off is complete. (2) "Coconut
+    Curry, Ladled Off Before the Shrimp" -- the shellfish branch (ladle the base into a separate
+    pot before shrimp is ever added, dedicated spoon) was already correct. The fish-sauce
+    substitute needed a real decision, not a footnote: changed the default substitute from soy
+    sauce (introduces soy, and usually gluten since most soy sauce is wheat-brewed -- trading one
+    Big-9 allergen for two) to coconut aminos + extra lime/salt as the PRIMARY substitute for
+    everyone in that branch, not just as an aside for diners who happen to also avoid soy/gluten.
+    General rule: when a fish-sauce/soy-sauce-family substitution is needed inside an
+    allergen-free branch, default to coconut aminos rather than soy sauce -- soy sauce should not
+    be the first suggestion even when the diner in question has no known soy/gluten restriction,
+    because a branch built to remove one Big-9 allergen shouldn't casually introduce another as
+    its default. Left the "advanced" vs "intermediate" difficulty label question alone -- that is
+    a prep-complexity judgment call outside this persona's scope, not a safety matter.
+  - >
+    2026-08: signed off on two flagged ben-osei-parallel-menu snack recipes. (1) "Shrimp & Veggie
+    Spring Roll Snack Platter" -- the soy-free adaptation offered TWO substitute options for the
+    tofu strips ("sliced grilled chicken or extra shrimp"), and "extra shrimp" would reintroduce
+    shellfish for any diner who also needs to avoid it, plus it's ambiguous which station the
+    substitute belongs to. Fixed by removing the shrimp option entirely, naming chicken as the
+    sole substitute, explicitly calling out its own station/board/tongs, and explicitly stating
+    NOT to substitute shrimp for this reason. General rule: an adaptation for allergen A must never
+    offer a substitute ingredient list that includes an item tagged with allergen B (or any other
+    Big-9 tag) as an option, even a secondary one -- a diner reading "or extra shrimp" has no way
+    to know that option is unsafe for a co-occurring shellfish restriction; only list substitutes
+    that are unconditionally safe for the restriction being adapted around. The already-existing
+    shellfish alternateRecipe (All-Tofu platter, separate station from the first pan) and the
+    gluten/nut adaptations (GF tamari, sunflower seed butter, both mixed in separate bowls with
+    clean utensils) were already correct and needed no change. (2) "Cheesy Chicken Quesadilla
+    Wedges" -- reviewed for cross-contact wording specifically (not the step-narration/cookMinutes
+    issues flagged for other personas, which are outside this persona's remit): the shared
+    chicken-pepper filling is explicitly divided BEFORE cheese or tortilla choice happens (matches
+    the "divide before adding the allergen" pattern this persona has required elsewhere), and both
+    the dairy-free and gluten-free branches explicitly name a clean/separate pan. No unsafe
+    cross-contact language found; approved unchanged.
+  - >
+    2026-08: signed off on two more flagged ben-osei-parallel-menu dessert recipes. (1) "Shared-
+    Ganache Chocolate Mousse Cups" -- the base recipe folded RAW egg whites into a dessert served
+    with no further cooking, and the only mitigation was a parenthetical aside in step 3 ("use
+    pasteurized egg whites"), which reads as optional. This isn't primarily a Big-9 allergen
+    question (egg allergy is already handled correctly via a separate aquafaba branch) but a raw-
+    egg food-safety question that still belongs to this persona because both branches sit in the
+    same recipe. Fixed by renaming the ingredient itself to "Pasteurized egg whites" (so it's non-
+    negotiable at the shopping-list level, not just a technique footnote) and rewriting step 3 to
+    state plainly that regular/unpasteurized egg whites are not a safe substitute since they go in
+    raw. General rule worth keeping: when a recipe's technique is inherently raw/no-cook for a
+    Big-9-tagged ingredient (raw egg, unpasteurized dairy, etc.), the safety requirement belongs in
+    the ingredient name/amount line, not buried as a parenthetical inside a step -- a shopper
+    skimming the ingredient list should not be able to buy the unsafe version by accident. Also
+    removed the stray "Confirm with aisha-rahman-allergy-safety" placeholders from the dairy and
+    egg adaptations now that both are reviewed and correct: the dairy fix (certified dairy-free
+    chocolate for the WHOLE shared melt, since the chocolate is part of the base before it's
+    divided into cups) reuses the same "fix the shared base for everyone, don't try to split it"
+    pattern documented above for the fried-rice/egg-salad recipes, and the aquafaba alternate
+    recipe introduces no new Big-9 tag. (2) "Sesame-Honey Brittle Bark, Split Before the Topping"
+    -- two separate problems. First, the caramel itself (containing butter) is a single SHARED base
+    poured onto all three trays before any topping is added, exactly like the chocolate-melt
+    pattern above -- the dairy adaptation as originally worded ("substitute for the dairy-free
+    portion's base") implied a fourth, separate caramel that the steps never describe how to make.
+    Fixed the same way: substitute dairy-free margarine/coconut oil for the butter in the ONE
+    shared caramel batch, safe for everyone, no separate batch needed. Second, and more
+    interesting: the descriptive text calling tray 2 "still contains almonds" and tray 3 "still
+    contains sesame" was simply WRONG against the actual steps -- steps 5 and 6, as written, only
+    ever scatter the single substitute topping (pepitas or sunflower seeds) onto each of those
+    trays; no almonds ever reach tray 2 and no sesame ever reaches tray 3. Rather than guessing
+    the recipe needed a fourth tray for a combined nut+sesame restriction, verified the simpler
+    and safer reading: since neither substitute-topping tray receives the OTHER allergen either,
+    trays 2 and 3 are already naturally free of BOTH nuts and sesame as literally built -- the
+    false "still contains X" claims were the bug, not the steps. Corrected the step text and the
+    adaptation copy to say plainly that trays 2 and 3 are each safe for both nut and sesame
+    allergies, and that no fourth tray is required. General rule: when a recipe's adaptations text
+    and its numbered steps disagree about what ends up on a plate, verify against the literal
+    steps before assuming the steps are the ones that need to change -- fixing the (wrong)
+    description is sometimes the safer and correct minimal fix, not always a sign the technique
+    itself needs restructuring.
+  - >
+    2026-08: signed off on two more flagged ben-osei-parallel-menu treat recipes, both examples of
+    the "allergenic/base ingredient homogenized into ONE shared bowl/pot before any branch point"
+    defect this persona has flagged repeatedly above -- reinforces that the fix is structural
+    (move the division earlier), not cosmetic wording. (1) "One-Bowl No-Bake Energy Bites" -- the
+    base recipe stirred standard (gluten) rolled oats into a single shared bowl in step 1, with the
+    only branch point coming after honey was mixed in (step 3); a gluten-strict diner had no safe
+    portion of that shared bowl. Fixed structurally: division now happens at step 1, before oats
+    ever touch a bowl -- a dedicated bowl gets certified gluten-free rolled oats from the start
+    (never combined with standard oats), and every subsequent addition (flax, vanilla, honey, nut
+    vs. seed butter, chocolate chips) is stirred into each bowl separately with its own spoon. This
+    also happens to be the same nut-butter branch point the recipe already had, so the two branches
+    (gluten, nuts) now compose cleanly off one earlier split rather than needing a second late
+    split. (2) "Layered Banana Pudding Parfait" -- the dairy adaptation was labeled a same-pot
+    "swap" ("their own pan and bowl") but the custard is one shared pot from the very first whisk
+    (milk + egg yolks + sugar + cornstarch cooked together); dairy milk is exactly as load-bearing
+    to that one shared cook as the egg yolks are, which the recipe's own egg branch already
+    correctly treated as alternateRecipe-only. Upgraded the dairy branch to a full alternateRecipe
+    ("Dairy-Free Vanilla Custard Parfait": its own pot, plant-based milk from the first whisk,
+    dairy-free whipped topping added with separate utensils) instead of a same-pot swap, and
+    corrected the base recipe's step 5 narration (previously implied only egg was an exception to
+    "easy assembly-time branches," which was no longer true once dairy is also a from-the-pot
+    exception). General rule reinforced: if two different allergens are both cooked into the same
+    single shared vessel from step 1, they need the SAME treatment (both alternateRecipe, not one
+    alternateRecipe and one same-pot swap) -- ask whether that ingredient's role in the base recipe
+    is symmetric before assuming only the first-flagged allergen needs the upgrade.
