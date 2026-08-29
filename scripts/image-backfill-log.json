@@ -1330,13 +1330,15 @@
     "recipeName": "Scrambled Eggs & Toast",
     "mealType": "breakfast",
     "query": "Scrambled Eggs & Toast",
-    "imageUrl": "https://live.staticflickr.com/5035/7196925504_dcb0505d9d_b.jpg",
-    "foreignLandingUrl": "https://www.flickr.com/photos/25977089@N00/7196925504",
-    "license": "by",
+    "imageUrl": "https://live.staticflickr.com/3193/2409085893_ef652e7374_b.jpg",
+    "foreignLandingUrl": "https://www.flickr.com/photos/10559879@N00/2409085893",
+    "license": "by-sa",
     "licenseVersion": "2.0",
     "source": "flickr",
-    "creator": "goblinbox_(queen_of_ad_hoc_bento)",
-    "title": "Bento #294: Scrambled eggs & toast"
+    "creator": "avlxyz",
+    "title": "Scrambled Eggs - The Commoner",
+    "matchType": "dish",
+    "note": "manually re-picked -- original automated match (Bento #294) had visible photo-caption text overlay"
   },
   {
     "recipeId": "seed-spaghetti-marinara",
