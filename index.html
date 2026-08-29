@@ -462,6 +462,43 @@
       transition: transform 0.2s, box-shadow 0.2s;
       display: flex;
       flex-direction: column;
+      position: relative;
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      z-index: 2;
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 2rem;
+      text-align: center;
+      padding: 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .favorite-btn.favorited {
+      color: #e0245e;
+    }
+
+    .favorite-btn:not(.favorited) {
+      color: #bbb;
+    }
+
+    .favorite-conflict-badge {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffe69c;
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.6rem;
     }
 
     .recipe-card:hover {
@@ -1109,6 +1146,13 @@
 
       <!-- Profile & Collection Filters -->
       <div class="filters-section">
+        <div style="margin-bottom: 1rem;">
+          <label class="chip">
+            <input type="checkbox" id="favoritesOnly" onchange="this.parentElement.classList.toggle('active', this.checked); filterRecipes()">
+            <span>♥ Favorites only</span>
+          </label>
+        </div>
+
         <div style="margin-bottom: 1rem;">
           <div class="filter-label">By Profile</div>
           <div class="filter-chips" id="profileCheckboxes"></div>
@@ -1794,6 +1838,14 @@
     function loadCollections() {
       const stored = localStorage.getItem('foodenvy_collections');
       collections = stored ? JSON.parse(stored) : [];
+      // Favorites is a reserved, system-seeded Collection reusing the same recipes[] mechanism --
+      // not a parallel data model. Seeded once, idempotently; never exposed in the sidebar's
+      // user-managed Collections list (see renderCollections()) or renamable/deletable (see the
+      // guards in deleteCollection()/editCollection()).
+      if (!collections.some(c => c.id === 'favorites')) {
+        collections.unshift({ id: 'favorites', name: 'Favorites', recipes: [] });
+        localStorage.setItem('foodenvy_collections', JSON.stringify(collections));
+      }
       renderCollections();
       renderCollectionCheckboxes();
     }
@@ -1817,6 +1869,7 @@
     }
 
     function deleteCollection(id) {
+      if (id === 'favorites') return; // reserved -- see loadCollections()
       if (confirm('Delete?')) {
         collections = collections.filter(c => c.id !== id);
         saveCollections();
@@ -1825,11 +1878,14 @@
 
     function renderCollections() {
       const list = document.getElementById('collectionsList');
-      if (!collections.length) {
+      // Favorites is system-reserved, not user-managed -- it never appears in this rename/delete
+      // list (see loadCollections()).
+      const managed = collections.filter(c => c.id !== 'favorites');
+      if (!managed.length) {
         list.innerHTML = '<p style="color:#999; font-size:0.85rem;">No collections yet</p>';
         return;
       }
-      list.innerHTML = collections.map(c => `
+      list.innerHTML = managed.map(c => `
         <div class="item">
           <div class="item-name">${c.name}</div>
           <div class="item-count">${c.recipes.length}</div>
@@ -1842,6 +1898,7 @@
     }
 
     function editCollection(id) {
+      if (id === 'favorites') return; // reserved -- see loadCollections()
       const c = collections.find(x => x.id === id);
       if (!c) return;
       const newName = prompt(`Rename collection:`, c.name);
@@ -1853,11 +1910,14 @@
 
     function renderCollectionCheckboxes() {
       const container = document.getElementById('collectionCheckboxes');
-      if (!collections.length) {
+      // Favorites gets its own dedicated "Favorites only" chip (see the filters-section markup),
+      // not a slot in the generic named-collections filter list.
+      const named = collections.filter(c => c.id !== 'favorites');
+      if (!named.length) {
         container.innerHTML = '';
         return;
       }
-      container.innerHTML = collections.map(c => `
+      container.innerHTML = named.map(c => `
         <label class="chip">
           <input type="checkbox" id="collection_filter_${c.id}" onchange="filterRecipes()">
           <span>${c.name}</span>
@@ -1882,6 +1942,43 @@
         const cid = btn.dataset.collection;
         const col = collections.find(x => x.id === cid);
         btn.classList.toggle('in-collection', col && col.recipes.includes(recipeId));
+      });
+    }
+
+    function isFavorited(recipeId) {
+      const fav = collections.find(c => c.id === 'favorites');
+      return !!(fav && fav.recipes.includes(recipeId));
+    }
+
+    // Deliberately does NOT go through saveCollections() -- that forces a full ~634-card
+    // grid re-render on every call, fine for the rare sidebar CRUD actions but wrong for a
+    // one-tap heart that should feel instant with no flash/scroll-jump. Persists directly (same
+    // localStorage key/shape saveCollections() writes) and does a targeted DOM update only.
+    // Exception: if "Favorites only" is the active filter, un-favoriting a visible card must
+    // remove it from view, so that one case still goes through filterRecipes().
+    function toggleFavorite(event, recipeId) {
+      event.stopPropagation();
+      let fav = collections.find(c => c.id === 'favorites');
+      if (!fav) {
+        fav = { id: 'favorites', name: 'Favorites', recipes: [] };
+        collections.unshift(fav);
+      }
+      const idx = fav.recipes.indexOf(recipeId);
+      const nowFavorited = idx === -1;
+      if (nowFavorited) fav.recipes.push(recipeId);
+      else fav.recipes.splice(idx, 1);
+      localStorage.setItem('foodenvy_collections', JSON.stringify(collections));
+
+      const favoritesOnlyActive = document.getElementById('favoritesOnly') && document.getElementById('favoritesOnly').checked;
+      if (favoritesOnlyActive && !nowFavorited) {
+        filterRecipes();
+        return;
+      }
+
+      document.querySelectorAll(`[data-recipe="${recipeId}"] .favorite-btn`).forEach(btn => {
+        btn.classList.toggle('favorited', nowFavorited);
+        btn.textContent = nowFavorited ? '♥' : '♡';
+        btn.title = nowFavorited ? 'Remove from Favorites' : 'Add to Favorites';
       });
     }
 
@@ -1954,37 +2051,14 @@
         filterRecipes();
       } catch (e) {
         console.error('Load error:', e);
-        allRecipes = [
-          {
-            id: 'j1', name: 'Simple Scrambled Eggs', mealType: 'breakfast', difficulty: 'beginner',
-            prepMinutes: 2, cookMinutes: 5, persona: 'jamie-weeknight-beginner',
-            description: 'The easiest breakfast to master.',
-            quote: 'Perfect scrambled eggs are just egg, butter, and silence.',
-            tags: ['quick', 'vegetarian'],
-            ingredients: [
-              { name: 'eggs', amount: '2', unit: 'large', tags: ['egg'] },
-              { name: 'butter', amount: '1', unit: 'tbsp', tags: ['dairy'] }
-            ],
-            steps: ['Whisk eggs.', 'Melt butter over low heat.', 'Gently scramble.']
-          },
-          {
-            id: 'p1', name: 'Sheet Pan Chicken', mealType: 'dinner', difficulty: 'easy',
-            prepMinutes: 10, cookMinutes: 25, persona: 'priya-busy-parent',
-            description: 'One pan, 35 minutes, complete meal.',
-            quote: 'Real families don\'t need perfect meals.',
-            tags: ['chicken', 'sheet-pan'],
-            ingredients: [
-              { name: 'chicken breasts', amount: '4', unit: 'pieces', tags: ['meat'] },
-              { name: 'broccoli', amount: '2', unit: 'cups', tags: [] }
-            ],
-            steps: ['Toss and roast at 400°F for 25 minutes.']
-          }
-        ];
-        personasMap = {
-          'jamie-weeknight-beginner': { name: 'Jamie', title: 'Weeknight Beginner' },
-          'priya-busy-parent': { name: 'Priya', title: 'Busy Parent' }
-        };
-        renderRecipes(allRecipes);
+        // Never fall back to fabricated placeholder recipes here -- an honest error beats
+        // silently showing fake data the user could mistake for their real library.
+        allRecipes = [];
+        const loadingMsg = document.getElementById('loadingMsg');
+        if (loadingMsg) loadingMsg.style.display = 'none';
+        document.getElementById('recipeGrid').style.display = 'grid';
+        document.getElementById('recipeGrid').innerHTML =
+          '<div class="empty-state"><p>Could not load the recipe library. Try refreshing the page.</p></div>';
       }
     }
 
@@ -2031,6 +2105,13 @@
           // 1. Image/placeholder block
           recipeHtml += renderMealTypeVisual(recipe);
 
+          // 1b. Favorite heart -- overlaid on the image, stopPropagation so it never triggers
+          // openRecipeDetail underneath it.
+          const favorited = isFavorited(recipe.id);
+          recipeHtml += '<button type="button" class="favorite-btn' + (favorited ? ' favorited' : '') +
+            '" onclick="toggleFavorite(event, \'' + (recipe.id || '') + '\')" title="' +
+            (favorited ? 'Remove from Favorites' : 'Add to Favorites') + '">' + (favorited ? '♥' : '♡') + '</button>';
+
           // 2. Recipe header
           recipeHtml += '<div class="recipe-header">';
           recipeHtml += '<div class="persona-icon">' + emoji + '</div>';
@@ -2039,6 +2120,19 @@
           recipeHtml += '<div class="persona-name">' + pName + '</div>';
           recipeHtml += '</div></div>';
           recipeHtml += '<div class="recipe-body">';
+
+          // 2b. Favorite staleness warning -- a favorited recipe can conflict with a profile's
+          // restrictions added/changed AFTER it was favorited. Shown regardless of whether "By
+          // Profile" is currently checked, since favoriting means "come back to this later,"
+          // possibly well after the restriction state that prompted the save (allergy-safety
+          // persona finding).
+          if (favorited) {
+            const conflictingProfiles = profiles.filter(p => getConflictingRestrictions(recipe, p).length > 0);
+            if (conflictingProfiles.length > 0) {
+              recipeHtml += '<div class="favorite-conflict-badge">⚠️ No longer safe for ' +
+                conflictingProfiles.map(p => p.name).join(', ') + '</div>';
+            }
+          }
 
           // 3. Allergen chips
           const allergenRow = renderAllergenChips(recipe);
@@ -2073,6 +2167,23 @@
             recipeHtml += '<div class="tags">' + recipe.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>';
           }
 
+          // 8. Named-collection toggle buttons -- reuses the .collection-buttons/.collection-btn
+          // CSS and toggleRecipeInCollection() that already existed but had nothing rendering
+          // them. Favorites is excluded (has its own heart affordance above, not a generic
+          // named collection). Omitted entirely when there are no named collections yet, rather
+          // than showing an empty bordered footer on every card.
+          const namedCollections = collections.filter(c => c.id !== 'favorites');
+          if (namedCollections.length > 0) {
+            recipeHtml += '<div class="collection-buttons">';
+            namedCollections.forEach(c => {
+              const inCollection = c.recipes.includes(recipe.id);
+              recipeHtml += '<button type="button" class="collection-btn' + (inCollection ? ' in-collection' : '') +
+                '" data-collection="' + c.id + '" onclick="event.stopPropagation(); toggleRecipeInCollection(\'' + (recipe.id || '') + '\', \'' + c.id + '\')">' +
+                (inCollection ? '✓ ' : '+ ') + c.name + '</button>';
+            });
+            recipeHtml += '</div>';
+          }
+
           recipeHtml += '</div></div>';
           html += recipeHtml;
         });
@@ -2103,6 +2214,7 @@
       const search = document.getElementById('search').value.toLowerCase();
       const selectedProfileIds = getSelectedProfileIds();
       const selectedCollectionIds = Array.from(document.querySelectorAll('#collectionCheckboxes input:checked')).map(c => c.id.replace('collection_filter_', ''));
+      const favoritesOnly = document.getElementById('favoritesOnly') && document.getElementById('favoritesOnly').checked;
 
       // Persist so the current narrowing survives a reload -- saved separately from the
       // lowercased `search` local above (raw value here) so restoring never silently changes
@@ -2112,10 +2224,11 @@
         search: document.getElementById('search').value,
         profileIds: selectedProfileIds,
         collectionIds: selectedCollectionIds,
+        favoritesOnly,
       }));
       const resetBtn = document.getElementById('resetFiltersBtn');
       if (resetBtn) {
-        const hasActiveFilter = mealType || difficulty || search || selectedProfileIds.length > 0 || selectedCollectionIds.length > 0;
+        const hasActiveFilter = mealType || difficulty || search || selectedProfileIds.length > 0 || selectedCollectionIds.length > 0 || favoritesOnly;
         resetBtn.style.display = hasActiveFilter ? '' : 'none';
       }
 
@@ -2150,6 +2263,8 @@
           if (!inAny) return false;
         }
 
+        if (favoritesOnly && !isFavorited(recipe.id)) return false;
+
         return true;
       });
 
@@ -2178,6 +2293,12 @@
         const cb = document.getElementById('collection_filter_' + id);
         if (cb) { cb.checked = true; cb.parentElement.classList.add('active'); }
       });
+
+      const favCb = document.getElementById('favoritesOnly');
+      if (favCb && saved.favoritesOnly) {
+        favCb.checked = true;
+        favCb.parentElement.classList.add('active');
+      }
     }
 
     // Resets both the on-screen controls and the persisted state -- clearing only the DOM would
@@ -2194,6 +2315,11 @@
         cb.checked = false;
         cb.parentElement.classList.remove('active');
       });
+      const favCb = document.getElementById('favoritesOnly');
+      if (favCb) {
+        favCb.checked = false;
+        favCb.parentElement.classList.remove('active');
+      }
       localStorage.removeItem('foodenvy_filters');
       filterRecipes();
     }
