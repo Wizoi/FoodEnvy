@@ -284,8 +284,14 @@
       "no-cook",
       "kid-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3849/14527954222_98a66d649e.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/15429340@N00/14527954222",
+      "license": "by 2.0",
+      "creator": "Pseph",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Ripe banana",
@@ -3747,7 +3753,7 @@
     "prepMinutes": 30,
     "cookMinutes": 30,
     "description": "A no-bake Italian classic that lives or dies by two disciplines: cooking egg yolks into a proper zabaglione instead of using them raw, and dipping (never dunking) the ladyfingers so they hold their layered structure through an overnight chill.",
-    "imageUrl": "",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/83/Tiramisu_slice_with_cocoa_powder%2C_May_2009.jpg",
     "persona": "user-submitted",
     "ingredients": [
       {
@@ -3822,7 +3828,13 @@
       "dessert"
     ],
     "restMinutes": 240,
-    "imageAttribution": null,
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=18858984",
+      "license": "by 2.0",
+      "creator": "Ren Kuo",
+      "matchType": "dish"
+    },
     "adaptations": [
       {
         "forRestriction": "dairy",
@@ -6188,7 +6200,7 @@
     "prepMinutes": 30,
     "cookMinutes": 180,
     "description": "A genuine two-day project -- the chashu braises, chills, and firms up overnight for clean slicing, the broth simmers for hours to build body, and the ajitama eggs marinate separately -- that rewards the wait with a bowl built entirely from scratch rather than assembled from shortcuts.",
-    "imageUrl": "",
+    "imageUrl": "https://live.staticflickr.com/4027/4678571619_a71884d893_b.jpg",
     "persona": "user-submitted",
     "ingredients": [
       {
@@ -6286,7 +6298,13 @@
       "lunch"
     ],
     "restMinutes": 720,
-    "imageAttribution": null,
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/51035729853@N01/4678571619",
+      "license": "by 2.0",
+      "creator": "Kimtaro",
+      "matchType": "dish"
+    },
     "adaptations": [
       {
         "forRestriction": "pork",
@@ -8026,8 +8044,14 @@
       "kid-friendly",
       "one-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://pd.w.org/2026/07/8866a564e76097fa5.21002346-1152x2048.jpeg",
+    "imageAttribution": {
+      "source": "wordpress",
+      "url": "https://wordpress.org/photos/photo/8866a564e7/",
+      "license": "cc0 1.0",
+      "creator": "diegolopez97",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Large eggs",
@@ -8294,8 +8318,14 @@
       "one-pan",
       "kid-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/1088/745528507_ef6eeebcaf_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10559879@N00/745528507",
+      "license": "by-sa 2.0",
+      "creator": "avlxyz",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Large eggs",
@@ -8469,8 +8499,14 @@
       "savory",
       "high-protein"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/6095/6350667934_f6462fb2d9_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/6350667934",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Pork breakfast sausage links",
@@ -10031,8 +10067,14 @@
       "stir-fry-style",
       "weeknight"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7009/6807742835_19a1813909_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/17160135@N04/6807742835",
+      "license": "by-sa 2.0",
+      "creator": "axmai",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "beef sirloin, thinly sliced",
@@ -11912,8 +11954,14 @@
       "game-night",
       "kid-approved"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/65535/49859606996_21ccd3632c_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/188303370@N04/49859606996",
+      "license": "by-sa 2.0",
+      "creator": "FitTasteTic",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "sweet potatoes, sliced into 1/2-inch rounds",
@@ -12535,8 +12583,14 @@
       "freezer",
       "one-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8602/16852428335_19331215e2.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/27410581@N07/16852428335",
+      "license": "by-sa 2.0",
+      "creator": "theimpulsivebuy",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "rolled oats",
@@ -15651,8 +15705,14 @@
       "umami",
       "mushroom"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3747/10436042605_0e41d4b82b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/27410581@N07/10436042605",
+      "license": "by-sa 2.0",
+      "creator": "theimpulsivebuy",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "arborio rice",
@@ -16553,8 +16613,14 @@
       "braise",
       "special-occasion"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3065/2354530528_d900a26af9_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/25016563@N00/2354530528",
+      "license": "by-sa 2.0",
+      "creator": "miikkahoo",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "tempeh",
@@ -16865,8 +16931,14 @@
       "baked",
       "centerpiece"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7335/12217240553_ea5e6db4a6_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/68147320@N02/12217240553",
+      "license": "by 2.0",
+      "creator": "T.Tseng",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "vegan puff pastry",
@@ -17217,8 +17289,14 @@
       "pasta",
       "weeknight"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3180/2764808340_d91a66a90c_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/22865921@N07/2764808340",
+      "license": "by 2.0",
+      "creator": "Nikki L.",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "fettuccine",
@@ -18645,8 +18723,14 @@
       "coffee",
       "make-ahead"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8188/8088497159_dbca7c1547_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/12670507@N02/8088497159",
+      "license": "by 2.0",
+      "creator": "gamene",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "raw cashews, soaked 4 hours",
@@ -20937,8 +21021,14 @@
       "weekend-project",
       "yeasted-dough"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Cinnamon_rolls_glazed%2C_July_2009.jpg",
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=10301750",
+      "license": "by 2.0",
+      "creator": "grongar",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "all-purpose flour",
@@ -23352,8 +23442,14 @@
       "technique",
       "japanese"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/6237/6281599685_7fd87a1697_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/60417477@N00/6281599685",
+      "license": "by 2.0",
+      "creator": "whologwhy",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "large shrimp, peeled and deveined, tails on",
@@ -25340,8 +25436,14 @@
       "technique-builder",
       "make-ahead"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7514/15791151899_04eb75ba41_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/126560659@N06/15791151899",
+      "license": "by 2.0",
+      "creator": "Berries.com",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "granulated sugar",
@@ -26765,8 +26867,14 @@
       "protein-anchor",
       "kid-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/6200/6039834148_167c6c2059_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/6039834148",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "black beans",
@@ -26856,8 +26964,14 @@
       "protein-anchor",
       "meal-prep"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8111/8630834932_ff31eecd04_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/58367355@N00/8630834932",
+      "license": "by 2.0",
+      "creator": "jules:stonesoup",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chickpeas",
@@ -29973,8 +30087,14 @@
       "protein-forward",
       "party-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/1845/44566934121_c70164d9d1_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/63311602@N08/44566934121",
+      "license": "by 2.0",
+      "creator": "loustejskal.com",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "ricotta cheese",
@@ -31504,8 +31624,14 @@
       "chewy",
       "nutty"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/568/21068386976_0874f8f622_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/32870650@N08/21068386976",
+      "license": "by 2.0",
+      "creator": "Dana Moos",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "unsalted butter",
@@ -32501,8 +32627,14 @@
       "one-pan",
       "vegetarian"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://pd.w.org/2026/07/3536a5583c19b4163.01578822-2048x1400.jpeg",
+    "imageAttribution": {
+      "source": "wordpress",
+      "url": "https://wordpress.org/photos/photo/3536a5583c/",
+      "license": "cc0 1.0",
+      "creator": "diegolopez97",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "all-purpose flour",
@@ -33055,8 +33187,14 @@
       "sheet-pan",
       "meal-prep"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5701/29961335531_8c722a9155_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/98983159@N00/29961335531",
+      "license": "by 2.0",
+      "creator": "Lachlan Hardy",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "pork breakfast sausage links",
@@ -34548,8 +34686,14 @@
       "baking",
       "family-favorite"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7310/9337725986_9eee106e06_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/9337725986",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "boneless skinless chicken breasts",
@@ -35621,8 +35765,14 @@
       "baking",
       "one-pot-plus-oven"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5758/21086285849_cb5549ab39_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/21086285849",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "ground beef",
@@ -37510,8 +37660,14 @@
       "bowl",
       "make-ahead"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Chicken_Gravy_%22Jhol%22.jpg",
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=40853560",
+      "license": "by-sa 4.0",
+      "creator": "Shukanto Das",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "cooked white rice",
@@ -37621,8 +37777,14 @@
       "bowl",
       "vegetarian-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3091/2692021015_ec411343f4_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10559879@N00/2692021015",
+      "license": "by-sa 2.0",
+      "creator": "avlxyz",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "roasted sweet potato, cubed",
@@ -38204,8 +38366,14 @@
       "fried-rice",
       "quick"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3371/3177377867_99f2e0147f_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/40933543@N00/3177377867",
+      "license": "by-sa 2.0",
+      "creator": "fakelvis",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "cooked white rice (day-old)",
@@ -40035,8 +40203,14 @@
       "seafood",
       "sheet-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8351/8413545106_e0ac427360_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/26326001@N08/8413545106",
+      "license": "by 2.0",
+      "creator": "flippinyank",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "salmon fillets",
@@ -40214,8 +40388,14 @@
       "asian-inspired",
       "noodle-bowl"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://pd.w.org/2026/06/5726a312c125472f0.08996405-1536x2048.jpg",
+    "imageAttribution": {
+      "source": "wordpress",
+      "url": "https://wordpress.org/photos/photo/5726a312c1/",
+      "license": "cc0 1.0",
+      "creator": "Alina Kakshapati",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "shredded cooked chicken",
@@ -40479,8 +40659,14 @@
       "vegetarian",
       "no-cook-veggies"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5296/5526043590_9c71da4c05_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/35468144810@N01/5526043590",
+      "license": "by 2.0",
+      "creator": "Girl Interrupted Eating",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "whole wheat flatbread or pita",
@@ -40570,8 +40756,14 @@
       "low-carb-option",
       "make-ahead-protein"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/4413/36167537862_c952e47a91_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/54781600@N05/36167537862",
+      "license": "by-sa 2.0",
+      "creator": "healthiermi",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "shredded cooked chicken (from batch)",
@@ -40883,8 +41075,14 @@
       "portable",
       "crunchy"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/65535/49859621146_4d0df704fb_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/188303370@N04/49859621146",
+      "license": "by-sa 2.0",
+      "creator": "FitTasteTic",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "canned chickpeas, drained and patted dry",
@@ -44210,8 +44408,14 @@
       "budget",
       "shelf-stable"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/4070/4373726833_8a829a9747_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/80658919@N00/4373726833",
+      "license": "by 2.0",
+      "creator": "bertwagner",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "canned tuna, drained",
@@ -44482,8 +44686,14 @@
       "vegetarian-friendly",
       "shelf-stable"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Red_lentil_soup_bowl.jpg",
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=137386786",
+      "license": "by 2.0",
+      "creator": "jules",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "dried red lentils, rinsed",
@@ -45552,8 +45762,14 @@
       "shelf-stable",
       "protein"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/33/Liat_Portal_for_Foodie_Disorder_-_Hummus_with_spiced_chickpeas.jpg",
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=182400680",
+      "license": "by-sa 4.0",
+      "creator": "HaJunkiyada",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "canned chickpeas, drained and rinsed",
@@ -45996,8 +46212,14 @@
       "budget",
       "pantry-staples"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/2588/4033458458_c8db0c1551_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/21001756@N06/4033458458",
+      "license": "by 2.0",
+      "creator": "Stacy Spensley",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "canned sliced apples",
@@ -47591,8 +47813,14 @@
       "quick",
       "budget-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7365/10429410606_9733fd888a_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/80665970@N03/10429410606",
+      "license": "by 2.0",
+      "creator": "simpleprovisions",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "canned sardines in olive oil, drained",
@@ -49521,8 +49749,14 @@
       "grill",
       "sustainable"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8845/17828935251_bc63f3fb69.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/67839741@N06/17828935251",
+      "license": "by 2.0",
+      "creator": "L.A. Foodie",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "salmon fillet, skin removed",
@@ -50158,8 +50392,14 @@
       "sustainable-choice",
       "fresh"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8035/7968813806_7e49993440_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/43807964@N05/7968813806",
+      "license": "by 2.0",
+      "creator": "Jitabebe",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "raw shrimp, peeled and deveined",
@@ -50545,8 +50785,14 @@
       "party-snack",
       "sustainable-choice"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/2752/4519568860_08a48e4898_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/21001756@N06/4519568860",
+      "license": "by 2.0",
+      "creator": "Stacy Spensley",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Pacific cod fillet",
@@ -53850,8 +54096,14 @@
       "batch-friendly",
       "weeknight"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/2139/2506046657_33a384c47e_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/15441925@N00/2506046657",
+      "license": "by 2.0",
+      "creator": "www.theedinburghblog.co.uk",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "cooked shredded chicken",
@@ -55227,8 +55479,14 @@
       "under-8-ingredients",
       "uses-leftovers"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3579/3572088012_2b46d90018_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/35903175@N02/3572088012",
+      "license": "by-sa 2.0",
+      "creator": "Scott Teresi",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "cooked rice, day-old",
@@ -59040,8 +59298,14 @@
       "classic",
       "lower-sodium"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7392/16254446997_1a6b281d0b_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10019047@N05/16254446997",
+      "license": "by 2.0",
+      "creator": "basheertome",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "ground beef (85/15)",
@@ -59692,8 +59956,14 @@
       "lower-sodium",
       "beef"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5758/21086285849_cb5549ab39_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/21086285849",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "ground beef",
@@ -63141,8 +63411,14 @@
       "baked",
       "fall"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/6095/6220715962_66324e5ca0_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/6220715962",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "Granny Smith apples, peeled and sliced",
@@ -63245,8 +63521,14 @@
       "baked",
       "make-ahead"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3045/2407820729_a8753c7847_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/35034346243@N01/2407820729",
+      "license": "by-sa 2.0",
+      "creator": "stu_spivack",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "day-old French bread, cubed",
@@ -67581,8 +67863,14 @@
       "fresh",
       "gluten-free"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/8035/7968813806_7e49993440_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/43807964@N05/7968813806",
+      "license": "by 2.0",
+      "creator": "Jitabebe",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "corn tostada shells",
@@ -70711,8 +70999,14 @@
       "vegetarian",
       "bowl"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3327/3327792249_95be8fda00_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/8830972@N08/3327792249",
+      "license": "by 2.0",
+      "creator": "Maggie Hoffman",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chickpeas (drained, canned)",
@@ -70982,8 +71276,14 @@
       "oven-fried",
       "curry"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/4084/5195010000_1eda90c9a4_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/92203585@N00/5195010000",
+      "license": "by 2.0",
+      "creator": "jetalone",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chicken breast",
@@ -71524,8 +71824,14 @@
       "spice-blend",
       "one-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5562/14572930969_b0abfa2068_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/7927684@N03/14572930969",
+      "license": "by 2.0",
+      "creator": "jeffreyw",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chicken thighs, bone-in skin-on",
@@ -71742,8 +72048,14 @@
       "bowl",
       "broiler"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3181/2692750826_47fe9bf679_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10559879@N00/2692750826",
+      "license": "by-sa 2.0",
+      "creator": "avlxyz",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "boneless pork chops",
@@ -72096,8 +72408,14 @@
       "skillet",
       "spice-blend"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3076/2554594775_809fd9ac7e_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10559879@N00/2554594775",
+      "license": "by-sa 2.0",
+      "creator": "avlxyz",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chicken thighs, boneless skinless",
@@ -73173,8 +73491,14 @@
       "sheet-pan",
       "beef"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/7762/17391176371_dccd4c07ff_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/77887212@N00/17391176371",
+      "license": "by-sa 2.0",
+      "creator": "Chasqui (Luis Tamayo)",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "sirloin steak, sliced thin",
@@ -73291,8 +73615,14 @@
       "make-ahead",
       "sheet-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3597/3697198543_7be1180b72_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/10559879@N00/3697198543",
+      "license": "by-sa 2.0",
+      "creator": "avlxyz",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "chickpeas, drained and patted dry",
@@ -73622,8 +73952,14 @@
       "high-heat-sear",
       "spice-sauce-base"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3600/3322431400_90671f4172_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/24606258@N05/3322431400",
+      "license": "by-sa 2.0",
+      "creator": "NickNguyen",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "beef sirloin, cut into 1-inch cubes",
@@ -75153,8 +75489,14 @@
       "phyllo",
       "sheet-pan"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Baklava_shop%2C_Damascus%2C_Syria_-_1.jpg",
+    "imageAttribution": {
+      "source": "wikimedia",
+      "url": "https://commons.wikimedia.org/w/index.php?curid=22442106",
+      "license": "by 2.0",
+      "creator": "James Gordon from Los Angeles, California, USA",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "phyllo dough, thawed",
@@ -75262,8 +75604,14 @@
       "custard",
       "egg"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/3434/3375142074_074853dbeb.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/50166952@N00/3375142074",
+      "license": "by 2.0",
+      "creator": "chazzvid",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "eggs",
@@ -75726,8 +76074,14 @@
       "quick",
       "kid-friendly"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/5579/30366447985_d07e4f5833_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/27963141@N00/30366447985",
+      "license": "by 2.0",
+      "creator": "Courtbean",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "frozen bananas",
@@ -77171,8 +77525,14 @@
       "allergy-aware",
       "allergy-review-flagged"
     ],
-    "imageUrl": "",
-    "imageAttribution": null,
+    "imageUrl": "https://live.staticflickr.com/4068/4339390199_34a5bc6dd9_b.jpg",
+    "imageAttribution": {
+      "source": "flickr",
+      "url": "https://www.flickr.com/photos/25128194@N02/4339390199",
+      "license": "by 2.0",
+      "creator": "Vegan Feast Catering",
+      "matchType": "dish"
+    },
     "ingredients": [
       {
         "name": "ground chicken",
