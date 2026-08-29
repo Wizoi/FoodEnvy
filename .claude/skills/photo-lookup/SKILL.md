@@ -163,6 +163,38 @@ sub-field, then a distinctive-context fallback. The specific word lists (`FILLER
 and would need re-deriving for a new domain — but derive them the same way these were: run a real
 query, look at the actual result count and titles, don't guess.
 
+## A real gap the sanity filter doesn't catch: referential word matches
+
+A manual visual review of the ~110 weakest-signal accepted matches (word-overlap ≤1, done by
+building an HTML contact-sheet grid of thumbnails and eyeballing pages of ~12 at a time — cheaper
+than fetching/judging one image per turn) found real mismatches the title-word filter had no way
+to catch, because the word genuinely IS in the title -- it just doesn't mean what it looks like it
+means:
+
+- `"Classic Meatloaf with Mashed Potatoes"` and `"Classic Lower-Sodium Meatloaf"` (two different
+  recipes) both accepted a photo titled `"Mom's Meatloaf grilled cheese sandwich"` — the photo is
+  a grilled cheese sandwich; "Meatloaf" is just part of how the photographer named their file
+  ("my mom's meatloaf [recipe], [today's actual food is a] grilled cheese sandwich"), not a
+  description of what's pictured.
+- `"Crispy Baked Chickpea Poppers with Tahini Drizzle"` and `"Soy-Sesame Edamame Poppers"` both
+  accepted a photo titled `"Party Poppers!"` — same word, entirely different meaning (party
+  favors, not food), and the photo shows exactly that: no food at all.
+- `"Tempeh Bourguignon"` matched a heraldic coat-of-arms image because "Bourguignon" is also part
+  of a French place name (`"Blason Bourguignon-sous-Montbavin"`) — not a food photo whatsoever.
+
+The single-strongly-distinctive-word bar (≥7 characters) was calibrated against *coincidental
+overlap on a common word* (the original "Beef"/"Beef Stew" case), not against *a real word match
+that's being used referentially rather than descriptively*. There's no cheap automated fix for
+this class of error — it requires actually looking at the image. If revisiting this: consider
+either lowering trust in single-word dish-tier matches further, or (better, if the volume ever
+justifies the cost) adding an actual vision-capable judgment step against a downscaled thumbnail
+for anything below a higher word-overlap bar, instead of only checking the title text.
+
+**Practical takeaway for a future full review pass:** don't try to eyeball all matches at once —
+cross-reference against a cheap proxy (recompute title/name word overlap, or whatever score the
+search step produced) to build a prioritized "most likely wrong" queue first, and review that
+before spending time on high-confidence matches that are almost certainly fine.
+
 ## Known limits (don't re-litigate these, just be aware)
 
 - This is a text-search-then-license-filter approach, not image recognition — no tier here
