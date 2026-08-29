@@ -521,6 +521,25 @@
       font-weight: 400;
     }
 
+    .time-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      color: #444;
+    }
+
+    .time-breakdown .dot {
+      color: #bbb;
+    }
+
+    .time-breakdown.not-listed,
+    .time-breakdown .not-listed {
+      color: #999;
+      font-style: italic;
+    }
+
     .description {
       font-size: 0.9rem;
       color: #333;
@@ -726,13 +745,68 @@
       flex: 1;
       padding: 1.5rem;
       overflow-y: auto;
+    }
+
+    /* Fixed height stays scoped to the profile modal (a form with a known, stable size) --
+       the recipe detail modal's height is now driven by actual content length instead of a
+       one-size-box that padded short recipes and cramped long ones. */
+    #profileModal .modal-body {
       min-height: 500px;
       max-height: 500px;
     }
 
-    #profileModal .modal-body {
-      min-height: 500px;
-      max-height: 500px;
+    .detail-hero {
+      /* Escapes .modal-body's own padding so the hero image runs full-bleed, edge to edge,
+         instead of sitting inset like every other block below it. */
+      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+    }
+
+    .detail-hero .recipe-image {
+      height: 240px !important; /* overrides renderMealTypeVisual's card-sized inline 140px */
+      font-size: 4rem;
+    }
+
+    .detail-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .detail-original-heading {
+      margin-bottom: 1rem;
+    }
+
+    /* Base (mobile-default): stacked. The @media (min-width: 901px) rule below turns this
+       into the real two-column ingredients|steps split on desktop. */
+    .detail-body-columns {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .detail-body-columns h3,
+    .detail-body-columns h4 {
+      margin-bottom: 1rem;
+    }
+
+    .detail-body-columns ul,
+    .detail-body-columns ol {
+      margin-left: 1.5rem;
+    }
+
+    .detail-body-columns li {
+      margin-bottom: 1rem;
+    }
+
+    #recipeDetailModal .description {
+      /* Primary lead-in text in the detail view (not a card caption) -- the small italic
+         treatment reads fine on a card, but reads thin as the first real prose someone sees. */
+      font-style: normal;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #222;
     }
 
     .modal-footer {
@@ -916,9 +990,12 @@
         border-radius: 0;
       }
 
-      #recipeDetailModal .modal-body {
-        min-height: 0;
-        max-height: none;
+      .detail-hero {
+        margin: -1.5rem -1.5rem 1rem -1.5rem;
+      }
+
+      .detail-hero .recipe-image {
+        height: 180px !important;
       }
     }
 
@@ -927,7 +1004,11 @@
         max-width: 900px;
       }
 
-      #recipeDetailModal .modal-body {
+      /* Fixed: this used to be applied to `.modal-body` itself, which has 5-10 flat sibling
+         blocks (chips, meta, description, adaptation sections, then ingredients/steps) -- a
+         2-column grid auto-placed all of them into alternating cells essentially at random
+         relative to reading order. Scoped to the dedicated wrapper instead. */
+      .detail-body-columns {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
@@ -997,6 +1078,7 @@
           <label for="difficulty">Level</label>
           <select id="difficulty" onchange="filterRecipes()">
             <option value="">All</option>
+            <option value="beginner">Beginner</option>
             <option value="beginner-plus">Beginner+</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
@@ -1153,13 +1235,92 @@
 
     const ALLERGEN_TAGS = ['dairy', 'gluten', 'nuts', 'shellfish', 'egg', 'soy', 'sesame'];
 
+    // "1h 35m" instead of a raw "95 min" -- needed once totals routinely exceed 60 (a rest/rise
+    // time folded into the total pushes many recipes past an hour that never used to get there).
+    function formatDuration(minutes) {
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      if (h > 0 && m > 0) return h + 'h ' + m + 'm';
+      if (h > 0) return h + 'h';
+      return m + 'm';
+    }
+
+    // Card-badge time string: total-elapsed-first (not active-first) -- a fast scanner reads
+    // the first number as the total, and weeknight planning works backward from total
+    // time-to-plate, not from active hands-on time. `restMinutes` folds into one combined
+    // string here; the absent-vs-explicit-zero distinction is deliberately NOT surfaced on the
+    // card (that lives in the detail view's renderTimeBreakdown instead) -- doubling every
+    // card's badge for a secondary number isn't worth the clutter across 600+ cards.
     function formatTime(recipe) {
       if (recipe.prepMinutes != null || recipe.cookMinutes != null) {
-        const prep = recipe.prepMinutes || 0;
-        const cook = recipe.cookMinutes || 0;
-        return (prep + cook) + ' min';
+        const active = (recipe.prepMinutes || 0) + (recipe.cookMinutes || 0);
+        const rest = recipe.restMinutes;
+        if (rest != null && rest > 0) {
+          return formatDuration(active + rest) + ' (' + formatDuration(active) + ' active)';
+        }
+        return formatDuration(active);
       }
       return null;
+    }
+
+    // Detail-view time breakdown (primary recipe or an alternateRecipe -- same treatment for
+    // both). Unlike the card, this DOES distinguish `restMinutes` absent (never evaluated --
+    // every one of the 613 pre-restMinutes recipes) from explicit 0 (confirmed no rest time,
+    // every recipe find-recipe authors going forward): absent gets the same muted "Not listed"
+    // treatment used for difficulty/time elsewhere, since silently treating "never checked" the
+    // same as "confirmed none" risks a real mid-cook surprise; explicit 0 hides the rest line
+    // entirely since it's the common case once a persona has actually been asked to check.
+    // Returns null when there's no prep/cook data at all, so the caller can fall back to the
+    // simple "Time not listed" badge instead.
+    function renderTimeBreakdown(recipe) {
+      if (recipe.prepMinutes == null && recipe.cookMinutes == null) return null;
+      const active = (recipe.prepMinutes || 0) + (recipe.cookMinutes || 0);
+      const rest = recipe.restMinutes;
+      const segments = ['<span>Active: ' + formatDuration(active) + '</span>'];
+      if (rest != null && rest > 0) {
+        // "total, see steps" rather than implying one contiguous wait -- some recipes have
+        // genuinely separate rest stages (a dough chill, then a post-bake cool) narrated at
+        // different points in the steps text; this is a correct planning sum, not one window.
+        segments.push('<span>Rest: ' + formatDuration(rest) + ' total, see steps</span>');
+      } else if (rest == null) {
+        segments.push('<span class="not-listed">Rest: Not listed</span>');
+      }
+      const total = active + (rest || 0);
+      // "Time to table," not "Total" -- an undifferentiated "Total" reads as blocking time,
+      // which is backwards when the rest window is often when you'd start something else.
+      segments.push('<span><strong>Time to table: ' + formatDuration(total) + '</strong></span>');
+      return '<div class="time-breakdown">' + segments.join(' <span class="dot">&middot;</span> ') + '</div>';
+    }
+
+    // One combined, horizontally-scannable metadata strip (difficulty + the time breakdown)
+    // directly under the hero image -- research-grounded (AllRecipes' HANDS-ON/TOTAL/SERVES
+    // pattern): replaces two separately-stacked mini-blocks with a single strip, same info.
+    function renderDetailMetaStrip(recipe) {
+      const difficulty = formatDifficulty(recipe);
+      const timeBreakdown = renderTimeBreakdown(recipe);
+      let html = '<div class="detail-meta-strip">';
+      html += '<span class="difficulty' + (difficulty ? '' : ' not-listed') + '">' + (difficulty || 'Not listed') + '</span>';
+      html += timeBreakdown || '<div class="time-breakdown not-listed">Time not listed</div>';
+      html += '</div>';
+      return html;
+    }
+
+    // Shared ingredients/steps two-column block, reused for both the primary recipe and any
+    // alternateRecipe -- previously the alternate block hand-inlined an equivalent structure
+    // that could drift from the primary's; now there's exactly one implementation.
+    function renderIngredientsSteps(recipeLike, headingPrefix) {
+      let html = '<div class="detail-body-columns"><div>';
+      html += '<h3>' + headingPrefix + 'Ingredients</h3><ul>';
+      (recipeLike.ingredients || []).forEach(i => {
+        html += '<li>' + formatIngredientLine(i) + '</li>';
+      });
+      html += '</ul></div><div>';
+      html += '<h3>' + headingPrefix + 'Steps</h3><ol>';
+      (recipeLike.steps || []).forEach(s => {
+        html += '<li>' + s + '</li>';
+      });
+      html += '</ol></div></div>';
+      return html;
     }
 
     function formatDifficulty(recipe) {
@@ -1251,17 +1412,17 @@
       document.getElementById('detailTitle').textContent = recipe.name;
       const body = document.getElementById('detailBody');
 
-      let intro = renderAllergenChips(recipe);
-      intro += renderDietExclusionChips(recipe);
-      intro += renderDietChips(recipe);
-      const difficulty = formatDifficulty(recipe);
-      const time = formatTime(recipe);
-      intro += '<div class="recipe-meta">';
-      intro += '<span class="difficulty' + (difficulty ? '' : ' not-listed') + '">' + (difficulty || 'Not listed') + '</span>';
-      intro += '<span class="time' + (time ? '' : ' not-listed') + '">' + (time ? '⏱️ ' + time : 'Time not listed') + '</span>';
-      intro += '</div>';
+      // Structure (research-grounded -- NYT Cooking/AllRecipes/SideChef-style sites, see
+      // update-app plan): hero image first, then one combined metadata strip, then allergen/
+      // diet chips, then description, then (if applicable) adaptations before the primary
+      // recipe, then the shared ingredients/steps two-column block.
+      let html = '<div class="detail-hero">' + renderMealTypeVisual(recipe) + '</div>';
+      html += renderDetailMetaStrip(recipe);
+      html += renderAllergenChips(recipe);
+      html += renderDietExclusionChips(recipe);
+      html += renderDietChips(recipe);
       if (recipe.description) {
-        intro += '<div class="description">' + recipe.description + '</div>';
+        html += '<div class="description">' + recipe.description + '</div>';
       }
 
       // If a selected profile's restriction resolves to one of this recipe's `adaptations`,
@@ -1291,53 +1452,23 @@
           if (alt.description) {
             adaptationsHtml += '<div class="description">' + alt.description + '</div>';
           }
-          const altDifficulty = formatDifficulty(alt);
-          const altTime = formatTime(alt);
-          adaptationsHtml += '<div class="recipe-meta">';
-          adaptationsHtml += '<span class="difficulty' + (altDifficulty ? '' : ' not-listed') + '">' + (altDifficulty || 'Not listed') + '</span>';
-          adaptationsHtml += '<span class="time' + (altTime ? '' : ' not-listed') + '">' + (altTime ? '⏱️ ' + altTime : 'Time not listed') + '</span>';
-          adaptationsHtml += '</div>';
-          adaptationsHtml += '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
+          adaptationsHtml += renderDetailMetaStrip(alt);
           // Sub-headings repeat the alternate's own name so it can't be mistaken for the
           // primary recipe's ingredients/steps if scrolled to out of context.
-          adaptationsHtml += '<h4 style="margin-bottom:0.5rem;">' + alt.name + ' — Ingredients</h4><ul style="margin-left:1.5rem;">';
-          (alt.ingredients || []).forEach(i => {
-            adaptationsHtml += '<li>' + formatIngredientLine(i) + '</li>';
-          });
-          adaptationsHtml += '</ul></div><div>';
-          adaptationsHtml += '<h4 style="margin-bottom:0.5rem;">' + alt.name + ' — Steps</h4><ol style="margin-left:1.5rem;">';
-          (alt.steps || []).forEach(s => {
-            adaptationsHtml += '<li style="margin-bottom:1rem;">' + s + '</li>';
-          });
-          adaptationsHtml += '</ol></div></div>';
+          adaptationsHtml += renderIngredientsSteps(alt, alt.name + ' — ');
         }
         adaptationsHtml += '</div>';
       });
 
-      let html = intro;
       if (resolved.length > 0) {
         html += '<div class="adaptation-warning-banner">⚠️ As written, this recipe is NOT safe for ' +
           Array.from(new Set(resolved.flatMap(r => r.profileNames))).join(', ') +
           ' (' + resolved.map(r => r.tag).join(', ') + '). See the alternate below before the original.</div>';
         html += adaptationsHtml;
-        html += '<h3 style="margin-bottom:1rem;">' + recipe.name + ' — Original (not safe as written)</h3>';
+        html += '<h3 class="detail-original-heading">' + recipe.name + ' — Original (not safe as written)</h3>';
       }
 
-      html += '<div style="display:flex;gap:2rem;flex-direction:column;"><div>';
-      html += '<h3 style="margin-bottom:1rem;">Ingredients</h3><ul style="margin-left:1.5rem;">';
-      if (recipe.ingredients) {
-        recipe.ingredients.forEach(i => {
-          html += '<li>' + formatIngredientLine(i) + '</li>';
-        });
-      }
-      html += '</ul></div><div>';
-      html += '<h3 style="margin-bottom:1rem;">Steps</h3><ol style="margin-left:1.5rem;">';
-      if (recipe.steps) {
-        recipe.steps.forEach(s => {
-          html += '<li style="margin-bottom:1rem;">' + s + '</li>';
-        });
-      }
-      html += '</ol></div></div>';
+      html += renderIngredientsSteps(recipe, '');
 
       body.innerHTML = html;
       modal.style.display = 'flex';
