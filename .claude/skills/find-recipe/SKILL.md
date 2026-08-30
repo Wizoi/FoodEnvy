@@ -81,6 +81,17 @@ exists to prevent). A complete recipe:
   relying on the fallback.
 - Ingredient `tags`: drawn only from the canonical vocabulary --
   `dairy, gluten, nuts, shellfish, egg, soy, sesame, meat, pork, beef, fish`. Nothing else.
+- Recipe-level `tags` (the free-text array, distinct from ingredient tags above): every recipe
+  needs a real set, not just `[mealType]`. The 40 legacy `user-submitted` recipes averaged 1.1
+  tags each (vs. 3.0-4.9 for every persona-authored batch) -- confirmed as the actual root cause
+  behind the recipe browser's Help tab mood-tile combinations landing on zero results, not a UI
+  bug. Aim for 4-6 tags per recipe, reusing the existing vocabulary where it fits (check
+  `public/foodenvy-complete-recipes.json` for what's already common -- `weeknight`, `one-pan`,
+  `make-ahead`, `vegetarian`, `quick`, `comfort-food`, `technique`, `weekend-project`, etc.)
+  rather than inventing new terms per batch. Diet-adjacent tags (`vegetarian`, `vegan`,
+  `gluten-free`) must actually match the ingredient list, not just the dish's reputation --
+  these are descriptive/browsing tags, not the allergen-chip system, but a wrong one still
+  misleads browsing.
 - `id`: `recipe-<persona-slug>-<dish-slug>`, unique against every id already in
   `public/foodenvy-complete-recipes.json` **and** every other recipe written this run.
 - `description`: written in the authoring persona's own voice (read their `docs/personas/*.yaml`

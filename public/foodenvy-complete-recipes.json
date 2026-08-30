@@ -2581,7 +2581,10 @@
     ],
     "tags": [
       "dessert",
-      "snack"
+      "snack",
+      "candy",
+      "stovetop",
+      "technique"
     ],
     "restMinutes": 45,
     "imageAttribution": {
@@ -2686,7 +2689,11 @@
     ],
     "tags": [
       "dessert",
-      "snack"
+      "snack",
+      "baking",
+      "chocolate",
+      "classic",
+      "comfort-food"
     ],
     "restMinutes": 50,
     "imageAttribution": {
@@ -2799,8 +2806,11 @@
       "Whisk beer into the dijon mustard and let sit at least 15 minutes for the flavors to meld before serving alongside the warm pretzels."
     ],
     "tags": [
-      "dessert",
-      "snack"
+      "snack",
+      "baking",
+      "weekend-project",
+      "technique",
+      "yeasted-dough"
     ],
     "restMinutes": 75,
     "imageAttribution": {
@@ -2890,7 +2900,10 @@
     ],
     "tags": [
       "dessert",
-      "snack"
+      "snack",
+      "nuts",
+      "technique",
+      "make-ahead"
     ],
     "restMinutes": 0,
     "imageAttribution": null,
@@ -3022,7 +3035,10 @@
     ],
     "tags": [
       "dessert",
-      "snack"
+      "snack",
+      "candy",
+      "technique",
+      "make-ahead"
     ],
     "restMinutes": 250,
     "imageAttribution": {
@@ -3109,7 +3125,10 @@
     ],
     "tags": [
       "dessert",
-      "snack"
+      "snack",
+      "candy",
+      "technique",
+      "make-ahead"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -3195,7 +3214,12 @@
       "Spoon the cooled coulis over the set panna cotta just before serving."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "custard",
+      "make-ahead",
+      "technique",
+      "no-bake",
+      "gluten-free"
     ],
     "restMinutes": 250,
     "imageAttribution": {
@@ -3297,7 +3321,11 @@
       "Dust with powdered sugar and serve immediately while the center is still flowing."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "chocolate",
+      "baking",
+      "technique",
+      "special-occasion"
     ],
     "restMinutes": 16,
     "imageAttribution": {
@@ -3473,7 +3501,11 @@
       "Whip the cream to soft peaks and pile it into the pavlova's center well just before serving, topped with fresh berries -- assemble at the last minute, since the cream and berry juices will soften the crisp shell within an hour or two."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "baking",
+      "technique",
+      "special-occasion",
+      "gluten-free"
     ],
     "restMinutes": 60,
     "imageAttribution": {
@@ -3643,7 +3675,11 @@
       "Let it sit uncovered for at least 4 hours (or overnight) before serving so the syrup fully penetrates every layer."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "baking",
+      "weekend-project",
+      "technique",
+      "nuts"
     ],
     "restMinutes": 240,
     "imageAttribution": {
@@ -3825,7 +3861,11 @@
       "Dust generously with cocoa powder right before serving, since cocoa dusted too early can look damp and clumpy by the time you cut it."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "no-bake",
+      "make-ahead",
+      "italian-inspired",
+      "classic"
     ],
     "restMinutes": 240,
     "imageAttribution": {
@@ -3996,7 +4036,10 @@
       "Place a serving plate over the skillet and invert in one confident motion, standing back initially since hot caramel can drip -- rearrange any apples that shift before serving warm."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "baking",
+      "technique",
+      "weekend-project"
     ],
     "restMinutes": 10,
     "imageAttribution": {
@@ -4091,7 +4134,10 @@
       "Dust with powdered sugar and serve the instant they come out of the oven -- a souffle begins deflating within a couple of minutes, so this is a dessert built around timing your guests to the oven, not the other way around."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "chocolate",
+      "technique",
+      "special-occasion"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -4234,7 +4280,11 @@
       "Just before serving, sprinkle an even, thin layer of turbinado sugar on top and caramelize with a kitchen torch, holding it a few inches away and moving constantly -- a torch (versus a broiler) lets you caramelize just the sugar without warming the cold custard underneath, keeping the contrast between the shattering hot crust and the cool cream inside."
     ],
     "tags": [
-      "dessert"
+      "dessert",
+      "custard",
+      "technique",
+      "make-ahead",
+      "gluten-free"
     ],
     "restMinutes": 240,
     "imageAttribution": null,
@@ -4362,7 +4412,10 @@
       "To serve, remove the legs from the cold fat (save and strain the fat -- it's reusable and incredibly flavorful for roasting potatoes) and sear skin-side down in a dry, hot pan for 5-6 minutes until deeply crackled and crisp -- the meat is already fully cooked, so this final sear exists purely to recrisp the skin, and a cold pan going hot renders any remaining fat out gradually instead of burning the skin instantly."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "technique",
+      "weekend-project",
+      "make-ahead"
     ],
     "restMinutes": 1440,
     "imageAttribution": {
@@ -4522,7 +4575,11 @@
       "Plate the salmon over the charred bok choy and finish with sesame seeds and sliced scallion."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "seafood",
+      "weeknight",
+      "asian-inspired",
+      "high-protein"
     ],
     "restMinutes": 15,
     "imageAttribution": {
@@ -4639,7 +4696,11 @@
       "Stir in torn Thai basil off the heat right before serving over jasmine rice -- basil added directly to a simmering pot wilts into a muddy green and loses its peppery brightness."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "seafood",
+      "asian-inspired",
+      "spice-blend",
+      "gluten-free"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -4729,7 +4790,11 @@
       "Toss the drained gnocchi directly in the brown butter and sage, adding a splash of the starchy gnocchi water if needed to loosen the sauce, then finish with more parmesan."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "italian-inspired",
+      "technique",
+      "weekend-project",
+      "vegetarian"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -4845,7 +4910,11 @@
       "Skim the fat off the surface of the braising liquid (chilling it overnight makes this dramatically easier, since the fat solidifies into a removable layer) before reducing the liquid slightly and serving it as the sauce."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "comfort-food",
+      "braise",
+      "weekend-project",
+      "high-protein"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -4959,7 +5028,10 @@
       "Rest off heat for 5 minutes, covered with a towel, before serving."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "seafood",
+      "weekend-project",
+      "technique"
     ],
     "restMinutes": 5,
     "imageAttribution": {
@@ -5060,7 +5132,11 @@
       "Rest 10 minutes before carving to let the juices redistribute."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "weeknight",
+      "technique",
+      "classic",
+      "high-protein"
     ],
     "restMinutes": 10,
     "imageAttribution": {
@@ -5226,7 +5302,11 @@
       "Serve immediately; risotto continues to thicken as it sits and loses its ideal loose, flowing consistency within minutes."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "vegetarian",
+      "italian-inspired",
+      "technique",
+      "comfort-food"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -5343,7 +5423,10 @@
       "Swirl in the butter off heat just before serving to give the sauce a final glossy sheen."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "braise",
+      "weekend-project",
+      "classic"
     ],
     "restMinutes": 0,
     "imageAttribution": null,
@@ -5531,7 +5614,10 @@
       "Slice the rested steak against the grain and spoon the pan sauce over the top."
     ],
     "tags": [
-      "dinner"
+      "dinner",
+      "technique",
+      "classic",
+      "high-protein"
     ],
     "restMinutes": 10,
     "imageAttribution": {
@@ -5697,7 +5783,10 @@
       "Warm the pita, split, and fill with falafel, tahini sauce, and fresh vegetables."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "vegetarian",
+      "vegan",
+      "technique"
     ],
     "restMinutes": 30,
     "imageAttribution": {
@@ -5779,7 +5868,11 @@
       "Finish with a generous crack of black pepper and serve immediately, since the sauce continues to thicken and can turn gluey if it sits."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "italian-inspired",
+      "classic",
+      "quick",
+      "high-protein"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -5947,7 +6040,10 @@
       "Serve spooned into cold, crisp butter lettuce leaves for wrapping -- the cold crunch of raw lettuce is a deliberate contrast to the warm, soft filling."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "asian-inspired",
+      "gluten-free",
+      "quick"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -6067,7 +6163,11 @@
       "Pile in the hot shrimp and lettuce immediately -- serving right away while the coating is still audibly crisp is the difference between a po'boy and a soggy sandwich."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "seafood",
+      "sandwich",
+      "comfort-food",
+      "fried"
     ],
     "restMinutes": 15,
     "imageAttribution": {
@@ -6295,7 +6395,11 @@
       "Assemble bowls with hot broth, noodles, sliced chashu, a halved ajitama, sliced scallion, and a few drops of sesame oil finished on top rather than cooked in, so its aroma stays bright."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "asian-inspired",
+      "weekend-project",
+      "technique",
+      "make-ahead"
     ],
     "restMinutes": 720,
     "imageAttribution": {
@@ -6524,7 +6628,11 @@
       "Arrange potatoes, beans, eggs, olives, tomatoes, and tuna over greens and drizzle with the vinaigrette just before serving so the greens don't wilt."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "seafood",
+      "salad",
+      "high-protein",
+      "gluten-free"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -6704,7 +6812,10 @@
       "Broil until the cheese is bubbling and browned in spots, watching closely -- broilers work fast and the line between golden and burnt is a matter of seconds."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "classic",
+      "comfort-food",
+      "weekend-project"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -6829,7 +6940,10 @@
       "Layer in the seared pork belly, drained pickled vegetables, jalapeno slices, and cilantro, pressing down firmly before cutting so the sandwich holds together instead of spilling its filling."
     ],
     "tags": [
-      "lunch"
+      "lunch",
+      "sandwich",
+      "asian-inspired",
+      "technique"
     ],
     "restMinutes": 30,
     "imageAttribution": null,
@@ -6947,7 +7061,11 @@
       "Scatter feta over the top in the last minute so it softens without fully melting, and serve straight from the pan with crusty bread for scooping."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "vegetarian",
+      "one-pan",
+      "comfort-food",
+      "spice-blend"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -7144,7 +7262,11 @@
       "Flip only once, when bubbles across the surface have popped and stayed open -- that's the visual cue the underside has set enough to flip cleanly without deflating."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "classic",
+      "kid-friendly",
+      "vegetarian",
+      "quick"
     ],
     "restMinutes": 10,
     "imageAttribution": {
@@ -7250,7 +7372,10 @@
       "Rest 5 minutes before serving so the custard sets fully, then drizzle with warm maple syrup."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "make-ahead",
+      "comfort-food",
+      "baking"
     ],
     "restMinutes": 25,
     "imageAttribution": {
@@ -7354,7 +7479,9 @@
       "Season the finished congee with soy sauce and white pepper, ladle into bowls, and top with the soft-boiled egg, a drizzle of scallion oil, and sesame oil."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "asian-inspired",
+      "one-pot"
     ],
     "restMinutes": 0,
     "imageAttribution": null,
@@ -7455,7 +7582,9 @@
       "Top with the pickled onion, capers, and dill, letting the drained onion's residual vinegar season the salmon underneath."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "seafood",
+      "quick"
     ],
     "restMinutes": 15,
     "imageAttribution": {
@@ -7668,7 +7797,10 @@
       "Fill each tortilla with potatoes, chorizo, eggs, and cheese, fold in the sides, then roll tightly away from you to seal."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "weekend-project",
+      "high-protein",
+      "spice-blend"
     ],
     "restMinutes": 45,
     "imageAttribution": {
@@ -7758,7 +7890,11 @@
       "Serve immediately; the residual heat finishes cooking the center so it stays glossy rather than dry."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "technique",
+      "quick",
+      "vegetarian",
+      "gluten-free"
     ],
     "restMinutes": 0,
     "imageAttribution": {
@@ -7928,7 +8064,10 @@
       "Squeeze lemon juice over the top and dust with powdered sugar the moment it comes out; it will deflate within a couple minutes so serve immediately."
     ],
     "tags": [
-      "breakfast"
+      "breakfast",
+      "baking",
+      "quick",
+      "vegetarian"
     ],
     "restMinutes": 10,
     "imageAttribution": {
