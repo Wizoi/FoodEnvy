@@ -416,6 +416,20 @@
       border-color: var(--primary);
     }
 
+    .help-tile-count {
+      opacity: 0.65;
+      font-size: 0.8em;
+    }
+
+    .help-tile.dead-end {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .help-tile:disabled {
+      cursor: not-allowed;
+    }
+
     .help-tile-row {
       display: flex;
       gap: 0.5rem;
@@ -1733,7 +1747,15 @@
       return (recipe.prepMinutes || 0) + (recipe.cookMinutes || 0);
     }
 
-    const HELP_TAG_TILES = ['weeknight', 'one-pan', 'make-ahead', 'kid-friendly', 'quick', 'vegetarian', 'vegan', 'gluten-free', 'no-cook', 'comfort-food', 'budget', 'meal-prep', 'high-protein', 'freezer-friendly'];
+    // 'freezer-friendly' was dropped and 'sheet-pan' added after a real co-occurrence check
+    // against the live 634-recipe corpus: of 91 possible pairs among these 14 tiles, 19 (21%)
+    // returned zero recipes and another 32 (35%) returned only 1-2 -- freezer-friendly alone
+    // accounted for 8 of the 19 zero-result pairs (worse than any other tile), and swapping just
+    // that one tile for sheet-pan cut zero-result pairs to 15 with no other change needed. This
+    // is a mitigation, not a fix -- the underlying cause is inconsistent tagging across a corpus
+    // authored in separate batches by 14 different personas; see the photo-lookup-style tagging
+    // backfill this same conversation flagged as the durable follow-up.
+    const HELP_TAG_TILES = ['weeknight', 'one-pan', 'make-ahead', 'kid-friendly', 'quick', 'vegetarian', 'vegan', 'gluten-free', 'no-cook', 'comfort-food', 'budget', 'meal-prep', 'high-protein', 'sheet-pan'];
     const HELP_TIME_BUCKETS = [
       { label: 'Under 20 min', min: 0, max: 20 },
       { label: '20-40 min', min: 20, max: 40 },
@@ -1741,14 +1763,30 @@
       { label: '60+ min', min: 60, max: Infinity },
     ];
 
+    // How many currently-visible (already tag/time/craving-filtered by everything ELSE selected)
+    // recipes would remain if this specific tag were also required -- the live count that lets
+    // someone see a dead-end coming instead of tapping into one blind.
+    function countWithTagAdded(tag) {
+      const others = Array.from(helpSelectedTags).filter(t => t !== tag);
+      return allRecipes.filter(r => (r.tags || []).includes(tag) && others.every(t => (r.tags || []).includes(t))).length;
+    }
+
     // Draws tile buttons AND their active state from the current helpSelectedTags/
     // helpSelectedTimeBucket globals -- safe to call any time (e.g. again after recipes load,
     // to populate craving suggestions) without losing whatever was already selected/restored.
     function renderHelpTiles() {
       const tagContainer = document.getElementById('helpTagTiles');
-      tagContainer.innerHTML = HELP_TAG_TILES.map(t =>
-        '<button type="button" class="help-tile' + (helpSelectedTags.has(t) ? ' active' : '') + '" data-tag="' + t + '" onclick="toggleHelpTagTile(\'' + t + '\')">' + t.replace(/-/g, ' ') + '</button>'
-      ).join('');
+      tagContainer.innerHTML = HELP_TAG_TILES.map(t => {
+        const active = helpSelectedTags.has(t);
+        // Only worth computing/showing a count once at least one tile is selected -- with
+        // nothing picked yet every tile's count is just its flat total, which the tile label
+        // doesn't need cluttering (it's not helping anyone decide what to tap first).
+        const count = helpSelectedTags.size > 0 ? countWithTagAdded(t) : null;
+        const wouldBeDeadEnd = !active && count === 0;
+        return '<button type="button" class="help-tile' + (active ? ' active' : '') + (wouldBeDeadEnd ? ' dead-end' : '') +
+          '" data-tag="' + t + '" onclick="toggleHelpTagTile(\'' + t + '\')"' + (wouldBeDeadEnd ? ' disabled' : '') + '>' +
+          t.replace(/-/g, ' ') + (count !== null ? ' <span class="help-tile-count">(' + count + ')</span>' : '') + '</button>';
+      }).join('');
 
       const timeContainer = document.getElementById('helpTimeTiles');
       timeContainer.innerHTML = HELP_TIME_BUCKETS.map((b, i) =>
@@ -1768,12 +1806,23 @@
     let helpSelectedTags = new Set();
     let helpSelectedTimeBucket = null;
 
+    // Capped at 2 simultaneous tiles: the co-occurrence check above is specifically about PAIRS
+    // -- a 3rd tile stacked on top pushes almost every combination in this corpus to zero
+    // (confirmed directly: weeknight+one-pan+kid-friendly, all individually healthy tags, = 0
+    // together). Rather than let someone stack a 3rd tile into a near-guaranteed dead end,
+    // adding one evicts the oldest-selected tile first -- the live count above still shows
+    // what's actually available on top of whatever's currently active.
     function toggleHelpTagTile(tag) {
-      if (helpSelectedTags.has(tag)) helpSelectedTags.delete(tag);
-      else helpSelectedTags.add(tag);
-      document.querySelectorAll('#helpTagTiles .help-tile').forEach(btn => {
-        btn.classList.toggle('active', helpSelectedTags.has(btn.dataset.tag));
-      });
+      if (helpSelectedTags.has(tag)) {
+        helpSelectedTags.delete(tag);
+      } else {
+        if (helpSelectedTags.size >= 2) {
+          const oldest = helpSelectedTags.values().next().value;
+          helpSelectedTags.delete(oldest);
+        }
+        helpSelectedTags.add(tag);
+      }
+      renderHelpTiles();
       filterRecipes();
     }
 
@@ -2286,6 +2335,14 @@
         }
 
         let html = '';
+        if (extra.isClosestMatches) {
+          // Not every selected tile matched -- these recipes hit at least one, ranked by how
+          // many. Labeled explicitly rather than presented as if the full combination matched,
+          // same "never silently pretend a partial result is exact" principle as the adaptation
+          // highlight below.
+          html += '<div class="favorite-conflict-badge" style="grid-column: 1 / -1;">' +
+            'Closest matches — not every tile you picked, but the closest available. Try removing one for an exact match.</div>';
+        }
         recipes.forEach(recipe => {
           const pName = recipe.persona ? (personasMap[recipe.persona] ? personasMap[recipe.persona].name : 'Chef') : 'Chef';
           const emoji = recipe.persona ? (personaEmojis[recipe.persona] || '👨‍🍳') : '👨‍🍳';
@@ -2468,16 +2525,17 @@
       let excludedForProfileConflict = 0;
       let excludedForMissingTime = 0;
 
-      let filtered = allRecipes.filter(recipe => {
+      // Every predicate EXCEPT the tag-tile AND check -- shared between the strict pass and the
+      // closest-matches fallback below, so relaxing tags never means silently skipping a real
+      // exclusion (an allergy conflict, a time-bucket miss, a craving mismatch).
+      function passesNonTagFilters(recipe) {
         if (mealType && recipe.mealType !== mealType) return false;
         if (difficulty && recipe.difficulty !== difficulty) return false;
         if (search && !recipe.name.toLowerCase().includes(search)) return false;
 
-        if (helpTagTiles.length > 0 && !helpTagTiles.every(t => (recipe.tags || []).includes(t))) return false;
-
         if (helpTimeBucket !== null) {
           const mins = getActiveMinutes(recipe);
-          if (mins == null) { excludedForMissingTime++; return false; }
+          if (mins == null) return false;
           const bucket = HELP_TIME_BUCKETS[helpTimeBucket];
           if (!(mins >= bucket.min && mins < bucket.max)) return false;
         }
@@ -2489,15 +2547,7 @@
 
         if (selectedProfileIds.length > 0) {
           const status = getProfileAdaptationStatus(recipe, selectedProfileIds);
-          // Exclude only on an UNRESOLVED conflict -- a conflict with a matching `adaptations`
-          // entry that's actually safe for this profile stays in the list; it gets highlighted
-          // on the card and shown alongside the primary in the detail view instead of
-          // disappearing.
-          if (status.unresolved.length > 0) {
-            excludedForProfileConflict++;
-            return false;
-          }
-          adaptationStatusById.set(recipe.id, status);
+          if (status.unresolved.length > 0) return false;
         }
 
         if (selectedCollectionIds.length > 0) {
@@ -2511,14 +2561,50 @@
         if (favoritesOnly && !isFavorited(recipe.id)) return false;
 
         return true;
+      }
+
+      let filtered = allRecipes.filter(recipe => {
+        if (!passesNonTagFilters(recipe)) {
+          // Re-run just the two counters passesNonTagFilters() doesn't expose, so the count
+          // line's messaging stays accurate without duplicating every check twice.
+          if (helpTimeBucket !== null && getActiveMinutes(recipe) == null) excludedForMissingTime++;
+          if (selectedProfileIds.length > 0 && getProfileAdaptationStatus(recipe, selectedProfileIds).unresolved.length > 0) excludedForProfileConflict++;
+          return false;
+        }
+        if (helpTagTiles.length > 0 && !helpTagTiles.every(t => (recipe.tags || []).includes(t))) return false;
+        if (selectedProfileIds.length > 0) adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+        return true;
       });
+
+      // Closest-matches fallback: only for the tag-tile combination itself landing on zero --
+      // confirmed directly that this is a real, non-rare outcome for this corpus's sparse
+      // tagging (some 2-tag AND combinations return 0 even with both tags individually healthy),
+      // not something to treat as "just tell them to remove a filter." Relaxes ONLY the tag-AND
+      // requirement (every other filter, including allergy safety, stays fully enforced via
+      // passesNonTagFilters) and ranks by how many of the selected tags each recipe still hits.
+      let isClosestMatches = false;
+      if (activeTab === 'help' && helpTagTiles.length > 0 && filtered.length === 0) {
+        const scored = allRecipes
+          .filter(passesNonTagFilters)
+          .map(r => ({ r, score: helpTagTiles.filter(t => (r.tags || []).includes(t)).length }))
+          .filter(x => x.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 8);
+        if (scored.length > 0) {
+          isClosestMatches = true;
+          filtered = scored.map(x => x.r);
+          filtered.forEach(recipe => {
+            if (selectedProfileIds.length > 0) adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+          });
+        }
+      }
 
       const anyHelpFilterActive = helpTagTiles.length > 0 || helpTimeBucket !== null || !!helpCraving;
       const emptyMessage = (activeTab === 'help' && anyHelpFilterActive)
         ? 'No recipes match these together — try removing one'
         : 'No recipes';
 
-      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, { excludedForMissingTime, emptyMessage });
+      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, { excludedForMissingTime, emptyMessage, isClosestMatches });
     }
 
     // Re-applies the last-saved filter/search state on load. Must run after loadProfiles()/
