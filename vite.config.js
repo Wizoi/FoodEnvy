@@ -23,7 +23,7 @@ export default defineConfig({
             join(process.cwd(), 'public/foodenvy-complete-recipes.json'),
             join(distDir, 'foodenvy-complete-recipes.json')
           )
-        } catch (e) {
+        } catch {
           console.warn('recipes file not found')
         }
 
@@ -32,7 +32,7 @@ export default defineConfig({
             join(process.cwd(), 'public/favicon.svg'),
             join(distDir, 'favicon.svg')
           )
-        } catch (e) {
+        } catch {
           console.warn('favicon not found')
         }
       },

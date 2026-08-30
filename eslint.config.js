@@ -1,33 +1,28 @@
 import js from '@eslint/js';
 import globals from 'globals';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
+import html from 'eslint-plugin-html';
 
 export default [
   js.configs.recommended,
   {
-    files: ['src/**/*.{js,jsx}'],
+    // The live app: a single inline <script> per file. eslint-plugin-html extracts and lints
+    // it as regular browser JS -- these two must stay byte-identical (see CLAUDE.md), so linting
+    // both, not just one, catches drift as well as real bugs.
+    files: ['index.html', 'recipe-browser.html'],
+    plugins: { html },
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'module',
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
+      sourceType: 'script',
       globals: {
         ...globals.browser,
       },
     },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-uses-vars': 'error',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
+      // Nearly every top-level function here is only ever called from an inline onclick="..."
+      // HTML attribute string, which static analysis can't see as a use -- same reasoning as the
+      // scripts/**/*.js block below. What actually matters for this file (catching a typo'd
+      // identifier, an undefined global) still runs via js.configs.recommended's no-undef.
+      'no-unused-vars': 'off',
     },
   },
   {
