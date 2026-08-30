@@ -2,22 +2,85 @@
 
 ## Project goal
 
-Help a family with mixed dietary needs (allergies, diets, dislikes) go from "what do we have" to "what should we eat tonight / what should we buy." Local-first browser app for now (Vite + React + IndexedDB, no backend), with an eye toward an eventual Android port — the storage and stack choices were made specifically so a future Capacitor wrap wouldn't require a rewrite.
+Help a family with mixed dietary needs (allergies, diets, dislikes) go from "what's in the recipe
+library" to "what should we eat tonight / this week." Local-first browser app, no backend, no
+build step required to run it — just static files.
 
 ## What's in this repo
 
-- `src/db/database.js` — generic promise-wrapped IndexedDB helpers (`getAll`/`get`/`put`/`remove`/`count`) over one database with four object stores: `members`, `inventory`, `recipes`, `plannedWeeks`. Domain-specific CRUD (`profiles.js`, `inventory.js`, `recipes.js`, `plannedWeeks.js`) sits on top of this.
-- `src/domain/planImport.js` — validates a `foodEnvyPlanExport` JSON (produced by the `plan-meal` skill) before it's saved. `src/db/plannedWeeks.js` owns the plan lifecycle: `swapMealSlot` (pick a different-dish `alternate`, re-evaluates it against current members/inventory), `applyMemberFork` (mark a same-dish adaptation applied for one member — a distinct mechanism from swap, see below), and `revalidatePlan` (re-check every slot's eligibility against the *current* stored profiles/inventory, since a plan is a snapshot but restrictions/inventory aren't — called on every render of the Weekly Plan tab, not just after a swap).
-- `src/components/plan/PlanRequestPanel.jsx` / `WeeklyPlanView.jsx` — the Weekly Plan tab. Empty state bundles selected members + inventory + a few chip-picked preferences into a `foodEnvyPlanRequest` export for the `plan-meal` skill to consume, with plain-language instructions (the skill runs in Claude Code, not the browser — this is a deliberate, narrated hand-off, not a hidden feature). Once a plan is imported, renders per-day slot cards with two **distinct** adaptation mechanisms: "Swap this meal" (pick a different-dish `alternate`) vs. "Adapt for {name}" (apply a same-dish `memberFork`, e.g. a gluten-free starch swap) — conflating these was an explicit finding from the persona review that shaped this design (see `docs/personas/dietary-specialists/sofia-marsh-gluten-free.yaml`'s notes).
-- `src/domain/tags.js` — the canonical allergen/diet tag vocabulary (`dairy, gluten, nuts, shellfish, egg, soy, sesame, meat, pork, beef, fish`), plus `BIG9_ALLERGENS` (the FDA's Big 9, mapped to these tags) used to drive the allergy step of the profile wizard. Both `FamilyMember.restrictions` and `Recipe.ingredients[].tags` reference this vocabulary so matching is a simple tag intersection, not free-text guessing.
-- `src/domain/dietPresets.js` — one-tap diet-type shortcuts (Vegetarian/Vegan/Pescatarian/Gluten-Free/Dairy-Free) that expand to the strict `diet` restrictions matching what each dietary specialist persona (see `docs/personas.md`) would actually require — e.g. vegan excludes dairy and egg, not just meat/fish. "Other" is deliberately free-text-only (keto/paleo/halal/kosher/etc. aren't cleanly modeled by ingredient-tag exclusion, so it's saved for reference rather than half-enforced). Tested in `dietPresets.test.js`.
-- `src/domain/commonFoods.js` — the `COMMON_FOOD_CHECKLIST` behind the wizard's Dislikes step: a curated, categorized "tap what you don't like" list, not a reproduction of any clinical picky-eating instrument (none of the real ones -- CEBQ, Food Neophobia Scale, STEP/BPFAS -- use a named-food checklist; they're Likert-style behavior questions). Deliberately broad (~100 items across 9 categories, including full fish/seafood and meat variety) rather than minimal -- a family's profile gets reused for every future suggestion, so completeness matters more than trimming for speed; the tap-only interaction is what keeps it fast despite the size.
-- `src/domain/matcher.js` — the suggestion engine. Pure functions, no I/O: `suggestMeals(members, inventory, recipes)` returns `{ ready, almost }`; `buildShoppingList` de-dupes missing ingredients across chosen "almost" recipes (single-recipe use, e.g. `MealSuggestions.jsx`). `evaluateRecipeForSlot` composes the eligibility/missing-ingredient checks for one recipe against current members/inventory (used by the plan swap/revalidate logic). `buildUsageTrackedShoppingList` is the weekly-plan version of the shopping list — it tracks which slot(s) need each item (`usedBy`) so a swap can show its ripple effect instead of silently rewriting a flat list. `computeProteinTally`/`describeRepeats` give a cheap week-level repetition warning (e.g. "meat appears in 3 meals this week") — not real nutrition analysis, since recipes carry no macro data, just a signal that survives a swap. This is the one module worth keeping well-tested (`matcher.test.js`).
-- `src/domain/seedRecipes.json` — ~16 starter recipes loaded into the `recipes` store on first run only (`seedRecipesIfEmpty`, in `db/recipes.js`) — never overwrites once the store is non-empty.
-- `src/components/profiles/ProfileWizard.jsx` — the multi-step profile survey (Name → Allergies → Diet → Dislikes → Goals → Review) that replaced the old flat `ProfileForm`. Editing an existing member opens pre-filled straight to Review. Produces the same `restrictions` shape the matcher already expects, so nothing downstream needed to change.
-- `src/components/profiles/ProfileList.jsx` and `src/components/inventory/InventoryList.jsx` — both own Export/Import (buttons + `src/lib/jsonFile.js`'s shared `downloadJson`/`readJsonFile` helpers): export as a timestamped JSON file (client-side `Blob` download, no server), import back in with fresh ids per record (so importing on a different device never silently collides with/overwrites an existing member or item).
-- `src/components/inventory/CameraCapture.jsx` — the vision-tech seam. Currently just attaches a photo (as a data URL) to an inventory item; does not run recognition. If/when real image recognition is added, this is the component to change — the rest of the inventory form should keep working with manual entry as a fallback.
+**The app is a single self-contained HTML file, not a component framework.** `index.html` (and
+its byte-for-byte duplicate `recipe-browser.html`, kept in sync manually — see "Working
+conventions") is one file of inline HTML/CSS/vanilla JS, a few thousand lines, that fetches
+`public/foodenvy-complete-recipes.json` at runtime and renders everything client-side. There is no
+`src/` directory, no React, no IndexedDB, and no build step in the sense of bundling — this
+replaced an earlier Vite+React+IndexedDB prototype (see "History" below).
+
+- **Profiles** (`profiles`/`saveProfile`/`toggleDislike` etc., all inline in `index.html`) — each
+  family member has a `restrictions` array of `{ category: 'allergy'|'restriction'|'diet'|'dislike', value, severity: 'strict'|'soft' }`.
+  `allergy` comes from the FDA Big 9 (`BIG9_ALLERGENS`), `restriction` from a small
+  medical/ethical list (`MEDICAL_RESTRICTIONS` — Gluten-Free, Lactose Intolerance, Dairy-Free),
+  `diet` from one-tap presets (`DIET_PREFERENCES` — vegetarian/vegan/pescatarian, each expanding
+  to the ingredient tags that diet actually excludes), and `dislike` from a categorized
+  "tap what you don't like" checklist (`COMMON_FOODS`). `allergy`/`restriction`/`diet` store a
+  **tag** from the shared vocabulary (`dairy, gluten, nuts, shellfish, egg, soy, sesame, meat,
+  pork, beef, fish`) and are `severity: 'strict'`; `dislike` stores a **food name** (e.g.
+  `"Shrimp"`) verbatim from the checklist and is `severity: 'soft'` — these two need different
+  matching logic (tag intersection vs. name-in-ingredient-name substring match), see below.
+- **Matching** (`getConflictingRestrictions`, `getProfileAdaptationStatus`,
+  `getDislikedIngredients`, `getDislikeStatus`) — `getConflictingRestrictions` does the tag
+  intersection for `allergy`/`restriction`/`diet` against a recipe's `ingredients[].tags`.
+  `getProfileAdaptationStatus` splits those conflicts into resolved (the recipe's own
+  `adaptations` array has a matching `forRestriction` entry that's itself safe for that profile)
+  vs. unresolved — only unresolved conflicts exclude a recipe from "By Profile" filtering; a
+  resolved one stays visible with an amber "not safe as written, alternate available" badge
+  (`adaptationHighlight` in `renderRecipes`) instead of just disappearing. `getDislikedIngredients`/
+  `getDislikeStatus` are a **separate, parallel path** for the soft `dislike` category — a
+  disliked ingredient never excludes a recipe, only adds a muted (non-amber) badge and sorts the
+  recipe toward the bottom of results (`filterRecipes`'s post-filter stable sort). Keeping dislikes
+  on their own function/data path (never folded into `getProfileAdaptationStatus`) is deliberate:
+  a soft preference must never be mistakable for, or silently satisfy, a strict safety conflict.
+- **A recipe's `adaptations` array** carries `{ forRestriction: <tag>, type: 'swap'|'alternateRecipe', ... }`
+  entries — `swap` is same-dish (instructions for substituting one ingredient), `alternateRecipe`
+  is a wholly different dish embedded inline. Both render in the recipe detail view
+  (`openRecipeDetail`) with the alternate(s) shown *before* the original and an explicit "not safe
+  as written" banner — an allergy-safety review finding was that showing the unsafe original first
+  risks a rushed parent grabbing the wrong one.
+- **Plan My Week** (`generateWeekPlan`, `renderWeekPlan`, `renderPlanSlot`, `openSwapModal`) — an
+  auto-generated 7-day × 3-meal grid stored in `localStorage` (`foodenvy_weekplan`), not a
+  file-based import/export flow. `generateWeekPlan` picks from each slot's eligible pool
+  (`getEligibleRecipesForSlot`, same eligibility predicate as Search/Help), preferring unused
+  recipes, with three soft (never-excluding) scoring signals in priority order: plant-forward
+  variety, protein-tag repetition, then disliked-ingredient count (lowest weight — see
+  `scoreDinnerCandidate`). Per-slot safety warnings (`renderPlanSlot`) evaluate against the
+  **live** "who's eating" checkbox selection, not the plan's frozen `profileIds` snapshot — that
+  snapshot is reserved for the "Planned for: X" pill and drift indicator only. "Change &
+  regenerate" is the one explicit, deliberate action that actually reshuffles which recipes are
+  chosen; everything else about the grid reacts live to the current member selection.
+- `public/foodenvy-complete-recipes.json` — the full recipe library the app fetches at runtime
+  (hundreds of recipes, each persona-authored — see `find-recipe` skill). `public/favicon.svg` is
+  the other runtime asset. `index.html` fetches it as `./foodenvy-complete-recipes.json` — relative
+  to wherever `index.html` is served from, not to `public/` — so it only resolves correctly after
+  `npm run build` flattens both into `dist/` together (see README.md for running it locally).
+- `scripts/` — Node-based offline tooling that *produces* `foodenvy-complete-recipes.json`
+  (`consolidate-recipes.js`, `backfill-recipe-images.js`, `run-manual-queries.js`, etc.). Not run
+  by the app itself, not part of the build.
+- `vite.config.js` — kept only for its custom `copy-static-files` plugin: `npm run build` doesn't
+  bundle anything, it just copies `index.html` + the two `public/` assets into `dist/` verbatim for
+  GitHub Pages. `package.json`'s `react`/`react-dom` runtime dependencies are still an unused
+  leftover from the pre-pivot app (harmless but misleading — a cleanup candidate, not fixed yet);
+  the ESLint React plugins that went with them have been removed (see "Testing/linting" below).
 - `docs/personas.md` — index into `docs/personas/` (18 YAML files, citation-backed) covering home cooks, meal-kit-savvy cooks, nutritionists, dietary specialists, meal-prep chefs, and two technical personas (Gamification Designer, Web App Engineer). Every persona is also an invokable subagent under `.claude/agents/` (plus two "team lead" agents, `food-prep-lead`/`app-update-lead`, for a quick question that doesn't need a full skill run). See "Persona/skill architecture" below.
+
+## History
+
+The app started as a Vite+React+IndexedDB prototype (family profiles, inventory, a matcher engine
+under `src/`). Commit `f6e3de4` ("Focus: Make recipe browser the foundation") pivoted to the
+current single-file `index.html`/`recipe-browser.html` architecture and deleted `src/` entirely;
+every commit since has built on the single-file app. The `plan-meal` skill originally described a
+file-based `foodEnvyPlanRequest`/`foodEnvyPlanExport` hand-off with the deleted `src/domain/`
+paths — it's since been refreshed to match the current app (no profile export exists, so it asks
+the user directly; reads `public/foodenvy-complete-recipes.json`; presents the plan in chat since
+there's no import feature to write a file for).
 
 ## Persona/skill architecture
 
@@ -27,14 +90,11 @@ invokable Claude Code subagent (`.claude/agents/<id>.md`, pointing back to its Y
 make them actually collaborate rather than just sit as reference docs:
 
 - **`plan-meal`** (`.claude/skills/plan-meal/`) — the cook/nutrition personas review a family's
-  profiles + current inventory together and produce a week's meal plan (fusion ideas welcome),
-  gated by clarifying questions (who, which meals, target prep+cook time, how involved). Reads a
-  `foodEnvyPlanRequest` export (or profile/inventory exports) plus `seedRecipes.json`, and writes
-  both a chat presentation *and* a `foodEnvyPlanExport` JSON file the app's Weekly Plan tab can
-  import (see `src/domain/planImport.js`). A generated recipe never gets written into
-  `seedRecipes.json` — that file is shared seed data for every install, not one family's week.
-  Each slot carries `alternates` (different dishes) and `memberForks` (same-dish adaptations) as
-  two distinct things, not one blended list — see the persona-review finding below.
+  restrictions (described directly by the user — there's no profile export to read) together and
+  produce a week's meal plan presented in chat (fusion ideas welcome), gated by clarifying
+  questions (who, which meals, target prep+cook time, how involved). A richer, creative complement
+  to the app's own auto-generated Plan My Week grid (`generateWeekPlan`/`renderWeekPlan` in
+  `index.html`), not a replacement for it — there's no file hand-off between the two.
 - **`update-app`** (`.claude/skills/update-app/`) — for changing FoodEnvy itself: the two
   technical personas draft an approach, the relevant cook/nutrition personas are consulted (does
   this show food data accurately / showcase meals well), the group reconciles to consensus, and
@@ -48,17 +108,48 @@ sneak in a real change outside `update-app`'s approval gate.
 
 ## Working conventions established so far
 
-- Repo conventions were deliberately mirrored from sibling projects in this GitHub account (`Sightline`, `CardNight`): flat ESLint config (`@eslint/js` + `globals`, not `oxlint` — the vite scaffold's default was swapped out), `vitest` for tests, `vite.config.js` with `base: './'` for GitHub Pages, and a `.github/workflows/{test.yml,deploy.yml}` pair (test on every push/PR, build+deploy `dist/` to Pages on push to `main`).
-- Restriction model: `{ category: 'allergy'|'diet'|'dislike'|'goal', value, severity: 'strict'|'soft' }`. Only `strict` `allergy`/`diet` restrictions exclude a recipe outright (checked via ingredient tags); `dislike` restrictions only ever lower a recipe's rank (`dislikeScore`), never exclude it. `goal` is currently just a stored free-text note — not enforced by the matcher yet.
-- Ingredient-to-inventory matching in `matcher.js` is deliberately simple (case-insensitive, naive plural stripping) rather than fuzzy/NLP matching — good enough given inventory is hand-entered, but a known rough edge worth watching if inventory naming gets inconsistent.
-- No router: tab switching in `App.jsx` is plain component state (`activeTab`), matching the "keep it simple for a local app" scope — revisit only if deep-linking to a tab becomes a real need.
+- Everything lives in `index.html`'s inline `<script>` — no modules, no imports. Global functions
+  and `let`-declared state at the top level are how different parts of the app talk to each other
+  (e.g. `activeTab`, `profiles`, `allRecipes`, `weekPlan`).
+- All persistent state is `localStorage` (`foodenvy_profiles`, `foodenvy_weekplan`,
+  `foodenvy_collections` — favorites live inside a collection, not their own key —
+  `foodenvy_filters`, `foodenvy_shopping_list_checked`, etc.) — no IndexedDB, no backend. Any
+  change to a stored shape must keep old saved data working (read old shapes tolerantly, or
+  version + migrate on load) — never reset a user's saved profiles/plans/favorites as a side
+  effect of a change.
+- `index.html` and `recipe-browser.html` must be kept byte-identical — there is no templating or
+  build step that generates one from the other, so every change gets applied to both files
+  (`cp index.html recipe-browser.html` after editing, then diff to confirm).
+- Restriction model: `{ category: 'allergy'|'restriction'|'diet'|'dislike', value, severity: 'strict'|'soft' }` — see "What's in this repo" above for the tag-vs-name distinction between the strict and soft categories.
+- Ingredient-name matching (both `getDislikedIngredients`'s dislike check and the shopping list's
+  ingredient de-duping) is deliberately simple — case-insensitive substring/normalization, not
+  fuzzy/NLP matching. Good enough given ingredient names are hand-authored, but a known rough edge
+  worth watching if naming gets inconsistent.
+- No router: tab switching (`switchTab`) is plain global state (`activeTab`), matching the "keep
+  it simple for a local app" scope — revisit only if deep-linking to a tab becomes a real need.
+- **Testing/linting**: `index.test.js` loads the real `index.html` into `jsdom`
+  (`JSDOM.fromFile`, `runScripts: 'dangerously'`) and calls its global matching/plan-generation
+  functions directly (`getConflictingRestrictions`, `getProfileAdaptationStatus`,
+  `getDislikedIngredients`/`getDislikeStatus`, `generateWeekPlan`) — real coverage over the
+  actual shipped file, not a parallel reimplementation, with no changes to how the app itself is
+  built (still no modules, no bundler). Top-level `let` state (`profiles`, `allRecipes`) isn't a
+  `window` property in a classic script, so tests seed fixtures via `window.eval(...)`, which
+  shares the same global lexical environment. Only exercises `index.html` — `recipe-browser.html`
+  is assumed to stay in sync (see the byte-identical-duplicate convention above). `npm run lint`
+  now actually lints both HTML files' inline scripts (`eslint-plugin-html`) instead of a dead
+  `src/**/*.{js,jsx}` glob that matched nothing; `no-unused-vars` is off for them specifically,
+  since nearly every top-level function is only ever called from an inline `onclick="..."`
+  attribute, which is invisible to static analysis.
 
 ## Next likely steps
 
-- Real vision/OCR integration in `CameraCapture.jsx` to auto-populate inventory items from a photo (the seam is isolated there on purpose).
-- Numeric enforcement of `goal` restrictions (e.g. calorie/macro targets) once recipes carry nutrition data — would also let `computeProteinTally`'s repetition warning grow into a real plate-method balance check (Dr. Amara Chen's original ask).
-- Swipe/photo-card food preference discovery (researched, deliberately deferred -- needs food photography assets we don't have) and QR-code profile transfer (also researched, deliberately deferred -- file export/import already covers the no-backend save/reload need without the added complexity).
-- Export/import for recipes too, following the same pattern already built for profiles/inventory/plans.
-- The Weekly Plan tab only keeps the most recently imported plan (`activePlan`, singular) — multiple saved/named plans, and a persisted (not just in-component-state) checked state for shopping-list items, are both reasonable follow-ups once the single-plan flow is proven out.
-- A live LLM call from the running browser app was explicitly considered and rejected (would require a backend/secret in a static bundle, breaking the local-first constraint) — the Claude-Code-session boundary for `plan-meal`/`update-app` is a permanent design feature, not a gap to close.
+- A stronger treatment for a near-complete category dislike (e.g. every item under "Fish &
+  seafood" checked) — right now it gets the same muted flag-and-sort treatment as a single
+  disliked item, but arguably should read more like "this household doesn't eat this category."
+  Flagged during the dislike-matching review, deliberately deferred as a separate product decision.
+- Numeric enforcement of nutrition targets (e.g. calorie/macro goals) once recipes carry nutrition
+  data — would also let the week-level protein-repeat/plant-forward signals grow into a real
+  plate-method balance check (Dr. Amara Chen's original ask).
+- Plan My Week only keeps one active plan (`foodenvy_weekplan`, singular) — multiple saved/named
+  plans is a reasonable follow-up once the single-plan flow is proven out.
 - Eventual Android wrap (e.g. Capacitor) once the web app is solid.

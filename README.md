@@ -1,29 +1,61 @@
 # FoodEnvy
 
-A local-first meal planner for a family with different diets, allergies, and preferences: set up who eats what, track what's currently in the kitchen, and get meal suggestions built from what's on hand — plus a shopping list for the ones that are almost ready.
+A recipe browser for a family with different diets, allergies, and preferences: set up who eats
+what, then browse, search, and auto-plan a week of meals checked against everyone's restrictions.
 
 ## The idea
 
-1. **Profiles** — each family member gets a set of restrictions and preferences (strict allergies, diets, dislikes, goals) tagged against a shared vocabulary (dairy, gluten, nuts, shellfish, egg, soy, meat, pork, beef, fish) so recipes can be checked against them automatically.
-2. **Inventory** — what's currently in the pantry/fridge, added by hand for now. A photo can be attached to an item via the camera capture button, but recognition isn't wired up yet — that's a clean seam to plug a vision API into later.
-3. **Meal Ideas** — recipes (a small seed set to start, plus anything you add) are matched against the selected family members' restrictions and the current inventory, split into "Ready to make now" and "Almost there" (with a shopping list built from what's missing).
+1. **Profiles** — each family member gets allergies (FDA Big 9), medical/ethical restrictions
+   (e.g. gluten-free), a diet preset (vegetarian/vegan/pescatarian), and dislikes (a tap-to-select
+   checklist), tagged against a shared vocabulary (dairy, gluten, nuts, shellfish, egg, soy, meat,
+   pork, beef, fish) so recipes can be checked against them automatically.
+2. **Search / Help** — browse or filter the recipe library by profile, meal type, difficulty,
+   collection, favorites, or (on Help) tag tiles / time available / a craving search. A recipe
+   that strictly conflicts with a checked profile is hidden unless it has a safe adaptation (shown
+   with an amber "not safe as written, alternate available" flag); a disliked ingredient never
+   hides a recipe, just flags it and sorts it lower.
+3. **Plan my week** — auto-generates a 7-day breakfast/lunch/dinner grid from the eligible recipe
+   pool for whoever's checked as "eating," with swap/remove per slot and a consolidated shopping
+   list. Per-slot safety warnings track the current "who's eating" selection live.
+
+There is no pantry/inventory tracking in the current app.
 
 ## Stack
 
-Vite + React, no backend — everything is stored in the browser via IndexedDB. Chosen so the same codebase can later be wrapped for Android (e.g. via Capacitor) without a rewrite.
+A single static HTML file — no backend, no framework, no build-time bundling. All data
+(profiles, favorites, collections, the current week's plan) is stored in the browser via
+`localStorage`.
 
 ## Local development
 
+The app is `index.html` (and its duplicate, `recipe-browser.html`) plus
+`public/foodenvy-complete-recipes.json` and `public/favicon.svg`, fetched at runtime as
+`./foodenvy-complete-recipes.json` — a path relative to wherever `index.html` itself is served
+from, **not** `public/`. Opening `index.html` directly as a `file://` URL won't work either
+(`fetch` needs an HTTP origin). Easiest correct way to run it locally:
+
 ```
 npm install
-npm run dev      # start the dev server
-npm run lint      # eslint
-npm test          # vitest
-npm run build     # production build to dist/
+npm run build     # copies index.html + public/ assets into dist/, flattened, for GitHub Pages
+npx serve dist    # or: python -m http.server 8000 --directory dist
+```
+
+then open the server's URL. (Serving the repo root directly instead of `dist/` will 404 on the
+recipes JSON, since it lives under `public/` there, not next to `index.html`.)
+
+```
+npm run lint      # lints index.html/recipe-browser.html's inline scripts (eslint-plugin-html)
+npm test          # loads index.html into jsdom and tests its matching/plan-generation logic
 ```
 
 ## Repo layout
 
-- `src/db/` — thin IndexedDB wrapper (`database.js`) plus CRUD for each domain concept (`profiles.js`, `inventory.js`, `recipes.js`).
-- `src/domain/` — pure logic: the shared allergen/diet tag vocabulary (`tags.js`) and the suggestion engine (`matcher.js`, tested in `matcher.test.js`). `seedRecipes.json` is the starter recipe set loaded on first run.
-- `src/components/` — UI, split by area: `profiles/`, `inventory/`, `meals/`, plus the shared `TabNav`.
+- `index.html` / `recipe-browser.html` — the app itself, kept byte-identical; every change must be
+  applied to both.
+- `public/foodenvy-complete-recipes.json` — the recipe library the app fetches at runtime.
+  `public/favicon.svg` is the other runtime asset.
+- `scripts/` — offline Node tooling used to author/consolidate/backfill the recipe library JSON
+  above. Not run by the app itself.
+- `docs/personas/` — citation-backed persona files (cooks, nutritionists, dietary specialists,
+  two technical personas) used by this repo's Claude Code skills (`plan-meal`, `update-app`,
+  `find-recipe`, `photo-lookup`) — see `CLAUDE.md` for how those fit together.
