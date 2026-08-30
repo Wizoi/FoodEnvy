@@ -369,6 +369,27 @@ notes:
     (same-dish swap rather than a full alternateRecipe, since the dish's
     identity is the grilled-protein-plus-vegetables format, not the specific
     protein) matches the authoring-pass reasoning. No corrections needed.
+  - >
+    Servings/yield backfill pass across the full 47-recipe set: judged min/max
+    adult-equivalent portions (or cookies/pieces/pie-wedges where that's the
+    dish's real unit) from ingredient quantities, since almost none of these
+    recipes state a yield outright -- consistent with how a home cook actually
+    writes a recipe from memory. A few house-rule patterns worth carrying
+    forward: (1) party/snack foods (deviled eggs, pigs in a blanket, sausage-
+    stuffed mushrooms, pretzel bites) are better yielded in pieces than
+    "servings" -- a headcount serving size is meaningless for a tray of
+    finger food. (2) A from-scratch 9-inch pie is a reliable 8 wedges
+    regardless of filling (apple, banana cream, pecan, oatmeal-pie alternate)
+    -- crust size, not filling, sets the yield. (3) The split pea soup with
+    ham recipe appears twice in this dataset under two different ids (once
+    tagged lunch, once tagged dinner) with near-identical ingredients (1 lb
+    peas, 6 cups broth) -- both got the same yield judgment for consistency,
+    echoing the earlier finding that duplicated recipes need their metadata
+    kept in sync across copies. (4) Batch-cook-style braises/soups (pot
+    roast, split pea soup, chicken and dumplings, chili) skew toward 6
+    servings even without a stated count, since the ingredient ratios
+    (broth cups, protein pounds) clearly aren't sized for a single meal's
+    worth of 2-4.
 references:
   - title: "How to Reduce Sodium"
     url: "https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sodium/how-to-reduce-sodium"

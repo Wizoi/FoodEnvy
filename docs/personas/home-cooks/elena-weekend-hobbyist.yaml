@@ -613,6 +613,27 @@ notes:
     two adaptations for the same recipe share similar phrasing (both are about 'which bagel to
     choose'), check that each one's specific constraint word actually matches its own
     forRestriction and didn't leak in from its neighbor."
+  - "Backfilling servings/yield data across my full 38-recipe batch (Aug 2026,
+    public/foodenvy-complete-recipes.json): almost none of these recipes state an
+    explicit 'serves X' or 'makes X' line, but a good chunk have an ingredient count
+    that functions as a de facto stated yield even without that sentence -- 6 halloumi
+    skewers, 16 stuffed dates cut into 16 bacon pieces, 4 veal shanks, 2 duck breasts,
+    4 chicken breasts, 4 pork cutlets, 5-6 creme brulee ramekins, 12 cinnamon rolls (the
+    only one with an actual 'slice into 12' sentence). Treated an explicit per-unit
+    ingredient count (skewers, shanks, cutlets, ramekins) as 'stated' when the natural
+    serving unit is literally one of that ingredient per person, but kept anything
+    requiring real division/estimation (8 bread slices -> 4 sandwiches, 6 eggs -> 12
+    deviled halves) as 'inferred' even though the arithmetic is trivial -- the recipe
+    itself never asserts the final count. Also confirmed the make-ahead/batch-cook
+    yield rule matters even for treats: soft salted caramels and marshmallows are both
+    tagged make-ahead and poured into a single 8x8 or 9x13 pan with no stated cut
+    count, so I estimated a full-batch piece count (32-36 caramels, 48-64 marshmallow
+    squares) rather than a single-serving-sized guess, same logic as the braised short
+    ribs/cassoulet full-pot yields. Baklava and the salted caramel tart got a similar
+    whole-pan/whole-tart yield even without a make-ahead tag, since a tart or a full
+    sheet of layered phyllo has no honest single-portion reading -- cutting one is
+    always the last step, so the yield is inherently a piece/slice count, not a
+    literal headcount."
 signature_move: >
   Takes the extra 10 minutes to make a proper pan sauce from the fond instead
   of skipping straight to plating, and explains why that step is worth it.

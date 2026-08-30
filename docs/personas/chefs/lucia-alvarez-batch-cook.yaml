@@ -318,3 +318,79 @@ notes:
     deliberate, explicitly-stated scope cut for this feature (no inventory-tracking model exists
     yet) rather than a shopping-list design flaw -- worth revisiting only once/if inventory
     tracking becomes a real feature, not something to solve inside this change.
+  - >
+    2026-08: authored the actual yield: {min, max, unit, yieldSource} backfill for all 47 of my
+    own recipes (the two spot-checks in the note above turned into the real data). Of the 47,
+    only 2 got the "use actual full batch yield" treatment I flagged as necessary for genuine
+    freezer/batch-stash recipes rather than a single-dinner-sized guess: freezer-turkey-meatballs
+    (steps state "makes about 24" outright) and chicken-parmesan (description explicitly frames
+    the 8-cutlet batch as deliberately doubled so half freezes -- the recipe as written already
+    *is* the double batch, not something I doubled further). Every other batch/freezer-tagged
+    recipe in the set (breakfast burritos, chia jars, oatmeal squares, granola bars, brownies,
+    etc.) had its own stated in-step count (jars, squares, bars, bites) that was the honest yield
+    without needing this special treatment -- confirming my earlier worry was really about a
+    narrow case (a dish whose stated ingredient quantities look like "one dinner" but whose
+    framing says "this is the whole freezer stash"), not a rule that applies broadly across a
+    batch-cook's recipes. About 60% of the 47 ended up `inferred` rather than `stated` -- mostly
+    ordinary lunch/dinner bowls and salads with no explicit serving count in their steps, sized
+    from standard portion assumptions (roughly 3/4-1 cup rice or 4-6oz protein per adult
+    portion). One yield genuinely resisted a defensible count rather than being guessed: frozen
+    yogurt bark breaks into irregular "shards" with no stated piece count, so I estimated
+    adult-equivalent servings from the yogurt-base volume instead of inventing a shard number --
+    worth remembering as the pattern for any other "break into pieces" freezer treat that shows
+    up in future backfills (bark, brittle, etc.): estimate servings from base volume, don't force
+    a fake piece count.
+  - >
+    2026-08: reviewed the phase-1 `yield: {min, max, unit}` schema + hardcoded-map backfill
+    proposal (update-app skill, pre-code review) for the batch-cook batch specifically. Spot-
+    checked two of my own recipes against the shape: recipe-lucia-alvarez-batch-cook (steel-cut
+    oats/roasted pear jars) explicitly states "portion into 5 jars" in its steps -- a real,
+    unambiguous yield of 5 that a hand-reviewer must actually read the steps to find, since no
+    field states it today; and recipe-lucia-alvarez-batch-cook-breakfast-burritos uses 8
+    tortillas/8 eggs and explicitly instructs "refrigerate up to 5 days or freeze up to 2
+    months" -- a clear 8-portion freezer stash, not a single dinner's headcount. Confirms the
+    Web App Engineer's expectation: the shape itself (min/max range, not a single number) is
+    right and necessary for this batch specifically, since a batch-cook recipe is deliberately
+    sized to outlast one meal (a jar count or a freezer-burrito count, not a "serves 4 tonight"
+    figure) -- but only if the hand-reviewer reads the actual steps text for the portioning line
+    rather than defaulting a guess, which is exactly the risk flagged of me. Also flagged: a
+    third field beyond {min, max, unit} would be genuinely useful for this persona's recipes
+    specifically -- something like `intendedUse: 'single-meal'|'multi-meal-stash'` -- because
+    the same yield number (e.g. 8) means something completely different for a single-night
+    dinner recipe (unlikely to want more) than for a freezer-burrito batch (the whole point is
+    stockpiling beyond tonight); phase-1 schema doesn't need to add this now, but phase-2
+    scaling logic will silently misbehave without some way to tell the two apart (see next
+    note on scaling ratio).
+  - >
+    2026-08: on phase-2 scaling (headcount / yield.max applied to shopping-list quantities) as
+    it specifically applies to batch-cook recipes: blind application of that ratio is actively
+    wrong for this persona's entire premise. The breakfast-burrito recipe yields 8 burritos
+    explicitly meant to be frozen and eaten across weeks, not divided across one dinner's
+    headcount -- a family of 4 doesn't want "4 burritos scaled down from 8," they want all 8 (or
+    more, doubled, to freeze a deeper stash) precisely because the freezer stash is the reason to
+    batch-cook it at all instead of making eggs fresh each morning. Scaling shopping-list
+    quantities by household headcount for a recipe whose entire purpose is to produce more than
+    one household-sized serving would undercut the point of batch cooking and likely shrink the
+    shopping list below what the recipe's own freezer-life instructions assume. Recommendation
+    for whoever scopes phase 2: the headcount/yield.max ratio is the right default for an
+    ordinary single-meal recipe, but any recipe carrying `batch-cook`/`freezer-friendly`/
+    `make-ahead` tags (already present in the data -- see both spot-checked recipes above) needs
+    a different scaling question entirely: not "how many people am I feeding tonight" but "how
+    many portions do I want in the freezer," which the current headcount input can't answer.
+    Simplest safe option that doesn't require new UI in phase 2: skip automatic scaling for any
+    recipe carrying those tags and leave it at its as-written yield with a note ("this recipe
+    makes {max} {unit} to store"), the same way `buildShoppingListItems()` already ships an
+    explicit disclaimer for the unscaled case today -- better to under-automate a batch-cook
+    recipe's shopping list than to silently shrink a deliberately oversized one.
+  - >
+    2026-08: one more phase-2-adjacent shopping-list concern from the usage-tracking/
+    cross-utilization lens: today's `buildUsageTrackedShoppingList` counts *recipes* using an
+    ingredient (`usedBy`), not *portions*. Once yield data exists, a naive extension might be
+    tempted to multiply usage count by yield to estimate total quantity needed -- but that
+    conflates two different reasons an ingredient recurs across a week (a recipe reused as
+    written across multiple slots, e.g. leftovers, vs. an ingredient like rice or black beans
+    appearing in several *different* recipes each with their own yield). Any phase-2 design that
+    tries to unify "usage count" and "yield-scaled quantity" into one number should keep them as
+    two distinct pieces of data (occurrence count for the batch-cook callout I already
+    recommended, separately-scaled quantity per occurrence) rather than collapsing them --
+    flagging this now so it doesn't get discovered as a bug after phase 2 ships.

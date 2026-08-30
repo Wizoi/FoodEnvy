@@ -360,7 +360,32 @@ notes:
       Upgraded. Also confirmed vegan mayo's "soy" tag and the soy-swap
       instructions (coconut aminos + soy-free avocado-oil mayo) match the
       established default.
-references:
+  - date: "2026-08-30"
+    finding: >
+      Servings/yield backfill across all 50 devon-okafor-vegan recipes: almost
+      none of them state an explicit serving count in prose (only a handful --
+      "four small glasses," "four 6-oz ramekins," "2 thick steaks," "divide
+      rice between bowls" (2), 4-link/4-bun/4-tortilla counts -- give a real
+      number to anchor on), so "inferred" is the expected, not exceptional,
+      yieldSource for this persona's batch. A reliable inference heuristic
+      that held up across the batch: main-dish tofu/tempeh/seitan quantities
+      cluster tightly around 14-16oz protein for 4 adult-equivalent servings,
+      and grain quantities (1.5 cups dry rice, 1.5 cups arborio) similarly
+      cluster around a 4-serving yield -- worth treating "14-16oz protein +
+      ~1.5 cups dry grain" as this persona's default weeknight-dinner-for-four
+      signature when no explicit count is stated. Distinguish carefully
+      between the "make-ahead"/"batch-cook"/"freezer-friendly" tag trio
+      (full-batch yield required) and tags like "meal-prep"/"meal-prep-
+      friendly" that describe intent but not necessarily a doubled batch --
+      several lunch/snack recipes carry "meal-prep" but their ingredient
+      quantities were still sized for a normal single-week yield (3-6
+      servings), not a bulk multi-week batch, so the tag alone isn't a signal
+      to inflate the estimate. Dessert yields split into two shapes worth
+      naming going forward: individual-vessel desserts (ramekins, small
+      glasses) give an exact stated count for free, while sliced desserts
+      (8x8 pan, 8-9" springform/tart) need a genre-typical cut count inferred
+      from pan size (8x8 bars ~9-12, 8-9" cheesecake/tart/tiramisu ~8-9
+      slices) since the recipe text almost never specifies a cut count itself.
   - title: "Vitamin B12"
     url: "https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-b12"
     org: "The Vegan Society"
