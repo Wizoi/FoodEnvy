@@ -175,6 +175,50 @@ notes:
     own localStorage key rather than growing the existing `foodenvy_filters` object with an
     unrelated field, and Help's own answers persist to a sibling `foodenvy_help_filters` key,
     mirroring (not merging into) the established restoreFilters()/resetFilters() pattern."
+  - "2026-08-30, 'Plan my week' third-tab feasibility pass (index.html/recipe-browser.html):
+    two data-reality checks confirmed directly before design -- no recipe in the 634-recipe
+    corpus has a servings/yield field (recommend v1 ships NO scaling, an explicit 'quantities
+    as written, not scaled to household size' disclaimer near the shopping list, same
+    honest-gap-over-guess precedent as difficulty/time; a servings backfill is a legitimate
+    later follow-up, not a blocker), and there is no inventory feature anywhere in this app (a
+    'shopping list' can only mean 'everything the week's chosen recipes need,' never
+    'minus what's on hand'). This must be a deterministic client-side planner reusing
+    getConflictingRestrictions/getProfileAdaptationStatus -- NOT routed through the offline
+    plan-meal skill's Claude-Code-session flow, consistent with the existing 'no live LLM call
+    from the running browser app' rejection already on record. Key implementation findings: (1)
+    #recipeGrid/#loadingMsg/#recipeCount are DOM siblings of searchTab/helpTab inside .content,
+    shared and fed only by filterRecipes()/renderRecipes() -- a third 'plan' tab must NOT call
+    filterRecipes() (it has its own 7-day x meal-type grid, not a filtered view of the shared
+    grid) and must explicitly hide recipeGrid/loadingMsg when active, mirroring the
+    searchTab/helpTab display:none toggle already in switchAppTab(). (2) The #profileCheckboxes
+    singleton-node-reuse pattern built for Search/Help generalizes cleanly to a third
+    profileCheckboxesPlanSlot via the same appendChild-on-switch mechanism -- but a generated
+    plan should BAKE IN profileIds at generation time (read via the existing
+    getSelectedProfileIds()) rather than re-deriving 'who's eating' live from the shared
+    checkboxes' current state on every render, since changing who's checked on Search/Help
+    afterward would otherwise make an already-generated plan's summary silently drift from what
+    it was actually built for. Once a plan exists, show a static 'planned for: X, Y' summary
+    sourced from the saved plan, with an explicit 'change & regenerate' action to reveal the
+    checkboxes again -- not a silent live recompute. (3) Slot staleness IS worth checking on
+    every render (not just at generation): re-run getProfileAdaptationStatus for each filled
+    slot's recipe against current profiles on every renderWeekPlan() call and badge (not
+    silently drop) newly-unsafe slots -- this is a near-zero-cost reuse (~21 calls) of the exact
+    pattern already shipped twice in this file (the favorite-conflict-badge staleness check, and
+    CLAUDE.md's aspirational revalidatePlan). (4) Ingredient amount/unit are separate fields, not
+    one free-text string, but unit values carry inconsistent qualifiers (e.g. 'tablespoons,
+    divided') and aren't a controlled vocabulary -- safe arithmetic summing only applies when
+    amount is numeric AND unit strings are identical after trim+lowercase; recommend that narrow
+    auto-sum plus a fallback of listing each occurrence separately with its source recipe name,
+    never a guessed/coerced sum across mismatched units. (5) 'Remove a slot' needs its own
+    boolean (removed) distinct from recipeId being null/unset -- collapsing them would make
+    'no breakfast this week' indistinguishable from 'haven't picked breakfast yet,' and toggling
+    removed back off should restore the prior recipeId rather than forcing a re-pick. Recommend
+    a new foodenvy_weekplan localStorage key (single most-recent plan, matching the file's
+    existing one-blob-per-concern convention), and that any new pure logic (getEligibleRecipesForSlot,
+    generateWeekPlan, buildShoppingList) be written with no DOM reads so it would be trivially
+    extractable to src/domain later if the src/-vs-single-file architecture gap (see the
+    2026-08-27 note above) is ever reconciled -- but stays in index.html/recipe-browser.html for
+    now, matching current reality rather than the aspirational CLAUDE.md description."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

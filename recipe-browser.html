@@ -451,6 +451,196 @@
       cursor: pointer;
     }
 
+    .plan-header-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .plan-pill {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .plan-drift-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--secondary);
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.6rem;
+    }
+
+    .week-day-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .week-day-label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+      padding-bottom: 0.3rem;
+      color: var(--primary);
+    }
+
+    .plan-slot {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem;
+      font-size: 0.78rem;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .plan-slot-icons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+    }
+
+    .plan-slot-icon-btn {
+      background: none;
+      border: none;
+      color: #999;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 0.1rem 0.2rem;
+      line-height: 1;
+    }
+
+    .plan-slot-icon-btn:hover {
+      color: var(--primary);
+    }
+
+    .plan-slot-mealtype {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #999;
+    }
+
+    .plan-slot-name {
+      font-weight: 600;
+      line-height: 1.25;
+      cursor: pointer;
+    }
+
+    .plan-slot-name:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .plan-slot-conflict {
+      color: var(--danger);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .plan-slot-adaptation {
+      color: #a06800;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+
+    .plan-slot.removed {
+      background: none;
+      border: 1px dashed var(--border);
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      text-align: center;
+    }
+
+    .plan-slot-restore-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 0.2rem;
+    }
+
+    .shopping-list-disclaimer {
+      font-size: 0.8rem;
+      color: #888;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .batch-cook-callout {
+      background: #f0f7f0;
+      border: 1px solid var(--success);
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .shopping-section {
+      margin-bottom: 1.3rem;
+    }
+
+    .shopping-section-title {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.2rem;
+    }
+
+    .shopping-item {
+      padding: 0.3rem 0;
+    }
+
+    .shopping-item.checked .shopping-item-name {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .shopping-item-sub {
+      font-size: 0.78rem;
+      color: #777;
+      margin-left: 1.6rem;
+    }
+
+    .shopping-item-orphaned {
+      color: var(--danger);
+      font-style: italic;
+    }
+
+    @media (max-width: 900px) {
+      .week-grid {
+        grid-template-columns: 1fr;
+      }
+      .week-day-col {
+        display: none;
+      }
+      .week-day-col.active-day {
+        display: flex;
+      }
+    }
+
     .filter-bar {
       background: white;
       padding: 1rem 1.5rem;
@@ -1164,6 +1354,7 @@
   <nav class="tab-bar">
     <button type="button" class="tab-btn active" id="searchTabBtn" onclick="switchAppTab('search')">Search</button>
     <button type="button" class="tab-btn" id="helpTabBtn" onclick="switchAppTab('help')">Help</button>
+    <button type="button" class="tab-btn" id="planTabBtn" onclick="switchAppTab('plan')">Plan my week</button>
   </nav>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
@@ -1284,6 +1475,48 @@
           </div>
 
           <button type="button" class="btn-small btn-reset-filters" id="resetHelpFiltersBtn" onclick="resetHelpFilters()" style="display:none;">Reset recipe filters</button>
+        </div>
+      </div>
+
+      <div id="planTab" style="display:none;">
+        <div style="padding: 1.5rem;">
+          <div class="help-question">
+            <div class="help-question-label">Who's eating?</div>
+            <div class="filter-chips" id="profileCheckboxesPlanSlot"></div>
+          </div>
+
+          <div class="plan-header-row">
+            <span class="plan-pill" id="planForPill" style="display:none;"></span>
+            <button type="button" class="btn-small btn-reset-filters" id="planRegenerateBtn" onclick="generateAndRenderWeekPlan()" style="display:none;">
+              Change &amp; regenerate<span class="plan-drift-dot" id="planDriftDot" style="display:none;"></span>
+            </button>
+            <button type="button" class="btn-small btn-reset-filters" id="planShoppingListBtn" onclick="showShoppingList()" style="display:none;">Get shopping list</button>
+          </div>
+
+          <div id="planEmptyState" class="empty-state" style="display:none;">
+            <p>No eligible recipes for the checked profile(s) yet -- add a profile or adjust restrictions to plan a week.</p>
+          </div>
+
+          <div id="planDayChips" class="help-tile-row" style="display:none; margin-bottom:1rem;"></div>
+          <div id="weekGrid" class="week-grid"></div>
+
+          <div id="shoppingListSection" style="display:none;">
+            <h3 style="margin-top:2rem;">Shopping list</h3>
+            <p class="shopping-list-disclaimer">Quantities as written by each recipe, not scaled to your household size.</p>
+            <div id="batchCookCallout" class="batch-cook-callout" style="display:none;"></div>
+            <div id="shoppingListBody"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recipe swap picker (Plan my week) -->
+      <div class="modal-overlay" id="planSwapModal" style="display:none;" onclick="if(event.target===this) closeSwapModal()">
+        <div class="modal-content" style="max-width:700px;">
+          <div class="modal-header">
+            <h2 id="planSwapModalTitle">Swap recipe</h2>
+            <button class="modal-close" onclick="closeSwapModal()">&times;</button>
+          </div>
+          <div class="modal-body" id="planSwapModalBody"></div>
         </div>
       </div>
 
@@ -1724,17 +1957,35 @@
       activeTab = tab;
       document.getElementById('searchTab').style.display = tab === 'search' ? '' : 'none';
       document.getElementById('helpTab').style.display = tab === 'help' ? '' : 'none';
+      document.getElementById('planTab').style.display = tab === 'plan' ? '' : 'none';
       document.getElementById('searchTabBtn').classList.toggle('active', tab === 'search');
       document.getElementById('helpTabBtn').classList.toggle('active', tab === 'help');
+      document.getElementById('planTabBtn').classList.toggle('active', tab === 'plan');
+
+      // Plan has its own grid, not a filtered view of the shared #recipeGrid -- hide the shared
+      // grid/loading message entirely rather than routing through filterRecipes().
+      const grid = document.getElementById('recipeGrid');
+      const loadingMsg = document.getElementById('loadingMsg');
+      const recipeCount = document.getElementById('recipeCount');
+      if (tab === 'plan') {
+        if (grid) grid.style.display = 'none';
+        if (loadingMsg) loadingMsg.style.display = 'none';
+        if (recipeCount) recipeCount.textContent = '';
+      }
 
       const profileCheckboxes = document.getElementById('profileCheckboxes');
-      const targetSlot = document.getElementById(tab === 'search' ? 'profileCheckboxesSearchSlot' : 'profileCheckboxesHelpSlot');
+      const slotIds = { search: 'profileCheckboxesSearchSlot', help: 'profileCheckboxesHelpSlot', plan: 'profileCheckboxesPlanSlot' };
+      const targetSlot = document.getElementById(slotIds[tab]);
       if (profileCheckboxes && targetSlot && profileCheckboxes.parentElement !== targetSlot) {
         targetSlot.appendChild(profileCheckboxes);
       }
 
       localStorage.setItem('foodenvy_active_tab', tab);
-      filterRecipes();
+      if (tab === 'plan') {
+        renderWeekPlan();
+      } else {
+        filterRecipes();
+      }
     }
 
     // Active/hands-on minutes only (prepMinutes + cookMinutes), deliberately excluding
@@ -1837,6 +2088,404 @@
     function setHelpCraving(term) {
       document.getElementById('helpCraving').value = term;
       filterRecipes();
+    }
+
+    // ===== Plan my week =====
+    // Entirely deterministic, client-side. No LLM call from the browser -- CLAUDE.md explicitly
+    // and permanently rejects that (no backend/secret in a static bundle). This does not use the
+    // separate, existing plan-meal skill (that stays the offline, bespoke Claude-Code-session
+    // path); this is the app's own fast, rule-based planner over the recipes already loaded.
+
+    const PLAN_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const PLAN_MEAL_TYPES = ['breakfast', 'lunch', 'dinner'];
+
+    let weekPlan = null; // { weekLabel, profileIds, slots: { 'mon-breakfast': {recipeId, removed} }, generatedAt }
+    let planActiveDay = 0; // mobile day-chip selection
+
+    function slotId(dayIdx, mealType) {
+      return PLAN_DAYS[dayIdx].toLowerCase() + '-' + mealType;
+    }
+
+    // Shared eligibility source with Search/Help's filterRecipes() -- same predicate
+    // (mealType match + no unresolved profile conflict), extracted once so all three tabs can't
+    // drift into disagreeing about what's "eligible" for a set of profiles.
+    function getEligibleRecipesForSlot(mealType, profileIds, excludeIds) {
+      excludeIds = excludeIds || [];
+      return allRecipes.filter(r =>
+        r.mealType === mealType &&
+        !excludeIds.includes(r.id) &&
+        getProfileAdaptationStatus(r, profileIds).unresolved.length === 0
+      );
+    }
+
+    // Deterministic week generation: prefer not-yet-used recipes, allow repeats only once the
+    // eligible pool is exhausted. Two soft (deprioritize, never hard-exclude) signals layered on
+    // top, both from tag data that already exists -- no invented nutrition data:
+    //  - protein-repeat: avoid the same meat/beef/pork/fish tag dominating the week's dinners.
+    //  - plant-forward-dinner: a protein-repeat check alone doesn't catch an all-meat week with
+    //    zero vegetarian dinners (Amara Chen's finding) -- from Thursday on, if no dinner so far
+    //    is vegetarian/vegan-tagged, deprioritize non-vegetarian dinner candidates.
+    // Explicitly NOT attempted: any grain/starch-repeat signal (no rice/pasta/potato tag exists,
+    // would need fragile ingredient-name fuzzy-matching) or calorie/macro modeling (no servings
+    // or nutrition data exists to compute a real ratio from).
+    function generateWeekPlan(profileIds) {
+      const slots = {};
+      const usedIds = new Set();
+      const proteinTally = {};
+      let vegetarianDinners = 0;
+
+      PLAN_DAYS.forEach((day, dayIdx) => {
+        PLAN_MEAL_TYPES.forEach(mealType => {
+          const id = slotId(dayIdx, mealType);
+          let pool = getEligibleRecipesForSlot(mealType, profileIds, Array.from(usedIds));
+          if (pool.length === 0) pool = getEligibleRecipesForSlot(mealType, profileIds, []);
+          if (pool.length === 0) { slots[id] = { recipeId: null, removed: false }; return; }
+
+          if (mealType === 'dinner' && pool.length > 1) {
+            const needsVeg = dayIdx >= 3 && vegetarianDinners === 0;
+            pool = pool.slice().sort((a, b) => scoreDinnerCandidate(a, proteinTally, needsVeg) - scoreDinnerCandidate(b, proteinTally, needsVeg));
+          }
+
+          const chosen = pool[0];
+          slots[id] = { recipeId: chosen.id, removed: false };
+          usedIds.add(chosen.id);
+          if (mealType === 'dinner') {
+            (chosen.tags || []).forEach(t => { if (t === 'vegetarian' || t === 'vegan') vegetarianDinners++; });
+            (chosen.ingredients || []).forEach(ing => (ing.tags || []).forEach(t => {
+              if (['meat', 'beef', 'pork', 'fish'].includes(t)) proteinTally[t] = (proteinTally[t] || 0) + 1;
+            }));
+          }
+        });
+      });
+
+      return { weekLabel: 'This week', profileIds: profileIds.slice(), slots, generatedAt: String(Date.now()) };
+    }
+
+    // Lower score = preferred. Soft penalties only -- never excludes a candidate outright.
+    function scoreDinnerCandidate(recipe, proteinTally, needsVeg) {
+      let score = 0;
+      const tags = recipe.tags || [];
+      const isVeg = tags.includes('vegetarian') || tags.includes('vegan');
+      if (needsVeg && !isVeg) score += 2;
+      (recipe.ingredients || []).forEach(ing => (ing.tags || []).forEach(t => {
+        if (['meat', 'beef', 'pork', 'fish'].includes(t) && (proteinTally[t] || 0) >= 2) score += 1;
+      }));
+      return score;
+    }
+
+    function saveWeekPlan() {
+      localStorage.setItem('foodenvy_weekplan', JSON.stringify(weekPlan));
+    }
+
+    function loadWeekPlan() {
+      const stored = localStorage.getItem('foodenvy_weekplan');
+      if (!stored) return null;
+      try { return JSON.parse(stored); } catch (e) { return null; }
+    }
+
+    function generateAndRenderWeekPlan() {
+      const profileIds = getSelectedProfileIds();
+      weekPlan = generateWeekPlan(profileIds);
+      saveWeekPlan();
+      document.getElementById('shoppingListSection').style.display = 'none';
+      renderWeekPlan();
+    }
+
+    function toggleSlotRemoved(id) {
+      if (!weekPlan || !weekPlan.slots[id]) return;
+      weekPlan.slots[id].removed = !weekPlan.slots[id].removed;
+      saveWeekPlan();
+      renderWeekPlan();
+    }
+
+    function openSwapModal(id) {
+      if (!weekPlan) return;
+      const mealType = id.split('-')[1];
+      const eligible = getEligibleRecipesForSlot(mealType, weekPlan.profileIds, []);
+      document.getElementById('planSwapModalTitle').textContent = 'Swap ' + mealType;
+      const body = document.getElementById('planSwapModalBody');
+      if (eligible.length === 0) {
+        body.innerHTML = '<p>No eligible ' + mealType + ' recipes for the planned profile(s).</p>';
+      } else {
+        body.innerHTML = '<div class="recipe-grid">' + eligible.map(r =>
+          '<div class="recipe-card" style="cursor:pointer;" onclick="selectSwapRecipe(\'' + id + '\', \'' + r.id + '\')">' +
+          renderMealTypeVisual(r) +
+          '<div class="recipe-header"><div class="recipe-header-text"><h2>' + r.name + '</h2></div></div>' +
+          '</div>'
+        ).join('') + '</div>';
+      }
+      document.getElementById('planSwapModal').style.display = 'flex';
+    }
+
+    function closeSwapModal() {
+      document.getElementById('planSwapModal').style.display = 'none';
+    }
+
+    function selectSwapRecipe(id, recipeId) {
+      weekPlan.slots[id] = { recipeId, removed: false };
+      saveWeekPlan();
+      closeSwapModal();
+      renderWeekPlan();
+    }
+
+    function renderPlanDayChips() {
+      const container = document.getElementById('planDayChips');
+      container.innerHTML = PLAN_DAYS.map((d, i) =>
+        '<button type="button" class="help-tile' + (i === planActiveDay ? ' active' : '') + '" onclick="planActiveDay=' + i + '; renderWeekPlan();">' + d + '</button>'
+      ).join('');
+    }
+
+    function renderPlanSlot(recipe, id, dayIdx, mealType) {
+      const slot = weekPlan.slots[id];
+      if (slot.removed) {
+        return '<div class="plan-slot removed">No ' + mealType + ' planned<br>' +
+          '<button type="button" class="plan-slot-restore-btn" onclick="toggleSlotRemoved(\'' + id + '\')">+ Add back</button></div>';
+      }
+      if (!recipe) {
+        return '<div class="plan-slot removed">No eligible recipe<br>' +
+          '<button type="button" class="plan-slot-restore-btn" onclick="openSwapModal(\'' + id + '\')">+ Choose</button></div>';
+      }
+      const status = getProfileAdaptationStatus(recipe, weekPlan.profileIds);
+      const conflict = status.unresolved.length > 0;
+      // A recipe with a resolved adaptation stays "safe," but the plan slot must say so
+      // explicitly -- the card grid already shows an amber adaptation-highlight for exactly
+      // this case, and silently showing just the base recipe name here would read as "eat this
+      // exactly as written" when a substitution (or a wholly different alternate dish) is
+      // actually required.
+      const needsAdaptation = !conflict && status.resolved.length > 0;
+      // Three distinct actions, three distinct controls -- an earlier version made the whole
+      // card one big swap target with no way to actually see the recipe at all. The name itself
+      // opens the real recipe detail (reusing openRecipeDetail(), same as every other card in
+      // the app); swap and remove are their own small icon buttons, not overloaded onto a click
+      // whose meaning wasn't visually obvious.
+      return '<div class="plan-slot">' +
+        '<div class="plan-slot-icons">' +
+        '<button type="button" class="plan-slot-icon-btn" onclick="openSwapModal(\'' + id + '\')" title="Swap this meal">⇄</button>' +
+        '<button type="button" class="plan-slot-icon-btn" onclick="toggleSlotRemoved(\'' + id + '\')" title="Remove">&times;</button>' +
+        '</div>' +
+        '<div class="plan-slot-mealtype">' + mealType + '</div>' +
+        '<div class="plan-slot-name" onclick="openRecipeDetail(\'' + recipe.id + '\')" title="View recipe">' + recipe.name + '</div>' +
+        (conflict ? '<div class="plan-slot-conflict">⚠️ No longer safe</div>' : '') +
+        (needsAdaptation ? '<div class="plan-slot-adaptation">⚠️ Needs substitution for ' + Array.from(new Set(status.resolved.flatMap(r => r.profileNames))).join(', ') + '</div>' : '') +
+        '</div>';
+    }
+
+    function renderWeekPlan() {
+      if (!weekPlan) weekPlan = loadWeekPlan();
+      const profileIds = getSelectedProfileIds();
+      const pill = document.getElementById('planForPill');
+      const regenBtn = document.getElementById('planRegenerateBtn');
+      const shopBtn = document.getElementById('planShoppingListBtn');
+      const emptyState = document.getElementById('planEmptyState');
+      const grid = document.getElementById('weekGrid');
+
+      if (!weekPlan) {
+        if (profileIds.length === 0 && profiles.length > 0) {
+          // No one checked yet -- don't silently plan for nobody; let the empty state below
+          // guide them, same honesty-over-guessing principle used elsewhere in this app.
+        }
+        weekPlan = generateWeekPlan(profileIds);
+        saveWeekPlan();
+      }
+
+      const anyEligible = Object.values(weekPlan.slots).some(s => s.recipeId);
+      if (!anyEligible && profileIds.length > 0) {
+        emptyState.style.display = '';
+        grid.style.display = 'none';
+        pill.style.display = 'none';
+        regenBtn.style.display = 'none';
+        shopBtn.style.display = 'none';
+        return;
+      }
+      emptyState.style.display = 'none';
+      grid.style.display = 'grid';
+
+      const names = weekPlan.profileIds.map(id => { const p = profiles.find(x => x.id === id); return p ? p.name : null; }).filter(Boolean);
+      pill.textContent = 'Planned for: ' + (names.length ? names.join(', ') : 'everyone');
+      pill.style.display = '';
+      regenBtn.style.display = '';
+      shopBtn.style.display = '';
+
+      const drifted = JSON.stringify(profileIds.slice().sort()) !== JSON.stringify(weekPlan.profileIds.slice().sort());
+      document.getElementById('planDriftDot').style.display = drifted ? '' : 'none';
+
+      renderPlanDayChips();
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
+      document.getElementById('planDayChips').style.display = isMobile ? 'flex' : 'none';
+
+      grid.innerHTML = PLAN_DAYS.map((day, dayIdx) => {
+        const cells = PLAN_MEAL_TYPES.map(mealType => {
+          const id = slotId(dayIdx, mealType);
+          const slot = weekPlan.slots[id] || { recipeId: null, removed: false };
+          const recipe = slot.recipeId ? allRecipes.find(r => r.id === slot.recipeId) : null;
+          return renderPlanSlot(recipe, id, dayIdx, mealType);
+        }).join('');
+        return '<div class="week-day-col' + (dayIdx === planActiveDay ? ' active-day' : '') + '">' +
+          '<div class="week-day-label">' + day + '</div>' + cells + '</div>';
+      }).join('');
+    }
+
+    // ---- Shopping list ----
+
+    const STORE_SECTION_KEYWORDS = {
+      'Produce': ['onion', 'garlic', 'carrot', 'celery', 'tomato', 'potato', 'pepper', 'spinach', 'lettuce', 'cucumber', 'lemon', 'lime', 'parsley', 'cilantro', 'basil', 'thyme', 'rosemary', 'sage', 'mint', 'scallion', 'ginger', 'mushroom', 'apple', 'banana', 'berry', 'berries', 'avocado', 'broccoli', 'zucchini', 'squash', 'cabbage', 'kale', 'corn', 'bean sprout', 'shallot', 'chili', 'jalapeno'],
+      'Pantry': ['flour', 'sugar', 'oil', 'vinegar', 'stock', 'broth', 'rice', 'pasta', 'noodle', 'bread', 'tortilla', 'canned', 'beans', 'cumin', 'paprika', 'cinnamon', 'nutmeg', 'sauce', 'honey', 'syrup', 'baking powder', 'baking soda', 'vanilla', 'cornstarch', 'yeast', 'salt', 'spice', 'stock', 'broth', 'nuts', 'walnut', 'pecan', 'almond', 'chocolate', 'cocoa', 'chip'],
+    };
+
+    function determineStoreSection(ingredient) {
+      const tags = ingredient.tags || [];
+      if (tags.some(t => ['meat', 'beef', 'pork', 'fish', 'shellfish'].includes(t))) return 'Protein';
+      if (tags.some(t => ['dairy', 'egg'].includes(t))) return 'Dairy & Eggs';
+      const name = (ingredient.name || '').toLowerCase();
+      if (STORE_SECTION_KEYWORDS.Produce.some(k => name.includes(k))) return 'Produce';
+      if (STORE_SECTION_KEYWORDS.Pantry.some(k => name.includes(k))) return 'Pantry';
+      return 'Other';
+    }
+
+    function normalizeIngredientName(rawName) {
+      return (rawName || '').split(',')[0].replace(/\([^)]*\)/g, '').trim().toLowerCase();
+    }
+
+    function isNumeric(str) {
+      return /^\d+(\.\d+)?$/.test((str || '').trim());
+    }
+
+    // Aggregates ingredients across every non-removed, filled slot. Auto-sums only when amount
+    // is numeric AND unit matches exactly after normalizing -- everything else lists each
+    // occurrence separately with its source recipe, never a guessed sum.
+    function buildShoppingListItems() {
+      const occurrences = {}; // normalizedName -> [{amount, unit, recipeName, section}]
+      Object.values(weekPlan.slots).forEach(slot => {
+        if (slot.removed || !slot.recipeId) return;
+        const recipe = allRecipes.find(r => r.id === slot.recipeId);
+        if (!recipe) return;
+        (recipe.ingredients || []).forEach(ing => {
+          const key = normalizeIngredientName(ing.name);
+          if (!key) return;
+          if (!occurrences[key]) occurrences[key] = [];
+          occurrences[key].push({ amount: ing.amount, unit: (ing.unit || '').trim().toLowerCase(), recipeName: recipe.name, section: determineStoreSection(ing) });
+        });
+      });
+
+      const items = {};
+      Object.entries(occurrences).forEach(([key, occs]) => {
+        const section = occs[0].section;
+        const allSameUnit = occs.every(o => o.unit && o.unit === occs[0].unit && !o.unit.includes(','));
+        const allNumeric = occs.every(o => isNumeric(o.amount));
+        let summary;
+        if (allSameUnit && allNumeric) {
+          const total = occs.reduce((sum, o) => sum + parseFloat(o.amount), 0);
+          summary = { summed: true, text: (total % 1 === 0 ? total : total.toFixed(2)) + ' ' + occs[0].unit };
+        } else {
+          summary = { summed: false, lines: occs.map(o => (o.amount ? o.amount + ' ' + o.unit : (o.unit || 'to taste')) + ' — ' + o.recipeName) };
+        }
+        items[key] = { section, count: occs.length, recipes: occs.map(o => o.recipeName), summary };
+      });
+      return items;
+    }
+
+    function getCheckedMap() {
+      const stored = localStorage.getItem('foodenvy_shopping_list_checked');
+      try { return stored ? JSON.parse(stored) : {}; } catch (e) { return {}; }
+    }
+
+    function saveCheckedMap(map) {
+      localStorage.setItem('foodenvy_shopping_list_checked', JSON.stringify(map));
+    }
+
+    function getPrevSnapshot() {
+      const stored = localStorage.getItem('foodenvy_shopping_list_snapshot');
+      try { return stored ? JSON.parse(stored) : {}; } catch (e) { return {}; }
+    }
+
+    function toggleShoppingItem(key) {
+      const checked = getCheckedMap();
+      checked[key] = !checked[key];
+      saveCheckedMap(checked);
+      document.querySelector('[data-item-key="' + key + '"]').classList.toggle('checked', checked[key]);
+    }
+
+    function dismissOrphanedItem(key) {
+      const checked = getCheckedMap();
+      delete checked[key];
+      saveCheckedMap(checked);
+      const prev = getPrevSnapshot();
+      delete prev[key];
+      localStorage.setItem('foodenvy_shopping_list_snapshot', JSON.stringify(prev));
+      showShoppingList();
+    }
+
+    // "Get shopping list" is a deliberate, named action (not a live view of grid state) -- so it
+    // has a clear settling moment and doesn't constantly disturb checked-off state while someone
+    // is still mid-edit on the grid (Gamification Designer's explicit call).
+    function showShoppingList() {
+      if (!weekPlan) return;
+      const items = buildShoppingListItems();
+      const checked = getCheckedMap();
+      const prevSnapshot = getPrevSnapshot();
+
+      // Orphaned items: existed last time this list was shown, no longer needed by anything
+      // currently planned. An unchecked one is dropped outright (never bought, zero risk); a
+      // checked one stays visible with a persistent "no longer needed" marker, since the user
+      // may have already bought it.
+      const orphanedChecked = [];
+      Object.keys(prevSnapshot).forEach(key => {
+        if (items[key]) return;
+        if (checked[key]) orphanedChecked.push({ key, ...prevSnapshot[key] });
+      });
+
+      const batchCook = Object.entries(items).filter(([, v]) => v.count >= 3);
+      const batchCallout = document.getElementById('batchCookCallout');
+      if (batchCook.length > 0) {
+        batchCallout.style.display = '';
+        batchCallout.innerHTML = '<strong>This week\'s batch-cook opportunities:</strong> ' +
+          batchCook.map(([name, v]) => name + ' (' + v.recipes.join(', ') + ')').join(' • ');
+      } else {
+        batchCallout.style.display = 'none';
+      }
+
+      const sections = ['Produce', 'Dairy & Eggs', 'Protein', 'Pantry', 'Other'];
+      let html = '';
+      sections.forEach(section => {
+        const sectionItems = Object.entries(items).filter(([, v]) => v.section === section);
+        if (sectionItems.length === 0) return;
+        html += '<div class="shopping-section"><div class="shopping-section-title">' + section + '</div>';
+        sectionItems.forEach(([name, v]) => {
+          const key = name;
+          const wasInPrev = prevSnapshot[key];
+          const isNew = prevSnapshot && Object.keys(prevSnapshot).length > 0 && !wasInPrev;
+          const countDelta = wasInPrev && wasInPrev.count !== v.count ? ' (' + wasInPrev.count + ' uses → ' + v.count + ' use' + (v.count === 1 ? '' : 's') + ')' : '';
+          html += '<div class="shopping-item' + (checked[key] ? ' checked' : '') + '" data-item-key="' + key + '">' +
+            '<label><input type="checkbox" ' + (checked[key] ? 'checked' : '') + ' onchange="toggleShoppingItem(\'' + key + '\')"> ' +
+            '<span class="shopping-item-name">' + name + (v.summary.summed ? ' — ' + v.summary.text : '') + '</span>' +
+            countDelta + (isNew ? ' <em>(new)</em>' : '') + '</label>';
+          if (!v.summary.summed) {
+            html += v.summary.lines.map(l => '<div class="shopping-item-sub">' + l + '</div>').join('') +
+              '<div class="shopping-item-sub"><em>amounts vary by recipe</em></div>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      });
+
+      if (orphanedChecked.length > 0) {
+        html += '<div class="shopping-section"><div class="shopping-section-title">No longer needed</div>';
+        orphanedChecked.forEach(o => {
+          html += '<div class="shopping-item checked" data-item-key="' + o.key + '">' +
+            '<span class="shopping-item-orphaned">' + o.key + ' — no longer needed for ' + o.recipes.join(', ') + '</span> ' +
+            '<button type="button" class="plan-slot-restore-btn" onclick="dismissOrphanedItem(\'' + o.key + '\')">Dismiss</button></div>';
+        });
+        html += '</div>';
+      }
+
+      document.getElementById('shoppingListBody').innerHTML = html || '<p>No ingredients needed -- every slot is either removed or empty.</p>';
+      document.getElementById('shoppingListSection').style.display = '';
+
+      // Merge surviving orphaned-checked items back into the snapshot so they persist across
+      // repeated "Get shopping list" clicks until explicitly dismissed.
+      const nextSnapshot = { ...items };
+      orphanedChecked.forEach(o => { nextSnapshot[o.key] = { section: o.section, count: o.count, recipes: o.recipes }; });
+      localStorage.setItem('foodenvy_shopping_list_snapshot', JSON.stringify(nextSnapshot));
     }
 
     function setupSidebarResize() {
@@ -2692,10 +3341,16 @@
       restoreHelpFilters();
 
       const savedTab = localStorage.getItem('foodenvy_active_tab');
+      // 'plan' needs allRecipes loaded first (its render generates/validates a plan against
+      // the real recipe pool) -- deferred into the loadRecipes().then() below instead of
+      // switching immediately the way 'help' safely can.
       if (savedTab === 'help') switchAppTab('help');
 
       renderHelpTiles();
-      loadRecipes().then(() => renderHelpTiles()); // re-render once allRecipes is populated, for craving suggestion chips
+      loadRecipes().then(() => {
+        renderHelpTiles(); // re-render once allRecipes is populated, for craving suggestion chips
+        if (savedTab === 'plan') switchAppTab('plan');
+      });
       setupSidebarResize();
     });
   </script>

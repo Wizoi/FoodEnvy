@@ -282,3 +282,39 @@ notes:
     explicitly called out in the description as reused across the week's dinners), and the soup's
     own freezer-friendly framing is honestly earned by its steps (cools flat, freezes in bags) --
     another example of the tags-vs-steps consistency check holding up cleanly.
+  - >
+    2026-08: reviewed the "Plan my week" 7-day-grid + "Get shopping list" design (update-app
+    skill, pre-code review). Three findings. (1) Grouping by ingredient name with nested
+    per-recipe occurrences is the right *secondary* grouping but the wrong *primary* one -- my
+    own principle is store-section grouping for trip speed, and a flat ingredient-name list
+    (even nested) still forces zig-zagging the store. Recommendation: primary group by store
+    section via a heuristic keyword lookup (protein/produce/dairy/pantry inferred from
+    ingredient name, since no aisle data exists on any ingredient today -- allergen tags like
+    `dairy` can shortcut the dairy bucket but don't cover produce/pantry/protein at all, so this
+    needs its own small curated keyword table with an explicit "Other" fallback bucket, not a
+    reuse of the allergen-tag vocabulary), then within each section group by ingredient name with
+    the already-designed nested per-recipe lines. (2) The swap-ripple struck-through/new-marker
+    handling is directionally right and consistent with the usedBy/usage-count finding I recorded
+    earlier against buildUsageTrackedShoppingList, but as specified it risks two real problems at
+    the counter: a "no longer needed" tag could read as ingredient-level when it's actually only
+    that one recipe's line-item (the ingredient may still be needed via other still-active
+    recipes sharing the same name) -- label it "no longer needed for {recipe}", not bare "no
+    longer needed", and show a usage-count delta (e.g. "bell peppers: 2 uses -> 1 use") rather
+    than a binary flag. Also: an unchecked "no longer needed" line carries zero waste risk (never
+    bought) and can just be dropped immediately rather than kept struck-through -- only
+    already-checked lines need the persistent strikethrough treatment, since only those represent
+    a real "you may have already bought this" case; keeping unchecked orphans visible is pure
+    clutter with no offsetting benefit. (3) The design as described has no callout for the
+    batch-cook signal itself -- it surfaces reuse only implicitly, as multiple recipe-tagged
+    sub-lines under one ingredient name. A real batch cook identifies shared components *before*
+    shopping, not by noticing sub-bullets while scanning a long list. Recommend a short "This
+    week's batch-cook opportunities" callout above the store-sectioned list (ingredients with a
+    usedBy/usage count of 3+, the same data buildUsageTrackedShoppingList already computes)
+    naming the shared component and its recipes, separate from the per-item list -- this is the
+    thing that actually turns a shopping list into a batch-cook plan, and costs nothing new to
+    compute since the usage-count data already exists for the swap-ripple feature. Also flagged,
+    not a blocker: the "always everything needed, never inventory-minus" scoping decision for
+    this feature directly contradicts my "check inventory first" principle, but that's a
+    deliberate, explicitly-stated scope cut for this feature (no inventory-tracking model exists
+    yet) rather than a shopping-list design flaw -- worth revisiting only once/if inventory
+    tracking becomes a real feature, not something to solve inside this change.

@@ -124,3 +124,38 @@ notes:
     chips. This doesn't require new recipe data or a real macro/ratio badge (which I'd still
     avoid -- no produce/grain proportion data exists) -- it just gives a browsing parent a
     self-serve repetition cue ("that's my third chicken pick") without needing full plan context.
+  - >
+    2026-08: reviewed the proposed "Plan My Week" auto-generation strategy (deterministic,
+    no-LLM slot-filling walk with a soft protein-repeat penalty on meat/beef/pork/fish tags --
+    confirmed this repo currently has no src/ tree at all, so computeProteinTally/
+    describeRepeats described elsewhere in CLAUDE.md don't exist yet either; this generator
+    would be the first real implementation of that shape). Finding: a protein-source-only
+    penalty is a reasonable floor but is not, by itself, a stand-in for plate-method balance --
+    it guards against "chicken five nights running" but has zero signal for "the whole week
+    skewed all-protein-dish with no produce-forward night at all," because there's nothing
+    tracking the other side of the plate. Recommendation, scoped to data that actually exists
+    today (recipe-level tags like "vegetarian"/"vegan"/"high-protein" on 634 recipes, confirmed
+    present in public/foodenvy-complete-recipes.json) rather than inventing any macro/calorie
+    model: add a second, symmetric soft counter alongside the protein tally -- a weekly
+    vegetarian/plant-forward *dinner* count (lunch/dinner only, per my earlier finding that
+    plate-method framing doesn't cleanly fit breakfast/treats). When the slot-filler reaches a
+    dinner slot later in the week (e.g. Thu-Sun) with zero vegetarian-tagged dinners so far,
+    apply the same small deprioritize-never-exclude penalty to non-vegetarian candidates that
+    the protein tally already applies to over-used protein sources -- same mechanism, second
+    axis, no new data. Also surface a one-line week-level summary post-generation (e.g. "3
+    vegetarian dinners, 2 chicken, 2 beef this week") the same way a swap's ripple effect is
+    already shown, so the signal doesn't require opening every slot to notice. Explicitly
+    recommend against extending this to a starch/grain-repeat signal for now: ingredient tags
+    are currently just the allergen vocabulary (dairy, gluten, nuts, shellfish, egg, soy,
+    sesame, meat, pork, beef, fish) with no rice/pasta/potato/quinoa tag, so a grain-repeat
+    check would have to fuzzy-match ingredient *names* -- the same naive-matching rough edge
+    CLAUDE.md already flags for inventory matching, and not worth the fragility for a v1
+    generator. Also recommend against modeling "goal" restrictions numerically here -- but as a
+    cheap additive nicety, if any selected member has a stored "high protein" goal, let the
+    generator give existing high-protein-tagged dishes a small positive soft boost (not a
+    requirement), a deterministic string/tag match using data that already exists, consistent
+    with treating goals as real inputs rather than stored free text. Bottom line: protein-tag
+    repeat-avoidance alone is under-scoped for "balance," but the fix is one more soft counter
+    on data the app already has (vegetarian/vegan dish tags), not new nutrition modeling --
+    anything beyond that (calories, macros, produce/grain ratios) would be pretending to a
+    rigor this recipe data can't back up.

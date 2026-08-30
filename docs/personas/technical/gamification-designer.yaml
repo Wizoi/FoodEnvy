@@ -348,6 +348,67 @@ notes:
     silently shrinking the grid with no explanation. Separate tab is justified by the framing/copy
     difference alone (calm guided entry point vs. dense power-user filter bar over identical
     data) -- but only on condition it's engineered as a shared-logic skin, not a fork.
+  - >
+    2026-08-30 ("Plan my week" tab design pass): the 21-slot grid should auto-populate
+    immediately on first open, not sit empty behind a "generate" button -- unlike the
+    find-recipe skill's LLM plan generation (10s-2min, needs progressive reveal), this
+    generation is deterministic and client-side per the engineer's constraint, so it's
+    effectively instant. A trigger that immediately shows a filled week is the reward;
+    gating an instant operation behind an extra tap just adds friction with no payoff.
+    Reserve an empty/explanatory state only for the genuine edge case of zero eligible
+    recipes for the checked profiles. Mobile: do not render 21 cells as one crammed
+    column -- reuse the day-selector-chip + stacked-3-slot-list pattern already
+    established for other long/grid content at this breakpoint (desktop keeps the full
+    7-day x 3-meal grid, mobile becomes a horizontal day-chip row + vertical list of
+    that day's 3 slots), same "grid degrades to chips+list, not literal scroll" instinct
+    as the recipe-browser mobile notes.
+  - >
+    2026-08-30 ("Plan my week" tab design pass): "remove" needs to stay a distinct
+    concept from "swap to nothing" -- skipping breakfast some days is a real, common,
+    intentional behavior, and folding it into the swap picker would force opening a
+    modal just to say "nothing here," reintroducing friction for what should be a
+    single tap. A removed slot must NOT reuse the existing muted "not listed" gray-badge
+    convention (that convention specifically signals unexpectedly-missing data, "go
+    verify") -- reusing it here would make an intentional user choice read as an app
+    bug. Give it its own visual language instead: dashed-outline card, a neutral empty-
+    plate/slash icon, short "No breakfast planned" label, and a lightweight "add back"
+    undo affordance, so it reads as "user chose this" not "data missing."
+  - >
+    2026-08-30 ("Plan my week" tab design pass): agree with baking selected profile ids
+    into the plan at generation time rather than live-recomputing (avoids silent drift),
+    but the "planned for: X, Y" summary needs to stay persistently visible near the tab
+    header, not buried -- and if the live `#profileCheckboxes` selection on another tab
+    diverges from the plan's baked-in set, surface that as a small non-blocking indicator
+    on the "change & regenerate" action itself (a dot/badge), not an interrupt banner.
+    Same "visible affordance is the signal, no separate toast needed" logic already
+    established for persisted filter state -- discoverable on glance, never a nag.
+  - >
+    2026-08-30 ("Plan my week" tab design pass): "settling" a menu deserves to be a real,
+    distinct action -- an explicit "Get shopping list" step, not a list that silently
+    recomputes live on every slot edit. Three reasons: it matches the user's own framing
+    ("once a menu can be settled"), it gives a genuine Hook-Model payoff (the list is the
+    reward for finishing the planning work, not a side effect), and a live-updating list
+    while someone is still swapping slots would constantly disturb any checked-off state
+    (see next note). This should still be lightweight -- a sub-tab/section within Plan My
+    Week populated on demand from current grid state, not a generation step with a wait,
+    since it's pure client-side aggregation of already-loaded recipe data.
+  - >
+    2026-08-30 ("Plan my week" tab design pass): given ingredient amounts only sometimes
+    auto-sum (numeric + exact unit match), an unsummed shopping-list item must not render
+    as an unexplained flat duplicate row -- group by ingredient name as the parent line
+    with each unsummed occurrence nested underneath, source recipe named per line (e.g.
+    "Olive oil" -> "2 tbsp - Chicken Stir Fry" / "to taste - Roasted Veggies"), plus a
+    small caption on such groups ("amounts vary by recipe") so the multiplicity reads as
+    an honest data limitation, not a bug/duplicate. Checkboxes should persist (localStorage
+    keyed to the plan, same pattern as persisted filter state). The real risk is a stale
+    checklist after re-swapping a slot post-checkoff: don't silently recompute and wipe
+    checked state. Preserve checked state for items unaffected by the swap; items no
+    longer needed should stay visible-but-struck-through with a "no longer needed" tag
+    (manually dismissible, since the user may have already bought it) rather than
+    vanishing; newly-needed items get a lightweight "new" marker. This is the UI surface
+    for `buildUsageTrackedShoppingList`'s `usedBy` ripple-tracking already described in
+    CLAUDE.md -- the list should visibly render that ripple, not hide it behind a full
+    silent recompute.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"
