@@ -316,6 +316,38 @@ notes:
     quick-recall purpose), while other named collections stay behind a slightly higher-friction
     "+" popover -- friction calibrated to how each is actually used, not two competing affordances
     fighting for the same card real estate.
+  - >
+    2026-08-29 (recipe-browser "Help" tab design, revisiting my own earlier lowest-confidence
+    proposal): the fix for a rigid 3-tap-then-reveal modal isn't sequential reveal, it's live
+    filtering -- the user's own framing ("as we get them filled in, then display the results")
+    describes exactly what `filterRecipes()` already does on the Search tab (onchange/oninput per
+    control, no submit button), just with friendlier controls/copy. Recommended: all 4 questions
+    (who's eating -- reuse the existing `#profileCheckboxes` chip multi-select verbatim; meal
+    type/mood -- tap tiles, my own curated-occasion-tag-tiles concept now folded in per explicit
+    ask rather than built standalone; how much time -- single-select tap-tile buckets against the
+    same active+rest "time to table" total the card badge already leads with, NOT a slider, since
+    the underlying data is a handful of discrete totals, not a continuum; craving -- the one
+    genuinely open field, free text matched against name+description+tags, not just name, paired
+    with tap-to-fill suggestion chips sourced from frequent tag values) render together, always
+    visible, live-filtering via the SAME `filterRecipes()`/`renderRecipes()`/
+    `getSelectedProfileIds()` functions Search already uses -- a UI-only skin (different controls,
+    layout order, copy) over one shared filter engine, not a second implementation, same
+    drift-risk logic as the alternate-recipe-block dedup note below. Empty/no-answer state is the
+    full unfiltered grid, never a blank prompt screen -- landing on nothing kills the trigger-to-
+    reward loop before it starts and reads as broken, not inviting; this also directly delivers
+    the user's hope that a good live-filter flow makes a separate "surprise me" shuffle and
+    standalone mood tiles unnecessary, reconfirming (not just repeating) our earlier joint call to
+    not build those separately. Question order (who's eating -> meal/mood tiles -> time -> craving)
+    deliberately puts the one free-text field last -- leading the page with a text box, even
+    optional, invites "I have to type something before I can start," the exact blank-page
+    cold-start this persona exists to design away from; ending on it after three cheap taps makes
+    it read as a final personal touch rather than a gate. When a time bucket is active and a
+    recipe has no prep/cook data at all, it's excluded like any other filter miss but the
+    exclusion needs to say so in the count line ("N hidden: prep/cook time not listed"), matching
+    the existing "N hidden: no safe alternate" pattern already in `renderRecipes()` rather than
+    silently shrinking the grid with no explanation. Separate tab is justified by the framing/copy
+    difference alone (calm guided entry point vs. dense power-user filter bar over identical
+    data) -- but only on condition it's engineered as a shared-logic skin, not a fork.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

@@ -364,6 +364,79 @@
       overflow: hidden;
     }
 
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      background: white;
+      border-bottom: 2px solid var(--border);
+      padding: 0 1.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.7rem 1.3rem;
+      border: none;
+      background: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .help-question {
+      margin-bottom: 1.2rem;
+    }
+
+    .help-question-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .help-tile {
+      padding: 0.5rem 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .help-tile.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .help-tile-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .craving-suggestions {
+      display: inline-flex;
+      gap: 0.4rem;
+      margin-left: 0.6rem;
+    }
+
+    .craving-suggestion {
+      padding: 0.3rem 0.7rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--light);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
     .filter-bar {
       background: white;
       padding: 1rem 1.5rem;
@@ -1074,6 +1147,11 @@
     <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Profiles & Collections</button>
   </header>
 
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn active" id="searchTabBtn" onclick="switchAppTab('search')">Search</button>
+    <button type="button" class="tab-btn" id="helpTabBtn" onclick="switchAppTab('help')">Help</button>
+  </nav>
+
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
   <div class="main-layout">
@@ -1113,54 +1191,85 @@
         <span style="display: flex; align-items: center; gap: 0.5rem;"><span style="width: 12px; height: 12px; background: #ffa726; border-radius: 2px;"></span>Dislikes</span>
       </div>
 
-      <!-- Filter Bar -->
-      <div class="filter-bar">
-        <div class="filter-control">
-          <label for="mealType">Meal</label>
-          <select id="mealType" onchange="filterRecipes()">
-            <option value="">All</option>
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="dessert">Dessert</option>
-          </select>
+      <div id="searchTab">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-control">
+            <label for="mealType">Meal</label>
+            <select id="mealType" onchange="filterRecipes()">
+              <option value="">All</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="dessert">Dessert</option>
+            </select>
+          </div>
+
+          <div class="filter-control">
+            <label for="difficulty">Level</label>
+            <select id="difficulty" onchange="filterRecipes()">
+              <option value="">All</option>
+              <option value="beginner">Beginner</option>
+              <option value="beginner-plus">Beginner+</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+
+          <div class="filter-control" style="flex: 1;">
+            <input type="text" id="search" placeholder="Search recipes..." oninput="filterRecipes()" style="flex: 1;">
+          </div>
+
+          <button type="button" class="btn-small btn-reset-filters" id="resetFiltersBtn" onclick="resetFilters()" style="display:none;">Reset recipe filters</button>
         </div>
 
-        <div class="filter-control">
-          <label for="difficulty">Level</label>
-          <select id="difficulty" onchange="filterRecipes()">
-            <option value="">All</option>
-            <option value="beginner">Beginner</option>
-            <option value="beginner-plus">Beginner+</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
+        <!-- Profile & Collection Filters -->
+        <div class="filters-section">
+          <div style="margin-bottom: 1rem;">
+            <label class="chip">
+              <input type="checkbox" id="favoritesOnly" onchange="this.parentElement.classList.toggle('active', this.checked); filterRecipes()">
+              <span>♥ Favorites only</span>
+            </label>
+          </div>
 
-        <div class="filter-control" style="flex: 1;">
-          <input type="text" id="search" placeholder="Search recipes..." oninput="filterRecipes()" style="flex: 1;">
-        </div>
+          <div style="margin-bottom: 1rem;">
+            <div class="filter-label">By Profile</div>
+            <div class="filter-chips" id="profileCheckboxesSearchSlot">
+              <div class="filter-chips" id="profileCheckboxes" style="display:contents;"></div>
+            </div>
+          </div>
 
-        <button type="button" class="btn-small btn-reset-filters" id="resetFiltersBtn" onclick="resetFilters()" style="display:none;">Reset recipe filters</button>
+          <div>
+            <div class="filter-label">In Collection</div>
+            <div class="filter-chips" id="collectionCheckboxes"></div>
+          </div>
+        </div>
       </div>
 
-      <!-- Profile & Collection Filters -->
-      <div class="filters-section">
-        <div style="margin-bottom: 1rem;">
-          <label class="chip">
-            <input type="checkbox" id="favoritesOnly" onchange="this.parentElement.classList.toggle('active', this.checked); filterRecipes()">
-            <span>♥ Favorites only</span>
-          </label>
-        </div>
+      <div id="helpTab" style="display:none;">
+        <div style="padding: 1.5rem;">
+          <div class="help-question">
+            <div class="help-question-label">Who's eating?</div>
+            <div class="filter-chips" id="profileCheckboxesHelpSlot"></div>
+          </div>
 
-        <div style="margin-bottom: 1rem;">
-          <div class="filter-label">By Profile</div>
-          <div class="filter-chips" id="profileCheckboxes"></div>
-        </div>
+          <div class="help-question">
+            <div class="help-question-label">What sounds good tonight?</div>
+            <div class="help-tile-row" id="helpTagTiles"></div>
+          </div>
 
-        <div>
-          <div class="filter-label">In Collection</div>
-          <div class="filter-chips" id="collectionCheckboxes"></div>
+          <div class="help-question">
+            <div class="help-question-label">How much time?</div>
+            <div class="help-tile-row" id="helpTimeTiles"></div>
+          </div>
+
+          <div class="help-question">
+            <div class="help-question-label">Craving something specific?</div>
+            <input type="text" id="helpCraving" placeholder="chicken, pasta, spicy..." style="width: 240px;" oninput="filterRecipes()">
+            <span class="craving-suggestions" id="helpCravingSuggestions"></span>
+          </div>
+
+          <button type="button" class="btn-small btn-reset-filters" id="resetHelpFiltersBtn" onclick="resetHelpFilters()" style="display:none;">Reset recipe filters</button>
         </div>
       </div>
 
@@ -1585,6 +1694,100 @@
           sidebar.style.width = localStorage.getItem('foodenvy_sidebar_width') || '300px';
         }
       }
+    }
+
+    // Search and Help are a live-filtering skin over the SAME filterRecipes()/renderRecipes()/
+    // getSelectedProfileIds() engine, not two implementations -- see the plan notes on why a
+    // fork here is how the two tabs quietly drift out of sync later. Only the input side (which
+    // controls filterRecipes() reads) is gated by activeTab; the shared results grid/count is
+    // unconditional.
+    let activeTab = 'search';
+
+    // "Who's eating" is one real DOM node (#profileCheckboxes), not a lookalike copy in each
+    // tab -- moved between the two tabs' labeled slots so getSelectedProfileIds() always has
+    // exactly one source of truth regardless of which tab is showing it.
+    function switchAppTab(tab) {
+      activeTab = tab;
+      document.getElementById('searchTab').style.display = tab === 'search' ? '' : 'none';
+      document.getElementById('helpTab').style.display = tab === 'help' ? '' : 'none';
+      document.getElementById('searchTabBtn').classList.toggle('active', tab === 'search');
+      document.getElementById('helpTabBtn').classList.toggle('active', tab === 'help');
+
+      const profileCheckboxes = document.getElementById('profileCheckboxes');
+      const targetSlot = document.getElementById(tab === 'search' ? 'profileCheckboxesSearchSlot' : 'profileCheckboxesHelpSlot');
+      if (profileCheckboxes && targetSlot && profileCheckboxes.parentElement !== targetSlot) {
+        targetSlot.appendChild(profileCheckboxes);
+      }
+
+      localStorage.setItem('foodenvy_active_tab', tab);
+      filterRecipes();
+    }
+
+    // Active/hands-on minutes only (prepMinutes + cookMinutes), deliberately excluding
+    // restMinutes -- "how much time do you have tonight" is asking about hands-on time, not
+    // total time-to-plate including an overnight soak. Extracted from formatTime()'s existing
+    // null-check rather than reimplementing it a third time. Returns null when there's no
+    // prep/cook data at all, same "honest gap, not a guess" convention as formatTime().
+    function getActiveMinutes(recipe) {
+      if (recipe.prepMinutes == null && recipe.cookMinutes == null) return null;
+      return (recipe.prepMinutes || 0) + (recipe.cookMinutes || 0);
+    }
+
+    const HELP_TAG_TILES = ['weeknight', 'one-pan', 'make-ahead', 'kid-friendly', 'quick', 'vegetarian', 'vegan', 'gluten-free', 'no-cook', 'comfort-food', 'budget', 'meal-prep', 'high-protein', 'freezer-friendly'];
+    const HELP_TIME_BUCKETS = [
+      { label: 'Under 20 min', min: 0, max: 20 },
+      { label: '20-40 min', min: 20, max: 40 },
+      { label: '40-60 min', min: 40, max: 60 },
+      { label: '60+ min', min: 60, max: Infinity },
+    ];
+
+    // Draws tile buttons AND their active state from the current helpSelectedTags/
+    // helpSelectedTimeBucket globals -- safe to call any time (e.g. again after recipes load,
+    // to populate craving suggestions) without losing whatever was already selected/restored.
+    function renderHelpTiles() {
+      const tagContainer = document.getElementById('helpTagTiles');
+      tagContainer.innerHTML = HELP_TAG_TILES.map(t =>
+        '<button type="button" class="help-tile' + (helpSelectedTags.has(t) ? ' active' : '') + '" data-tag="' + t + '" onclick="toggleHelpTagTile(\'' + t + '\')">' + t.replace(/-/g, ' ') + '</button>'
+      ).join('');
+
+      const timeContainer = document.getElementById('helpTimeTiles');
+      timeContainer.innerHTML = HELP_TIME_BUCKETS.map((b, i) =>
+        '<button type="button" class="help-tile' + (helpSelectedTimeBucket === i ? ' active' : '') + '" data-bucket="' + i + '" onclick="toggleHelpTimeBucket(' + i + ')">' + b.label + '</button>'
+      ).join('');
+
+      // Suggestion chips are the SAME text-match path as typing -- tapping one just populates
+      // the craving input, there's exactly one matching code path behind both interactions.
+      const topTags = Object.entries(
+        allRecipes.reduce((acc, r) => { (r.tags || []).forEach(t => acc[t] = (acc[t] || 0) + 1); return acc; }, {})
+      ).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([t]) => t);
+      document.getElementById('helpCravingSuggestions').innerHTML = topTags.map(t =>
+        '<button type="button" class="craving-suggestion" onclick="setHelpCraving(\'' + t + '\')">' + t + '</button>'
+      ).join('');
+    }
+
+    let helpSelectedTags = new Set();
+    let helpSelectedTimeBucket = null;
+
+    function toggleHelpTagTile(tag) {
+      if (helpSelectedTags.has(tag)) helpSelectedTags.delete(tag);
+      else helpSelectedTags.add(tag);
+      document.querySelectorAll('#helpTagTiles .help-tile').forEach(btn => {
+        btn.classList.toggle('active', helpSelectedTags.has(btn.dataset.tag));
+      });
+      filterRecipes();
+    }
+
+    function toggleHelpTimeBucket(index) {
+      helpSelectedTimeBucket = helpSelectedTimeBucket === index ? null : index;
+      document.querySelectorAll('#helpTimeTiles .help-tile').forEach((btn, i) => {
+        btn.classList.toggle('active', helpSelectedTimeBucket === i);
+      });
+      filterRecipes();
+    }
+
+    function setHelpCraving(term) {
+      document.getElementById('helpCraving').value = term;
+      filterRecipes();
     }
 
     function setupSidebarResize() {
@@ -2062,16 +2265,23 @@
       }
     }
 
-    function renderRecipes(recipes, selectedProfileIds = [], adaptationStatusById = null, excludedForProfileConflict = 0) {
+    function renderRecipes(recipes, selectedProfileIds = [], adaptationStatusById = null, excludedForProfileConflict = 0, extra = {}) {
       try {
         const grid = document.getElementById('recipeGrid');
         const loadingMsg = document.getElementById('loadingMsg');
+        const excludedForMissingTime = extra.excludedForMissingTime || 0;
 
         if (loadingMsg) loadingMsg.style.display = 'none';
         grid.style.display = 'grid';
 
         if (!recipes || recipes.length === 0) {
-          grid.innerHTML = '<div class="empty-state"><p>No recipes</p></div>';
+          // On Help, an active combination of tiles/bucket/craving landing on zero is expected
+          // for a sparse, hand-authored tag corpus (confirmed directly: some 2-3-tag AND
+          // combinations return 0 even though each tag individually has plenty) -- not a bug,
+          // so it gets its own distinct message rather than reading as broken.
+          const msg = extra.emptyMessage || 'No recipes';
+          grid.innerHTML = '<div class="empty-state"><p>' + msg + '</p></div>';
+          document.getElementById('recipeCount').textContent = '';
           return;
         }
 
@@ -2201,6 +2411,9 @@
             countText += ' — ' + excludedForProfileConflict + ' hidden: no safe alternate for the selected profile(s)';
           }
         }
+        if (excludedForMissingTime > 0) {
+          countText += ' — ' + excludedForMissingTime + ' hidden: prep/cook time not listed';
+        }
         document.getElementById('recipeCount').textContent = countText;
       } catch (e) {
         console.error('Render error:', e);
@@ -2209,12 +2422,19 @@
     }
 
     function filterRecipes() {
-      const mealType = document.getElementById('mealType').value;
-      const difficulty = document.getElementById('difficulty').value;
-      const search = document.getElementById('search').value.toLowerCase();
+      // mealType/difficulty/#search only apply on the Search tab; Help's own controls only
+      // apply on the Help tab -- each tab's state is exactly as left, switching tabs is
+      // non-destructive to either. Profile/collection/favorites stay unconditional on both.
+      const mealType = activeTab === 'search' ? document.getElementById('mealType').value : '';
+      const difficulty = activeTab === 'search' ? document.getElementById('difficulty').value : '';
+      const search = activeTab === 'search' ? document.getElementById('search').value.toLowerCase() : '';
       const selectedProfileIds = getSelectedProfileIds();
       const selectedCollectionIds = Array.from(document.querySelectorAll('#collectionCheckboxes input:checked')).map(c => c.id.replace('collection_filter_', ''));
       const favoritesOnly = document.getElementById('favoritesOnly') && document.getElementById('favoritesOnly').checked;
+
+      const helpTagTiles = activeTab === 'help' ? Array.from(helpSelectedTags) : [];
+      const helpTimeBucket = activeTab === 'help' ? helpSelectedTimeBucket : null;
+      const helpCraving = activeTab === 'help' ? (document.getElementById('helpCraving').value || '').toLowerCase() : '';
 
       // Persist so the current narrowing survives a reload -- saved separately from the
       // lowercased `search` local above (raw value here) so restoring never silently changes
@@ -2226,21 +2446,46 @@
         collectionIds: selectedCollectionIds,
         favoritesOnly,
       }));
+      localStorage.setItem('foodenvy_help_filters', JSON.stringify({
+        tagTiles: helpTagTiles,
+        timeBucket: helpTimeBucket,
+        craving: document.getElementById('helpCraving') ? document.getElementById('helpCraving').value : '',
+      }));
       const resetBtn = document.getElementById('resetFiltersBtn');
       if (resetBtn) {
         const hasActiveFilter = mealType || difficulty || search || selectedProfileIds.length > 0 || selectedCollectionIds.length > 0 || favoritesOnly;
-        resetBtn.style.display = hasActiveFilter ? '' : 'none';
+        resetBtn.style.display = (activeTab === 'search' && hasActiveFilter) ? '' : 'none';
+      }
+      const resetHelpBtn = document.getElementById('resetHelpFiltersBtn');
+      if (resetHelpBtn) {
+        const hasActiveHelpFilter = helpTagTiles.length > 0 || helpTimeBucket !== null || helpCraving;
+        resetHelpBtn.style.display = (activeTab === 'help' && hasActiveHelpFilter) ? '' : 'none';
       }
 
       // Computed once here (not recomputed per recipe again inside renderRecipes) and passed
       // through, since filterRecipes already has to run this same check to decide inclusion.
       const adaptationStatusById = new Map();
       let excludedForProfileConflict = 0;
+      let excludedForMissingTime = 0;
 
       let filtered = allRecipes.filter(recipe => {
         if (mealType && recipe.mealType !== mealType) return false;
         if (difficulty && recipe.difficulty !== difficulty) return false;
         if (search && !recipe.name.toLowerCase().includes(search)) return false;
+
+        if (helpTagTiles.length > 0 && !helpTagTiles.every(t => (recipe.tags || []).includes(t))) return false;
+
+        if (helpTimeBucket !== null) {
+          const mins = getActiveMinutes(recipe);
+          if (mins == null) { excludedForMissingTime++; return false; }
+          const bucket = HELP_TIME_BUCKETS[helpTimeBucket];
+          if (!(mins >= bucket.min && mins < bucket.max)) return false;
+        }
+
+        if (helpCraving) {
+          const haystack = (recipe.name + ' ' + (recipe.description || '') + ' ' + (recipe.tags || []).join(' ')).toLowerCase();
+          if (!haystack.includes(helpCraving)) return false;
+        }
 
         if (selectedProfileIds.length > 0) {
           const status = getProfileAdaptationStatus(recipe, selectedProfileIds);
@@ -2268,7 +2513,12 @@
         return true;
       });
 
-      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict);
+      const anyHelpFilterActive = helpTagTiles.length > 0 || helpTimeBucket !== null || !!helpCraving;
+      const emptyMessage = (activeTab === 'help' && anyHelpFilterActive)
+        ? 'No recipes match these together — try removing one'
+        : 'No recipes';
+
+      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, { excludedForMissingTime, emptyMessage });
     }
 
     // Re-applies the last-saved filter/search state on load. Must run after loadProfiles()/
@@ -2301,6 +2551,31 @@
       }
     }
 
+    // Sibling to restoreFilters(), not merged into foodenvy_filters -- keeps that object's
+    // shape independent of which tab last wrote it. Sets the helpSelectedTags/
+    // helpSelectedTimeBucket globals + the craving input's value; renderHelpTiles() (called
+    // after this, and again once recipes are loaded) draws the actual tile active-states from
+    // those globals, so call order relative to the tiles existing doesn't matter.
+    function restoreHelpFilters() {
+      const stored = localStorage.getItem('foodenvy_help_filters');
+      if (!stored) return;
+      let saved;
+      try { saved = JSON.parse(stored); } catch (e) { return; }
+
+      helpSelectedTags = new Set(saved.tagTiles || []);
+      helpSelectedTimeBucket = (typeof saved.timeBucket === 'number') ? saved.timeBucket : null;
+      if (saved.craving) document.getElementById('helpCraving').value = saved.craving;
+    }
+
+    function resetHelpFilters() {
+      helpSelectedTags = new Set();
+      helpSelectedTimeBucket = null;
+      document.getElementById('helpCraving').value = '';
+      renderHelpTiles();
+      localStorage.removeItem('foodenvy_help_filters');
+      filterRecipes();
+    }
+
     // Resets both the on-screen controls and the persisted state -- clearing only the DOM would
     // let the old filters silently reappear on the next reload.
     function resetFilters() {
@@ -2328,7 +2603,13 @@
       loadProfiles();
       loadCollections();
       restoreFilters();
-      loadRecipes();
+      restoreHelpFilters();
+
+      const savedTab = localStorage.getItem('foodenvy_active_tab');
+      if (savedTab === 'help') switchAppTab('help');
+
+      renderHelpTiles();
+      loadRecipes().then(() => renderHelpTiles()); // re-render once allRecipes is populated, for craving suggestion chips
       setupSidebarResize();
     });
   </script>

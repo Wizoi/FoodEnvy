@@ -145,6 +145,36 @@ notes:
     sub-millisecond) -- no memoization/worker needed, just compute once per filterRecipes() call
     (mirroring the existing adaptationStatusById precompute-once-and-pass-through idiom at
     ~line 2124) rather than recomputing inside renderRecipes()'s per-card loop."
+  - "2026-08-29, Help tab implementation review (responding to Gamification Designer's 4-dimension
+    design): confirmed the reuse plan is buildable without forking filterRecipes(). Key findings:
+    (1) `#profileCheckboxes` (the 'By Profile' chip container, in `.content`'s filter section --
+    distinct from the sidebar's `#profilesList` CRUD list) is a single DOM node whose contents are
+    rendered once by the existing profile-loading code and read by id-based querySelector in
+    getSelectedProfileIds()/restoreFilters()/resetFilters() -- moving that single node via
+    appendChild into whichever tab's 'who's eating' slot is currently active is a legitimate,
+    listener-preserving way to satisfy 'reuse verbatim, no new component' without a duplicate id
+    (invalid HTML) or a second render path drifting from the first. (2) filterRecipes() should stay
+    the one function; gate each predicate's *input* by `activeTab`, not by mutating/clearing the
+    other tab's DOM controls on switch -- mealType/difficulty/#search stay populated but unread
+    while Help is active, and vice versa, so switching tabs and back restores exactly what was
+    there, and Help's empty-state-by-default requirement (full grid before any answer) holds
+    without a clear-on-switch side effect. (3) recipe.tags AND-combined multi-select is a real
+    empty-result risk given ~408 unique hand-authored tag values with inconsistent per-recipe
+    coverage (same data-quality gap already flagged in the 2026-08-28 note on this file) -- curated
+    tile combinations need a spot-check against actual tag co-occurrence in
+    public/foodenvy-complete-recipes.json before shipping, plus an explicit 'no recipes match these
+    N together' message distinct from the generic empty-grid text. (4) formatTime()'s existing
+    `prepMinutes == null && cookMinutes == null` null-check is precedent to extract into one shared
+    getTotalActiveMinutes(recipe) helper, reused by formatTime(), the new time-bucket predicate, AND
+    its 'N hidden: prep/cook time not listed' count -- do not reimplement the null check a third
+    time. (5) recommended the craving free-text predicate NOT widen the existing `#search` box's
+    behavior (which today matches recipe.name only, not description/tags) -- keep craving as its
+    own predicate/local var checking name+description+tags, gated to Help-active-only, so Search's
+    existing narrower behavior for current users/saved filters doesn't silently change as a side
+    effect of an unrelated Help feature. (6) recommended activeTab ('search'|'help') persist to its
+    own localStorage key rather than growing the existing `foodenvy_filters` object with an
+    unrelated field, and Help's own answers persist to a sibling `foodenvy_help_filters` key,
+    mirroring (not merging into) the established restoreFilters()/resetFilters() pattern."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing
