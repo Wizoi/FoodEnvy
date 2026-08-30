@@ -203,7 +203,18 @@ notes:
     mayonnaise (used in the chipotle-lime crema) carries a hidden soy tag
     (soybean oil) on top of the obvious egg tag -- same "check the condiment"
     discipline as fish sauce/chocolate chips above, just for mayo specifically.
-    Shellfish stayed a full alternateRecipe (chicken tacos, same formula) rather
+    Whole-category dislikes are a distinct case from single-ingredient dislikes:
+    weighed in on the dislike-badge/soft-sort bug fix (never seen the fix, this
+    is a design note) that a family marking every item in "Fish & seafood" as
+    disliked is functionally "this household doesn't eat seafood," not "meh on
+    shrimp" -- the muted badge-and-deprioritize treatment fits a single dislike
+    but under-serves a full-category one, since seed recipes lean seafood-heavy
+    (shrimp tacos, salmon dishes, tuna melt, etc. would keep surfacing "normally,
+    just with a footnote"). Flagged a possible stronger treatment for
+    near-complete category coverage (short of a hard allergy-style exclude) as
+    a product call for a future update-app pass, not something to fix
+    unilaterally.
+  - Shellfish stayed a full alternateRecipe (chicken tacos, same formula) rather
     than a same-dish swap, consistent with the structural-protein rule -- shrimp
     is the entire protein/identity of this dish, not a topping.
   - Rewrote the legacy stub "seed-salmon-quinoa" (Baked Salmon with Quinoa) with a

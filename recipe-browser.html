@@ -1221,6 +1221,20 @@
       margin-bottom: 0.8rem;
     }
 
+    /* Deliberately muted and unbolded, distinct from the amber safety-warning tone above --
+       a dislike never excludes or endangers, it's just a preference note. */
+    .dislike-highlight {
+      background: #eceff1;
+      color: #546e7a;
+      border-left: 3px solid #90a4ae;
+      padding: 0.6rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+
     .adaptation-warning-banner {
       background: #fff3cd;
       color: #856404;
@@ -2119,12 +2133,17 @@
     }
 
     // Deterministic week generation: prefer not-yet-used recipes, allow repeats only once the
-    // eligible pool is exhausted. Two soft (deprioritize, never hard-exclude) signals layered on
-    // top, both from tag data that already exists -- no invented nutrition data:
-    //  - protein-repeat: avoid the same meat/beef/pork/fish tag dominating the week's dinners.
-    //  - plant-forward-dinner: a protein-repeat check alone doesn't catch an all-meat week with
-    //    zero vegetarian dinners (Amara Chen's finding) -- from Thursday on, if no dinner so far
-    //    is vegetarian/vegan-tagged, deprioritize non-vegetarian dinner candidates.
+    // eligible pool is exhausted. Three soft (deprioritize, never hard-exclude) signals layered
+    // on top, in priority order (per Amara Chen's nutrition review: plate-balance outranks
+    // preference) -- no invented nutrition data:
+    //  - plant-forward-dinner (weight 2): a protein-repeat check alone doesn't catch an all-meat
+    //    week with zero vegetarian dinners -- from Thursday on, if no dinner so far is
+    //    vegetarian/vegan-tagged, deprioritize non-vegetarian dinner candidates.
+    //  - protein-repeat (weight 1/tag): avoid the same meat/beef/pork/fish tag dominating the
+    //    week's dinners.
+    //  - dislike (weight 0.5/match): a disliked ingredient nudges a candidate down but is
+    //    intentionally the lightest signal here, so it can never outweigh either balance signal
+    //    above -- dislikes flag and deprioritize, they never exclude (see getDislikeStatus).
     // Explicitly NOT attempted: any grain/starch-repeat signal (no rice/pasta/potato tag exists,
     // would need fragile ingredient-name fuzzy-matching) or calorie/macro modeling (no servings
     // or nutrition data exists to compute a real ratio from).
@@ -2143,7 +2162,7 @@
 
           if (mealType === 'dinner' && pool.length > 1) {
             const needsVeg = dayIdx >= 3 && vegetarianDinners === 0;
-            pool = pool.slice().sort((a, b) => scoreDinnerCandidate(a, proteinTally, needsVeg) - scoreDinnerCandidate(b, proteinTally, needsVeg));
+            pool = pool.slice().sort((a, b) => scoreDinnerCandidate(a, proteinTally, needsVeg, profileIds) - scoreDinnerCandidate(b, proteinTally, needsVeg, profileIds));
           }
 
           const chosen = pool[0];
@@ -2162,7 +2181,7 @@
     }
 
     // Lower score = preferred. Soft penalties only -- never excludes a candidate outright.
-    function scoreDinnerCandidate(recipe, proteinTally, needsVeg) {
+    function scoreDinnerCandidate(recipe, proteinTally, needsVeg, profileIds) {
       let score = 0;
       const tags = recipe.tags || [];
       const isVeg = tags.includes('vegetarian') || tags.includes('vegan');
@@ -2170,6 +2189,9 @@
       (recipe.ingredients || []).forEach(ing => (ing.tags || []).forEach(t => {
         if (['meat', 'beef', 'pork', 'fish'].includes(t) && (proteinTally[t] || 0) >= 2) score += 1;
       }));
+      if (profileIds && profileIds.length > 0) {
+        score += getDislikeStatus(recipe, profileIds).length * 0.5;
+      }
       return score;
     }
 
@@ -2201,7 +2223,10 @@
     function openSwapModal(id) {
       if (!weekPlan) return;
       const mealType = id.split('-')[1];
-      const eligible = getEligibleRecipesForSlot(mealType, weekPlan.profileIds, []);
+      // Live selection, not the plan's frozen weekPlan.profileIds -- a member added to "who's
+      // eating" after the plan was generated must have their restrictions checked before being
+      // offered a swap, and one removed since shouldn't keep narrowing the eligible pool.
+      const eligible = getEligibleRecipesForSlot(mealType, getSelectedProfileIds(), []);
       document.getElementById('planSwapModalTitle').textContent = 'Swap ' + mealType;
       const body = document.getElementById('planSwapModalBody');
       if (eligible.length === 0) {
@@ -2235,7 +2260,7 @@
       ).join('');
     }
 
-    function renderPlanSlot(recipe, id, dayIdx, mealType) {
+    function renderPlanSlot(recipe, id, dayIdx, mealType, liveProfileIds) {
       const slot = weekPlan.slots[id];
       if (slot.removed) {
         return '<div class="plan-slot removed">No ' + mealType + ' planned<br>' +
@@ -2245,7 +2270,11 @@
         return '<div class="plan-slot removed">No eligible recipe<br>' +
           '<button type="button" class="plan-slot-restore-btn" onclick="openSwapModal(\'' + id + '\')">+ Choose</button></div>';
       }
-      const status = getProfileAdaptationStatus(recipe, weekPlan.profileIds);
+      // Live "who's eating" selection, not the plan's frozen weekPlan.profileIds -- so
+      // unchecking/checking a member updates this slot's warning immediately, without needing a
+      // full regenerate. weekPlan.profileIds stays reserved for the "Planned for:" pill and the
+      // drift dot below (renderWeekPlan), which describe the plan's own generation, not safety.
+      const status = getProfileAdaptationStatus(recipe, liveProfileIds);
       const conflict = status.unresolved.length > 0;
       // A recipe with a resolved adaptation stays "safe," but the plan slot must say so
       // explicitly -- the card grid already shows an amber adaptation-highlight for exactly
@@ -2318,7 +2347,7 @@
           const id = slotId(dayIdx, mealType);
           const slot = weekPlan.slots[id] || { recipeId: null, removed: false };
           const recipe = slot.recipeId ? allRecipes.find(r => r.id === slot.recipeId) : null;
-          return renderPlanSlot(recipe, id, dayIdx, mealType);
+          return renderPlanSlot(recipe, id, dayIdx, mealType, profileIds);
         }).join('');
         return '<div class="week-day-col' + (dayIdx === planActiveDay ? ' active-day' : '') + '">' +
           '<div class="week-day-label">' + day + '</div>' + cells + '</div>';
@@ -2724,7 +2753,7 @@
       }
       container.innerHTML = profiles.map(p => `
         <label class="chip">
-          <input type="checkbox" id="profile_filter_${p.id}" onchange="filterRecipes()">
+          <input type="checkbox" id="profile_filter_${p.id}" onchange="onProfileSelectionChanged()">
           <span>${p.name}</span>
         </label>
       `).join('');
@@ -2887,6 +2916,17 @@
       return Array.from(document.querySelectorAll('#profileCheckboxes input:checked')).map(c => c.id.replace('profile_filter_', ''));
     }
 
+    // #profileCheckboxes is one shared DOM node re-parented across Search/Help/Plan (see
+    // moveProfileCheckboxesToSlot), so a single onchange handler has to serve all three. Always
+    // refresh Search/Help via filterRecipes(); only additionally refresh the Plan grid when it's
+    // the active tab -- renderWeekPlan() lazily generates-and-saves a brand new plan when none
+    // exists yet, so calling it unconditionally from a Search/Help checkbox change would silently
+    // create and persist a week plan for someone who's never opened the Plan tab.
+    function onProfileSelectionChanged() {
+      filterRecipes();
+      if (activeTab === 'plan') renderWeekPlan();
+    }
+
     // Restriction tags (allergy/diet/restriction categories only -- same as everywhere else in
     // this file) that a profile's strict restrictions actually conflict with in this recipe's
     // own ingredients.
@@ -2932,6 +2972,38 @@
         });
       });
       return { resolved: Array.from(resolvedByTag.values()), unresolved };
+    }
+
+    // Dislikes are a wholly separate, soft signal from allergy/diet/restriction -- a disliked
+    // food is stored as a checklist NAME (e.g. "Shrimp"), not a tag from the shared vocabulary,
+    // so it can't reuse getConflictingRestrictions' tag intersection; this does a naive
+    // case-insensitive substring match against ingredient names instead (same rough-edge
+    // approach already accepted elsewhere in this app for hand-entered ingredient data).
+    // Deliberately never touches getProfileAdaptationStatus/unresolved -- a dislike must never be
+    // able to exclude a recipe or be confused with a strict safety conflict.
+    function getDislikedIngredients(recipe, profile) {
+      const matches = [];
+      profile.restrictions.forEach(r => {
+        if (r.category !== 'dislike') return;
+        const disliked = r.value.toLowerCase();
+        if (recipe.ingredients && recipe.ingredients.some(ing => (ing.name || '').toLowerCase().includes(disliked))) {
+          matches.push(r.value);
+        }
+      });
+      return matches;
+    }
+
+    function getDislikeStatus(recipe, selectedProfileIds) {
+      const matchesByValue = new Map();
+      selectedProfileIds.forEach(pid => {
+        const prof = profiles.find(p => p.id === pid);
+        if (!prof) return;
+        getDislikedIngredients(recipe, prof).forEach(value => {
+          if (!matchesByValue.has(value)) matchesByValue.set(value, { value, profileNames: [] });
+          matchesByValue.get(value).profileNames.push(prof.name);
+        });
+      });
+      return Array.from(matchesByValue.values());
     }
 
     async function loadRecipes() {
@@ -3016,6 +3088,20 @@
             }
           }
 
+          // Dislikes are a soft, never-excluding signal -- deliberately muted styling (no ⚠️, no
+          // amber) so it can never read as a safety warning like adaptationHighlight above it.
+          let dislikeHighlight = '';
+          if (selectedProfileIds.length > 0) {
+            const disliked = (extra.dislikeStatusById && extra.dislikeStatusById.has(recipe.id)
+              ? extra.dislikeStatusById.get(recipe.id)
+              : getDislikeStatus(recipe, selectedProfileIds));
+            if (disliked.length > 0) {
+              dislikeHighlight = '<div class="dislike-highlight">' + disliked.map(d =>
+                'Contains ' + d.value + ' — a dislike for ' + Array.from(new Set(d.profileNames)).join(', ') + '.'
+              ).join('<br>') + '</div>';
+            }
+          }
+
           let recipeHtml = '<div class="recipe-card" data-recipe="' + (recipe.id || '') + '" onclick="openRecipeDetail(\'' + (recipe.id || '') + '\')" style="cursor:pointer;">';
 
           // 1. Image/placeholder block
@@ -3060,9 +3146,12 @@
           recipeHtml += renderDietExclusionChips(recipe);
           recipeHtml += renderDietChips(recipe);
 
-          // 5. Adaptation-available highlight
+          // 5. Adaptation-available highlight, then the muted dislike flag below it
           if (adaptationHighlight) {
             recipeHtml += adaptationHighlight;
+          }
+          if (dislikeHighlight) {
+            recipeHtml += dislikeHighlight;
           }
 
           // 6. Recipe meta (difficulty, time) -- always shown, "not listed" when data is missing
@@ -3171,6 +3260,7 @@
       // Computed once here (not recomputed per recipe again inside renderRecipes) and passed
       // through, since filterRecipes already has to run this same check to decide inclusion.
       const adaptationStatusById = new Map();
+      const dislikeStatusById = new Map();
       let excludedForProfileConflict = 0;
       let excludedForMissingTime = 0;
 
@@ -3221,9 +3311,22 @@
           return false;
         }
         if (helpTagTiles.length > 0 && !helpTagTiles.every(t => (recipe.tags || []).includes(t))) return false;
-        if (selectedProfileIds.length > 0) adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+        if (selectedProfileIds.length > 0) {
+          adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+          dislikeStatusById.set(recipe.id, getDislikeStatus(recipe, selectedProfileIds));
+        }
         return true;
       });
+
+      // Soft deprioritization only -- reorders an already safety-filtered array, never re-runs
+      // or overrides the exclusion above, so a recipe with an unresolved allergy/diet conflict
+      // can never be sorted back into view via this step.
+      if (selectedProfileIds.length > 0) {
+        filtered = filtered
+          .map((recipe, index) => ({ recipe, index, dislikeCount: (dislikeStatusById.get(recipe.id) || []).length }))
+          .sort((a, b) => (a.dislikeCount - b.dislikeCount) || (a.index - b.index))
+          .map(x => x.recipe);
+      }
 
       // Closest-matches fallback: only for the tag-tile combination itself landing on zero --
       // confirmed directly that this is a real, non-rare outcome for this corpus's sparse
@@ -3243,7 +3346,10 @@
           isClosestMatches = true;
           filtered = scored.map(x => x.r);
           filtered.forEach(recipe => {
-            if (selectedProfileIds.length > 0) adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+            if (selectedProfileIds.length > 0) {
+              adaptationStatusById.set(recipe.id, getProfileAdaptationStatus(recipe, selectedProfileIds));
+              dislikeStatusById.set(recipe.id, getDislikeStatus(recipe, selectedProfileIds));
+            }
           });
         }
       }
@@ -3253,7 +3359,7 @@
         ? 'No recipes match these together — try removing one'
         : 'No recipes';
 
-      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, { excludedForMissingTime, emptyMessage, isClosestMatches });
+      renderRecipes(filtered, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, { excludedForMissingTime, emptyMessage, isClosestMatches, dislikeStatusById });
     }
 
     // Re-applies the last-saved filter/search state on load. Must run after loadProfiles()/

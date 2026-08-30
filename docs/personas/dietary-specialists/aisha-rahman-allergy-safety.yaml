@@ -280,3 +280,25 @@ notes:
     general browsing is not acceptable for a "saved for later" list, since the whole point of
     favoriting is to resurface it well after the browsing session (and the restriction) that
     prompted the save.
+  - >
+    2026-08: reviewed the paired index.html fixes -- (1) dislikes get a muted badge +
+    bottom-sort via a new substring-matching `getDislikedIngredients`/`getDislikeStatus`,
+    kept as a separate code path and CSS class from the tag-based `getConflictingRestrictions`
+    allergy check; (2) Plan My Week per-slot warnings switch from the frozen
+    `weekPlan.profileIds` snapshot to the live "who's eating" checked-selection when calling
+    `getProfileAdaptationStatus`. Verdict on (1): correctly separate as designed -- a dislike
+    match must never be allowed to satisfy, suppress, or override a strict allergy/diet
+    exclusion, and a distinct function + distinct non-amber class is the right way to guarantee
+    that at the code level, not just visually. One condition: the exclusion of an unsafe-with-
+    no-alternate recipe from the grid must happen BEFORE the dislike-based sort runs, so the
+    sort only ever reorders an already-safe pool -- confirm at implementation time it can't
+    resurrect an excluded recipe by treating "unsafe" as just another sort key. Verdict on (2):
+    a genuine safety improvement, not a risk, PROVIDED the switch to live profileIds is applied
+    consistently everywhere a slot's safety is evaluated, not just the warning label -- confirmed
+    `openSwapModal`'s eligible-recipe pool (`getEligibleRecipesForSlot`) and the shopping-list
+    build also key off the same live checked-selection, not the frozen `weekPlan.profileIds`.
+    If only the on-screen `⚠️ No longer safe` label were switched to live while swap/shopping-list
+    logic still used the frozen snapshot, that's a real under-reporting window: a member added to
+    "who's eating" after plan generation could be offered a swap recipe or shopping list never
+    checked against their restrictions at all. Uncheck-only behavior (warning disappears when the
+    conflicting member is unchecked) is correct, not a bug -- that member isn't eating that slot.

@@ -409,6 +409,68 @@ notes:
     for `buildUsageTrackedShoppingList`'s `usedBy` ripple-tracking already described in
     CLAUDE.md -- the list should visibly render that ripple, not hide it behind a full
     silent recompute.
+  - >
+    2026-08-30 (dislike-wiring + plan-warning-staleness bug review): dislikes need their own
+    badge family, `.dislike-flag`, distinct from both `.adaptation-highlight` (amber, allergy/
+    diet conflict-with-escape-hatch) and any future exclusion badge -- muted slate/gray, no
+    warning-triangle icon (⚠️ is now allergy-coded app-wide), copy "Contains {item} -- {name}
+    isn't a fan," positioned directly below the amber block on a card, never above/interleaved.
+    No exclusion, no reordering within the flat recipe-browser grid -- inventing a ranked/demoted
+    tier for dislikes alone, with no existing ranked view to demote within, is gamification-for-
+    its-own-sake; the actual fix is just honest surfacing, not a new sort mechanic. Separately:
+    the Plan My Week per-slot conflict/adaptation warnings should recompute live off the
+    who's-eating checkbox state (same evaluateRecipeForSlot-style check, filtered to current
+    selection) rather than only refreshing on full "Change & regenerate" -- unchecking a member
+    is an even smaller-scope edit than a slot swap, so it inherits the same "cheap targeted fix
+    shouldn't require the expensive full action" principle. Once that recompute is wired
+    correctly there's no stale-warning state to visually distinguish; the existing planDriftDot
+    affordance already covers the adjacent-but-different concern (live selection vs. the plan's
+    baked-in profileIds diverging on recipe *choice*, not warning accuracy).
+  - >
+    2026-08-30 (servings/yield backfill design pass, 634 recipes): servings does NOT belong on
+    the recipe-browser card (`.recipe-meta`, index.html ~3157-3165) alongside difficulty/time --
+    same "doubling a 600+-card badge for a secondary number costs more than it gives" logic
+    already applied to restMinutes. Its home is the detail view's `renderDetailMetaStrip()`
+    (~1729), as a third item alongside difficulty/time-breakdown -- this is literally the
+    AllRecipes HANDS-ON/TOTAL/SERVES pattern already cited in the 2026-08-28 detail-view research
+    note, just the one piece not yet implemented. Household size does NOT belong on the profile
+    wizard or as a per-member field -- it's a per-planning-session setting (how many portions to
+    cook this week), so it lives in the "Plan my week" tab, next to the existing "planned for:
+    X, Y" summary. Default it to the count of currently-checked `#profileCheckboxes` members (zero
+    extra input for the common case) with an optional override as a tap +/- stepper, NOT a free-
+    text number field -- a stepper keeps a numeric input in the "tap beats typing" family since the
+    realistic range (1-8ish) is small and enumerable-by-increment, not a blank-page numeric entry.
+    Bake the chosen household size into the `weekPlan` object the same way `profileIds` is already
+    baked in (avoids live-recompute drift), and if the live who's-eating selection later diverges
+    from the plan's stored household size, surface it with the same small drift-dot affordance
+    already used for the profileIds-divergence case -- one mechanism, two things it can flag.
+    Shopping list is where this actually pays off: `buildShoppingListItems()` (index.html ~2385)
+    should scale each occurrence's numeric amount by (household size / that recipe's servings)
+    before aggregating, but only for items where the source recipe has a servings value at all --
+    degrade per-item, not globally, when the backfill is (predictably) incomplete or a recipe was
+    added post-backfill without one. The existing disclaimer copy ("Quantities as written by each
+    recipe, not scaled to your household size," ~line 1519) becomes false once partial scaling
+    ships and needs to be rewritten to describe the actual mixed state (e.g. distinguish scaled
+    items from as-written ones inline) rather than left as a blanket claim.
+  - >
+    2026-08-30 (servings/yield backfill, false-precision risk): a bare `servings: 4` reads as
+    author-confirmed fact, but a same-pass backfill across 634 recipes is very likely estimating
+    most of them (ingredient-volume heuristics, not per-recipe author testing) -- the exact
+    "fabricated default presented as fact" failure this persona already flags for missing
+    difficulty/time, except worse here because the shopping-list feature *multiplies* by this
+    number, so a wrong estimate doesn't just mislabel a badge, it produces a wrong buy quantity.
+    Recommend the data shape carry provenance, not just a number -- e.g. `servings` +
+    `servingsSource: 'author' | 'estimated'` -- so the UI can render an estimated value with a
+    lighter-weight visual qualifier (a "~" prefix or a small "(estimated)" caption in the detail
+    strip) rather than presenting every recipe's yield with equal, unqualified confidence. This
+    also directly gates the future calorie-display feature CLAUDE.md flags as the next step off
+    this same data: per-serving calorie math compounds whatever error is already in an estimated
+    servings count, so the source/confidence field is worth getting right now rather than
+    retrofitting once nutrition display is built on top of it. Separately: no new interaction
+    mechanic (stepper aside) or gamification device is warranted for the backfill itself -- it's a
+    one-time bulk data-enrichment pass with no per-user behavior to reinforce, and the household-
+    size stepper is a straightforward capture control, not a "mechanic" -- inventing one here would
+    be exactly the "gamification for its own sake" this persona exists to push back on.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

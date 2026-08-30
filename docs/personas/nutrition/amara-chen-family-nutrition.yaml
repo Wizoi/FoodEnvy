@@ -159,3 +159,40 @@ notes:
     on data the app already has (vegetarian/vegan dish tags), not new nutrition modeling --
     anything beyond that (calories, macros, produce/grain ratios) would be pretending to a
     rigor this recipe data can't back up.
+  - >
+    2026-08: reviewed two index.html fixes -- (1) soft dislike badge + bottom-sort in recipe
+    search (never excludes), (2) Plan My Week per-slot warnings recomputing live against current
+    "who's eating" selection. Finding: bottom-sorting disliked-ingredient recipes in a flat browse
+    grid carries a real but narrow risk -- if a family's dislikes cluster on one food group (e.g.
+    all seafood), that group can become functionally invisible without ever being excluded,
+    especially for a family that already has narrow tastes and is unlikely to scroll past page
+    one. This is a browse-UI concern, not a generateWeekPlan concern (that function doesn't
+    paginate a grid); a filter toggle to surface disliked-ingredient recipes is the right fix if
+    this becomes a real complaint, not a scoring change. Separately, recommend generateWeekPlan's
+    scoreDinnerCandidate (currently: protein-repeat penalty + plant-forward-dinner-gap penalty,
+    both soft, see 2026-08 auto-generation-strategy note above) add dislikes as a third
+    independent soft signal, same shape/weight as the protein-repeat penalty, strictly additive --
+    it should never override the needsVeg fallback (a disliked-ingredient vegetarian dinner still
+    beats zero plant-forward dinners for the week) or the protein-repeat signal. Keep the priority
+    order: hard safety exclusion (elsewhere) > plate-method balance signals (protein-repeat,
+    plant-forward-gap) > preference (dislike). Live-recomputing warnings against current member
+    selection (fix 2) is good practice generally and doesn't independently affect week-level
+    balance -- no additional finding there.
+  - >
+    2026-08: reviewed the proposed yield/servings backfill (634 recipes, hand-reviewed
+    hardcoded ID->yield map, `yield: { min, max, unit }` + gamification's proposed
+    `servingsSource: 'author' | 'estimated'` provenance field). Support shipping phase 1
+    (schema + data, no shopping-list scaling yet) but with two findings. (1) Provenance
+    semantics: for a hardcoded hand-review pass across 634 recipes, 'author' vs 'estimated'
+    undersells how much of this is judgment call rather than confirmed fact -- recommend the
+    two values distinguish "explicitly stated in the recipe text" (e.g. "makes 12 cookies")
+    from "inferred by the reviewer from ingredient quantities with no explicit statement," and
+    default the UI to a tilde/"about" prefix on anything not explicitly stated, since most of a
+    634-recipe batch pass will land in the inferred bucket. (2) Adult-portion assumption: yield
+    counts (and the min/max range in particular) implicitly mean adult-equivalent portions --
+    a family with young kids gets more actual servings from the same yield than the number
+    suggests. Not a reason to block phase 1 (modeling child/adult portion scaling is separate,
+    real complexity, not a hardcoded-map problem), but flagging now so phase 2 (shopping-list
+    scaling) doesn't silently inherit "yield = headcount" -- any household-size input to future
+    scaling should be labeled "adult portions," not just "people," so a family with kids doesn't
+    get a quietly undersized shopping list.

@@ -219,6 +219,40 @@ notes:
     extractable to src/domain later if the src/-vs-single-file architecture gap (see the
     2026-08-27 note above) is ever reconciled -- but stays in index.html/recipe-browser.html for
     now, matching current reality rather than the aspirational CLAUDE.md description."
+  - "2026-08-30, servings/yield backfill proposal (public/foodenvy-complete-recipes.json, 634
+    recipes, none currently have any servings field): recommended a structured `yield: {min,
+    max, unit}` object, NOT a single number or a freeform '4-6 servings' string -- mirrors a
+    convention already live in this exact schema (ingredients already split amount/unit into two
+    fields rather than one free-text string), and pre-parsed min/max numbers avoid forcing a
+    future shopping-list-scaling calculation to re-parse a range string every time, the same trap
+    buildShoppingListItems()'s isNumeric(o.amount) check already works around for ingredient
+    amounts. `unit` deliberately isn't hardcoded to 'servings' -- loaves/dozen/cups cases (breads,
+    spice blends) need it, and CLAUDE.md's honest-gap-over-guess precedent (already applied to
+    difficulty/prepMinutes/cookMinutes, and my own restMinutes recommendation) means omitting the
+    field entirely is correct when a recipe genuinely resists a defensible yield (e.g. 'makes
+    about 2 tbsp of spice blend'), not a fake placeholder number. Backfill method: NOT derived
+    from ingredient-quantity math (no defensible formula exists without inventing nutrition/
+    portion science this app has already declined to fake -- see computeProteinTally's 'not real
+    nutrition analysis' note) -- a hand-reviewed, hardcoded ID->yield map per recipe, same
+    precedent as scripts/backfill-user-submitted-tags.js, batched by the same 14 persona folders
+    the recipes were originally authored in (~40-50 recipes/batch) so each batch stays
+    reviewable/diffable and likely spans multiple sessions, not one script run.
+    lucia-alvarez-batch-cook (explicitly about batch cooking for multiple days) is the one persona
+    worth spot-checking for a genuinely wider yield range rather than a lazy default of 4.
+    Scope check: yield data alone does NOT get shopping-list scaling -- that's a separate phase 2
+    (multiply numeric ingredient amounts by desiredCount/recipe.yield.max before the existing
+    sum/no-sum branch in buildShoppingListItems(), using the Plan tab's already-selected
+    profileIds count as the scaling numerator rather than inventing a new 'household size'
+    concept) and does NOT unlock calorie/nutrition display (needs real per-serving nutrition data,
+    a separate larger backfill). Overlap check against a concurrent 'recipe filter bugs' effort:
+    read filterRecipes()/passesNonTagFilters()/getConflictingRestrictions()/generateWeekPlan()/
+    buildShoppingListItems() directly -- none reference anything servings-shaped, and a filter-bugs
+    fix is almost certainly inside filterRecipes()'s predicates, not the recipe JSON's data shape.
+    The data backfill itself (JSON + a new scripts/backfill-recipe-servings.js) touches neither
+    index.html nor recipe-browser.html, so it's genuinely safe to run in parallel; only a later
+    'render yield in the UI' or 'scale the shopping list' follow-up touches those two
+    byte-identical files, and should be sequenced after the filter-bugs branch merges to avoid two
+    unrelated large diffs landing on the same files at once."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing
