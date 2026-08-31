@@ -332,6 +332,39 @@ notes:
     doesn't tell a shopper which items are exempt. Must land in both index.html and
     recipe-browser.html (confirmed buildShoppingListItems exists in both, 3 occurrences in
     recipe-browser.html) per the byte-identical-files constraint already on record."
+  - "2026-08-31, 'Dinner Confidence' coverage-banner feasibility pass (index.html/
+    recipe-browser.html, generateWeekPlan/renderWeekPlan/toggleSlotRemoved/weekPlan.slots):
+    confirmed the grid is fully populated at generation time -- generateWeekPlan() loops all 7
+    days x 3 meal types unconditionally and always writes a slot entry, falling back to reusing
+    an already-used recipe once the not-yet-used pool is exhausted before ever leaving a slot
+    truly empty. The only two states a slot can honestly be in besides 'has a recipe' are
+    recipeId:null (zero eligible recipes existed for that meal type against the given
+    profileIds -- an edge case, not a step in a fill-up sequence) and removed:true (an explicit
+    user opt-out via toggleSlotRemoved, defaulting false at generation). Net: a 'coverage'
+    metric computed as filled-slot-count would read 21/21 (or 7/7 days) the instant the tab
+    renders, every time, for the overwhelming majority of profile/recipe-pool combinations --
+    there is no incremental fill-up state for a banner to narrate progress across, because
+    nothing in this model is generated incrementally. Recommended against building a 'Dinner
+    Confidence' coverage banner as specified: it would either always show 100% (no signal, dead
+    weight in the UI) or, in the one case where the count moves, move DOWN in response to a
+    user's own toggleSlotRemoved action -- an 'encouragement' banner whose only live behavior is
+    reacting negatively to a deliberate user choice is a perverse fit, not a missing feature.
+    This is a structural model mismatch with eatwell101's actual value-add (their banner
+    narrates progress across a genuinely empty-until-filled grid), not a UI-polish gap that a
+    reskin fixes. Separately flagged a genuinely different, already-real signal that exists in
+    this same render path: renderPlanSlot's per-slot conflict/needsAdaptation staleness checks
+    (getProfileAdaptationStatus, already computed live in renderWeekPlan's per-slot loop) are a
+    real non-monotonic count worth surfacing in aggregate ('3 meals need attention this week') --
+    but that is a 'needs attention / safety staleness' framing, not a 'coverage / confidence'
+    framing, and is a distinct feature to evaluate on its own merits, not a fallback
+    justification for shipping the coverage banner as originally proposed. If some adapted
+    version is greenlit later, it would touch only renderWeekPlan() (both index.html and
+    recipe-browser.html per the byte-identical-files constraint) -- aggregating counts of
+    removed/null-recipeId/conflict/needsAdaptation over Object.values(weekPlan.slots) inline in
+    the existing per-slot render loop (near-zero marginal cost, same precedent as the existing
+    drift-dot staleness badge) -- and a new banner DOM node near #planForPill; no new domain
+    function or data-model change needed since this is a pure aggregation of state the render
+    loop already computes."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

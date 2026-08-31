@@ -547,6 +547,27 @@ notes:
     different amount) so it doesn't need the full no-longer-needed/dismiss treatment, just the
     delta-caption extended to a new trigger -- a small addition to an already-trusted mechanism,
     not a second parallel system.
+  - >
+    2026-08-31 ("Dinner Confidence" banner review, rejected as proposed): eatwell101's fill-progress
+    banner ("Monday is covered... add one more") is built on an empty-until-you-add-something week;
+    `generateWeekPlan()`/`ensureWeekPlan()` (index.html ~2408-2513) auto-populate all 21 slots
+    instantly and deterministically the moment the Plan tab opens, so there is no gradual-fill user
+    action for a "days covered" counter to visibly respond to -- every day reads as "covered" from
+    frame one, before the user has done anything. Copying the banner concept wholesale would either
+    show a permanently-maxed, meaningless counter or require artificially staging the reveal of an
+    already-complete plan, which is fabricating a wait/gap that isn't real (the same "honest gap over
+    fabricated default" instinct already applied to missing recipe data, applied here to progress
+    UI). Verdict: don't build the fill-progress framing, it's solving a problem this app's auto-fill
+    model doesn't have. The one real, already-live dynamic state worth surfacing instead: per-slot
+    `conflict`/`needsAdaptation` flags (computed live in `renderPlanSlot`, index.html ~2578-2616) and
+    user-initiated `removed` slots are genuine post-generation states that change through real user
+    action (swap, remove/add-back) -- a compact status line aggregating those counts ("2 need a swap
+    · 1 needs a substitution · 3 skipped") next to the existing `planForPill`/`planDriftDot` row
+    (index.html ~1725-1737) would be an honest to-do/loss-avoidance readout, not a progress score.
+    Deliberately no "confidence" language, percentage, or points -- the plan wasn't built tap-by-tap
+    by the user, so scoring it like an accomplishment misattributes the generation's work to the
+    user's effort. No streak/badge either: this is single-session plan curation, not a repeated
+    cross-session habit to reinforce.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

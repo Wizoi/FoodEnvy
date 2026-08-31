@@ -344,3 +344,27 @@ notes:
     collapsed by some other partial re-render path inside the same detail view (e.g. toggling
     "who's eating" while the view stays open) -- and confirm the collapse toggle never touches the
     alternate-before-original render order, only the banner's own text.
+  - >
+    2026-08: reviewed a proposed Plan-My-Week header rollup ("{N} meals need attention this
+    week") that would count slots carrying EITHER the per-slot `⚠️ No longer safe`
+    (unresolved.length > 0 -- an active, currently-unresolved strict allergy/diet conflict, not
+    safe to serve as planned) OR `⚠️ Needs substitution for {name}` (resolved.length > 0 with
+    unresolved empty -- safe, contingent on the cook actually following a known adaptation) as
+    one undifferentiated number. Rejected as proposed: these are not the same risk tier, and
+    "each slot still shows its own badge when you scan it" doesn't rescue a rollup, since the
+    entire point of a header rollup is to let someone NOT scan all 21 slots -- that's exactly
+    where an active allergy conflict gets diluted by proximity to a merely-needs-a-reminder
+    substitution note. Same "lower-urgency signal visually/numerically merging with a
+    higher-urgency one" pattern already flagged elsewhere in this file (the green-checkmark
+    `.adaptation-highlight` next to a red allergy chip; the collapsed-banner call-to-action
+    finding). Required fix, costs nothing since both counts are already computed per-slot: split
+    the number -- lead with the unresolved/unsafe count using clearly more urgent language (e.g.
+    "N meals are not currently safe to serve as planned"), show the substitution-reminder count
+    separately and lower-key, and if combined into one line for space, the unsafe count must
+    still be named first and distinctly (e.g. "2 not currently safe, 3 need a substitution"), not
+    folded into a generic "need attention." General rule for future rollup/summary proposals:
+    any aggregate count spanning both an active-conflict flag and a resolved-with-adaptation flag
+    must preserve that distinction in the copy or the split, matching the app's existing
+    red/amber/muted three-tier treatment (allergy conflict / adaptation / dislike) at the
+    per-slot level -- a rollup that flattens two of those tiers into one number contradicts a
+    pattern the app has otherwise been careful to maintain.

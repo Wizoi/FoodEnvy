@@ -718,6 +718,21 @@
       font-weight: 600;
     }
 
+    .plan-attention-line {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0 0 0.4rem;
+    }
+
+    .plan-attention-unsafe {
+      color: var(--danger);
+    }
+
+    .plan-attention-substitution {
+      color: #a06800;
+      font-weight: 500;
+    }
+
 
     .plan-slot.removed {
       background: none;
@@ -1737,6 +1752,15 @@
           </div>
           <p class="household-size-caption" id="householdSizeCaption" style="display:none;">Recipe yields are adult-portion estimates -- adjust down if your household includes young children.</p>
 
+          <!-- Two distinct tiers, never merged into one count -- "not currently safe" is an
+               active unresolved allergy/diet conflict, "needs a substitution followed" is
+               already safe but depends on the cook following the swap. Collapsing them would
+               let a real allergy conflict hide inside a count dominated by lower-urgency
+               substitution reminders (allergy-safety persona finding). Each hidden entirely
+               when its own count is zero -- no "0 meals need attention" noise. -->
+          <p class="plan-attention-line plan-attention-unsafe" id="planUnsafeAttention" style="display:none;"></p>
+          <p class="plan-attention-line plan-attention-substitution" id="planSubstitutionAttention" style="display:none;"></p>
+
           <div id="planEmptyState" class="empty-state" style="display:none;">
             <p>No eligible recipes for the checked profile(s) yet -- add a profile or adjust restrictions to plan a week.</p>
           </div>
@@ -2633,6 +2657,8 @@
         pill.style.display = 'none';
         regenBtn.style.display = 'none';
         shopBtn.style.display = 'none';
+        document.getElementById('planUnsafeAttention').style.display = 'none';
+        document.getElementById('planSubstitutionAttention').style.display = 'none';
         return;
       }
       emptyState.style.display = 'none';
@@ -2657,6 +2683,26 @@
       renderPlanDayChips();
       const isMobile = window.matchMedia('(max-width: 900px)').matches;
       document.getElementById('planDayChips').style.display = isMobile ? 'flex' : 'none';
+
+      // Rollup of the same per-slot staleness signals renderPlanSlot() already computes and
+      // badges individually -- two distinct counts, never merged into one, per the allergy-
+      // safety finding that a single "N meals need attention" number could let an active
+      // conflict hide inside a count dominated by lower-urgency substitution reminders.
+      let unsafeCount = 0, substitutionCount = 0;
+      Object.values(weekPlan.slots).forEach(slot => {
+        if (slot.removed || !slot.recipeId) return;
+        const recipe = allRecipes.find(r => r.id === slot.recipeId);
+        if (!recipe) return;
+        const status = getProfileAdaptationStatus(recipe, profileIds);
+        if (status.unresolved.length > 0) unsafeCount++;
+        else if (status.resolved.length > 0) substitutionCount++;
+      });
+      const unsafeLine = document.getElementById('planUnsafeAttention');
+      unsafeLine.style.display = unsafeCount > 0 ? '' : 'none';
+      unsafeLine.textContent = unsafeCount > 0 ? '⚠️ ' + unsafeCount + ' meal' + (unsafeCount === 1 ? '' : 's') + ' ' + (unsafeCount === 1 ? 'is' : 'are') + ' not currently safe to serve as planned' : '';
+      const substitutionLine = document.getElementById('planSubstitutionAttention');
+      substitutionLine.style.display = substitutionCount > 0 ? '' : 'none';
+      substitutionLine.textContent = substitutionCount > 0 ? substitutionCount + ' meal' + (substitutionCount === 1 ? '' : 's') + ' need' + (substitutionCount === 1 ? 's' : '') + ' a substitution followed' : '';
 
       grid.innerHTML = PLAN_DAYS.map((day, dayIdx) => {
         const cells = PLAN_MEAL_TYPES.map(mealType => {
