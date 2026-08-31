@@ -302,3 +302,45 @@ notes:
     "who's eating" after plan generation could be offered a swap recipe or shopping list never
     checked against their restrictions at all. Uncheck-only behavior (warning disappears when the
     conflicting member is unchecked) is correct, not a bug -- that member isn't eating that slot.
+  - >
+    2026-08: reviewed a proposed "Add to day" quick action on Search/Help recipe cards (write
+    directly to a Plan slot without opening the Plan tab first). Rejected the "badge will show up
+    on next renderPlanSlot render" safety argument as insufficient for a strict-allergy conflict.
+    Two concrete reasons, both confirmed by reading index.html rather than assumed: (1) the app's
+    OWN existing pattern for filling a plan slot (openSwapModal -> getEligibleRecipesForSlot)
+    already gates the CANDIDATE POOL at selection time against getProfileAdaptationStatus, not
+    just badges after the fact -- "Add to day" doing anything less is a regression in
+    consistency, not a neutral design choice. (2) buildShoppingListItems() walks every
+    non-removed slot's ingredients unconditionally with no getProfileAdaptationStatus check at
+    all, and "Get shopping list" is a deliberately named, settled, localStorage-persisted
+    snapshot action (not a live view) per its own code comment -- so an unsafe slot's ingredients
+    can reach a persisted grocery list and a real shopping trip without the Plan tab, and
+    therefore the corrective badge, ever being viewed. Fix (no new mechanism needed): call the
+    same getProfileAdaptationStatus(recipe, liveProfileIds) the swap flow already uses at
+    ADD time, before the slot write -- block/redirect-to-adaptation when unresolved.length > 0
+    against a currently-checked profile, write normally otherwise. Only skip the check when no
+    profile is currently checked at all (genuinely nothing to conflict with yet); in that case
+    the next-render badge is the correct, already-established staleness mechanism once a profile
+    is checked in later, same principle as revalidatePlan.
+  - >
+    2026-08: reviewed a draft collapse/minimize control for the `.adaptation-warning-banner` in
+    `openRecipeDetail` (index.html) -- transient per-open state (`adaptationBannerCollapsed`,
+    reset to expanded every `openRecipeDetail` call, never persisted), collapsing only the inner
+    `.adaptation-warning-detail` sentence via display:none while the outer banner keeps its amber
+    styling and an always-visible summary line. Verdict: conditionally safe, with one required
+    fix to the draft wording. The collapsed summary must NOT drop the "see alternate below"
+    instruction down to a bare "⚠️ Not safe for X, Y" -- that sentence is the actual call to
+    action pointing at the safety mechanism (alternate rendered before the original); a rushed
+    parent reading a bare "not safe" with no next step could read it as a passive disclaimer and
+    keep scrolling into the unsafe original anyway. Minimum required collapsed text keeps a short
+    action cue, e.g. "⚠️ Not safe for X, Y — see alternate below ▾". OK to drop from the collapsed
+    line: the tag list (dairy, tree nuts, etc.) -- since profile names are still shown, that's
+    sufficient at a glance for a parent scanning for their child; full tag detail one tap away via
+    expand is fine. This is a different judgment than the browse-grid card finding above (Big-9
+    allergy chip row on cards must never overflow-collapse) -- that's a many-recipes glance-scan
+    context, this is a single already-opened recipe's detail view. Also flagged for
+    implementation-time verification, not blocking: confirm collapse state only ever resets via a
+    genuine `openRecipeDetail` call (new recipe or reopen), not silently preserved/stranded
+    collapsed by some other partial re-render path inside the same detail view (e.g. toggling
+    "who's eating" while the view stays open) -- and confirm the collapse toggle never touches the
+    alternate-before-original render order, only the banner's own text.

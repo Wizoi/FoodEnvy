@@ -471,6 +471,58 @@ notes:
     one-time bulk data-enrichment pass with no per-user behavior to reinforce, and the household-
     size stepper is a straightforward capture control, not a "mechanic" -- inventing one here would
     be exactly the "gamification for its own sake" this persona exists to push back on.
+  - >
+    2026-08-30 ("Add to day" quick action + drag-and-drop plan reordering design pass): index.html
+    shows exactly one tab at a time (`activeTab`, plain show/hide, no split view, no router) --
+    a Search/Help recipe card and a Plan-tab slot are never simultaneously visible, so literal
+    drag-from-a-browsing-card-onto-a-Plan-slot has no on-screen drop target and isn't buildable
+    without a much bigger scope change (persistent mini-plan-dock or split view). Recommended
+    dropping that half of any drag-and-drop ask and covering the same outcome with a tap-based
+    "Add to day" quick action instead (icon in the existing `.collection-btn`-style card overlay
+    row, opens a picker showing the Plan tab's own 7x3 day/mealtype grid with current occupants
+    visible so tapping an occupied cell is an informed overwrite, not silent). Drag-and-drop itself
+    should stay scoped to reordering within the already-open Plan grid (two visible slots), with an
+    explicit drag-handle icon added to `.plan-slot-icons` (visible affordance, not a hidden
+    whole-card-is-draggable convention) and desktop-only -- mobile keeps the existing tap-based
+    swap-picker modal as its only reordering path rather than inventing a long-press move-mode,
+    since mobile's Plan view is already a day-chip+list (rarely two slots visible to drag between)
+    and a second interaction shape for the same action isn't warranted there.
+  - >
+    2026-08-30 ("Add to day" quick action design pass): the established rule "a visible affordance
+    is the signal, no separate toast/interrupt needed" (persisted filters, drift dots) only holds
+    when the affected control is on-screen. Adding a recipe to a Plan slot from the Search/Help tab
+    is the explicit exception -- the destination (a different tab) is not on-screen, so a transient
+    toast confirmation ("Added to Wed dinner," with a "View in Plan" link) is the honest way to
+    close the trigger-action-reward loop, not noise. Don't turn the add into a persistent per-card
+    toggle state (unlike `.collection-btn`'s `.in-collection`) since the same recipe can legitimately
+    be added to more than one slot in a week -- a lingering "added" checkmark would misrepresent
+    that on the second add.
+  - >
+    2026-08-30 (COMMON_FOODS "Meat & poultry" gap + adaptation-warning-banner collapse design
+    pass): added duck/veal/chorizo/pepperoni/prosciutto to the Meat & poultry dislike-checklist
+    row -- 5 items is the right call, not a trimmed subset, since the row is already one of 9
+    *categorized* groups (the persona's own "length isn't the enemy, unstructured length is"
+    principle) and the trigger case (duck unflaggable) is evidence of under-coverage, not
+    over-length. Flagged a matching-logic nuance (not an interaction one) for Aisha/allergy-safety
+    in the update-app consult: chorizo/pepperoni/prosciutto are cured pork, but dislikes use
+    name-substring matching on a parallel path from the `pork` restriction *tag* (per CLAUDE.md),
+    so marking "pork" as a strict restriction doesn't auto-cover these by itself.
+  - >
+    2026-08-30 (adaptation-warning-banner collapse design pass): made collapsible but NOT
+    collapsed-by-default -- it's a Loss-Avoidance safety signal (the entire reason it exists, per
+    the 2026-08-28 adaptations-review note, is to be seen *before* the original recipe), so
+    defaulting it hidden on first view would undo that finding; the user's actual complaint was
+    about persistent space after having already read it once. Collapsed state keeps one compact
+    line with the ⚠️ icon, "not safe for," and the affected names/tags still visible (only the
+    trailing explanatory sentence and padding collapse) and keeps the same amber background/
+    left-border in both states -- a collapsed state that goes gray/loses the border would visually
+    demote it to a generic dismissible notice, the opposite of "never easy to grab by mistake."
+    Whole banner is the tap target (role=button/aria-expanded), reusing the app's existing
+    ingredients/steps expand-toggle convention rather than a small corner icon. Deliberately no
+    localStorage persistence of collapsed state -- it's a per-recipe safety notice, not a user
+    preference, and remembering "collapsed" across different recipes risks a warning silently
+    starting collapsed on a recipe the parent hasn't actually seen yet; local state reset at the
+    top of each openRecipeDetail() call is enough.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

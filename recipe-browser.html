@@ -530,6 +530,124 @@
       color: var(--primary);
     }
 
+    .plan-slot-drag-handle {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    @media (max-width: 900px) {
+      .plan-slot-drag-handle {
+        display: none;
+      }
+    }
+
+    .plan-slot.drag-over {
+      outline: 2px solid var(--primary);
+      outline-offset: -2px;
+    }
+
+    .plan-drag-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 60;
+      background: #fff;
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    .add-to-day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+    }
+
+    .add-to-day-day {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .add-to-day-day-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #999;
+      text-align: center;
+    }
+
+    .add-to-day-cell {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.5rem 0.3rem;
+      font-size: 0.72rem;
+      text-align: center;
+      cursor: pointer;
+      min-height: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-to-day-cell.empty {
+      border-style: dashed;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .add-to-day-cell.occupied {
+      background: #f5f5f5;
+    }
+
+    .add-to-day-cell.disabled {
+      border-color: transparent;
+      background: transparent;
+      cursor: default;
+    }
+
+    .add-to-day-cell.confirm {
+      flex-direction: column;
+      gap: 0.3rem;
+      background: #fff3cd;
+      border-color: #ffe69c;
+      cursor: default;
+    }
+
+    .add-to-day-cell.confirm button {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.4rem;
+    }
+
+    .app-toast {
+      display: none;
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #222;
+      color: #fff;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 70;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      max-width: 90vw;
+    }
+
+    .app-toast button {
+      background: none;
+      border: none;
+      color: #7fd1a8;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0;
+      white-space: nowrap;
+    }
+
     .plan-slot-mealtype {
       font-size: 0.65rem;
       text-transform: uppercase;
@@ -766,6 +884,29 @@
 
     .favorite-btn:not(.favorited) {
       color: #bbb;
+    }
+
+    .add-to-day-btn {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      z-index: 2;
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 2rem;
+      text-align: center;
+      padding: 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      color: var(--primary);
+    }
+
+    .add-to-day-btn:hover {
+      background: #fff;
     }
 
     .favorite-conflict-badge {
@@ -1534,6 +1675,10 @@
         </div>
       </div>
 
+      <!-- Transient action toast -- used by "Add to day" and drag-swap, whose confirming
+           control lives off-screen (a different tab, or the grid cell that just moved). -->
+      <div class="app-toast" id="appToast"></div>
+
       <!-- Recipes -->
       <div id="loadingMsg" class="loading">Loading recipes...</div>
       <div class="recipe-grid" id="recipeGrid" style="display:none;"></div>
@@ -2213,6 +2358,25 @@
       renderWeekPlan();
     }
 
+    // Shared cold-start: renderWeekPlan() already lazily bootstraps a plan on first visit to
+    // the Plan tab. "Add to day" needs the same guarantee reachable from Search/Help, before
+    // the Plan tab (and therefore renderWeekPlan()) has ever run this session -- extracted so
+    // both paths bootstrap the same way instead of "Add to day" silently no-op'ing like
+    // openSwapModal does when weekPlan is null.
+    function ensureWeekPlan(profileIds) {
+      if (!weekPlan) weekPlan = loadWeekPlan();
+      if (!weekPlan) {
+        weekPlan = generateWeekPlan(profileIds);
+        saveWeekPlan();
+      }
+      return weekPlan;
+    }
+
+    function dayMealLabel(id) {
+      const parts = id.split('-');
+      return parts[0].charAt(0).toUpperCase() + parts[0].slice(1) + ' ' + parts[1];
+    }
+
     function toggleSlotRemoved(id) {
       if (!weekPlan || !weekPlan.slots[id]) return;
       weekPlan.slots[id].removed = !weekPlan.slots[id].removed;
@@ -2246,7 +2410,18 @@
       document.getElementById('planSwapModal').style.display = 'none';
     }
 
+    // Hardened at this shared choke point rather than trusted per-caller: the existing swap
+    // picker already only ever offers eligible recipes, so this guard is a no-op there, but
+    // "Add to day" and drag-and-drop are new callers that don't pre-filter their target the
+    // same way -- a strict-allergy conflict must never reach weekPlan.slots regardless of
+    // which UI path tried to write it (allergy-safety persona finding).
     function selectSwapRecipe(id, recipeId) {
+      const recipe = allRecipes.find(r => r.id === recipeId);
+      const mealType = id.split('-')[1];
+      if (!recipe || recipe.mealType !== mealType ||
+          getProfileAdaptationStatus(recipe, getSelectedProfileIds()).unresolved.length > 0) {
+        return;
+      }
       weekPlan.slots[id] = { recipeId, removed: false };
       saveWeekPlan();
       closeSwapModal();
@@ -2287,8 +2462,9 @@
       // opens the real recipe detail (reusing openRecipeDetail(), same as every other card in
       // the app); swap and remove are their own small icon buttons, not overloaded onto a click
       // whose meaning wasn't visually obvious.
-      return '<div class="plan-slot">' +
+      return '<div class="plan-slot" data-slot-id="' + id + '">' +
         '<div class="plan-slot-icons">' +
+        '<button type="button" class="plan-slot-icon-btn plan-slot-drag-handle" data-drag-handle="' + id + '" title="Drag to move or swap">⠿</button>' +
         '<button type="button" class="plan-slot-icon-btn" onclick="openSwapModal(\'' + id + '\')" title="Swap this meal">⇄</button>' +
         '<button type="button" class="plan-slot-icon-btn" onclick="toggleSlotRemoved(\'' + id + '\')" title="Remove">&times;</button>' +
         '</div>' +
@@ -2308,14 +2484,7 @@
       const emptyState = document.getElementById('planEmptyState');
       const grid = document.getElementById('weekGrid');
 
-      if (!weekPlan) {
-        if (profileIds.length === 0 && profiles.length > 0) {
-          // No one checked yet -- don't silently plan for nobody; let the empty state below
-          // guide them, same honesty-over-guessing principle used elsewhere in this app.
-        }
-        weekPlan = generateWeekPlan(profileIds);
-        saveWeekPlan();
-      }
+      ensureWeekPlan(profileIds);
 
       const anyEligible = Object.values(weekPlan.slots).some(s => s.recipeId);
       if (!anyEligible && profileIds.length > 0) {
@@ -2352,6 +2521,232 @@
         return '<div class="week-day-col' + (dayIdx === planActiveDay ? ' active-day' : '') + '">' +
           '<div class="week-day-label">' + day + '</div>' + cells + '</div>';
       }).join('');
+
+      initPlanDragHandlers();
+    }
+
+    // ---- Transient toast (Add to day / drag-swap feedback) ----
+    // Needed specifically because these two actions' confirming context isn't always on-screen
+    // when the action happens (a different tab for "Add to day"; the slot that just moved away
+    // for a drag) -- an explicit exception to this app's usual "the visible control is the
+    // signal" convention, not a general-purpose notification system.
+
+    let appToastTimeout = null;
+
+    function showAppToast(message, opts) {
+      opts = opts || {};
+      clearTimeout(appToastTimeout);
+      const el = document.getElementById('appToast');
+      el.innerHTML = '<span>' + message + '</span>' +
+        (opts.actionLabel ? '<button type="button" onclick="handleAppToastAction()">' + opts.actionLabel + '</button>' : '');
+      el.style.display = 'flex';
+      window.__appToastAction = opts.onAction || null;
+      appToastTimeout = setTimeout(function () { el.style.display = 'none'; }, 4000);
+    }
+
+    function handleAppToastAction() {
+      if (window.__appToastAction) window.__appToastAction();
+      document.getElementById('appToast').style.display = 'none';
+      clearTimeout(appToastTimeout);
+    }
+
+    // ---- "Add to day" (Search/Help card -> Plan slot, without pre-navigating to the Plan tab) ----
+
+    let addToDayRecipeId = null;
+    let addToDayConfirmSlot = null;
+
+    function openAddToDayModal(recipeId) {
+      const recipe = allRecipes.find(r => r.id === recipeId);
+      if (!recipe) return;
+      addToDayRecipeId = recipeId;
+      addToDayConfirmSlot = null;
+      ensureWeekPlan(getSelectedProfileIds());
+      document.getElementById('planSwapModalTitle').textContent = 'Add "' + recipe.name + '" to...';
+      renderAddToDayModalBody();
+      document.getElementById('planSwapModal').style.display = 'flex';
+    }
+
+    function renderAddToDayModalBody() {
+      const body = document.getElementById('planSwapModalBody');
+      const recipe = allRecipes.find(r => r.id === addToDayRecipeId);
+      if (!recipe) { body.innerHTML = ''; return; }
+      const profileIds = getSelectedProfileIds();
+      // Gate the write, not just the badge -- an unresolved conflict against a *currently
+      // checked* profile must block the add outright. buildShoppingListItems() reads every
+      // planned slot's ingredients with no conflict check of its own, and "Get shopping list"
+      // is a settled snapshot that can be acted on without the Plan tab ever being reopened, so
+      // a next-render badge alone isn't a real safety guarantee here (allergy-safety finding).
+      // No profile checked at all is the normal unfiltered-browsing case elsewhere in this app
+      // and isn't blocked -- there's nothing currently active to conflict with.
+      const status = getProfileAdaptationStatus(recipe, profileIds);
+      if (profileIds.length > 0 && status.unresolved.length > 0) {
+        const names = Array.from(new Set(status.unresolved.map(u => u.profileName)));
+        body.innerHTML = '<p class="plan-slot-conflict">⚠️ Can\'t add -- conflicts with ' + names.join(', ') + '.</p>';
+        return;
+      }
+      body.innerHTML = '<div class="add-to-day-grid">' + PLAN_DAYS.map((day, dayIdx) => {
+        const cells = PLAN_MEAL_TYPES.map(mealType => {
+          const id = slotId(dayIdx, mealType);
+          if (mealType !== recipe.mealType) {
+            return '<div class="add-to-day-cell disabled"></div>';
+          }
+          const slot = weekPlan.slots[id] || { recipeId: null, removed: false };
+          const occupant = slot.recipeId ? allRecipes.find(r => r.id === slot.recipeId) : null;
+          if (addToDayConfirmSlot === id) {
+            return '<div class="add-to-day-cell confirm">' +
+              '<span>Replace ' + (occupant ? occupant.name : 'this') + '?</span>' +
+              '<button type="button" onclick="confirmAddToDaySlot(\'' + id + '\')">Yes</button>' +
+              '<button type="button" onclick="addToDayConfirmSlot=null; renderAddToDayModalBody();">Cancel</button>' +
+              '</div>';
+          }
+          return '<div class="add-to-day-cell' + (occupant ? ' occupied' : ' empty') +
+            '" onclick="handleAddToDayCellClick(\'' + id + '\')">' + (occupant ? occupant.name : 'Empty') + '</div>';
+        }).join('');
+        return '<div class="add-to-day-day"><div class="add-to-day-day-label">' + day + '</div>' + cells + '</div>';
+      }).join('') + '</div>';
+    }
+
+    function handleAddToDayCellClick(id) {
+      const slot = weekPlan.slots[id];
+      if (slot && slot.recipeId) {
+        addToDayConfirmSlot = id;
+        renderAddToDayModalBody();
+        return;
+      }
+      confirmAddToDaySlot(id);
+    }
+
+    function confirmAddToDaySlot(id) {
+      const recipeId = addToDayRecipeId;
+      weekPlan.slots[id] = { recipeId, removed: false };
+      saveWeekPlan();
+      addToDayConfirmSlot = null;
+      closeSwapModal();
+      renderWeekPlan();
+      showAppToast('Added to ' + dayMealLabel(id) + '.', {
+        actionLabel: 'View in plan',
+        onAction: function () { switchAppTab('plan'); }
+      });
+    }
+
+    // ---- Drag-and-drop (within the Plan tab's own grid only -- a Search/Help card and a Plan
+    // slot are never simultaneously visible in this single-tab-at-a-time app, so there's no
+    // on-screen drop target for a cross-tab drag; "Add to day" already covers that case via a
+    // tap flow. Pointer events, not native HTML5 Drag-and-Drop, since HTML5 DnD doesn't fire
+    // from touch without a polyfill and this app already treats touch as first-class. ----
+
+    function initPlanDragHandlers() {
+      const grid = document.getElementById('weekGrid');
+      if (!grid || grid.__dragInit) return;
+      grid.__dragInit = true;
+      grid.addEventListener('pointerdown', function (e) {
+        const handle = e.target.closest('[data-drag-handle]');
+        if (!handle) return;
+        startPlanDrag(handle.getAttribute('data-drag-handle'), e);
+      });
+    }
+
+    function startPlanDrag(fromId, e) {
+      e.preventDefault();
+      const slotEl = e.target.closest('.plan-slot');
+      const nameEl = slotEl ? slotEl.querySelector('.plan-slot-name') : null;
+      const ghost = document.createElement('div');
+      ghost.className = 'plan-drag-ghost';
+      ghost.textContent = nameEl ? nameEl.textContent : '';
+      document.body.appendChild(ghost);
+      positionPlanDragGhost(ghost, e.clientX, e.clientY);
+
+      function onMove(ev) {
+        positionPlanDragGhost(ghost, ev.clientX, ev.clientY);
+        document.querySelectorAll('.plan-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const targetSlot = elementAtPointPlanSlot(ev.clientX, ev.clientY);
+        if (targetSlot) targetSlot.classList.add('drag-over');
+      }
+      function onUp(ev) {
+        document.removeEventListener('pointermove', onMove);
+        document.removeEventListener('pointerup', onUp);
+        ghost.remove();
+        document.querySelectorAll('.plan-slot.drag-over').forEach(el => el.classList.remove('drag-over'));
+        const targetSlot = elementAtPointPlanSlot(ev.clientX, ev.clientY);
+        if (targetSlot) handlePlanDrop(fromId, targetSlot.getAttribute('data-slot-id'));
+      }
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp);
+    }
+
+    function elementAtPointPlanSlot(x, y) {
+      const el = document.elementFromPoint(x, y);
+      return el && el.closest ? el.closest('.plan-slot[data-slot-id]') : null;
+    }
+
+    function positionPlanDragGhost(ghost, x, y) {
+      ghost.style.left = (x + 12) + 'px';
+      ghost.style.top = (y + 12) + 'px';
+    }
+
+    function handlePlanDrop(fromId, toId) {
+      if (!toId || fromId === toId) return;
+      const fromSlot = weekPlan.slots[fromId];
+      if (!fromSlot || !fromSlot.recipeId) return;
+      const toSlot = weekPlan.slots[toId];
+      if (toSlot && toSlot.recipeId) {
+        swapPlanSlots(fromId, toId);
+      } else {
+        movePlanSlot(fromId, toId);
+      }
+    }
+
+    // Onto an empty slot: cheap, non-destructive, no confirmation needed.
+    function movePlanSlot(fromId, toId) {
+      const fromSlot = weekPlan.slots[fromId];
+      const recipe = allRecipes.find(r => r.id === fromSlot.recipeId);
+      const mealTypeTo = toId.split('-')[1];
+      if (!recipe || recipe.mealType !== mealTypeTo ||
+          getProfileAdaptationStatus(recipe, getSelectedProfileIds()).unresolved.length > 0) {
+        showAppToast('Can\'t move ' + (recipe ? recipe.name : 'that recipe') + ' there.');
+        return;
+      }
+      weekPlan.slots[toId] = { recipeId: fromSlot.recipeId, removed: false };
+      weekPlan.slots[fromId] = { recipeId: null, removed: false };
+      saveWeekPlan();
+      renderWeekPlan();
+    }
+
+    // Onto an occupied slot: default to swap (nothing silently discarded), with undo -- a
+    // pre-drop confirm dialog on every drag would defeat the point of drag-and-drop; undo only
+    // costs something on the rare mis-drop.
+    function swapPlanSlots(idA, idB) {
+      const slotA = weekPlan.slots[idA];
+      const slotB = weekPlan.slots[idB];
+      if (!slotA || !slotB) return;
+      const profileIds = getSelectedProfileIds();
+      const recipeA = slotA.recipeId ? allRecipes.find(r => r.id === slotA.recipeId) : null;
+      const recipeB = slotB.recipeId ? allRecipes.find(r => r.id === slotB.recipeId) : null;
+      const mealTypeA = idA.split('-')[1];
+      const mealTypeB = idB.split('-')[1];
+      if (recipeA && (recipeA.mealType !== mealTypeB || getProfileAdaptationStatus(recipeA, profileIds).unresolved.length > 0)) {
+        showAppToast('Can\'t move ' + recipeA.name + ' there.');
+        return;
+      }
+      if (recipeB && (recipeB.mealType !== mealTypeA || getProfileAdaptationStatus(recipeB, profileIds).unresolved.length > 0)) {
+        showAppToast('Can\'t move ' + recipeB.name + ' there.');
+        return;
+      }
+      const prevA = Object.assign({}, slotA);
+      const prevB = Object.assign({}, slotB);
+      weekPlan.slots[idA] = { recipeId: slotB.recipeId, removed: false };
+      weekPlan.slots[idB] = { recipeId: slotA.recipeId, removed: false };
+      saveWeekPlan();
+      renderWeekPlan();
+      showAppToast('Swapped ' + dayMealLabel(idA) + ' and ' + dayMealLabel(idB) + '.', {
+        actionLabel: 'Undo',
+        onAction: function () {
+          weekPlan.slots[idA] = prevA;
+          weekPlan.slots[idB] = prevB;
+          saveWeekPlan();
+          renderWeekPlan();
+        }
+      });
     }
 
     // ---- Shopping list ----
@@ -3113,6 +3508,12 @@
           recipeHtml += '<button type="button" class="favorite-btn' + (favorited ? ' favorited' : '') +
             '" onclick="toggleFavorite(event, \'' + (recipe.id || '') + '\')" title="' +
             (favorited ? 'Remove from Favorites' : 'Add to Favorites') + '">' + (favorited ? '♥' : '♡') + '</button>';
+
+          // "Add to day" -- lets a recipe go straight into a Plan my week slot without
+          // pre-navigating to the Plan tab first. Mirrors the favorite button's overlay
+          // pattern, opposite corner, same stopPropagation guard.
+          recipeHtml += '<button type="button" class="add-to-day-btn" onclick="event.stopPropagation(); openAddToDayModal(\'' +
+            (recipe.id || '') + '\')" title="Add to a day in your plan">+</button>';
 
           // 2. Recipe header
           recipeHtml += '<div class="recipe-header">';

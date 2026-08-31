@@ -253,6 +253,39 @@ notes:
     'render yield in the UI' or 'scale the shopping list' follow-up touches those two
     byte-identical files, and should be sequenced after the filter-bugs branch merges to avoid two
     unrelated large diffs landing on the same files at once."
+  - "2026-08-30, 'Add to day' + drag-and-drop feasibility pass (index.html/recipe-browser.html):
+    openSwapModal's day-list does NOT generalize to 'pick a slot for an arbitrary recipe' -- it's
+    a fixed-slot/choose-recipe picker, the inverse of what 'Add to day' needs. The genuinely
+    reusable piece is the write path, selectSwapRecipe(id, recipeId) (~2249), which doesn't care
+    who calls it. Recommended a new openAddToDayModal(recipeId) that repurposes the same
+    #planSwapModal DOM/CSS with a day x mealType button grid instead of a recipe grid, terminating
+    in the same selectSwapRecipe call. Real gap found: selectSwapRecipe has ZERO validation of its
+    own (mealType match, profile-conflict eligibility) -- it's only safe today because its two
+    existing callers (openSwapModal's picker, generateWeekPlan) pre-filter before ever offering a
+    choice. Both 'Add to day' and drag-and-drop become new callers outside that guarantee, so the
+    guard belongs INSIDE selectSwapRecipe once (recipe.mealType === targetMealType &&
+    getProfileAdaptationStatus(...).unresolved.length === 0), not reimplemented at each new call
+    site. Also flagged: openSwapModal silently no-ops if weekPlan is null (fine today, since it's
+    only reachable from an already-rendered Plan tab) -- 'Add to day' breaks that assumption since
+    it's reachable from Search/Help before the Plan tab was ever visited, so it needs its own
+    ensureWeekPlan(profileIds) bootstrap (extracted from renderWeekPlan's existing lazy-load-or-
+    generate pattern) rather than silently failing on a cold start.
+    Drag-and-drop: recommended pointer events (pointerdown/move/up), NOT native HTML5 Drag and
+    Drop -- HTML5 DnD doesn't fire from touch without a polyfill, and this app already has a
+    mobile-first affordance in this exact feature (planActiveDay day-chips) plus an explicit
+    Capacitor/Android-wrap roadmap item, making touch the platform this needs to actually work on,
+    not an edge case; pointer events unify mouse/touch/pen in one model with no new dependency and
+    no build step, consistent with the vanilla-JS single-file constraint. A dropped/ineligible
+    combination (wrong mealType, or an unresolved profile conflict) should be rejected with a
+    visible short-lived inline message at the drop target, not a silent no-op -- a deliberate drag
+    gesture that visibly does nothing reads as broken, not as a refusal for a reason; reuse the
+    existing transient-message pattern already in openSwapModal's 'no eligible recipes' body text.
+    Slot-to-slot reordering needs its own swapPlanSlots(idA, idB) (mutate both, save+render once)
+    rather than two sequential selectSwapRecipe calls, which would flash an intermediate blank
+    state. Confirmed via git log that the servings/yield backfill (2255cf8) touched only
+    public/foodenvy-complete-recipes.json and scripts/, not index.html/recipe-browser.html (last
+    commit touching those was 325cb79, predating the backfill) -- genuinely no overlap, and
+    buildShoppingListItems()/etc. have zero references to yield/servings today."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing
