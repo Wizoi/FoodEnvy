@@ -394,3 +394,30 @@ notes:
     two distinct pieces of data (occurrence count for the batch-cook callout I already
     recommended, separately-scaled quantity per occurrence) rather than collapsing them --
     flagging this now so it doesn't get discovered as a bug after phase 2 ships.
+  - >
+    2026-08: reviewed the household-size shopping-list scaling draft (multiplier =
+    householdSize / yield.min, batch-cook/freezer-friendly/make-ahead tags exempted, occurrence
+    count kept separate from scaled quantity -- confirms the separation I recommended in the note
+    above held). Two gaps flagged, both about the ratio math misbehaving for recipe *shapes* the
+    tag list doesn't reliably catch, not about missing tags per se. (1) Any recipe whose
+    yield.min naturally exceeds household size (a soup/stew/casserole sized for planned
+    leftovers) produces a multiplier below 1, scaling the list *down* from the recipe as written
+    -- the opposite of "errs toward buying enough" -- even when it isn't formally tagged
+    freezer-friendly/make-ahead ("extra for tomorrow's lunch" often doesn't get that tag the way
+    an actual freezer stash does). Recommend clamping the multiplier at a floor of 1 rather than
+    relying on tag coverage alone. (2) Recipes whose yield.unit is a piece-count rather than a
+    per-person serving (dozen, jar, bar, cookie) produce a nonsensical ratio regardless of intent
+    tags -- e.g. 4 people / 24 cookies. Tag coverage is probably fine today since most of my own
+    piece-count batch recipes from the yield backfill already carry batch-cook/freezer-friendly,
+    but that's incidental; recommend a schema-level second exemption condition (non-serving
+    yield.unit) as a safety net alongside the tag list, not a replacement for it, so a future
+    recipe author who forgets the tag doesn't produce an absurd scaled quantity. Also flagged a
+    mid-shop concern on the "stage until next Get shopping list, then show a quantity-delta
+    caption on affected items, checked or not" behavior: an unchecked item has no purchase
+    history to reconcile, so a delta caption there is pure noise (mirrors my swap-ripple finding
+    that only already-checked lines carry real ambiguity) -- unchecked items should just silently
+    show the new number. And unlike a swap's typically-small ripple, a household-size change
+    touches every non-exempt item in the list at once, so a per-item caption on the whole list is
+    a much bigger "wall of deltas" than the pattern was designed for -- recommend a single
+    top-of-list banner for the size-change event itself, reserving the per-item delta caption for
+    the already-checked subset where the ambiguity is real.

@@ -196,3 +196,20 @@ notes:
     scaling) doesn't silently inherit "yield = headcount" -- any household-size input to future
     scaling should be labeled "adult portions," not just "people," so a family with kids doesn't
     get a quietly undersized shopping list.
+  - >
+    2026-08: reviewed the draft "Cooking for: [N] -/+" stepper (household-size shopping-list
+    scaling, N defaults to count of checked member profiles, scales by N / yield.min). Finding:
+    label as drafted ("Cooking for: [N]") silently inherits the adult-equivalent-portion
+    assumption flagged in the yield backfill review above -- needs to say so, not just imply a
+    literal headcount. Recommendation, cheapest option, no new data/model: rename the visible
+    label to "Adult portions: [N]" and add one always-visible (not tooltip-buried) line of static
+    helper text: "Recipe yields are adult-portion estimates -- adjust down if your household
+    includes young children." Explicitly do not build a fractional child-portion multiplier (e.g.
+    "count each kid as 0.5") for this pass -- one constant can't fit a 2-year-old and a
+    14-year-old, and it would be pretending to precision the yield data can't back up; let the
+    existing +/- stepper carry that judgment call instead. Separately flagged as worth confirming
+    with engineering (not blocking, but sharper than a label issue if true): if the stepper's
+    default really counts every checked profile equally regardless of age -- and FamilyMember
+    currently has no age/child field to check against -- then the *default number* itself, not
+    just its label, may be wrong for families with kids checked in; the label fix doesn't resolve
+    that, only the caveat text papers over it until a real age field exists.

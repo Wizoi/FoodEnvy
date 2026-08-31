@@ -478,6 +478,46 @@
       vertical-align: middle;
     }
 
+    .household-size-control {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.85rem;
+    }
+
+    .household-size-btn {
+      width: 1.4rem;
+      height: 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: white;
+      color: var(--primary);
+      font-size: 0.9rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .household-size-btn:hover {
+      background: var(--light);
+    }
+
+    .household-size-value {
+      font-weight: 600;
+      min-width: 1.2rem;
+      text-align: center;
+    }
+
+    .household-size-caption {
+      font-size: 0.78rem;
+      color: #888;
+      margin: -0.5rem 0 1rem;
+    }
+
     .week-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -704,6 +744,20 @@
       color: #888;
       font-style: italic;
       margin-bottom: 1rem;
+    }
+
+    .household-size-change-banner {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffe69c;
+      border-radius: 4px;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .shopping-item-quantity-delta {
+      color: #856404;
     }
 
     .batch-cook-callout {
@@ -1670,11 +1724,18 @@
 
           <div class="plan-header-row">
             <span class="plan-pill" id="planForPill" style="display:none;"></span>
+            <span class="household-size-control" id="householdSizeControl" style="display:none;">
+              Adult portions:
+              <button type="button" class="household-size-btn" onclick="adjustHouseholdSize(-1)" aria-label="Fewer adult portions">&minus;</button>
+              <span class="household-size-value" id="householdSizeValue">1</span>
+              <button type="button" class="household-size-btn" onclick="adjustHouseholdSize(1)" aria-label="More adult portions">+</button>
+            </span>
             <button type="button" class="btn-small btn-reset-filters" id="planRegenerateBtn" onclick="generateAndRenderWeekPlan()" style="display:none;">
               Change &amp; regenerate<span class="plan-drift-dot" id="planDriftDot" style="display:none;"></span>
             </button>
             <button type="button" class="btn-small btn-reset-filters" id="planShoppingListBtn" onclick="showShoppingList()" style="display:none;">Get shopping list</button>
           </div>
+          <p class="household-size-caption" id="householdSizeCaption" style="display:none;">Recipe yields are adult-portion estimates -- adjust down if your household includes young children.</p>
 
           <div id="planEmptyState" class="empty-state" style="display:none;">
             <p>No eligible recipes for the checked profile(s) yet -- add a profile or adjust restrictions to plan a week.</p>
@@ -1685,7 +1746,8 @@
 
           <div id="shoppingListSection" style="display:none;">
             <h3 style="margin-top:2rem;">Shopping list</h3>
-            <p class="shopping-list-disclaimer">Quantities as written by each recipe, not scaled to your household size.</p>
+            <p class="shopping-list-disclaimer" id="shoppingListSummary"></p>
+            <div id="householdSizeChangeBanner" class="household-size-change-banner" style="display:none;"></div>
             <div id="batchCookCallout" class="batch-cook-callout" style="display:none;"></div>
             <div id="shoppingListBody"></div>
           </div>
@@ -2373,7 +2435,12 @@
         });
       });
 
-      return { weekLabel: 'This week', profileIds: profileIds.slice(), slots, generatedAt: String(Date.now()) };
+      // householdSize defaults to the checked-profile count (same default-from-selection
+      // convention as profileIds itself) but is NOT frozen the way profileIds is -- unlike
+      // who's-eating, changing it can never make a recipe unsafe, so it stays freely editable
+      // after generation via the "Adult portions" stepper (setHouseholdSize()) with no
+      // regenerate/confirm gate.
+      return { weekLabel: 'This week', profileIds: profileIds.slice(), householdSize: Math.max(1, profileIds.length || 1), slots, generatedAt: String(Date.now()) };
     }
 
     // Lower score = preferred. Soft penalties only -- never excludes a candidate outright.
@@ -2399,6 +2466,28 @@
       const stored = localStorage.getItem('foodenvy_weekplan');
       if (!stored) return null;
       try { return JSON.parse(stored); } catch (e) { return null; }
+    }
+
+    const HOUSEHOLD_SIZE_MIN = 1;
+    const HOUSEHOLD_SIZE_MAX = 8;
+
+    // Tolerant default for a weekPlan saved before this field existed -- same pattern already
+    // used for weekPlan.slots[id] || {...}. Never throws on an old-shape plan.
+    function getHouseholdSize() {
+      if (!weekPlan) return HOUSEHOLD_SIZE_MIN;
+      return weekPlan.householdSize || getSelectedProfileIds().length || HOUSEHOLD_SIZE_MIN;
+    }
+
+    function adjustHouseholdSize(delta) {
+      if (!weekPlan) return;
+      const next = Math.min(HOUSEHOLD_SIZE_MAX, Math.max(HOUSEHOLD_SIZE_MIN, getHouseholdSize() + delta));
+      weekPlan.householdSize = next;
+      saveWeekPlan();
+      renderHouseholdSizeControl();
+      // Deliberately does NOT refresh an already-open shopping list -- "Get shopping list" is a
+      // settled snapshot action, not a live view (same reasoning that already governs slot
+      // swaps). The next explicit "Get shopping list" click is what surfaces the change, via the
+      // household-size-changed banner and per-checked-item deltas in showShoppingList().
     }
 
     function generateAndRenderWeekPlan() {
@@ -2555,9 +2644,16 @@
       regenBtn.style.display = '';
       shopBtn.style.display = '';
 
-      const drifted = JSON.stringify(profileIds.slice().sort()) !== JSON.stringify(weekPlan.profileIds.slice().sort());
-      document.getElementById('planDriftDot').style.display = drifted ? '' : 'none';
+      // The same drift dot now flags two related-but-distinct kinds of staleness off one
+      // visible signal: who's checked no longer matching the plan's frozen profileIds, or the
+      // live checked count no longer matching the stored householdSize (e.g. a member was
+      // unchecked after the plan was generated, but the "Adult portions" stepper wasn't
+      // manually adjusted to match) -- no second indicator invented for the second case.
+      const profileDrifted = JSON.stringify(profileIds.slice().sort()) !== JSON.stringify(weekPlan.profileIds.slice().sort());
+      const householdDrifted = profileIds.length > 0 && profileIds.length !== getHouseholdSize();
+      document.getElementById('planDriftDot').style.display = (profileDrifted || householdDrifted) ? '' : 'none';
 
+      renderHouseholdSizeControl();
       renderPlanDayChips();
       const isMobile = window.matchMedia('(max-width: 900px)').matches;
       document.getElementById('planDayChips').style.display = isMobile ? 'flex' : 'none';
@@ -2574,6 +2670,19 @@
       }).join('');
 
       initPlanDragHandlers();
+    }
+
+    // Freely editable, unlike profileIds -- a household-size change never makes a recipe
+    // unsafe, so it skips the regenerate-and-confirm gate entirely (adjustHouseholdSize()
+    // writes weekPlan.householdSize directly). This just keeps the stepper's displayed number
+    // and visibility in sync with weekPlan; it does not touch an already-open shopping list.
+    function renderHouseholdSizeControl() {
+      const control = document.getElementById('householdSizeControl');
+      const caption = document.getElementById('householdSizeCaption');
+      if (!weekPlan) { control.style.display = 'none'; caption.style.display = 'none'; return; }
+      document.getElementById('householdSizeValue').textContent = getHouseholdSize();
+      control.style.display = '';
+      caption.style.display = '';
     }
 
     // ---- Transient toast (Add to day / drag-swap feedback) ----
@@ -2825,20 +2934,49 @@
       return /^\d+(\.\d+)?$/.test((str || '').trim());
     }
 
+    // Recipes carrying any of these tags -- or whose yield isn't in a per-person "servings"
+    // unit (dozen/jars/bars/pieces) -- are exempt from household-size scaling: their yield is a
+    // deliberate batch/freezer amount, not a per-diner quantity, so scaling it down to match a
+    // smaller household would defeat the point of the recipe (Lucia Alvarez finding). The
+    // unit-shape check is a safety net alongside the tag list, so a future untagged batch
+    // recipe (e.g. "makes a dozen muffins") doesn't silently mis-scale.
+    const BATCH_EXEMPT_TAGS = ['batch-cook', 'freezer-friendly', 'make-ahead'];
+
+    function recipeScalingInfo(recipe, householdSize) {
+      const isBatchTag = (recipe.tags || []).some(t => BATCH_EXEMPT_TAGS.includes(t));
+      const isServingUnit = recipe.yield && /^servings?$/i.test(recipe.yield.unit || '');
+      const hasYield = recipe.yield && typeof recipe.yield.min === 'number' && recipe.yield.min > 0;
+      if (isBatchTag || !isServingUnit) return { multiplier: 1, exemptReason: 'batch' };
+      if (!hasYield) return { multiplier: 1, exemptReason: 'no-yield' };
+      // Divide by yield.min, not max -- a shopping list's job is "buy enough," not "buy
+      // exactly," so erring toward slightly more is the right direction. Math.max(1, ...)
+      // floors the multiplier at 1 so a recipe whose yield already exceeds household size (a
+      // soup/chili meant to leave leftovers, not necessarily batch-tagged) never scales the
+      // list DOWN below what the recipe itself calls for.
+      return { multiplier: Math.max(1, householdSize / recipe.yield.min), exemptReason: null };
+    }
+
     // Aggregates ingredients across every non-removed, filled slot. Auto-sums only when amount
     // is numeric AND unit matches exactly after normalizing -- everything else lists each
-    // occurrence separately with its source recipe, never a guessed sum.
+    // occurrence separately with its source recipe, never a guessed sum. Each occurrence also
+    // carries its recipe's scaling multiplier/exemption reason so the sum/no-sum math and the
+    // per-item captions can both reflect it without re-deriving it twice.
     function buildShoppingListItems() {
-      const occurrences = {}; // normalizedName -> [{amount, unit, recipeName, section}]
+      const householdSize = getHouseholdSize();
+      const occurrences = {}; // normalizedName -> [{amount, unit, recipeName, section, multiplier, exemptReason}]
       Object.values(weekPlan.slots).forEach(slot => {
         if (slot.removed || !slot.recipeId) return;
         const recipe = allRecipes.find(r => r.id === slot.recipeId);
         if (!recipe) return;
+        const scaling = recipeScalingInfo(recipe, householdSize);
         (recipe.ingredients || []).forEach(ing => {
           const key = normalizeIngredientName(ing.name);
           if (!key) return;
           if (!occurrences[key]) occurrences[key] = [];
-          occurrences[key].push({ amount: ing.amount, unit: (ing.unit || '').trim().toLowerCase(), recipeName: recipe.name, section: determineStoreSection(ing) });
+          occurrences[key].push({
+            amount: ing.amount, unit: (ing.unit || '').trim().toLowerCase(), recipeName: recipe.name,
+            section: determineStoreSection(ing), multiplier: scaling.multiplier, exemptReason: scaling.exemptReason
+          });
         });
       });
 
@@ -2847,14 +2985,27 @@
         const section = occs[0].section;
         const allSameUnit = occs.every(o => o.unit && o.unit === occs[0].unit && !o.unit.includes(','));
         const allNumeric = occs.every(o => isNumeric(o.amount));
+        // Only a caption when EVERY occurrence agrees on why (or that) it's unscaled -- a group
+        // that mixes a scaled occurrence with an exempt one is summed together fine (the total
+        // is still "how much to buy"), but a single reason caption would misrepresent the mix.
+        const allSameReason = occs.every(o => o.exemptReason === occs[0].exemptReason);
+        const itemReason = allSameReason ? occs[0].exemptReason : (occs.some(o => o.exemptReason) ? 'mixed' : null);
         let summary;
         if (allSameUnit && allNumeric) {
-          const total = occs.reduce((sum, o) => sum + parseFloat(o.amount), 0);
+          const total = occs.reduce((sum, o) => sum + parseFloat(o.amount) * o.multiplier, 0);
           summary = { summed: true, text: (total % 1 === 0 ? total : total.toFixed(2)) + ' ' + occs[0].unit };
         } else {
-          summary = { summed: false, lines: occs.map(o => (o.amount ? o.amount + ' ' + o.unit : (o.unit || 'to taste')) + ' — ' + o.recipeName) };
+          summary = {
+            summed: false,
+            lines: occs.map(o => {
+              const scaledAmount = o.amount && isNumeric(o.amount) ? (parseFloat(o.amount) * o.multiplier) : o.amount;
+              const displayAmount = typeof scaledAmount === 'number' ? (scaledAmount % 1 === 0 ? scaledAmount : scaledAmount.toFixed(2)) : scaledAmount;
+              const reasonNote = o.exemptReason === 'batch' ? ' (as written — batch recipe)' : o.exemptReason === 'no-yield' ? ' (as written — no yield data)' : '';
+              return (displayAmount ? displayAmount + ' ' + o.unit : (o.unit || 'to taste')) + ' — ' + o.recipeName + reasonNote;
+            })
+          };
         }
-        items[key] = { section, count: occs.length, recipes: occs.map(o => o.recipeName), summary };
+        items[key] = { section, count: occs.length, recipes: occs.map(o => o.recipeName), summary, exemptReason: itemReason };
       });
       return items;
     }
@@ -2895,9 +3046,22 @@
     // is still mid-edit on the grid (Gamification Designer's explicit call).
     function showShoppingList() {
       if (!weekPlan) return;
+      const householdSize = getHouseholdSize();
       const items = buildShoppingListItems();
       const checked = getCheckedMap();
       const prevSnapshot = getPrevSnapshot();
+      const prevHouseholdSize = prevSnapshot.__householdSize;
+      // Only meaningful once a previous size was actually recorded -- the very first "Get
+      // shopping list" for a plan has nothing to compare against.
+      const householdSizeChanged = typeof prevHouseholdSize === 'number' && prevHouseholdSize !== householdSize;
+
+      const banner = document.getElementById('householdSizeChangeBanner');
+      if (householdSizeChanged) {
+        banner.style.display = '';
+        banner.textContent = 'Household size changed ' + prevHouseholdSize + ' → ' + householdSize + ' — quantities below have been updated.';
+      } else {
+        banner.style.display = 'none';
+      }
 
       // Orphaned items: existed last time this list was shown, no longer needed by anything
       // currently planned. An unchecked one is dropped outright (never bought, zero risk); a
@@ -2905,9 +3069,20 @@
       // may have already bought it.
       const orphanedChecked = [];
       Object.keys(prevSnapshot).forEach(key => {
+        if (key === '__householdSize') return;
         if (items[key]) return;
         if (checked[key]) orphanedChecked.push({ key, ...prevSnapshot[key] });
       });
+
+      // Dynamic summary replacing the old static disclaimer, which becomes false the moment
+      // scaling is only partial -- only mention a category when it's actually non-zero, same
+      // "don't render an empty clause" convention already used for the batch-cook callout below.
+      const exemptCount = Object.values(items).filter(v => v.exemptReason === 'batch' || v.exemptReason === 'mixed').length;
+      const noYieldCount = Object.values(items).filter(v => v.exemptReason === 'no-yield').length;
+      let summaryText = 'Scaled for ' + householdSize + ' adult portion' + (householdSize === 1 ? '' : 's') + '.';
+      if (exemptCount > 0) summaryText += ' ' + exemptCount + ' batch-cook/freezer item' + (exemptCount === 1 ? '' : 's') + ' shown as written.';
+      if (noYieldCount > 0) summaryText += ' ' + noYieldCount + ' item' + (noYieldCount === 1 ? '' : 's') + ' without yield data shown as written.';
+      document.getElementById('shoppingListSummary').textContent = summaryText;
 
       const batchCook = Object.entries(items).filter(([, v]) => v.count >= 3);
       const batchCallout = document.getElementById('batchCookCallout');
@@ -2930,10 +3105,22 @@
           const wasInPrev = prevSnapshot[key];
           const isNew = prevSnapshot && Object.keys(prevSnapshot).length > 0 && !wasInPrev;
           const countDelta = wasInPrev && wasInPrev.count !== v.count ? ' (' + wasInPrev.count + ' uses → ' + v.count + ' use' + (v.count === 1 ? '' : 's') + ')' : '';
+          // A quantity change from household-size scaling is a distinct signal from the
+          // usage-count delta above (a different reason a number moved), kept as its own
+          // caption rather than merged in -- and only shown for a CHECKED item, since an
+          // unchecked line has no purchase to reconcile against and a delta there is just noise
+          // (Lucia Alvarez finding).
+          let quantityDelta = '';
+          if (householdSizeChanged && checked[key] && wasInPrev && wasInPrev.summary && wasInPrev.summary.summed && v.summary.summed && wasInPrev.summary.text !== v.summary.text) {
+            quantityDelta = ' <span class="shopping-item-quantity-delta">(was ' + wasInPrev.summary.text + ', now ' + v.summary.text + ' — you may already have some)</span>';
+          }
+          const reasonNote = v.summary.summed && v.exemptReason === 'batch' ? ' <em>(as written — batch recipe)</em>' :
+            v.summary.summed && v.exemptReason === 'no-yield' ? ' <em>(as written — no yield data)</em>' :
+            v.summary.summed && v.exemptReason === 'mixed' ? ' <em>(partially as written — see recipes)</em>' : '';
           html += '<div class="shopping-item' + (checked[key] ? ' checked' : '') + '" data-item-key="' + key + '">' +
             '<label><input type="checkbox" ' + (checked[key] ? 'checked' : '') + ' onchange="toggleShoppingItem(\'' + key + '\')"> ' +
             '<span class="shopping-item-name">' + name + (v.summary.summed ? ' — ' + v.summary.text : '') + '</span>' +
-            countDelta + (isNew ? ' <em>(new)</em>' : '') + '</label>';
+            reasonNote + countDelta + quantityDelta + (isNew ? ' <em>(new)</em>' : '') + '</label>';
           if (!v.summary.summed) {
             html += v.summary.lines.map(l => '<div class="shopping-item-sub">' + l + '</div>').join('') +
               '<div class="shopping-item-sub"><em>amounts vary by recipe</em></div>';
@@ -2957,8 +3144,10 @@
       document.getElementById('shoppingListSection').style.display = '';
 
       // Merge surviving orphaned-checked items back into the snapshot so they persist across
-      // repeated "Get shopping list" clicks until explicitly dismissed.
-      const nextSnapshot = { ...items };
+      // repeated "Get shopping list" clicks until explicitly dismissed. __householdSize rides
+      // along in the same snapshot object (not a separate localStorage key) so it's naturally
+      // read back next to the items it describes.
+      const nextSnapshot = { ...items, __householdSize: householdSize };
       orphanedChecked.forEach(o => { nextSnapshot[o.key] = { section: o.section, count: o.count, recipes: o.recipes }; });
       localStorage.setItem('foodenvy_shopping_list_snapshot', JSON.stringify(nextSnapshot));
     }

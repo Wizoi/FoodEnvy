@@ -286,6 +286,52 @@ notes:
     public/foodenvy-complete-recipes.json and scripts/, not index.html/recipe-browser.html (last
     commit touching those was 325cb79, predating the backfill) -- genuinely no overlap, and
     buildShoppingListItems()/etc. have zero references to yield/servings today."
+  - "2026-08-30, household-size shopping-list scaling proposal (index.html/recipe-browser.html,
+    buildShoppingListItems()/showShoppingList()): confirmed all 634 recipes now carry `yield:
+    {min,max,unit}` + `yieldSource` (real example: seed-chickpea-salad yield {min:3,max:4},
+    tags include 'make-ahead'; seed-lentil-soup-lucia yield {min:5,max:6}, tags include
+    'batch-cook'/'freezer-friendly'). Recommended household size live on `weekPlan.householdSize`
+    (same object/localStorage key as profileIds, not a new key) but treated as a DIFFERENT
+    mutability tier than profileIds -- profileIds is frozen-at-generation + regenerate-gated
+    because changing it can make an already-picked recipe unsafe (allergy conflict); household
+    size has no such safety implication, so it should be directly editable in place via a small
+    1-8 stepper next to 'Get shopping list' (default = getSelectedProfileIds().length at first
+    generation, same default-to-checked-boxes precedent as profileIds), no regenerate/drift-badge
+    needed. Scaling math: multiplier = householdSize / recipe.yield.MIN (not max) -- dividing by
+    the floor of the recipe's range avoids under-buying if a recipe actually yields its minimum;
+    worked example, chickpea salad {min:3,max:4} for a household of 4 -> multiplier 4/3=1.33, an
+    ingredient listed as '1 can' scales to '1.33 can' (same toFixed(2) formatting the existing
+    summed-total branch already uses, no new rounding scheme). Batch-cook/freezer-friendly/
+    make-ahead exemption: a `BATCH_EXEMPT_TAGS = ['batch-cook','freezer-friendly','make-ahead']`
+    check against recipe.tags computed ONCE per recipe (not per ingredient) inside
+    buildShoppingListItems()'s existing per-slot loop, producing a per-occurrence multiplier
+    (1 if exempt or if recipe.yield/yield.min is missing/non-numeric -- honest-gap-over-guess,
+    same as difficulty/time/restMinutes) that rides alongside the existing
+    {amount,unit,recipeName,section} occurrence shape as new fields (multiplier, scaled, exempt,
+    noYieldData) WITHOUT touching `count` (occurrence/recipe count, drives the existing
+    batch-cook callout's `v.count >= 3`) -- count and scaled-quantity stay two separate fields on
+    `items[key]`, never collapsed, per the explicit constraint. Sum branch multiplies
+    parseFloat(o.amount)*o.multiplier before summing (mixed multipliers across occurrences of the
+    same ingredient name is fine -- summing 'how much total' is well-defined regardless of why
+    each occurrence's multiplier differs). One real gap found in the existing swap-ripple/
+    checkbox-persistence logic: showShoppingList()'s countDelta annotation only compares
+    `wasInPrev.count !== v.count` (recipe-occurrence count), so bumping the household-size
+    stepper between two 'Get shopping list' clicks with the SAME slots (count unchanged) would
+    silently change a displayed quantity with zero delta indicator -- looks like the app quietly
+    rewrote a number someone may have already shopped against. Fix: `nextSnapshot = {...items}`
+    already persists the full item object including `summary` (no persistence change needed) --
+    showShoppingList() just needs a second comparison, `wasInPrev.summary.text !== v.summary.text`
+    when count is stable, rendered as its own small annotation distinct from the existing
+    'X uses -> Y uses' text. Orphan detection, toggleShoppingItem, dismissOrphanedItem, and the
+    swap/selectSwapRecipe write path are all keyed by ingredient name or recipeId, never quantity
+    -- confirmed unaffected. Disclaimer rewrite: replace the single static 'not scaled to your
+    household size' line with a conditional summary counting scaled/exempt/no-yield-data items
+    (only rendering each clause when its count > 0, mirroring the file's existing
+    only-render-when-non-empty pattern used for batchCallout/orphanedChecked) PLUS a per-item
+    inline annotation on exempt/no-yield-data lines specifically, since a top-of-page banner alone
+    doesn't tell a shopper which items are exempt. Must land in both index.html and
+    recipe-browser.html (confirmed buildShoppingListItems exists in both, 3 occurrences in
+    recipe-browser.html) per the byte-identical-files constraint already on record."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

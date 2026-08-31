@@ -523,6 +523,30 @@ notes:
     preference, and remembering "collapsed" across different recipes risks a warning silently
     starting collapsed on a recipe the parent hasn't actually seen yet; local state reset at the
     top of each openRecipeDetail() call is enough.
+  - >
+    2026-08-30 (household-size shopping-list scaling design pass, real yield/yieldSource fields
+    now on all 634 recipes): confirmed placement from the earlier servings/yield note --
+    "Cooking for: [N] -/+" stepper lives next to the existing #planForPill/planDriftDot row in
+    the Plan tab header, not inside the shopping-list panel, since portion count and "who's
+    eating" are the same underlying decision a shopper already treats as one pill. Reuse
+    planDriftDot verbatim for live-selection-vs-baked-household-size divergence, same mechanism
+    now flagging two related but distinct drift types. Per-item scaled-vs-exempt-vs-unscalable
+    state should NOT get a new badge/color family -- extend the existing muted-italic caption
+    convention already used for "amounts vary by recipe" on unsummed items: " (as written --
+    batch recipe)" for make-ahead/batch-cook/freezer-friendly-tagged exemptions, " (as written --
+    couldn't scale)" for mismatched/missing units, nothing at all on the successful/default
+    scaled case (don't badge the working path or the badge stops meaning anything). Blanket
+    disclaimer replaced by a short summary line ("Scaled for 6 -- some items shown as written")
+    plus the per-item captions, not a wall of new chrome. Household-size change after partial
+    checkoff should NOT silently recompute -- stays staged until next "Get shopping list" like a
+    slot swap, then extend the existing countDelta caption pattern ("2 uses -> 3 uses") to
+    quantity deltas ("2 cups -> 3 cups, you may already have some") on checked items whose scaled
+    amount increased, rather than auto-unchecking them (would erase real information the shopper
+    has -- they may already own enough). This is lighter than the slot-swap ripple case (no item
+    can go fully orphaned from a scaling change alone, same ingredients still needed just at a
+    different amount) so it doesn't need the full no-longer-needed/dismiss treatment, just the
+    delta-caption extended to a new trigger -- a small addition to an already-trusted mechanism,
+    not a second parallel system.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"
