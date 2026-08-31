@@ -1388,6 +1388,34 @@
       margin-bottom: 1.5rem;
     }
 
+    .adaptation-warning-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .adaptation-warning-banner.collapsed {
+      margin-bottom: 1rem;
+    }
+
+    .adaptation-warning-banner.collapsed .adaptation-warning-detail {
+      display: none;
+    }
+
+    .banner-toggle-btn {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+      padding: 0 0.2rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
     .adaptation-section {
       margin-top: 1.5rem;
       margin-bottom: 1.5rem;
@@ -1781,7 +1809,7 @@
     ];
 
     const COMMON_FOODS = [
-      { category: 'Meat & poultry', items: ['chicken', 'beef', 'ground beef', 'steak', 'turkey', 'pork', 'bacon', 'sausage', 'ham', 'lamb'] },
+      { category: 'Meat & poultry', items: ['chicken', 'beef', 'ground beef', 'steak', 'turkey', 'pork', 'bacon', 'sausage', 'ham', 'lamb', 'duck', 'veal', 'chorizo', 'pepperoni', 'prosciutto'] },
       { category: 'Fish & seafood', items: ['salmon', 'tuna', 'tilapia', 'cod', 'trout', 'catfish', 'shrimp', 'crab', 'lobster', 'scallops', 'mussels', 'clams', 'sardines', 'anchovies'] },
       { category: 'Vegetables', items: ['broccoli', 'cauliflower', 'brussels sprouts', 'carrots', 'cabbage', 'kale', 'asparagus', 'green beans', 'corn', 'mushrooms', 'onions', 'garlic', 'bell peppers', 'zucchini', 'eggplant', 'spinach', 'celery', 'cucumber', 'tomatoes', 'sweet potatoes', 'potatoes', 'beets', 'radishes', 'peas'] },
       { category: 'Fruits', items: ['banana', 'apple', 'orange', 'grapes', 'strawberries', 'blueberries', 'pineapple', 'mango', 'avocado', 'lemon', 'lime', 'coconut', 'watermelon', 'peaches', 'pears', 'cherries', 'kiwi', 'plums'] },
@@ -1985,9 +2013,18 @@
       return '<div class="recipe-image" style="background:' + visual.gradient + ';width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:3rem;">' + visual.emoji + '</div>';
     }
 
+    // Transient, per-open only -- never persisted. Reset to expanded whenever a genuinely new
+    // recipe is opened (id changes), so the safety banner can never silently load pre-collapsed;
+    // toggleAdaptationBanner() re-invokes openRecipeDetail() for the SAME id to re-render after a
+    // manual collapse/expand, which must not itself re-trigger the reset.
+    let adaptationBannerCollapsed = false;
+    let currentDetailRecipeId = null;
+
     function openRecipeDetail(id) {
       const recipe = allRecipes.find(r => r.id === id);
       if (!recipe) return;
+      if (id !== currentDetailRecipeId) adaptationBannerCollapsed = false;
+      currentDetailRecipeId = id;
       const modal = document.getElementById('recipeDetailModal');
       document.getElementById('detailTitle').textContent = recipe.name;
       const body = document.getElementById('detailBody');
@@ -2041,9 +2078,16 @@
       });
 
       if (resolved.length > 0) {
-        html += '<div class="adaptation-warning-banner">⚠️ As written, this recipe is NOT safe for ' +
-          Array.from(new Set(resolved.flatMap(r => r.profileNames))).join(', ') +
-          ' (' + resolved.map(r => r.tag).join(', ') + '). See the alternate below before the original.</div>';
+        const warnNames = Array.from(new Set(resolved.flatMap(r => r.profileNames))).join(', ');
+        const warnTags = resolved.map(r => r.tag).join(', ');
+        html += '<div class="adaptation-warning-banner' + (adaptationBannerCollapsed ? ' collapsed' : '') + '">' +
+          '<div class="adaptation-warning-summary" onclick="toggleAdaptationBanner(\'' + recipe.id + '\')">' +
+          '<span>⚠️ Not safe for ' + warnNames + ' — see alternate below</span>' +
+          '<button type="button" class="banner-toggle-btn" aria-label="' + (adaptationBannerCollapsed ? 'Expand' : 'Collapse') + ' warning">' + (adaptationBannerCollapsed ? '▾' : '▴') + '</button>' +
+          '</div>' +
+          '<div class="adaptation-warning-detail">As written, this recipe is NOT safe for ' + warnNames +
+          ' (' + warnTags + '). See the alternate below before the original.</div>' +
+          '</div>';
         html += adaptationsHtml;
         html += '<h3 class="detail-original-heading">' + recipe.name + ' — Original (not safe as written)</h3>';
       }
@@ -2057,6 +2101,13 @@
     function closeRecipeDetail() {
       const modal = document.getElementById('recipeDetailModal');
       modal.style.display = 'none';
+    }
+
+    // Flips the collapse state and re-runs the same full-rebuild render path openRecipeDetail()
+    // already uses everywhere else, rather than hand-patching innerHTML in a second place.
+    function toggleAdaptationBanner(id) {
+      adaptationBannerCollapsed = !adaptationBannerCollapsed;
+      openRecipeDetail(id);
     }
 
     const personaEmojis = {
