@@ -1425,6 +1425,32 @@
       box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
     }
 
+    .allergen-footer-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Collapsed still keeps the full-width amber bar and the summary line -- never fades to
+       a generic dismissed-toast look, and never fully disappears. Only .allergen-footer-detail
+       (the full sentence) hides; #offlineDataFooterNotice lives outside that div and is
+       untouched by this rule -- a live, event-driven safety flag must never collapse along
+       with the static boilerplate (allergy-safety binding requirement). */
+    .allergen-footer-disclaimer.collapsed {
+      padding: 0.5rem 1.5rem;
+    }
+
+    .allergen-footer-disclaimer.collapsed .allergen-footer-detail {
+      display: none;
+    }
+
+    .allergen-footer-disclaimer #offlineDataFooterNotice {
+      margin-top: 0.5rem;
+    }
+
     .diet-chip-row {
       display: flex;
       flex-wrap: wrap;
@@ -1823,19 +1849,36 @@
     </div>
   </div>
 
-  <!-- Single, always-visible disclaimer covering every recipe's allergen/diet chips --
-       replaces the old per-card disclaimer text (chips themselves still render on every
-       card, uncapped; this is just the boilerplate sentence, said once). -->
+  <!-- Always-visible disclaimer covering every recipe's allergen/diet chips -- replaces the
+       old per-card disclaimer text (chips themselves still render on every card, uncapped;
+       this is just the boilerplate sentence, said once). Collapsible/persisted: this is
+       sitewide, identical boilerplate on every screen with no per-recipe "new context" to
+       reset on (unlike the recipe-detail adaptation-warning-banner, which always resets to
+       expanded) -- collapsing it just means "I've read this," which is safe to remember,
+       per the allergy-safety review. Always defaults to expanded on a fresh browser/install
+       (no stored value), and the collapsed state still shows a legible one-line summary,
+       never fully disappears. -->
   <footer class="allergen-footer-disclaimer" id="allergenFooterDisclaimer">
-    ⚠️ Allergen/diet tags on every recipe are hand-entered from listed ingredients only —
-    not verified against product labels or cross-contact risk. A missing tag doesn't
-    guarantee a recipe is free of that allergen. Always check packaging, and verify
-    certified gluten-free products for celiac safety.
-    <!-- Its own line, not merged into the sentence above -- offline-staleness is a distinct,
-         additive risk (a correction may exist this device hasn't synced yet), only ever
-         populated when the recipe data was actually served from the service worker's offline
-         cache-fallback (see loadRecipes()/recipeDataCachedAt). -->
-    <div id="offlineDataFooterNotice" style="display:none; margin-top:0.4rem;"></div>
+    <div class="allergen-footer-summary" onclick="toggleAllergenFooter()">
+      <span>⚠️ Allergen tags are hand-entered, not verified — tap for details</span>
+      <button type="button" class="banner-toggle-btn" id="allergenFooterToggleBtn" aria-expanded="true" aria-label="Collapse allergen notice">▴</button>
+    </div>
+    <div class="allergen-footer-detail" id="allergenFooterDetail">
+      Allergen/diet tags on every recipe are hand-entered from listed ingredients only —
+      not verified against product labels or cross-contact risk. A missing tag doesn't
+      guarantee a recipe is free of that allergen. Always check packaging, and verify
+      certified gluten-free products for celiac safety.
+    </div>
+    <!-- Deliberately a sibling of .allergen-footer-detail, never inside it -- offline-staleness
+         is a live, event-driven safety flag, a different risk tier from the static boilerplate
+         above, and must stay visible regardless of whether the boilerplate is collapsed
+         (allergy-safety binding requirement: collapsing an acknowledged-once disclaimer must
+         never also hide a current, situational one). Reuses .offline-data-notice's own amber
+         box styling so it visually stands apart from the muted collapsed summary bar, rather
+         than blending into it as leftover boilerplate. Only ever populated when the recipe
+         data was actually served from the service worker's offline cache-fallback (see
+         loadRecipes()/recipeDataCachedAt). -->
+    <div id="offlineDataFooterNotice" class="offline-data-notice" style="display:none;"></div>
   </footer>
 
   <!-- Profile Modal -->
@@ -2236,6 +2279,29 @@
     function toggleAdaptationBanner(id) {
       adaptationBannerCollapsed = !adaptationBannerCollapsed;
       openRecipeDetail(id);
+    }
+
+    // Unlike adaptationBannerCollapsed above, this state IS persisted across reloads/sessions
+    // -- the allergen footer is sitewide, identical boilerplate on every screen with no
+    // per-recipe "new context" to reset on, so re-forcing it open on every reload would just
+    // reintroduce the "permanently in the way" complaint this was built to fix. Only ever
+    // controls this footer's own display -- never read as a signal by any other allergen-safety
+    // code path (allergy-safety binding requirement).
+    let allergenFooterCollapsed = localStorage.getItem('foodenvy_allergen_footer_collapsed') === 'true';
+
+    function applyAllergenFooterCollapsedState() {
+      const footer = document.getElementById('allergenFooterDisclaimer');
+      const btn = document.getElementById('allergenFooterToggleBtn');
+      footer.classList.toggle('collapsed', allergenFooterCollapsed);
+      btn.textContent = allergenFooterCollapsed ? '▾' : '▴';
+      btn.setAttribute('aria-expanded', String(!allergenFooterCollapsed));
+      btn.setAttribute('aria-label', (allergenFooterCollapsed ? 'Expand' : 'Collapse') + ' allergen notice');
+    }
+
+    function toggleAllergenFooter() {
+      allergenFooterCollapsed = !allergenFooterCollapsed;
+      localStorage.setItem('foodenvy_allergen_footer_collapsed', String(allergenFooterCollapsed));
+      applyAllergenFooterCollapsedState();
     }
 
     const personaEmojis = {
@@ -4196,6 +4262,7 @@
       loadCollections();
       restoreFilters();
       restoreHelpFilters();
+      applyAllergenFooterCollapsedState();
 
       const savedTab = localStorage.getItem('foodenvy_active_tab');
       // 'plan' needs allRecipes loaded first (its render generates/validates a plan against

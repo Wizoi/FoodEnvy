@@ -599,6 +599,24 @@ notes:
     countdown, no forced refresh, no gamified framing (no "new features!" bait) -- purely functional,
     dismissible, and it can reappear passively (e.g. next natural navigation) rather than nag if
     dismissed once.
+  - >
+    2026-08-31 (allergen footer disclaimer collapse design pass): unlike the adaptation-warning-
+    banner (per-recipe safety context, resets on every openRecipeDetail() so a stale collapse can't
+    hide a genuinely new conflict), #allergenFooterDisclaimer is sitewide, identical boilerplate on
+    every tab/session with no "new context" event to reset against -- collapsing it should persist
+    via localStorage, not reset on reload/navigation, same "persist when the collapsed state still
+    carries a visible honest affordance" logic already applied to recipe-browser filter persistence.
+    Collapsed appearance stays a full-width slim bar (never a corner chip/icon -- would read as
+    "dismissed" not "quiet") with the same amber background/border in both states, reusing
+    .banner-toggle-btn/toggleAdaptationBanner's role=button/aria-expanded pattern verbatim. Critical
+    exception: #offlineDataFooterNotice, nested in the same footer, must NOT collapse with the main
+    disclaimer -- it's situational/additive (only rendered when actually serving cached data) rather
+    than always-true boilerplate, and since the main disclaimer's collapse persists across sessions,
+    nesting the offline notice inside the collapsible region would let a family who collapsed the
+    boilerplate weeks ago silently miss a real cache-fallback event today. General rule worth
+    reusing: when a persisted-collapse container also carries an occasional situational sub-notice,
+    the sub-notice needs to live outside the collapsible region, not inside it, regardless of how the
+    container's own collapse behavior is decided.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

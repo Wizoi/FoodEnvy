@@ -396,3 +396,29 @@ notes:
     personas: if the service worker can detect a cache-fallback response, prompt to reconnect and
     refresh rather than only passively disclosing, since passive disclaimers get skimmed under the
     time pressure (grocery aisle, dinner prep) this scenario actually occurs in.
+  - >
+    2026-08: reviewed the proposal to make the sitewide `#allergenFooterDisclaimer` collapsible
+    with localStorage-persisted state, moving `#offlineDataFooterNotice` outside the collapsible
+    region so it stays always-visible/full-opacity regardless of collapse state. Verdict:
+    conditionally approved, both halves. (1) Offline notice staying uncollapsible is correct and
+    matches the non-dismissible-until-reconnect condition already required at PWA sign-off, but
+    "full opacity when active" alone isn't enough -- confirm at implementation time the collapse
+    mechanism hides only the boilerplate sentence's own wrapper, never a shared ancestor the
+    notice also lives under (the current markup nests both inside one <footer>, so this likely
+    needs a real DOM restructure -- notice as a sibling to a collapsible-body div, not a CSS-only
+    toggle applied at the wrong level); also give the notice its own visual treatment (icon/
+    background) distinct from the collapsed-boilerplate bar so it doesn't read as leftover
+    boilerplate at a glance when the rest of the footer is visually minimized. (2) Persisting the
+    boilerplate disclaimer's OWN collapse state is safety-neutral here specifically because this
+    is the sitewide said-once footer (already a deliberate consolidation of the old per-card
+    disclaimer), not a per-decision safety flag like the chip-row disclaimer or the
+    adaptation-warning-banner -- but only under three conditions: (a) persist "collapsed," never
+    "acknowledged safe" -- collapse state must never gate or suppress any other allergen
+    indicator; (b) collapsed state still shows a persistent one-line summary ("tap for details"),
+    never fully disappears, same rule as the adaptation-warning-banner collapse finding; (c)
+    first-ever load on a fresh install/browser must always default to expanded (shared local
+    device, not per-member login -- one person collapsing it doesn't mean everyone who opens this
+    browser has read it). General rule reinforced: an event-driven live safety flag (offline
+    staleness) and a read-once sitewide disclaimer are different risk tiers and should behave
+    differently (one never collapses, one may) -- don't flatten them to the same collapse
+    treatment for UI consistency's sake.
