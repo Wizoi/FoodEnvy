@@ -4458,7 +4458,13 @@
     // update-available toast.
     function registerServiceWorker() {
       if (!('serviceWorker' in navigator)) return;
-      navigator.serviceWorker.register('./sw.js').then((reg) => {
+      // GitHub Pages serves sw.js with Cache-Control: max-age=600 -- without updateViaCache:
+      // 'none', the browser's periodic byte-diff update check can itself read that stale
+      // HTTP-cached response for up to 10 minutes after every deploy, meaning an update can be
+      // genuinely invisible (not just delayed) during that window, on top of the version-stamp
+      // fix already made to sw.js itself. This forces every update check to bypass HTTP cache
+      // and hit the network for real.
+      navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then((reg) => {
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           if (!newWorker) return;
@@ -4474,6 +4480,11 @@
             }
           });
         });
+        // Browsers already check for updates on navigation, but exactly when/how often is
+        // implementation-defined -- an explicit check right after registration makes "does this
+        // load see a deploy that just happened" deterministic instead of relying on unstated
+        // browser heuristics, given how much this has already bitten real usage.
+        reg.update().catch(() => {});
       }).catch(() => {});
 
       // No silent auto-reload -- a mid-session plan or partially-checked shopping list is real
