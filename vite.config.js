@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { copyFileSync, mkdirSync } from 'fs'
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
 // https://vite.dev/config/
@@ -43,12 +43,24 @@ export default defineConfig({
         // PWA assets: manifest + service worker at dist root (sw.js needs to sit at the
         // deployed root so its scope covers everything under the GitHub Pages subpath -- a
         // nested path would only ever control its own subdirectory), plus icons.
-        for (const file of ['manifest.webmanifest', 'sw.js']) {
-          try {
-            copyFileSync(join(process.cwd(), 'public', file), join(distDir, file))
-          } catch {
-            console.warn(file + ' not found')
-          }
+        try {
+          copyFileSync(join(process.cwd(), 'public/manifest.webmanifest'), join(distDir, 'manifest.webmanifest'))
+        } catch {
+          console.warn('manifest.webmanifest not found')
+        }
+
+        // sw.js gets a real build-time version stamped in, not a plain copy -- a service worker
+        // only checks for updates by byte-diffing its own script, so a deploy that changes the
+        // shell (index.html) but leaves this constant untouched is invisible to an already-
+        // installed user's browser, and they silently keep the old cached HTML forever. A real
+        // production incident (2026-08-31): a footer-collapse fix shipped without a version
+        // bump, and installed users never saw it. Stamping a fresh timestamp on every build
+        // removes the "did a human remember to bump it" failure mode entirely.
+        try {
+          const swSrc = readFileSync(join(process.cwd(), 'public/sw.js'), 'utf8')
+          writeFileSync(join(distDir, 'sw.js'), swSrc.replaceAll('__BUILD_VERSION__', String(Date.now())))
+        } catch {
+          console.warn('sw.js not found')
         }
 
         try {

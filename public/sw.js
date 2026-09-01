@@ -2,9 +2,7 @@
 //
 // Two deliberately different caching strategies for two different kinds of asset:
 //   - App shell (index.html, favicon, manifest, icons): cache-first, versioned. These only
-//     change on a deploy, so instant-from-cache is correct and CACHE_VERSION below is bumped
-//     by hand whenever a deploy changes the shell -- explicit, not auto-detected, matching this
-//     codebase's "make it explicit, don't guess" convention elsewhere.
+//     change on a deploy, so instant-from-cache is correct.
 //   - Recipe data (foodenvy-complete-recipes.json): network-first, falling back to cache only
 //     when the network request itself fails. Recipe data (allergen tags, servings, corrections)
 //     changes independently of the app shell and a connected family deserves the live file --
@@ -14,8 +12,19 @@
 // so that if it's ever served as a fallback, the client can show a real "viewing offline data
 // from {date}" notice on the allergen chip surface rather than a silent, indistinguishable swap
 // from live to stale data -- required by the allergy-safety review of this feature.
-
-const CACHE_VERSION = 'v1';
+//
+// CACHE_VERSION is injected at build time (vite.config.js), not hand-maintained -- an earlier
+// version of this file required bumping it by hand on every deploy that changed the shell, and
+// a real deploy shipped without doing that: the already-installed service worker only checks
+// for updates by byte-diffing this script file itself, so an unchanged version marker meant the
+// browser never even noticed index.html had changed, and kept serving stale cached HTML
+// indefinitely. Auto-stamping a build timestamp here removes that whole failure class -- every
+// build is a real, guaranteed-different version, whether or not a human remembered anything.
+// The placeholder token below is replaced with a real timestamp by vite.config.js's copy step
+// (a plain string replace, so this token must appear nowhere else in this file, comments
+// included); it stays literal (harmless as a version string on its own) when this file is
+// served directly by `npm run dev`, which never goes through the build step.
+const CACHE_VERSION = '__BUILD_VERSION__';
 const SHELL_CACHE = 'foodenvy-shell-' + CACHE_VERSION;
 const DATA_CACHE = 'foodenvy-data';
 
