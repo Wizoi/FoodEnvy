@@ -1681,8 +1681,8 @@
   </header>
 
   <nav class="tab-bar">
-    <button type="button" class="tab-btn active" id="searchTabBtn" onclick="switchAppTab('search')">Search</button>
-    <button type="button" class="tab-btn" id="helpTabBtn" onclick="switchAppTab('help')">Help</button>
+    <button type="button" class="tab-btn active" id="searchTabBtn" onclick="switchAppTab('search')">Discover</button>
+    <button type="button" class="tab-btn" id="helpTabBtn" onclick="switchAppTab('help')">Craving</button>
     <button type="button" class="tab-btn" id="planTabBtn" onclick="switchAppTab('plan')">Plan my week</button>
   </nav>
 
@@ -1751,7 +1751,7 @@
           </div>
 
           <div class="filter-control" style="flex: 1;">
-            <input type="text" id="search" placeholder="Search recipes..." oninput="filterRecipes()" style="flex: 1;">
+            <input type="text" id="search" placeholder="Search by name, ingredient..." oninput="filterRecipes()" style="flex: 1;">
           </div>
 
           <button type="button" class="btn-small btn-reset-filters" id="resetFiltersBtn" onclick="resetFilters()" style="display:none;">Reset recipe filters</button>
@@ -1798,7 +1798,7 @@
           </div>
 
           <div class="help-question">
-            <div class="help-question-label">Craving something specific?</div>
+            <div class="help-question-label">Something specific in mind?</div>
             <input type="text" id="helpCraving" placeholder="chicken, pasta, spicy..." style="width: 240px;" oninput="filterRecipes()">
             <span class="craving-suggestions" id="helpCravingSuggestions"></span>
           </div>
@@ -2381,7 +2381,7 @@
       }
     }
 
-    // Search and Help are a live-filtering skin over the SAME filterRecipes()/renderRecipes()/
+    // Discover and Craving are a live-filtering skin over the SAME filterRecipes()/renderRecipes()/
     // getSelectedProfileIds() engine, not two implementations -- see the plan notes on why a
     // fork here is how the two tabs quietly drift out of sync later. Only the input side (which
     // controls filterRecipes() reads) is gated by activeTab; the shared results grid/count is
@@ -4206,8 +4206,8 @@
     }
 
     function filterRecipes() {
-      // mealType/difficulty/#search only apply on the Search tab; Help's own controls only
-      // apply on the Help tab -- each tab's state is exactly as left, switching tabs is
+      // mealType/difficulty/#search only apply on the Discover tab; Craving's own controls only
+      // apply on the Craving tab -- each tab's state is exactly as left, switching tabs is
       // non-destructive to either. Profile/collection/favorites stay unconditional on both.
       const mealType = activeTab === 'search' ? document.getElementById('mealType').value : '';
       const difficulty = activeTab === 'search' ? document.getElementById('difficulty').value : '';
