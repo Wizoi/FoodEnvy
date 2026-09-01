@@ -364,6 +364,23 @@
       background: var(--light);
     }
 
+    /* De-emphasized relative to Regenerate/Get shopping list -- Reset is the least-frequent,
+       most-consequential action here, and shouldn't compete visually with the everyday two. */
+    .plan-reset-btn {
+      color: #999;
+      border-color: transparent;
+    }
+
+    .plan-reset-btn:hover {
+      color: var(--danger);
+      border-color: var(--border);
+    }
+
+    .plan-regenerate-btn-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     .content {
       flex: 1;
       display: flex;
@@ -555,6 +572,18 @@
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
+    }
+
+    /* Persistent tint, not just an icon change, so a locked slot reads as "held" at a glance
+       across the whole 21-slot grid -- a new color family (not the amber/green already used for
+       warnings/hover) so "locked" doesn't get confused with either. */
+    .plan-slot.locked {
+      background: #eef2fb;
+      border-color: #c3d0f0;
+    }
+
+    .plan-slot-locked {
+      color: #4a63b0;
     }
 
     .plan-slot-icons {
@@ -1795,9 +1824,10 @@
               <button type="button" class="household-size-btn" onclick="adjustHouseholdSize(1)" aria-label="More adult portions">+</button>
             </span>
             <button type="button" class="btn-small btn-reset-filters" id="planRegenerateBtn" onclick="generateAndRenderWeekPlan()" style="display:none;">
-              Change &amp; regenerate<span class="plan-drift-dot" id="planDriftDot" style="display:none;"></span>
+              <span id="planRegenerateLabel">Regenerate</span><span class="plan-drift-dot" id="planDriftDot" style="display:none;"></span>
             </button>
             <button type="button" class="btn-small btn-reset-filters" id="planShoppingListBtn" onclick="showShoppingList()" style="display:none;">Get shopping list</button>
+            <button type="button" class="btn-small btn-reset-filters plan-reset-btn" id="planResetBtn" onclick="handleResetClick()" style="display:none;">Reset week</button>
           </div>
           <p class="household-size-caption" id="householdSizeCaption" style="display:none;">Recipe yields are adult-portion estimates -- adjust down if your household includes young children.</p>
 
@@ -2527,10 +2557,39 @@
       );
     }
 
-    // Deterministic week generation: prefer not-yet-used recipes, allow repeats only once the
-    // eligible pool is exhausted. Three soft (deprioritize, never hard-exclude) signals layered
-    // on top, in priority order (per Amara Chen's nutrition review: plate-balance outranks
-    // preference) -- no invented nutrition data:
+    // Tallies one chosen/kept dinner into the running balance counters -- factored out so a
+    // freshly-picked dinner and a locked (kept-as-is) dinner update the exact same state the
+    // exact same way, rather than two copies that could drift. Order matters: this must run in
+    // the same day-by-day walk order generateWeekPlan() already visits slots in, since needsVeg
+    // only ever asks "has one happened yet," not "will one happen later" -- a locked Saturday
+    // vegetarian dinner must not be allowed to retroactively satisfy a Thursday check that was
+    // already evaluated before it (Amara Chen finding).
+    function tallyDinnerPick(recipe, proteinTally, incrementVeg) {
+      (recipe.tags || []).forEach(t => { if (t === 'vegetarian' || t === 'vegan') incrementVeg(); });
+      (recipe.ingredients || []).forEach(ing => (ing.tags || []).forEach(t => {
+        if (['meat', 'beef', 'pork', 'fish'].includes(t)) proteinTally[t] = (proteinTally[t] || 0) + 1;
+      }));
+    }
+
+    // Picks uniformly at random from every candidate within TIER_DELTA of the best (lowest)
+    // score in a sorted-ascending pool -- not a fixed top-N. A fixed top-3 would treat "three
+    // candidates within half a point of each other" the same as "three candidates where #1
+    // satisfies the Thursday vegetarian-dinner floor and #3 doesn't," handing the floor-failing
+    // candidate a real chance of being picked (Amara Chen finding, rejecting an earlier top-3
+    // proposal). Candidates that cross a real gate (the needsVeg +2 jump) or carry a heavier
+    // penalty never enter the tier at all; only genuinely comparable options do.
+    const DINNER_TIER_DELTA = 1.0;
+
+    function pickWithinScoreTier(sortedPool, scoreFn) {
+      const bestScore = scoreFn(sortedPool[0]);
+      const tier = sortedPool.filter(r => scoreFn(r) - bestScore <= DINNER_TIER_DELTA);
+      return tier[Math.floor(Math.random() * tier.length)];
+    }
+
+    // Week generation: prefer not-yet-used recipes, allow repeats only once the eligible pool is
+    // exhausted. Three soft (deprioritize, never hard-exclude) signals layered on top, in
+    // priority order (per Amara Chen's nutrition review: plate-balance outranks preference) --
+    // no invented nutrition data:
     //  - plant-forward-dinner (weight 2): a protein-repeat check alone doesn't catch an all-meat
     //    week with zero vegetarian dinners -- from Thursday on, if no dinner so far is
     //    vegetarian/vegan-tagged, deprioritize non-vegetarian dinner candidates.
@@ -2542,33 +2601,61 @@
     // Explicitly NOT attempted: any grain/starch-repeat signal (no rice/pasta/potato tag exists,
     // would need fragile ingredient-name fuzzy-matching) or calorie/macro modeling (no servings
     // or nutrition data exists to compute a real ratio from).
-    function generateWeekPlan(profileIds) {
+    //
+    // existingPlan (optional): when given, a removed slot stays removed (its recipe kept but not
+    // tallied -- the user opted out of that meal, which shouldn't influence the balance signal
+    // for the meals that remain) and a locked slot keeps its recipe (tallied, so unlocked slots
+    // still see it) instead of being freshly picked. Omit existingPlan for a full fresh build --
+    // the two cold-start callers (ensureWeekPlan, resetWeekPlan) both do this deliberately.
+    function generateWeekPlan(profileIds, existingPlan) {
       const slots = {};
       const usedIds = new Set();
       const proteinTally = {};
       let vegetarianDinners = 0;
+      const incrementVeg = () => { vegetarianDinners++; };
 
       PLAN_DAYS.forEach((day, dayIdx) => {
         PLAN_MEAL_TYPES.forEach(mealType => {
           const id = slotId(dayIdx, mealType);
+          const existingSlot = existingPlan && existingPlan.slots[id];
+
+          if (existingSlot && existingSlot.removed) {
+            slots[id] = { recipeId: existingSlot.recipeId, removed: true, locked: false };
+            return;
+          }
+
+          if (existingSlot && existingSlot.locked) {
+            const kept = allRecipes.find(r => r.id === existingSlot.recipeId);
+            slots[id] = { recipeId: existingSlot.recipeId, removed: false, locked: true };
+            if (kept) {
+              usedIds.add(kept.id);
+              if (mealType === 'dinner') tallyDinnerPick(kept, proteinTally, incrementVeg);
+            }
+            return;
+          }
+
           let pool = getEligibleRecipesForSlot(mealType, profileIds, Array.from(usedIds));
           if (pool.length === 0) pool = getEligibleRecipesForSlot(mealType, profileIds, []);
-          if (pool.length === 0) { slots[id] = { recipeId: null, removed: false }; return; }
+          if (pool.length === 0) { slots[id] = { recipeId: null, removed: false, locked: false }; return; }
 
+          let chosen;
           if (mealType === 'dinner' && pool.length > 1) {
             const needsVeg = dayIdx >= 3 && vegetarianDinners === 0;
-            pool = pool.slice().sort((a, b) => scoreDinnerCandidate(a, proteinTally, needsVeg, profileIds) - scoreDinnerCandidate(b, proteinTally, needsVeg, profileIds));
+            const scoreFn = r => scoreDinnerCandidate(r, proteinTally, needsVeg, profileIds);
+            const sorted = pool.slice().sort((a, b) => scoreFn(a) - scoreFn(b));
+            chosen = pickWithinScoreTier(sorted, scoreFn);
+          } else {
+            // No scoring signal exists for breakfast/lunch -- pool[0] would just be an artifact
+            // of allRecipes' array order, not a considered choice, so a uniform random pick
+            // across the whole pool is a no-op relative to nutrition balance and a real fix for
+            // "regenerate does nothing" (confirmed by Amara Chen: the tally/scoring only ever
+            // runs for mealType === 'dinner').
+            chosen = pool[Math.floor(Math.random() * pool.length)];
           }
 
-          const chosen = pool[0];
-          slots[id] = { recipeId: chosen.id, removed: false };
+          slots[id] = { recipeId: chosen.id, removed: false, locked: false };
           usedIds.add(chosen.id);
-          if (mealType === 'dinner') {
-            (chosen.tags || []).forEach(t => { if (t === 'vegetarian' || t === 'vegan') vegetarianDinners++; });
-            (chosen.ingredients || []).forEach(ing => (ing.tags || []).forEach(t => {
-              if (['meat', 'beef', 'pork', 'fish'].includes(t)) proteinTally[t] = (proteinTally[t] || 0) + 1;
-            }));
-          }
+          if (mealType === 'dinner') tallyDinnerPick(chosen, proteinTally, incrementVeg);
         });
       });
 
@@ -2627,12 +2714,54 @@
       // household-size-changed banner and per-checked-item deltas in showShoppingList().
     }
 
+    // Regenerates only the unlocked, non-removed slots of the CURRENT plan -- weekPlan is safe
+    // to pass directly as existingPlan since the "Regenerate" button is only ever visible after
+    // renderWeekPlan() has already populated it.
     function generateAndRenderWeekPlan() {
+      const profileIds = getSelectedProfileIds();
+      weekPlan = generateWeekPlan(profileIds, weekPlan);
+      saveWeekPlan();
+      document.getElementById('shoppingListSection').style.display = 'none';
+      renderWeekPlan();
+    }
+
+    // Full fresh build, deliberately with no existingPlan -- every lock and removal clears, per
+    // the user's own framing of Reset as "restore everything." There's no separately-stored
+    // "original" plan to restore instead; once slots have been swapped/removed/locked, a second
+    // stored snapshot purely to support Reset would be new state for no real benefit over a
+    // fresh generation.
+    function resetWeekPlan() {
       const profileIds = getSelectedProfileIds();
       weekPlan = generateWeekPlan(profileIds);
       saveWeekPlan();
       document.getElementById('shoppingListSection').style.display = 'none';
       renderWeekPlan();
+    }
+
+    // Reset destroys an accumulation of many deliberate choices (every lock, every removal) in
+    // one click -- a time-limited undo toast is easy to miss once attention has moved on, so
+    // this needs a real confirm step rather than the app's usual swap/drag undo pattern
+    // (Gamification Designer finding). Lightweight two-tap confirm, not a modal: the button
+    // relabels itself and reverts on its own after a few seconds if not confirmed.
+    let resetConfirmPending = false;
+    let resetConfirmTimeout = null;
+
+    function handleResetClick() {
+      const btn = document.getElementById('planResetBtn');
+      if (!resetConfirmPending) {
+        resetConfirmPending = true;
+        btn.textContent = 'Reset? Click again';
+        clearTimeout(resetConfirmTimeout);
+        resetConfirmTimeout = setTimeout(() => {
+          resetConfirmPending = false;
+          btn.textContent = 'Reset week';
+        }, 4000);
+        return;
+      }
+      clearTimeout(resetConfirmTimeout);
+      resetConfirmPending = false;
+      btn.textContent = 'Reset week';
+      resetWeekPlan();
     }
 
     // Shared cold-start: renderWeekPlan() already lazily bootstraps a plan on first visit to
@@ -2657,6 +2786,23 @@
     function toggleSlotRemoved(id) {
       if (!weekPlan || !weekPlan.slots[id]) return;
       weekPlan.slots[id].removed = !weekPlan.slots[id].removed;
+      // "Locked but removed" has no coherent meaning -- a removed slot already survives
+      // regenerate for an unrelated reason (it's skipped entirely), so leaving a stale lock
+      // underneath would surprise the user the next time they tap "+ Add back" and see a
+      // pre-locked slot they never explicitly locked. Re-locking after restoring is a deliberate
+      // second action.
+      if (weekPlan.slots[id].removed) weekPlan.slots[id].locked = false;
+      saveWeekPlan();
+      renderWeekPlan();
+    }
+
+    // A locked slot is protected from regenerate, not from manual changes -- drag/swap stay
+    // available while locked (a user may still deliberately want to change a pick they'd
+    // otherwise protect from the algorithm). Only reachable on a filled, non-removed slot; see
+    // renderPlanSlot()'s icon row.
+    function toggleSlotLocked(id) {
+      if (!weekPlan || !weekPlan.slots[id]) return;
+      weekPlan.slots[id].locked = !weekPlan.slots[id].locked;
       saveWeekPlan();
       renderWeekPlan();
     }
@@ -2699,7 +2845,7 @@
           getProfileAdaptationStatus(recipe, getSelectedProfileIds()).unresolved.length > 0) {
         return;
       }
-      weekPlan.slots[id] = { recipeId, removed: false };
+      weekPlan.slots[id] = { recipeId, removed: false, locked: false };
       saveWeekPlan();
       closeSwapModal();
       renderWeekPlan();
@@ -2739,11 +2885,17 @@
       // opens the real recipe detail (reusing openRecipeDetail(), same as every other card in
       // the app); swap and remove are their own small icon buttons, not overloaded onto a click
       // whose meaning wasn't visually obvious.
-      return '<div class="plan-slot" data-slot-id="' + id + '">' +
+      // Lock is leftmost -- reading order is "is this protected" before "how would I change it."
+      // Locking only protects from regenerate, not from manual changes, so drag/swap stay live
+      // on a locked slot; remove is hidden instead of disabled, since "locked but removed" has
+      // no coherent meaning (see toggleSlotRemoved) -- a slot must be unlocked before it can be
+      // removed.
+      return '<div class="plan-slot' + (slot.locked ? ' locked' : '') + '" data-slot-id="' + id + '">' +
         '<div class="plan-slot-icons">' +
+        '<button type="button" class="plan-slot-icon-btn' + (slot.locked ? ' plan-slot-locked' : '') + '" onclick="toggleSlotLocked(\'' + id + '\')" title="' + (slot.locked ? 'Unlock this meal' : 'Lock this meal (protects it from regenerate)') + '">' + (slot.locked ? '🔒' : '🔓') + '</button>' +
         '<button type="button" class="plan-slot-icon-btn plan-slot-drag-handle" data-drag-handle="' + id + '" title="Drag to move or swap">⠿</button>' +
         '<button type="button" class="plan-slot-icon-btn" onclick="openSwapModal(\'' + id + '\')" title="Swap this meal">⇄</button>' +
-        '<button type="button" class="plan-slot-icon-btn" onclick="toggleSlotRemoved(\'' + id + '\')" title="Remove">&times;</button>' +
+        (slot.locked ? '' : '<button type="button" class="plan-slot-icon-btn" onclick="toggleSlotRemoved(\'' + id + '\')" title="Remove">&times;</button>') +
         '</div>' +
         '<div class="plan-slot-mealtype">' + mealType + '</div>' +
         '<div class="plan-slot-name" onclick="openRecipeDetail(\'' + recipe.id + '\')" title="View recipe">' + recipe.name + '</div>' +
@@ -2758,6 +2910,7 @@
       const pill = document.getElementById('planForPill');
       const regenBtn = document.getElementById('planRegenerateBtn');
       const shopBtn = document.getElementById('planShoppingListBtn');
+      const resetBtn = document.getElementById('planResetBtn');
       const emptyState = document.getElementById('planEmptyState');
       const grid = document.getElementById('weekGrid');
 
@@ -2770,6 +2923,7 @@
         pill.style.display = 'none';
         regenBtn.style.display = 'none';
         shopBtn.style.display = 'none';
+        resetBtn.style.display = 'none';
         document.getElementById('planUnsafeAttention').style.display = 'none';
         document.getElementById('planSubstitutionAttention').style.display = 'none';
         return;
@@ -2782,6 +2936,19 @@
       pill.style.display = '';
       regenBtn.style.display = '';
       shopBtn.style.display = '';
+      resetBtn.style.display = '';
+
+      // Regenerate now only ever touches unlocked, non-removed slots -- the label and disabled
+      // state need to reflect that real, narrower scope rather than implying a full reshuffle
+      // (Gamification Designer finding). "Change &" is dropped once the action is partial, since
+      // "change" implied the whole plan was being swapped out.
+      const allSlots = Object.values(weekPlan.slots);
+      const anyLockedOrRemoved = allSlots.some(s => s.locked || s.removed);
+      const anyRegenerable = allSlots.some(s => !s.locked && !s.removed);
+      document.getElementById('planRegenerateLabel').textContent = anyLockedOrRemoved ? 'Regenerate unlocked' : 'Regenerate';
+      regenBtn.disabled = !anyRegenerable;
+      regenBtn.classList.toggle('plan-regenerate-btn-disabled', !anyRegenerable);
+      regenBtn.title = anyRegenerable ? '' : 'Unlock a meal to regenerate it';
 
       // The same drift dot now flags two related-but-distinct kinds of staleness off one
       // visible signal: who's checked no longer matching the plan's frozen profileIds, or the
@@ -2820,7 +2987,7 @@
       grid.innerHTML = PLAN_DAYS.map((day, dayIdx) => {
         const cells = PLAN_MEAL_TYPES.map(mealType => {
           const id = slotId(dayIdx, mealType);
-          const slot = weekPlan.slots[id] || { recipeId: null, removed: false };
+          const slot = weekPlan.slots[id] || { recipeId: null, removed: false, locked: false };
           const recipe = slot.recipeId ? allRecipes.find(r => r.id === slot.recipeId) : null;
           return renderPlanSlot(recipe, id, dayIdx, mealType, profileIds);
         }).join('');
@@ -2909,7 +3076,7 @@
           if (mealType !== recipe.mealType) {
             return '<div class="add-to-day-cell disabled"></div>';
           }
-          const slot = weekPlan.slots[id] || { recipeId: null, removed: false };
+          const slot = weekPlan.slots[id] || { recipeId: null, removed: false, locked: false };
           const occupant = slot.recipeId ? allRecipes.find(r => r.id === slot.recipeId) : null;
           if (addToDayConfirmSlot === id) {
             return '<div class="add-to-day-cell confirm">' +
@@ -2937,7 +3104,7 @@
 
     function confirmAddToDaySlot(id) {
       const recipeId = addToDayRecipeId;
-      weekPlan.slots[id] = { recipeId, removed: false };
+      weekPlan.slots[id] = { recipeId, removed: false, locked: false };
       saveWeekPlan();
       addToDayConfirmSlot = null;
       closeSwapModal();
@@ -3025,8 +3192,12 @@
         showAppToast('Can\'t move ' + (recipe ? recipe.name : 'that recipe') + ' there.');
         return;
       }
-      weekPlan.slots[toId] = { recipeId: fromSlot.recipeId, removed: false };
-      weekPlan.slots[fromId] = { recipeId: null, removed: false };
+      // A drag is a fresh, deliberate placement, so both ends land unlocked -- lock doesn't
+      // "follow" a recipe across a move (surprising) or stay pinned to the vacated position
+      // (meaningless once empty). If the user wants the new placement protected, they lock it
+      // again explicitly.
+      weekPlan.slots[toId] = { recipeId: fromSlot.recipeId, removed: false, locked: false };
+      weekPlan.slots[fromId] = { recipeId: null, removed: false, locked: false };
       saveWeekPlan();
       renderWeekPlan();
     }
@@ -3053,8 +3224,10 @@
       }
       const prevA = Object.assign({}, slotA);
       const prevB = Object.assign({}, slotB);
-      weekPlan.slots[idA] = { recipeId: slotB.recipeId, removed: false };
-      weekPlan.slots[idB] = { recipeId: slotA.recipeId, removed: false };
+      // Same reasoning as movePlanSlot: a drag-driven swap is a fresh placement, so both ends
+      // land unlocked regardless of whether either side was locked before the drag.
+      weekPlan.slots[idA] = { recipeId: slotB.recipeId, removed: false, locked: false };
+      weekPlan.slots[idB] = { recipeId: slotA.recipeId, removed: false, locked: false };
       saveWeekPlan();
       renderWeekPlan();
       showAppToast('Swapped ' + dayMealLabel(idA) + ' and ' + dayMealLabel(idB) + '.', {
