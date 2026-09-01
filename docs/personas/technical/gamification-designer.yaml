@@ -568,6 +568,37 @@ notes:
     by the user, so scoring it like an accomplishment misattributes the generation's work to the
     user's effort. No streak/badge either: this is single-session plan curation, not a repeated
     cross-session habit to reinforce.
+  - >
+    2026-08-31 (PWA installability + offline design pass): three calls, all consistent with
+    existing restraint principles rather than new ground. (1) No custom install banner/button --
+    let Chrome's native install affordance do the work with zero extra UI; FoodEnvy already has an
+    explicit "no unprompted nags, no manufactured urgency" stance (dislike chips never demote/
+    exclude, no toast for on-screen state changes, the rejected fill-progress-banner verdict) and a
+    self-triggered "Install this app!" prompt is exactly the app-initiated interruption that stance
+    exists to rule out -- if discoverability is a real worry, a single passive, low-weight mention
+    in an existing About/Settings surface (not a modal, not dismiss-tracked) is the ceiling, not a
+    banner. (2) No persistent "you're offline" indicator -- this is a local-first app where
+    IndexedDB already backs every core screen (profiles/inventory/recipes/plans), so network state
+    is mostly not a load-bearing signal for anything on-screen; adding a permanent badge for a
+    condition that doesn't change what the user can do is chrome with no behavior it reinforces,
+    the same "don't invent gamification/UI for its own sake" logic applied to a status indicator
+    instead of a mechanic. The one place offline is genuinely load-bearing (fetching a real
+    `imageUrl` recipe photo over network) already degrades gracefully via the existing deterministic
+    gradient+emoji fallback (`renderMealTypeVisual`) -- that's the honest-gap handling, not a new
+    banner. If a future feature adds a real network dependency (e.g. a live LLM call, explicitly
+    rejected in CLAUDE.md, or fetching update data), revisit scoped to that feature's own failure
+    state rather than a blanket app-wide indicator. (3) Update-available DOES deserve a surfaced
+    moment, not a silent background swap -- this is the one place the established "visible affordance
+    is the signal, no separate toast needed" rule doesn't apply, same exception already carved out
+    for the "Add to day" cross-tab toast: a waiting service-worker update is an off-screen event with
+    no on-screen control already reflecting it. Recommend a small, non-blocking, dismissible toast/
+    bar ("A new version is available -- Refresh") with an explicit user-initiated refresh action, not
+    an automatic reload -- a plan mid-edit (unswapped slots, unchecked shopping-list items) is real
+    user investment an auto-reload would silently discard, the same "don't throw away the user's
+    already-made investment" principle already applied to full-plan-regenerate vs. targeted swap. No
+    countdown, no forced refresh, no gamified framing (no "new features!" bait) -- purely functional,
+    dismissible, and it can reappear passively (e.g. next natural navigation) rather than nag if
+    dismissed once.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoodEnvy Recipe Library</title>
+  <!-- recipe-browser.html carries a <link rel="canonical"> pointing here -- the one deliberate,
+       permanent exception to this pair's byte-identical convention (see CLAUDE.md), not a missed
+       sync. Everything else about the two files must still match. -->
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-apple-touch-180.png">
+  <meta name="theme-color" content="#2d5a3d">
   <style>
     * {
       margin: 0;
@@ -988,6 +994,22 @@
       margin-bottom: 0.6rem;
     }
 
+    /* Deliberately its own line, same visual family as favorite-conflict-badge -- never merged
+       into the allergen-footer-disclaimer sentence. That disclaimer covers hand-authored-tagging
+       risk (bounded, always true); this covers offline-staleness risk (only true when serving a
+       cache fallback, and a DIFFERENT, additive risk -- a correction may exist that this device
+       hasn't seen yet). Collapsing the two into one sentence would dilute the more serious,
+       situational one. */
+    .offline-data-notice {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffe69c;
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
     .recipe-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -1808,6 +1830,11 @@
     not verified against product labels or cross-contact risk. A missing tag doesn't
     guarantee a recipe is free of that allergen. Always check packaging, and verify
     certified gluten-free products for celiac safety.
+    <!-- Its own line, not merged into the sentence above -- offline-staleness is a distinct,
+         additive risk (a correction may exist this device hasn't synced yet), only ever
+         populated when the recipe data was actually served from the service worker's offline
+         cache-fallback (see loadRecipes()/recipeDataCachedAt). -->
+    <div id="offlineDataFooterNotice" style="display:none; margin-top:0.4rem;"></div>
   </footer>
 
   <!-- Profile Modal -->
@@ -2028,6 +2055,19 @@
       return i.name;
     }
 
+    // Only renders anything when the service worker actually served the recipe data from its
+    // offline cache-fallback (recipeDataCachedAt set by loadRecipes() from sw.js's response
+    // header) -- never a generic "you're offline" check, since a cache-fallback response and
+    // bare connectivity are different conditions and this must reflect the DATA's freshness.
+    function renderOfflineDataNotice() {
+      if (!recipeDataCachedAt) return '';
+      let when;
+      try { when = new Date(recipeDataCachedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); }
+      catch (e) { when = 'an earlier visit'; }
+      return '<div class="offline-data-notice">📡 Viewing offline data from ' + when +
+        ' — reconnect to check for allergen-tag updates.</div>';
+    }
+
     function renderAllergenChips(recipe) {
       if (!recipe.ingredients || recipe.ingredients.length === 0) return '';
       const allergenSet = new Set();
@@ -2122,6 +2162,7 @@
       let html = '<div class="detail-hero">' + renderMealTypeVisual(recipe) + '</div>';
       html += renderDetailMetaStrip(recipe);
       html += renderAllergenChips(recipe);
+      html += renderOfflineDataNotice();
       html += renderDietExclusionChips(recipe);
       html += renderDietChips(recipe);
       if (recipe.description) {
@@ -2214,6 +2255,11 @@
     };
 
     let allRecipes = [];
+    // Set only when the service worker actually served the recipe data from its offline
+    // cache-fallback (see sw.js's X-FoodEnvy-Cached-At header) -- never from bare
+    // navigator.onLine, since the two are different conditions and this must reflect the
+    // data's real freshness, not general connectivity (allergy-safety review requirement).
+    let recipeDataCachedAt = null;
     let profiles = [];
     let collections = [];
     let personasMap = {};
@@ -3690,6 +3736,12 @@
     async function loadRecipes() {
       try {
         const resp = await fetch('./foodenvy-complete-recipes.json');
+        // Present only when the service worker fell back to its offline cache for this fetch
+        // (see sw.js) -- a real timestamp, not a boolean flag, so a family can judge how stale
+        // the data might be rather than just knowing it's not live. Guarded for environments
+        // (like this app's own test harness's fetch stub) where a Response-like object may not
+        // carry a real Headers instance.
+        recipeDataCachedAt = resp.headers && typeof resp.headers.get === 'function' ? resp.headers.get('X-FoodEnvy-Cached-At') : null;
         const data = await resp.json();
 
         // Handle both array format and object format
@@ -3700,6 +3752,17 @@
           if (data.personas) {
             data.personas.forEach(p => personasMap[p.id] = p);
           }
+        }
+
+        const footerNotice = document.getElementById('offlineDataFooterNotice');
+        if (recipeDataCachedAt) {
+          let when;
+          try { when = new Date(recipeDataCachedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); }
+          catch (e) { when = 'an earlier visit'; }
+          footerNotice.textContent = '📡 Viewing offline data from ' + when + ' — reconnect to check for allergen-tag updates.';
+          footerNotice.style.display = '';
+        } else {
+          footerNotice.style.display = 'none';
         }
 
         filterRecipes();
@@ -4145,7 +4208,45 @@
         if (savedTab === 'plan') switchAppTab('plan');
       });
       setupSidebarResize();
+      registerServiceWorker();
     });
+
+    // PWA installability + offline support. No custom "Install this app" UI anywhere in this
+    // app -- Chrome's native install affordance does that job with no in-app interruption
+    // (Gamification Designer finding, same reasoning that already rejected an app-initiated
+    // "Dinner Confidence" banner). This function only wires up the service worker and its
+    // update-available toast.
+    function registerServiceWorker() {
+      if (!('serviceWorker' in navigator)) return;
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            // navigator.serviceWorker.controller is only set once a worker has already taken
+            // control of this page -- its absence means this is the very first install, not an
+            // update, so there's nothing to prompt about yet.
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              showAppToast('A new version is available.', {
+                actionLabel: 'Refresh',
+                onAction: function () { newWorker.postMessage({ type: 'SKIP_WAITING' }); }
+              });
+            }
+          });
+        });
+      }).catch(() => {});
+
+      // No silent auto-reload -- a mid-session plan or partially-checked shopping list is real
+      // user investment that shouldn't vanish out from under them. The reload only happens once
+      // the user has explicitly tapped "Refresh" above, which is what causes the new worker to
+      // skip waiting and take control (firing this event).
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
+      });
+    }
   </script>
 </body>
 </html>

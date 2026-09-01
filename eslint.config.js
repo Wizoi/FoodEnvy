@@ -26,6 +26,19 @@ export default [
     },
   },
   {
+    // The service worker runs in its own global scope (self/caches/fetch/Response/URL as
+    // ServiceWorkerGlobalScope, not window) -- a separate env block, not folded into the
+    // index.html/recipe-browser.html one above, since browser globals don't apply here.
+    files: ['public/sw.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.serviceworker,
+      },
+    },
+  },
+  {
     files: ['vite.config.js'],
     languageOptions: {
       ecmaVersion: 2022,

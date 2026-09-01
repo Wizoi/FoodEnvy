@@ -368,3 +368,31 @@ notes:
     red/amber/muted three-tier treatment (allergy conflict / adaptation / dislike) at the
     per-slot level -- a rollup that flattens two of those tiers into one number contradicts a
     pattern the app has otherwise been careful to maintain.
+  - >
+    2026-08: reviewed the PWA/offline proposal (service worker: cache-first versioned app shell,
+    network-first-with-offline-fallback for public/foodenvy-complete-recipes.json). Verdict:
+    network-first-with-offline-fallback is the right caching strategy, but conditionally
+    unacceptable as described because it is silent about data freshness -- an offline user reading
+    the allergen chip row (already required elsewhere in this file to be glance-scannable and
+    non-collapsible) has no way to know their cached copy predates an allergen-tag correction
+    (e.g. a missed sesame-oil-in-marinade tag later fixed). Same "frozen snapshot silently drifting
+    from ground truth" failure already flagged for Plan-My-Week's revalidatePlan and the
+    localStorage filter-persistence review, just with no live data available to re-check against --
+    so the mitigation has to be visibility, not re-computation. Required conditions for sign-off:
+    (1) a persistent, non-dismissible-until-reconnect indicator scoped to the allergen chip row
+    specifically (detail view and ideally grid card), not a generic app-level offline toast --
+    it must sit where the safety claim is made, same principle as the existing "not verified
+    against product labels" chip-row disclaimer, and this is an ADDITIONAL disclaimer, not a
+    replacement; (2) a real "last updated" timestamp from the cached response, not just a boolean
+    offline flag -- staleness risk differs meaningfully between a day-old and month-old cache;
+    (3) the indicator must key off whether the recipe-data fetch specifically was served from cache
+    vs. network, decoupled from app-shell offline-install status or bare navigator.onLine --
+    conflating "app is installed/offline-capable" with "this recipe's allergen data is stale" is
+    the wrong signal; (4) keep this as its own distinct line rather than merging into the existing
+    label-verification disclaimer -- known-already-fixed staleness and hand-authored-tagging risk
+    are different risk tiers and must not collapse into one diluted sentence, consistent with this
+    persona's repeated rule against merging risk tiers (Plan-My-Week rollup finding,
+    adaptation-highlight-vs-allergy-chip finding). Not blocking, but recommended to the technical
+    personas: if the service worker can detect a cache-fallback response, prompt to reconnect and
+    refresh rather than only passively disclosing, since passive disclaimers get skimmed under the
+    time pressure (grocery aisle, dinner prep) this scenario actually occurs in.
