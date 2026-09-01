@@ -213,3 +213,31 @@ notes:
     currently has no age/child field to check against -- then the *default number* itself, not
     just its label, may be wrong for families with kids checked in; the label fix doesn't resolve
     that, only the caveat text papers over it until a real age field exists.
+  - >
+    2026-08: reviewed the proposed "Change & regenerate" fix for Plan My Week (currently fully
+    deterministic -- regenerate always returns the same plan). Web App Engineer's proposal:
+    weighted-random ([3,2,1]) among the top-3 scoreDinnerCandidate results for dinner, uniform-
+    random across the whole eligible pool for breakfast/lunch (which have no scoring today), plus
+    a new lock mechanic where locked slots still feed the running protein/vegetarian-dinner
+    tallies. Finding: top-3-by-rank is not the same as top-3-by-score, and scoreDinnerCandidate's
+    weights are deliberately ordered (needsVeg=2 as a near-hard floor for "zero vegetarian dinners
+    Thu+", protein-repeat=1/tag, dislike=0.5/match, per my 2026-08 "plate-balance outranks
+    preference" review) specifically so balance could never be outranked by preference. Picking by
+    rank position ignores the size of the score gap: if #1 scores 0, #2 scores 1 (one protein
+    repeat), #3 scores 2 (fails needsVeg outright), the proposal gives #3 a 1-in-6 chance of being
+    chosen on exactly the day the plant-forward floor is meant to bind -- self-correcting (needsVeg
+    persists until satisfied, so worst case the week's one vegetarian dinner lands late, on Sunday)
+    but a real weakening versus the current guarantee, not a null risk. Recommendation: key the
+    randomizable pool off a score-delta tier (e.g. within 1.0 of the top score, which spans "one
+    protein-repeat hit apart" but not the needsVeg 2-point gate) rather than a fixed rank count of
+    3 -- if fewer than 3 candidates fall in the band, randomize among just those rather than padding
+    out to 3 by reaching past the gate. Breakfast/lunch going uniform-random is a non-issue --
+    neither meal type is scored today, so there's no existing balance signal to lose. Locked slots
+    feeding the running tally (in the same day-by-day, meal-by-meal generation order) is the right
+    call and effectively required, not optional -- without it, regenerating unlocked dinners around
+    a locked pick can't see that pick's protein/veg contribution and can silently stack an already-
+    overused protein or miss a locked vegetarian dinner that already satisfied needsVeg, reproducing
+    the same invisible-drift failure mode flagged in my very first review of this planner's swap
+    design. Tally should read the locked recipe's own tags only, not care how it was originally
+    selected (pre-fix deterministic vs. new weighted-random) -- worth confirming with engineering
+    that no special-casing is needed there, but not itself a nutrition finding.

@@ -365,6 +365,40 @@ notes:
     drift-dot staleness badge) -- and a new banner DOM node near #planForPill; no new domain
     function or data-model change needed since this is a pure aggregation of state the render
     loop already computes."
+  - "2026-08-31, 'Change & regenerate' lock/unlock feasibility pass (index.html/
+    recipe-browser.html, generateWeekPlan/generateAndRenderWeekPlan/scoreDinnerCandidate/
+    toggleSlotRemoved/renderPlanSlot): confirmed two real bugs, not one -- generateWeekPlan(
+    profileIds) is fully deterministic (breakfast/lunch always take pool[0] of an unscored,
+    fixed-order pool; dinners take pool[0] of a stable sort, i.e. always the single best-scored
+    candidate, never a genuine choice among near-ties), AND generateAndRenderWeekPlan() discards
+    the entire existing weekPlan (removed flags, swaps) on every click by calling
+    generateWeekPlan(profileIds) as a from-scratch rebuild. Recommended fix: (1) weighted-random
+    among top-3 scored candidates for dinners (preserves the plate-balance signal's priority,
+    unlike pure random which would ignore it entirely) and uniform-random across the full pool for
+    breakfast/lunch (no scoring signal exists there to weight against). (2) new `locked` boolean
+    on a slot, third field alongside recipeId/removed, default false; only reachable via UI when a
+    slot has a recipe and isn't removed (renderPlanSlot's third branch); toggleSlotRemoved(id)
+    setting removed:true also clears locked:false in the same write (locked+removed is
+    incoherent -- a removed slot already survives regenerate for a different reason). (3)
+    generateWeekPlan(profileIds, existingPlan) -- existingPlan optional/falsy preserves today's
+    full-fresh-build path (needed for ensureWeekPlan's cold start and Reset). When provided, the
+    existing single Mon->Sun/breakfast->lunch->dinner loop inline-copies-through removed slots
+    (NOT tallied into proteinTally/vegetarianDinners -- explicitly opted out of that week's mix)
+    and locked slots (tallied via a small extracted tallyDinnerPick() helper shared with the
+    freshly-chosen branch, so scoreDinnerCandidate's needsVeg/protein-repeat checks for later days
+    correctly see earlier locked picks -- this falls out naturally from the loop's existing day
+    order, no second pass needed). Confirmed locking does NOT bypass the existing live safety
+    staleness check -- renderPlanSlot already re-runs getProfileAdaptationStatus against *live*
+    checked profiles on every render regardless of how recipeId got set, so a locked pick that
+    later becomes unsafe still badges correctly; locking only pins which recipe generation writes
+    into the slot. (4) Reset = generateWeekPlan(profileIds) with no existingPlan arg (same cold-
+    start path as ensureWeekPlan) -- explicitly rejected a 'restore original picks' alternative
+    since no separate pristine-snapshot state exists or is worth adding solely for Reset. (5) new
+    lock icon reuses plan-slot-icon-btn/plan-slot-icons exactly (renderPlanSlot, ~2742), placed
+    leftmost before the drag handle; new Reset button reuses the existing btn-small
+    btn-reset-filters class already used by resetFiltersBtn/resetHelpFiltersBtn, placed in
+    .plan-header-row after planShoppingListBtn. Must land in both index.html and
+    recipe-browser.html per the standing byte-identical-files constraint."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

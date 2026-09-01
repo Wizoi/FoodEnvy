@@ -617,6 +617,36 @@ notes:
     reusing: when a persisted-collapse container also carries an occasional situational sub-notice,
     the sub-notice needs to live outside the collapsible region, not inside it, regardless of how the
     container's own collapse behavior is decided.
+  - >
+    2026-08-31 (Plan-my-week lock/unlock + persistent-removal + Reset design pass): lock icon goes
+    FIRST in `.plan-slot-icons` (before drag-handle/swap/remove) since it governs whether the other
+    three even apply, not just another peer action -- open/closed padlock glyph plus a persistent
+    light background tint on the whole locked slot (new color, not reusing amber/green/slate) so
+    "held" reads at a glance across the full 21-slot grid, not just on icon hover. Locking disables
+    ONLY the remove (x) icon -- drag-handle and swap (⇄) stay live on a locked slot, since "protect
+    from the algorithm's regenerate" and "prevent the user from deliberately touching it" are
+    different things and conflating them wasn't requested. Remove is disabled specifically because
+    lock-then-remove is a contradictory pair in one click sequence; a locked slot must be unlocked
+    first. The existing removed-slot card (dashed outline, "No {meal} planned", "+ Add back") needs
+    ZERO visual change to support persistent-across-regenerate removal -- it was already designed
+    (2026-08-30 note) to mean "user chose this," and today's bug (regenerate silently overwriting
+    it) was a logic bug, not evidence the card's framing was wrong; fixing the logic makes the
+    existing card finally mean what it already visually promises. Reset is the one place I recommend
+    a confirmation step OVER this app's usual undo-toast default (swap/drag pattern) -- toasts here
+    are calibrated for single, cheap, easily-repeatable actions, but Reset destroys an accumulation
+    of many deliberate choices (every lock + every removal across a week) in one click with a
+    time-limited undo window; a confirm gating a user-initiated destructive action isn't the
+    "unprompted app-initiated interrupt" the no-nag principle exists to rule out, it's the honest
+    cost of an action that's genuinely hard to undo well. Reset placed last in the header row
+    (after Change & regenerate, Get shopping list), visually de-emphasized (outline not solid) --
+    same "don't make the destructive/expensive option the path of least resistance" logic already
+    applied to full-regenerate-vs-swap, now applied one level up to Reset-vs-regenerate. Regenerate's
+    label should change conditionally: "Regenerate unlocked" once at least one slot is locked or
+    removed (the action is genuinely partial and needs to say so), reverting to plain "Regenerate"
+    when nothing is locked/removed (dropped "Change &" either way -- "change" implied whole-plan
+    swap, wrong framing for a scoped action). Must also handle the real reachable end-state of the
+    intended workflow (lock everything liked + remove everything unwanted = zero unlocked slots
+    left) with a disabled button + explanatory title, not a silent no-op click.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"
