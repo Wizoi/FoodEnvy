@@ -1,0 +1,1907 @@
+{
+  "generatedAt": "2026-09-03T04:48:42.149Z",
+  "corpusSize": 634,
+  "categories": {
+    "chicken": {
+      "label": "Chicken",
+      "kind": "protein",
+      "recipeCount": 72,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "mint",
+          "count": 3,
+          "exampleRecipes": [
+            "Thai Larb Gai Lettuce Wraps",
+            "Quinoa Tabbouleh with Grilled Chicken, Feta, and Toasted Pine Nuts"
+          ],
+          "recipeIds": [
+            "recipe-c982b725-03e0-430d-862a-fe241421f145",
+            "recipe-sofia-marsh-gluten-free-quinoa-tabbouleh-grilled-chicken",
+            "recipe-theo-blue-apron-adventurer-zaatar-chicken-fattoush"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "rice vinegar",
+          "count": 12,
+          "exampleRecipes": [
+            "Peanut Sesame Noodles with Chicken",
+            "Peanut-Ginger Chicken & Rice Noodle Salad"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-peanut-sesame-noodles-chicken",
+            "recipe-lucia-alvarez-batch-cook-peanut-ginger-noodle-salad",
+            "recipe-lucia-alvarez-batch-cook-shredded-chicken-lettuce-cups",
+            "recipe-priya-busy-parent-peanut-noodles-chicken",
+            "recipe-sofia-marsh-gluten-free-parallel-track-pad-see-ew",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-sofia-marsh-gluten-free-tamari-chicken-skewers",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-banh-mi-chicken-bowl",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-noodle-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "marinara",
+          "count": 5,
+          "exampleRecipes": [
+            "Baked Chicken Parmesan",
+            "Baked Chicken Parmesan"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-baked-chicken-parmesan",
+            "recipe-lucia-alvarez-batch-cook-chicken-parmesan",
+            "recipe-robert-retiree-traditionalist-chicken-parmesan",
+            "recipe-sofia-marsh-gluten-free-chicken-parmesan-rice-spaghetti",
+            "recipe-ben-osei-parallel-menu-chicken-parmesan-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "shallot",
+          "count": 4,
+          "exampleRecipes": [
+            "Thai Larb Gai Lettuce Wraps",
+            "Pan-Seared Chicken Breast with Pan Sauce"
+          ],
+          "recipeIds": [
+            "recipe-c982b725-03e0-430d-862a-fe241421f145",
+            "recipe-elena-weekend-hobbyist-pan-seared-chicken-pan-sauce",
+            "recipe-theo-blue-apron-adventurer-five-spice-chicken-congee",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "cilantro",
+          "count": 15,
+          "exampleRecipes": [
+            "Thai Larb Gai Lettuce Wraps",
+            "Sheet-Pan Chicken Fajita Bowls"
+          ],
+          "recipeIds": [
+            "recipe-c982b725-03e0-430d-862a-fe241421f145",
+            "recipe-dana-hellofresh-regular-chicken-fajita-bowls",
+            "recipe-elena-weekend-hobbyist-chilaquiles-verdes",
+            "recipe-lucia-alvarez-batch-cook-peanut-ginger-noodle-salad",
+            "recipe-lucia-alvarez-batch-cook-shredded-chicken-tacos",
+            "recipe-lucia-alvarez-batch-cook-thai-peanut-chicken-noodle-bowl",
+            "recipe-lucia-alvarez-batch-cook-shredded-chicken-lettuce-cups",
+            "recipe-sofia-marsh-gluten-free-corn-tortilla-chicken-tacos",
+            "recipe-theo-blue-apron-adventurer-banh-mi-chicken-bowl",
+            "recipe-theo-blue-apron-adventurer-moroccan-apricot-chicken-couscous",
+            "recipe-theo-blue-apron-adventurer-peruvian-aji-verde-chicken",
+            "recipe-theo-blue-apron-adventurer-indian-butter-chicken-skillet",
+            "recipe-theo-blue-apron-adventurer-georgian-chicken-shkmeruli",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-sheet-pan-fajita-bowls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lemon",
+          "count": 9,
+          "exampleRecipes": [
+            "Spatchcocked Roast Chicken with Herb Butter",
+            "Sheet-Pan Greek Chicken Pita Bowls with Tzatziki"
+          ],
+          "recipeIds": [
+            "recipe-c015f5d5-b569-44f7-a38c-b6f37f825982",
+            "recipe-dana-hellofresh-regular-greek-chicken-pita-bowls",
+            "recipe-lucia-alvarez-batch-cook-chicken-veggie-grain-bowls",
+            "recipe-robert-retiree-traditionalist-herb-roast-chicken",
+            "recipe-sofia-marsh-gluten-free-quinoa-tabbouleh-grilled-chicken",
+            "recipe-theo-blue-apron-adventurer-zaatar-chicken-fattoush",
+            "recipe-theo-blue-apron-adventurer-moroccan-apricot-chicken-couscous",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-sheet-pan-chicken-veg-parallel"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lime juice",
+          "count": 4,
+          "exampleRecipes": [
+            "Thai Larb Gai Lettuce Wraps",
+            "Thai Peanut Chicken & Rice Noodle Bowl"
+          ],
+          "recipeIds": [
+            "recipe-c982b725-03e0-430d-862a-fe241421f145",
+            "recipe-lucia-alvarez-batch-cook-thai-peanut-chicken-noodle-bowl",
+            "recipe-theo-blue-apron-adventurer-banh-mi-chicken-bowl",
+            "recipe-theo-blue-apron-adventurer-peruvian-aji-verde-chicken"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "ginger",
+          "count": 13,
+          "exampleRecipes": [
+            "Peanut-Ginger Chicken & Rice Noodle Salad",
+            "Thai Peanut Chicken & Rice Noodle Bowl"
+          ],
+          "recipeIds": [
+            "recipe-lucia-alvarez-batch-cook-peanut-ginger-noodle-salad",
+            "recipe-lucia-alvarez-batch-cook-thai-peanut-chicken-noodle-bowl",
+            "recipe-sofia-marsh-gluten-free-cauliflower-rice-teriyaki-chicken-bowl",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-sofia-marsh-gluten-free-tamari-chicken-skewers",
+            "recipe-theo-blue-apron-adventurer-five-spice-chicken-congee",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-indian-butter-chicken-skillet",
+            "recipe-theo-blue-apron-adventurer-ethiopian-berbere-chicken-lentils",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-peanut-noodle-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "fish sauce",
+          "count": 3,
+          "exampleRecipes": [
+            "Thai Larb Gai Lettuce Wraps",
+            "Vietnamese Banh Mi Chicken Bowl with Quick Pickles & Garlic-Chili Mayo"
+          ],
+          "recipeIds": [
+            "recipe-c982b725-03e0-430d-862a-fe241421f145",
+            "recipe-theo-blue-apron-adventurer-banh-mi-chicken-bowl",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa"
+          ],
+          "allergenTags": [
+            "fish"
+          ]
+        },
+        {
+          "seasoning": "lime",
+          "count": 9,
+          "exampleRecipes": [
+            "Sheet-Pan Chicken Fajita Bowls",
+            "One-Pan Chicken Fajita Rice Bowl"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-chicken-fajita-bowls",
+            "recipe-dana-hellofresh-regular-one-pan-chicken-fajita-rice-bowl",
+            "recipe-lucia-alvarez-batch-cook-peanut-ginger-noodle-salad",
+            "recipe-lucia-alvarez-batch-cook-shredded-chicken-tacos",
+            "recipe-priya-busy-parent-next-day-fajita-chicken-lunch-bowls",
+            "recipe-priya-busy-parent-sheet-pan-chicken-fajitas",
+            "recipe-sofia-marsh-gluten-free-corn-tortilla-chicken-tacos",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-sheet-pan-fajita-bowls"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "beef": {
+      "label": "Beef",
+      "kind": "protein",
+      "recipeCount": 43,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "red wine",
+          "count": 6,
+          "exampleRecipes": [
+            "Braised Short Ribs with Red Wine",
+            "Pan-Seared Steak with Red Wine Pan Sauce"
+          ],
+          "recipeIds": [
+            "recipe-30371f7e-7555-4212-b527-d1a10830f273",
+            "recipe-84bf2ec6-a1d0-4411-8dbf-9707593950de",
+            "recipe-elena-weekend-hobbyist-braised-short-ribs",
+            "recipe-lucia-alvarez-batch-cook-beef-bolognese",
+            "recipe-robert-retiree-traditionalist-beef-pot-roast",
+            "recipe-ben-osei-parallel-menu-pasta-bolognese-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "basil",
+          "count": 5,
+          "exampleRecipes": [
+            "Sunday Beef Bolognese over Spaghetti",
+            "Saturday Baked Ziti (Freeze Half for Wednesday Lunch)"
+          ],
+          "recipeIds": [
+            "recipe-lucia-alvarez-batch-cook-beef-bolognese",
+            "recipe-priya-busy-parent-saturday-baked-ziti-freeze-half",
+            "recipe-robert-retiree-traditionalist-baked-ziti",
+            "recipe-theo-blue-apron-adventurer-thai-basil-beef-sheet-pan",
+            "recipe-ben-osei-parallel-menu-pasta-bolognese-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "red wine vinegar",
+          "count": 3,
+          "exampleRecipes": [
+            "Nicoise Salad with Seared Tuna",
+            "Sheet-Pan Steak Fajita Sweet Potato Bowls"
+          ],
+          "recipeIds": [
+            "recipe-27a977a3-685b-448e-9f40-5e3df17b83ab",
+            "recipe-dana-hellofresh-regular-steak-fajita-sweet-potato-bowls",
+            "recipe-theo-blue-apron-adventurer-peruvian-lomo-saltado-sheet-pan"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "chili powder",
+          "count": 6,
+          "exampleRecipes": [
+            "Sheet-Pan Steak Fajita Sweet Potato Bowls",
+            "Skillet Beef Taco Rice Bowl"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-steak-fajita-sweet-potato-bowls",
+            "recipe-marcus-dorm-starter-skillet-beef-taco-rice-bowl",
+            "recipe-priya-busy-parent-slow-cooker-beef-chili",
+            "recipe-robert-retiree-traditionalist-beef-chili",
+            "recipe-ben-osei-parallel-menu-taco-bar-beef-tofu",
+            "recipe-ben-osei-parallel-menu-chili-beef-bean-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "marinara",
+          "count": 3,
+          "exampleRecipes": [
+            "Saturday Baked Ziti (Freeze Half for Wednesday Lunch)",
+            "Baked Ziti"
+          ],
+          "recipeIds": [
+            "recipe-priya-busy-parent-saturday-baked-ziti-freeze-half",
+            "recipe-priya-busy-parent-baked-ziti",
+            "recipe-robert-retiree-traditionalist-baked-ziti"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "salsa",
+          "count": 3,
+          "exampleRecipes": [
+            "Beef Taco Salad Bowl",
+            "Skillet Beef Taco Rice Bowl"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-beef-taco-salad-bowl",
+            "recipe-marcus-dorm-starter-skillet-beef-taco-rice-bowl",
+            "recipe-ben-osei-parallel-menu-beef-black-bean-burrito-bowls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "thyme",
+          "count": 6,
+          "exampleRecipes": [
+            "Braised Short Ribs with Red Wine",
+            "Pan-Seared Steak with Red Wine Pan Sauce"
+          ],
+          "recipeIds": [
+            "recipe-30371f7e-7555-4212-b527-d1a10830f273",
+            "recipe-84bf2ec6-a1d0-4411-8dbf-9707593950de",
+            "recipe-elena-weekend-hobbyist-braised-short-ribs",
+            "recipe-robert-retiree-traditionalist-beef-pot-roast",
+            "recipe-robert-retiree-traditionalist-swiss-steak",
+            "recipe-ben-osei-parallel-menu-shepherds-pie-dairy-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "celery",
+          "count": 5,
+          "exampleRecipes": [
+            "Braised Short Ribs with Red Wine",
+            "Braised Short Ribs in Red Wine"
+          ],
+          "recipeIds": [
+            "recipe-30371f7e-7555-4212-b527-d1a10830f273",
+            "recipe-elena-weekend-hobbyist-braised-short-ribs",
+            "recipe-lucia-alvarez-batch-cook-beef-bolognese",
+            "recipe-ben-osei-parallel-menu-pasta-bolognese-branch",
+            "recipe-ben-osei-parallel-menu-shepherds-pie-dairy-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "onion",
+          "count": 25,
+          "exampleRecipes": [
+            "Braised Short Ribs with Red Wine",
+            "Sheet-Pan Steak Fajita Sweet Potato Bowls"
+          ],
+          "recipeIds": [
+            "recipe-30371f7e-7555-4212-b527-d1a10830f273",
+            "recipe-dana-hellofresh-regular-steak-fajita-sweet-potato-bowls",
+            "recipe-dana-hellofresh-regular-sheet-pan-mini-meatloaf-mashed-potatoes",
+            "recipe-elena-weekend-hobbyist-braised-short-ribs",
+            "recipe-jamie-weeknight-beginner-classic-meatloaf-mashed-potatoes",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-lucia-alvarez-batch-cook-beef-bolognese",
+            "recipe-priya-busy-parent-slow-cooker-beef-chili",
+            "recipe-robert-retiree-traditionalist-corned-beef-hash",
+            "recipe-robert-retiree-traditionalist-beef-chili",
+            "recipe-robert-retiree-traditionalist-patty-melt",
+            "recipe-robert-retiree-traditionalist-classic-lower-sodium-meatloaf",
+            "recipe-robert-retiree-traditionalist-beef-pot-roast",
+            "recipe-robert-retiree-traditionalist-shepherds-pie",
+            "recipe-robert-retiree-traditionalist-swiss-steak",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff",
+            "recipe-theo-blue-apron-adventurer-thai-basil-beef-sheet-pan",
+            "recipe-theo-blue-apron-adventurer-peruvian-lomo-saltado-sheet-pan",
+            "recipe-theo-blue-apron-adventurer-shaking-beef-bites",
+            "recipe-ben-osei-parallel-menu-taco-bar-beef-tofu",
+            "recipe-ben-osei-parallel-menu-burger-night-branch",
+            "recipe-ben-osei-parallel-menu-pasta-bolognese-branch",
+            "recipe-ben-osei-parallel-menu-chili-beef-bean-branch",
+            "recipe-ben-osei-parallel-menu-shepherds-pie-dairy-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "ginger",
+          "count": 7,
+          "exampleRecipes": [
+            "Beef Stir-Fry",
+            "One-Pot Beef and Broccoli Rice Skillet"
+          ],
+          "recipeIds": [
+            "seed-beef-stirfry",
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-dana-hellofresh-regular-one-pan-beef-cashew-stir-fry",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "pork": {
+      "label": "Pork",
+      "kind": "protein",
+      "recipeCount": 52,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "apple cider vinegar",
+          "count": 4,
+          "exampleRecipes": [
+            "Breakfast Burrito with Homemade Chorizo",
+            "Slow-Cooker Pulled Pork"
+          ],
+          "recipeIds": [
+            "recipe-d9c7f31a-aab4-4755-9e72-534cbbfadcb1",
+            "recipe-priya-busy-parent-slow-cooker-pulled-pork",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-ham",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-with-ham"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "sage",
+          "count": 6,
+          "exampleRecipes": [
+            "Sheet-Pan Sausage & Sweet Potato Breakfast Hash with Fried Eggs",
+            "Loaded Breakfast Burrito"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-sausage-sweet-potato-hash",
+            "recipe-jamie-weeknight-beginner-loaded-breakfast-burrito",
+            "recipe-jamie-weeknight-beginner-sheet-pan-sausage-potato-hash",
+            "recipe-priya-busy-parent-breakfast-fried-rice",
+            "recipe-robert-retiree-traditionalist-sausage-gravy-biscuits",
+            "recipe-robert-retiree-traditionalist-sausage-stuffed-mushrooms"
+          ],
+          "allergenTags": [
+            "meat",
+            "pork"
+          ]
+        },
+        {
+          "seasoning": "bay leaf",
+          "count": 3,
+          "exampleRecipes": [
+            "Coq au Vin",
+            "Cassoulet"
+          ],
+          "recipeIds": [
+            "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
+            "recipe-elena-weekend-hobbyist-cassoulet",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-ham"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "fish sauce",
+          "count": 3,
+          "exampleRecipes": [
+            "Bahn Mi with Pork Pate and Quick-Pickled Vegetables",
+            "Vietnamese Banh Mi Breakfast Bowl"
+          ],
+          "recipeIds": [
+            "recipe-8621bc1e-58f8-4c42-9e88-cb431193a70c",
+            "recipe-theo-blue-apron-adventurer-vietnamese-banh-mi-breakfast-bowl",
+            "recipe-theo-blue-apron-adventurer-vietnamese-lemongrass-pork"
+          ],
+          "allergenTags": [
+            "fish"
+          ]
+        },
+        {
+          "seasoning": "black pepper",
+          "count": 20,
+          "exampleRecipes": [
+            "Sheet-Pan Sausage & Sweet Potato Breakfast Hash with Fried Eggs",
+            "Sheet-Pan Bacon, Egg & Hash Brown Bake"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-sausage-sweet-potato-hash",
+            "recipe-dana-hellofresh-regular-bacon-egg-hash-brown-bake",
+            "recipe-dana-hellofresh-regular-sheet-pan-maple-dijon-pork-tenderloin",
+            "recipe-elena-weekend-hobbyist-croque-monsieur",
+            "recipe-elena-weekend-hobbyist-pork-schnitzel",
+            "recipe-elena-weekend-hobbyist-bacon-wrapped-dates",
+            "recipe-jamie-weeknight-beginner-loaded-breakfast-burrito",
+            "recipe-jamie-weeknight-beginner-sheet-pan-sausage-potato-hash",
+            "recipe-jamie-weeknight-beginner-skillet-pork-chops-apples",
+            "recipe-marcus-dorm-starter-seared-pork-chop-skillet",
+            "recipe-robert-retiree-traditionalist-scrambled-eggs-bacon",
+            "recipe-robert-retiree-traditionalist-sausage-gravy-biscuits",
+            "recipe-robert-retiree-traditionalist-denver-omelet",
+            "recipe-robert-retiree-traditionalist-eggs-benedict",
+            "recipe-robert-retiree-traditionalist-turkey-club",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-ham",
+            "recipe-robert-retiree-traditionalist-cobb-salad",
+            "recipe-robert-retiree-traditionalist-pork-chops-apples-onions",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-with-ham",
+            "recipe-theo-blue-apron-adventurer-baked-lumpia-bites"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "dijon mustard",
+          "count": 6,
+          "exampleRecipes": [
+            "Sheet-Pan Maple-Dijon Pork Tenderloin with Sweet Potatoes & Brussels Sprouts",
+            "Croque Monsieur"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-maple-dijon-pork-tenderloin",
+            "recipe-elena-weekend-hobbyist-croque-monsieur",
+            "recipe-lucia-alvarez-batch-cook-sourdough-strata",
+            "recipe-robert-retiree-traditionalist-turkey-club",
+            "recipe-robert-retiree-traditionalist-cobb-salad",
+            "recipe-robert-retiree-traditionalist-pork-chops-apples-onions"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "scallion",
+          "count": 8,
+          "exampleRecipes": [
+            "Pork Fried Rice",
+            "Homemade Ramen with Chashu Pork"
+          ],
+          "recipeIds": [
+            "seed-pork-fried-rice",
+            "recipe-37ea4f63-bacf-47ce-a554-5e0039e8ff0c",
+            "recipe-dana-hellofresh-regular-loaded-sweet-potato-bites",
+            "recipe-lucia-alvarez-batch-cook-fried-rice-breakfast-bowls",
+            "recipe-lucia-alvarez-batch-cook-loaded-sweet-potato-skins",
+            "recipe-priya-busy-parent-breakfast-fried-rice",
+            "recipe-priya-busy-parent-weeknight-leftover-fried-rice",
+            "recipe-ben-osei-parallel-menu-potstickers-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "sesame oil",
+          "count": 10,
+          "exampleRecipes": [
+            "Pork Fried Rice",
+            "Homemade Ramen with Chashu Pork"
+          ],
+          "recipeIds": [
+            "seed-pork-fried-rice",
+            "recipe-37ea4f63-bacf-47ce-a554-5e0039e8ff0c",
+            "recipe-lucia-alvarez-batch-cook-fried-rice-breakfast-bowls",
+            "recipe-lucia-alvarez-batch-cook-pork-fried-rice",
+            "recipe-priya-busy-parent-breakfast-fried-rice",
+            "recipe-priya-busy-parent-weeknight-leftover-fried-rice",
+            "recipe-sofia-marsh-gluten-free-breakfast-fried-rice",
+            "recipe-sofia-marsh-gluten-free-pork-fried-rice",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-meatballs",
+            "recipe-ben-osei-parallel-menu-potstickers-branch"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "soy sauce",
+          "count": 15,
+          "exampleRecipes": [
+            "Pork Fried Rice",
+            "Homemade Ramen with Chashu Pork"
+          ],
+          "recipeIds": [
+            "seed-pork-fried-rice",
+            "recipe-37ea4f63-bacf-47ce-a554-5e0039e8ff0c",
+            "recipe-8621bc1e-58f8-4c42-9e88-cb431193a70c",
+            "recipe-elena-weekend-hobbyist-banh-mi",
+            "recipe-lucia-alvarez-batch-cook-fried-rice-breakfast-bowls",
+            "recipe-lucia-alvarez-batch-cook-pork-fried-rice",
+            "recipe-marcus-dorm-starter-breakfast-fried-rice",
+            "recipe-priya-busy-parent-breakfast-fried-rice",
+            "recipe-priya-busy-parent-weeknight-leftover-fried-rice",
+            "recipe-sofia-marsh-gluten-free-pork-fried-rice",
+            "recipe-theo-blue-apron-adventurer-vietnamese-banh-mi-breakfast-bowl",
+            "recipe-theo-blue-apron-adventurer-vietnamese-lemongrass-pork",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-meatballs",
+            "recipe-theo-blue-apron-adventurer-baked-lumpia-bites",
+            "recipe-ben-osei-parallel-menu-potstickers-branch"
+          ],
+          "allergenTags": [
+            "soy",
+            "gluten"
+          ]
+        },
+        {
+          "seasoning": "thyme",
+          "count": 5,
+          "exampleRecipes": [
+            "Coq au Vin",
+            "Cassoulet"
+          ],
+          "recipeIds": [
+            "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
+            "recipe-elena-weekend-hobbyist-cassoulet",
+            "recipe-lucia-alvarez-batch-cook-sourdough-strata",
+            "recipe-robert-retiree-traditionalist-split-pea-soup-ham",
+            "recipe-robert-retiree-traditionalist-pork-chops-apples-onions"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "fish": {
+      "label": "Fish",
+      "kind": "protein",
+      "recipeCount": 38,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "dill",
+          "count": 8,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "Smoked Salmon Bagel with Quick-Pickled Red Onion"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "recipe-78419866-345e-4aba-bbd6-e47a04c16ab6",
+            "recipe-dana-hellofresh-regular-soft-boiled-egg-salmon-toast",
+            "recipe-lucia-alvarez-batch-cook-salmon-veggie-quinoa",
+            "recipe-miguel-santos-pescatarian-pacific-cod-poboy",
+            "recipe-miguel-santos-pescatarian-salmon-burgers",
+            "recipe-miguel-santos-pescatarian-smoked-salmon-cucumber-bites",
+            "recipe-robert-retiree-traditionalist-tuna-melt"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "mayonnaise",
+          "count": 14,
+          "exampleRecipes": [
+            "Tuna Melt",
+            "Canned Tuna Salad Pita Pocket"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-tuna-melt",
+            "recipe-marcus-dorm-starter-canned-tuna-salad-pita-pocket",
+            "recipe-marcus-dorm-starter-canned-tuna-melt",
+            "recipe-marcus-dorm-starter-canned-tuna-cracker-plate",
+            "recipe-miguel-santos-pescatarian-open-face-tuna-melt",
+            "recipe-miguel-santos-pescatarian-classic-tuna-salad-sandwich",
+            "recipe-miguel-santos-pescatarian-salmon-burgers-chipotle-mayo",
+            "recipe-miguel-santos-pescatarian-pacific-cod-poboy",
+            "recipe-miguel-santos-pescatarian-baja-fish-tacos",
+            "recipe-miguel-santos-pescatarian-salmon-burgers",
+            "recipe-miguel-santos-pescatarian-tuna-melt",
+            "recipe-miguel-santos-pescatarian-smoky-tuna-lettuce-wraps",
+            "recipe-priya-busy-parent-skillet-tuna-melt-sandwiches",
+            "recipe-robert-retiree-traditionalist-tuna-melt"
+          ],
+          "allergenTags": [
+            "egg",
+            "soy"
+          ]
+        },
+        {
+          "seasoning": "celery",
+          "count": 9,
+          "exampleRecipes": [
+            "Tuna Melt",
+            "Canned Tuna Melt Skillet"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-tuna-melt",
+            "recipe-marcus-dorm-starter-canned-tuna-melt",
+            "recipe-marcus-dorm-starter-canned-tuna-cracker-plate",
+            "recipe-miguel-santos-pescatarian-open-face-tuna-melt",
+            "recipe-miguel-santos-pescatarian-classic-tuna-salad-sandwich",
+            "recipe-miguel-santos-pescatarian-tuna-melt",
+            "recipe-miguel-santos-pescatarian-smoky-tuna-lettuce-wraps",
+            "recipe-priya-busy-parent-skillet-tuna-melt-sandwiches",
+            "recipe-robert-retiree-traditionalist-tuna-melt"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lemon",
+          "count": 9,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "Soft-Boiled Egg & Smoked Salmon Toast Board"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "recipe-dana-hellofresh-regular-soft-boiled-egg-salmon-toast",
+            "recipe-dana-hellofresh-regular-sheet-pan-panko-parmesan-cod",
+            "recipe-jamie-weeknight-beginner-pan-seared-salmon-microwave-rice",
+            "recipe-lucia-alvarez-batch-cook-salmon-veggie-quinoa",
+            "recipe-miguel-santos-pescatarian-salmon-burgers",
+            "recipe-miguel-santos-pescatarian-smoked-salmon-cucumber-bites",
+            "recipe-priya-busy-parent-sheet-pan-salmon-roasted-veg",
+            "recipe-sofia-marsh-gluten-free-baked-salmon-panko-crust"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "sesame seeds",
+          "count": 7,
+          "exampleRecipes": [
+            "Miso-Glazed Salmon with Charred Bok Choy",
+            "Sheet-Pan Sesame-Soy Salmon with Rice and Broccoli"
+          ],
+          "recipeIds": [
+            "recipe-e5c0d898-76e5-4e36-9c3a-4d5eef22bf52",
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-miguel-santos-pescatarian-seared-tuna-poke-bowl",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-miguel-santos-pescatarian-crispy-sesame-tuna-poke-nachos",
+            "recipe-theo-blue-apron-adventurer-miso-glazed-salmon-breakfast-plate",
+            "recipe-ben-osei-parallel-menu-sesame-bagel-lox-bar"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "dijon mustard",
+          "count": 5,
+          "exampleRecipes": [
+            "Nicoise Salad with Seared Tuna",
+            "Salmon Burgers with Chipotle Mayo"
+          ],
+          "recipeIds": [
+            "recipe-27a977a3-685b-448e-9f40-5e3df17b83ab",
+            "recipe-miguel-santos-pescatarian-salmon-burgers-chipotle-mayo",
+            "recipe-miguel-santos-pescatarian-salmon-burgers",
+            "recipe-miguel-santos-pescatarian-tuna-melt",
+            "recipe-sofia-marsh-gluten-free-baked-salmon-panko-crust"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lime",
+          "count": 5,
+          "exampleRecipes": [
+            "Sheet-Pan Fish Tacos",
+            "Baja Fish Tacos"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-sheet-pan-fish-tacos",
+            "recipe-miguel-santos-pescatarian-baja-fish-tacos",
+            "recipe-miguel-santos-pescatarian-blackened-tilapia-rice-beans",
+            "recipe-miguel-santos-pescatarian-crispy-sesame-tuna-poke-nachos",
+            "recipe-ben-osei-parallel-menu-fish-tacos-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "black pepper",
+          "count": 12,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "Soft-Boiled Egg & Smoked Salmon Toast Board"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "recipe-dana-hellofresh-regular-soft-boiled-egg-salmon-toast",
+            "recipe-dana-hellofresh-regular-sheet-pan-panko-parmesan-cod",
+            "recipe-jamie-weeknight-beginner-pan-seared-salmon-microwave-rice",
+            "recipe-lucia-alvarez-batch-cook-salmon-veggie-quinoa",
+            "recipe-marcus-dorm-starter-canned-tuna-salad-pita-pocket",
+            "recipe-marcus-dorm-starter-canned-tuna-melt",
+            "recipe-miguel-santos-pescatarian-open-face-tuna-melt",
+            "recipe-miguel-santos-pescatarian-classic-tuna-salad-sandwich",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta",
+            "recipe-miguel-santos-pescatarian-tuna-melt",
+            "recipe-robert-retiree-traditionalist-tuna-melt"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lemon juice",
+          "count": 6,
+          "exampleRecipes": [
+            "Canned Tuna & Cracker Plate",
+            "Classic Tuna Salad Sandwich"
+          ],
+          "recipeIds": [
+            "recipe-marcus-dorm-starter-canned-tuna-cracker-plate",
+            "recipe-miguel-santos-pescatarian-classic-tuna-salad-sandwich",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta",
+            "recipe-miguel-santos-pescatarian-smoky-tuna-lettuce-wraps",
+            "recipe-priya-busy-parent-skillet-tuna-melt-sandwiches",
+            "recipe-robert-retiree-traditionalist-tuna-melt"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "rice vinegar",
+          "count": 4,
+          "exampleRecipes": [
+            "Smoked Salmon Bagel with Quick-Pickled Red Onion",
+            "Sheet-Pan Sesame-Soy Salmon with Rice and Broccoli"
+          ],
+          "recipeIds": [
+            "recipe-78419866-345e-4aba-bbd6-e47a04c16ab6",
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-miguel-santos-pescatarian-seared-tuna-poke-bowl",
+            "recipe-theo-blue-apron-adventurer-miso-glazed-salmon-breakfast-plate"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "shellfish": {
+      "label": "Shellfish",
+      "kind": "protein",
+      "recipeCount": 30,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "tamarind",
+          "count": 3,
+          "exampleRecipes": [
+            "Shrimp Pad Thai",
+            "Shrimp Pad Thai"
+          ],
+          "recipeIds": [
+            "recipe-miguel-santos-pescatarian-shrimp-pad-thai",
+            "recipe-sofia-marsh-gluten-free-shrimp-pad-thai",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "fish sauce",
+          "count": 6,
+          "exampleRecipes": [
+            "Thai Green Curry with Shrimp",
+            "Shrimp Pad Thai"
+          ],
+          "recipeIds": [
+            "recipe-99ee5f44-24d3-46ec-8deb-2fc5011f3ced",
+            "recipe-miguel-santos-pescatarian-shrimp-pad-thai",
+            "recipe-sofia-marsh-gluten-free-shrimp-pad-thai",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch",
+            "recipe-ben-osei-parallel-menu-coconut-curry-shrimp-chickpea"
+          ],
+          "allergenTags": [
+            "fish"
+          ]
+        },
+        {
+          "seasoning": "hot sauce",
+          "count": 3,
+          "exampleRecipes": [
+            "Shrimp Tacos",
+            "Shrimp Po'Boy with Remoulade"
+          ],
+          "recipeIds": [
+            "seed-shrimp-tacos",
+            "recipe-9397b794-cb7a-4a5a-9a3a-f5fdea1f98c3",
+            "recipe-miguel-santos-pescatarian-shrimp-tacos-slaw-lime-crema"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "red pepper flakes",
+          "count": 3,
+          "exampleRecipes": [
+            "One-Pan Garlic Butter Shrimp with Orzo and Asparagus",
+            "One-Pot Shrimp Scampi with Linguine"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-one-pan-garlic-butter-shrimp-orzo",
+            "recipe-dana-hellofresh-regular-one-pot-shrimp-scampi-linguine",
+            "recipe-jamie-weeknight-beginner-garlic-butter-shrimp-pasta"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lime juice",
+          "count": 4,
+          "exampleRecipes": [
+            "Shrimp Ceviche Tostada Bites",
+            "Shrimp Ceviche Tostada Bites"
+          ],
+          "recipeIds": [
+            "recipe-miguel-santos-pescatarian-shrimp-ceviche-tostada-bites",
+            "recipe-sofia-marsh-gluten-free-shrimp-ceviche-tostadas",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-shrimp-spring-rolls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lime",
+          "count": 9,
+          "exampleRecipes": [
+            "Shrimp Tacos",
+            "Thai Green Curry with Shrimp"
+          ],
+          "recipeIds": [
+            "seed-shrimp-tacos",
+            "recipe-99ee5f44-24d3-46ec-8deb-2fc5011f3ced",
+            "recipe-lucia-alvarez-batch-cook-shrimp-black-bean-bowl",
+            "recipe-miguel-santos-pescatarian-shrimp-tacos-slaw-lime-crema",
+            "recipe-miguel-santos-pescatarian-shrimp-pad-thai",
+            "recipe-sofia-marsh-gluten-free-shrimp-pad-thai",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch",
+            "recipe-ben-osei-parallel-menu-coconut-curry-shrimp-chickpea"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "cilantro",
+          "count": 8,
+          "exampleRecipes": [
+            "Shrimp Tacos",
+            "Garlic-Lime Shrimp & Black Bean Rice Bowl"
+          ],
+          "recipeIds": [
+            "seed-shrimp-tacos",
+            "recipe-lucia-alvarez-batch-cook-shrimp-black-bean-bowl",
+            "recipe-miguel-santos-pescatarian-shrimp-tacos-slaw-lime-crema",
+            "recipe-miguel-santos-pescatarian-shrimp-ceviche-tostada-bites",
+            "recipe-sofia-marsh-gluten-free-shrimp-ceviche-tostadas",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa",
+            "recipe-ben-osei-parallel-menu-coconut-curry-shrimp-chickpea",
+            "recipe-ben-osei-parallel-menu-shrimp-spring-rolls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lemon",
+          "count": 5,
+          "exampleRecipes": [
+            "One-Pan Garlic Butter Shrimp with Orzo and Asparagus",
+            "One-Pot Shrimp Scampi with Linguine"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-one-pan-garlic-butter-shrimp-orzo",
+            "recipe-dana-hellofresh-regular-one-pot-shrimp-scampi-linguine",
+            "recipe-priya-busy-parent-garlic-butter-shrimp-pasta",
+            "recipe-theo-blue-apron-adventurer-harissa-shrimp-chickpeas-sheet-pan",
+            "recipe-theo-blue-apron-adventurer-malaysian-coconut-curry-laksa"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "soy sauce",
+          "count": 13,
+          "exampleRecipes": [
+            "Shrimp Tempura with Dipping Sauce",
+            "Shrimp Fried Rice"
+          ],
+          "recipeIds": [
+            "recipe-elena-weekend-hobbyist-shrimp-tempura",
+            "recipe-jamie-weeknight-beginner-shrimp-fried-rice",
+            "recipe-marcus-dorm-starter-budget-shrimp-ramen-stir-fry",
+            "recipe-marcus-dorm-starter-shrimp-fried-rice",
+            "recipe-miguel-santos-pescatarian-shrimp-pad-thai",
+            "recipe-sofia-marsh-gluten-free-shrimp-pad-thai",
+            "recipe-theo-blue-apron-adventurer-baked-lumpia-bites",
+            "recipe-ben-osei-parallel-menu-shrimp-egg-fried-rice-bowl",
+            "recipe-ben-osei-parallel-menu-shrimp-veggie-fried-rice",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-fried-rice-shrimp-tofu",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch",
+            "recipe-ben-osei-parallel-menu-shrimp-spring-rolls"
+          ],
+          "allergenTags": [
+            "soy",
+            "gluten"
+          ]
+        },
+        {
+          "seasoning": "sesame oil",
+          "count": 8,
+          "exampleRecipes": [
+            "Shrimp Fried Rice",
+            "Budget Shrimp Ramen Stir-Fry"
+          ],
+          "recipeIds": [
+            "recipe-jamie-weeknight-beginner-shrimp-fried-rice",
+            "recipe-marcus-dorm-starter-budget-shrimp-ramen-stir-fry",
+            "recipe-marcus-dorm-starter-shrimp-fried-rice",
+            "recipe-miguel-santos-pescatarian-shrimp-pad-thai",
+            "recipe-ben-osei-parallel-menu-shrimp-egg-fried-rice-bowl",
+            "recipe-ben-osei-parallel-menu-shrimp-veggie-fried-rice",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-fried-rice-shrimp-tofu"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        }
+      ]
+    },
+    "tofu": {
+      "label": "Tofu",
+      "kind": "protein",
+      "recipeCount": 22,
+      "confidence": "low",
+      "pairings": [
+        {
+          "seasoning": "tamarind",
+          "count": 3,
+          "exampleRecipes": [
+            "Tofu Pad Thai",
+            "Vegetarian Pad Thai with Tofu & Egg"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-tofu-pad-thai",
+            "recipe-grace-lin-vegetarian-pad-thai-tofu-egg",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "scallion",
+          "count": 11,
+          "exampleRecipes": [
+            "Miso-Glazed Tofu and Rice Breakfast Bowl",
+            "Tofu Pad Thai"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-miso-tofu-rice-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-thai",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip",
+            "recipe-grace-lin-vegetarian-egg-fried-rice-tofu-edamame",
+            "recipe-grace-lin-vegetarian-miso-tofu-soba-bowl",
+            "recipe-grace-lin-vegetarian-pad-thai-tofu-egg",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps",
+            "recipe-ben-osei-parallel-menu-fried-rice-shrimp-tofu",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "rice vinegar",
+          "count": 8,
+          "exampleRecipes": [
+            "Sheet-Pan Peanut-Ginger Tofu Bowl with Rice and Broccoli",
+            "Miso-Glazed Tofu and Rice Breakfast Bowl"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-miso-tofu-rice-bowl",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip",
+            "recipe-grace-lin-vegetarian-veggie-sushi-bowl-tofu-egg-avocado",
+            "recipe-grace-lin-vegetarian-miso-tofu-soba-bowl",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lime juice",
+          "count": 3,
+          "exampleRecipes": [
+            "Thai Peanut Sheet-Pan Tofu & Broccoli Bowls",
+            "Coconut-Peanut Stir-Fry, Split Before the Peanuts"
+          ],
+          "recipeIds": [
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-shrimp-spring-rolls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "ginger",
+          "count": 9,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Sheet-Pan Peanut-Ginger Tofu Bowl with Rice and Broccoli"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip",
+            "recipe-grace-lin-vegetarian-veggie-sushi-bowl-tofu-egg-avocado",
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "soy sauce",
+          "count": 17,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Sheet-Pan Peanut-Ginger Tofu Bowl with Rice and Broccoli"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-thai",
+            "recipe-devon-okafor-vegan-tofu-pad-see-ew",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip",
+            "recipe-grace-lin-vegetarian-egg-fried-rice-tofu-edamame",
+            "recipe-grace-lin-vegetarian-veggie-sushi-bowl-tofu-egg-avocado",
+            "recipe-grace-lin-vegetarian-miso-tofu-soba-bowl",
+            "recipe-grace-lin-vegetarian-pad-thai-tofu-egg",
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-fried-rice-shrimp-tofu",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch",
+            "recipe-ben-osei-parallel-menu-shrimp-spring-rolls"
+          ],
+          "allergenTags": [
+            "soy",
+            "gluten"
+          ]
+        },
+        {
+          "seasoning": "sesame oil",
+          "count": 11,
+          "exampleRecipes": [
+            "Sheet-Pan Peanut-Ginger Tofu Bowl with Rice and Broccoli",
+            "Miso-Glazed Tofu and Rice Breakfast Bowl"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-miso-tofu-rice-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-see-ew",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip",
+            "recipe-grace-lin-vegetarian-egg-fried-rice-tofu-edamame",
+            "recipe-grace-lin-vegetarian-veggie-sushi-bowl-tofu-egg-avocado",
+            "recipe-grace-lin-vegetarian-miso-tofu-soba-bowl",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp",
+            "recipe-ben-osei-parallel-menu-fried-rice-shrimp-tofu"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "lime",
+          "count": 6,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Tofu Pad Thai"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "recipe-devon-okafor-vegan-tofu-pad-thai",
+            "recipe-grace-lin-vegetarian-pad-thai-tofu-egg",
+            "recipe-ben-osei-parallel-menu-sheet-pan-fajita-bowls",
+            "recipe-ben-osei-parallel-menu-taco-bar-beef-tofu",
+            "recipe-ben-osei-parallel-menu-pad-thai-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "sesame seeds",
+          "count": 6,
+          "exampleRecipes": [
+            "Miso-Glazed Tofu and Rice Breakfast Bowl",
+            "Sesame-Crusted Tofu with Bok Choy"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-miso-tofu-rice-bowl",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-grace-lin-vegetarian-egg-fried-rice-tofu-edamame",
+            "recipe-grace-lin-vegetarian-veggie-sushi-bowl-tofu-egg-avocado",
+            "recipe-grace-lin-vegetarian-miso-tofu-soba-bowl",
+            "recipe-ben-osei-parallel-menu-sesame-soy-lettuce-wraps"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "maple syrup",
+          "count": 3,
+          "exampleRecipes": [
+            "Miso-Glazed Tofu and Rice Breakfast Bowl",
+            "Sesame-Crusted Tofu with Bok Choy"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-miso-tofu-rice-bowl",
+            "recipe-devon-okafor-vegan-sesame-crusted-tofu-bok-choy",
+            "recipe-devon-okafor-vegan-crispy-tofu-bites-peanut-ginger-dip"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "broccoli": {
+      "label": "Broccoli",
+      "kind": "vegetable",
+      "recipeCount": 25,
+      "confidence": "normal",
+      "pairings": [
+        {
+          "seasoning": "ginger",
+          "count": 14,
+          "exampleRecipes": [
+            "Beef Stir-Fry",
+            "One-Pot Beef and Broccoli Rice Skillet"
+          ],
+          "recipeIds": [
+            "seed-beef-stirfry",
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "sesame oil",
+          "count": 16,
+          "exampleRecipes": [
+            "Beef Stir-Fry",
+            "One-Pot Beef and Broccoli Rice Skillet"
+          ],
+          "recipeIds": [
+            "seed-beef-stirfry",
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-see-ew",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-marcus-dorm-starter-soy-sesame-chicken-rice-bowl",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-priya-busy-parent-chicken-stir-fry-peanut-sauce",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "rice vinegar",
+          "count": 8,
+          "exampleRecipes": [
+            "Sheet-Pan Sesame-Soy Salmon with Rice and Broccoli",
+            "Sheet-Pan Peanut-Ginger Tofu Bowl with Rice and Broccoli"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-sofia-marsh-gluten-free-parallel-track-pad-see-ew",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "soy sauce",
+          "count": 19,
+          "exampleRecipes": [
+            "Beef Stir-Fry",
+            "One-Pot Beef and Broccoli Rice Skillet"
+          ],
+          "recipeIds": [
+            "seed-beef-stirfry",
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-see-ew",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-marcus-dorm-starter-soy-sesame-chicken-rice-bowl",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-priya-busy-parent-chicken-stir-fry-peanut-sauce",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": [
+            "soy",
+            "gluten"
+          ]
+        },
+        {
+          "seasoning": "sesame seeds",
+          "count": 7,
+          "exampleRecipes": [
+            "Sheet-Pan Sesame-Soy Salmon with Rice and Broccoli",
+            "Vegetable Tempura with Ponzu Dipping Sauce"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls"
+          ],
+          "allergenTags": [
+            "sesame"
+          ]
+        },
+        {
+          "seasoning": "brown sugar",
+          "count": 9,
+          "exampleRecipes": [
+            "One-Pot Beef and Broccoli Rice Skillet",
+            "Salmon Teriyaki Rice Bowl"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-parallel-track-pad-see-ew",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "scallion",
+          "count": 4,
+          "exampleRecipes": [
+            "Sheet-Pan Sesame-Soy Salmon with Rice and Broccoli",
+            "Peanut-Ginger Tofu Stir-Fry"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "garlic",
+          "count": 21,
+          "exampleRecipes": [
+            "Beef Stir-Fry",
+            "One-Pot Beef and Broccoli Rice Skillet"
+          ],
+          "recipeIds": [
+            "seed-beef-stirfry",
+            "recipe-dana-hellofresh-regular-one-pot-beef-broccoli-rice-skillet",
+            "recipe-dana-hellofresh-regular-sheet-pan-sesame-soy-salmon",
+            "recipe-dana-hellofresh-regular-sheet-pan-peanut-ginger-tofu-bowl",
+            "recipe-devon-okafor-vegan-tofu-pad-see-ew",
+            "recipe-devon-okafor-vegan-peanut-ginger-tofu-stir-fry",
+            "recipe-devon-okafor-vegan-cashew-alfredo-pasta",
+            "recipe-jamie-weeknight-beginner-sesame-ginger-beef-stir-fry",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-marcus-dorm-starter-soy-sesame-chicken-rice-bowl",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-priya-busy-parent-chicken-stir-fry-peanut-sauce",
+            "recipe-priya-busy-parent-beef-and-broccoli",
+            "recipe-sofia-marsh-gluten-free-parallel-track-pad-see-ew",
+            "recipe-sofia-marsh-gluten-free-beef-broccoli-stir-fry",
+            "recipe-sofia-marsh-gluten-free-chicken-teriyaki-rice-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-chicken-bowls",
+            "recipe-theo-blue-apron-adventurer-thai-peanut-tofu-bowls",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls",
+            "recipe-ben-osei-parallel-menu-sheet-pan-chicken-veg-parallel",
+            "recipe-ben-osei-parallel-menu-peanut-stir-fry-tofu-shrimp"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "black pepper",
+          "count": 3,
+          "exampleRecipes": [
+            "Cashew Alfredo Pasta with Roasted Broccoli",
+            "Microwave Baked Potato Bar"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-cashew-alfredo-pasta",
+            "recipe-marcus-dorm-starter-microwave-baked-potato-bar",
+            "recipe-ben-osei-parallel-menu-sheet-pan-chicken-veg-parallel"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "onion",
+          "count": 4,
+          "exampleRecipes": [
+            "Broccoli Cheddar Soup with Grilled Cheese Croutons",
+            "Garlic-Ginger Beef & Rice Stir-Fry"
+          ],
+          "recipeIds": [
+            "recipe-grace-lin-vegetarian-broccoli-cheddar-soup-grilled-cheese-croutons",
+            "recipe-lucia-alvarez-batch-cook-beef-rice-stirfry",
+            "recipe-miguel-santos-pescatarian-salmon-teriyaki-bowl",
+            "recipe-theo-blue-apron-adventurer-korean-gochujang-chicken-bowls"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "mushroom": {
+      "label": "Mushroom",
+      "kind": "vegetable",
+      "recipeCount": 16,
+      "confidence": "low",
+      "pairings": [
+        {
+          "seasoning": "white wine",
+          "count": 5,
+          "exampleRecipes": [
+            "Mushroom Risotto",
+            "Mushroom Miso Risotto"
+          ],
+          "recipeIds": [
+            "recipe-d18fcd80-9d1e-4761-8351-681942e0a917",
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-devon-okafor-vegan-king-oyster-scallops-risotto",
+            "recipe-elena-weekend-hobbyist-mushroom-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "shallot",
+          "count": 6,
+          "exampleRecipes": [
+            "Mushroom Risotto",
+            "Mushroom Miso Risotto"
+          ],
+          "recipeIds": [
+            "recipe-d18fcd80-9d1e-4761-8351-681942e0a917",
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-devon-okafor-vegan-mushroom-white-bean-wellington",
+            "recipe-devon-okafor-vegan-king-oyster-scallops-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-swiss-quiche",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "thyme",
+          "count": 8,
+          "exampleRecipes": [
+            "Coq au Vin",
+            "Mushroom Miso Risotto"
+          ],
+          "recipeIds": [
+            "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-devon-okafor-vegan-tempeh-bourguignon",
+            "recipe-devon-okafor-vegan-mushroom-white-bean-wellington",
+            "recipe-devon-okafor-vegan-king-oyster-scallops-risotto",
+            "recipe-devon-okafor-vegan-shepherds-pie-lentil-mushroom",
+            "recipe-grace-lin-vegetarian-mushroom-swiss-quiche",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "dijon mustard",
+          "count": 3,
+          "exampleRecipes": [
+            "Mushroom & White Bean Wellington",
+            "Salisbury Steak with Mushroom Gravy"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-mushroom-white-bean-wellington",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "parmesan",
+          "count": 4,
+          "exampleRecipes": [
+            "Mushroom Risotto",
+            "Mushroom Risotto"
+          ],
+          "recipeIds": [
+            "recipe-d18fcd80-9d1e-4761-8351-681942e0a917",
+            "recipe-elena-weekend-hobbyist-mushroom-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto",
+            "recipe-robert-retiree-traditionalist-sausage-stuffed-mushrooms"
+          ],
+          "allergenTags": [
+            "dairy"
+          ]
+        },
+        {
+          "seasoning": "parsley",
+          "count": 3,
+          "exampleRecipes": [
+            "Mushroom Miso Risotto",
+            "Beef Stroganoff"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff",
+            "recipe-robert-retiree-traditionalist-sausage-stuffed-mushrooms"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "olive oil",
+          "count": 10,
+          "exampleRecipes": [
+            "Mushroom Miso Risotto",
+            "Tempeh Bourguignon"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-devon-okafor-vegan-tempeh-bourguignon",
+            "recipe-devon-okafor-vegan-mushroom-white-bean-wellington",
+            "recipe-devon-okafor-vegan-king-oyster-scallops-risotto",
+            "recipe-devon-okafor-vegan-shepherds-pie-lentil-mushroom",
+            "recipe-elena-weekend-hobbyist-mushroom-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-sausage-stuffed-mushrooms",
+            "recipe-ben-osei-parallel-menu-pizza-night-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "garlic",
+          "count": 13,
+          "exampleRecipes": [
+            "Coq au Vin",
+            "Mushroom Miso Risotto"
+          ],
+          "recipeIds": [
+            "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-devon-okafor-vegan-tempeh-bourguignon",
+            "recipe-devon-okafor-vegan-mushroom-white-bean-wellington",
+            "recipe-devon-okafor-vegan-king-oyster-scallops-risotto",
+            "recipe-devon-okafor-vegan-shepherds-pie-lentil-mushroom",
+            "recipe-elena-weekend-hobbyist-mushroom-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-gruyere-risotto",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff",
+            "recipe-robert-retiree-traditionalist-sausage-stuffed-mushrooms",
+            "recipe-ben-osei-parallel-menu-pizza-night-branch",
+            "recipe-ben-osei-parallel-menu-potstickers-branch"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "black pepper",
+          "count": 4,
+          "exampleRecipes": [
+            "Mushroom Miso Risotto",
+            "Mushroom & Swiss Vegetarian Quiche"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-mushroom-miso-risotto",
+            "recipe-grace-lin-vegetarian-mushroom-swiss-quiche",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "onion",
+          "count": 7,
+          "exampleRecipes": [
+            "Coq au Vin",
+            "Tempeh Bourguignon"
+          ],
+          "recipeIds": [
+            "recipe-b343a279-65e9-4940-a0b1-c2a3dcef3da0",
+            "recipe-devon-okafor-vegan-tempeh-bourguignon",
+            "recipe-devon-okafor-vegan-shepherds-pie-lentil-mushroom",
+            "recipe-elena-weekend-hobbyist-mushroom-risotto",
+            "recipe-robert-retiree-traditionalist-salisbury-steak",
+            "recipe-robert-retiree-traditionalist-beef-stroganoff",
+            "recipe-ben-osei-parallel-menu-pizza-night-branch"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "cauliflower": {
+      "label": "Cauliflower",
+      "kind": "vegetable",
+      "recipeCount": 4,
+      "confidence": "low",
+      "pairings": [
+        {
+          "seasoning": "garlic",
+          "count": 4,
+          "exampleRecipes": [
+            "Sheet-Pan Buffalo Cauliflower Bites with Blue Cheese Ranch",
+            "Buffalo Cauliflower Bites with Cashew Ranch"
+          ],
+          "recipeIds": [
+            "recipe-dana-hellofresh-regular-buffalo-cauliflower-bites",
+            "recipe-devon-okafor-vegan-buffalo-cauliflower-cashew-ranch",
+            "recipe-sofia-marsh-gluten-free-cauliflower-rice-teriyaki-chicken-bowl",
+            "recipe-theo-blue-apron-adventurer-gochujang-cauliflower-bites"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "eggplant": {
+      "label": "Eggplant",
+      "kind": "vegetable",
+      "recipeCount": 2,
+      "confidence": "low",
+      "pairings": []
+    },
+    "zucchini": {
+      "label": "Zucchini",
+      "kind": "vegetable",
+      "recipeCount": 11,
+      "confidence": "low",
+      "pairings": [
+        {
+          "seasoning": "parmesan",
+          "count": 4,
+          "exampleRecipes": [
+            "Grilled Chicken & Vegetables",
+            "Baked Zucchini Tots"
+          ],
+          "recipeIds": [
+            "seed-grilled-chicken",
+            "recipe-priya-busy-parent-zucchini-tots",
+            "recipe-sofia-marsh-gluten-free-zucchini-fries",
+            "recipe-ben-osei-parallel-menu-loaded-pesto-pasta-salad"
+          ],
+          "allergenTags": [
+            "dairy"
+          ]
+        },
+        {
+          "seasoning": "lemon",
+          "count": 3,
+          "exampleRecipes": [
+            "Pan-Seared Halloumi Skewers with Honey-Chili Drizzle",
+            "Vegetable & Halloumi Skewers with Tzatziki"
+          ],
+          "recipeIds": [
+            "recipe-elena-weekend-hobbyist-halloumi-skewers",
+            "recipe-grace-lin-vegetarian-veg-halloumi-skewers-tzatziki",
+            "recipe-lucia-alvarez-batch-cook-chicken-veggie-grain-bowls"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "lemon juice",
+          "count": 4,
+          "exampleRecipes": [
+            "Grilled Chicken & Vegetables",
+            "Vegetable Tempura with Ponzu Dipping Sauce"
+          ],
+          "recipeIds": [
+            "seed-grilled-chicken",
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-lucia-alvarez-batch-cook-quinoa-veggie-salad",
+            "recipe-ben-osei-parallel-menu-loaded-pesto-pasta-salad"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "scallion",
+          "count": 3,
+          "exampleRecipes": [
+            "Vegetable Tempura with Ponzu Dipping Sauce",
+            "Batch Rice Bowl with Shredded Chicken & Roasted Veggies"
+          ],
+          "recipeIds": [
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-lucia-alvarez-batch-cook-rice-bowl-shredded-chicken",
+            "recipe-lucia-alvarez-batch-cook-egg-fried-rice"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "olive oil",
+          "count": 8,
+          "exampleRecipes": [
+            "Grilled Chicken & Vegetables",
+            "Pan-Seared Halloumi Skewers with Honey-Chili Drizzle"
+          ],
+          "recipeIds": [
+            "seed-grilled-chicken",
+            "recipe-elena-weekend-hobbyist-halloumi-skewers",
+            "recipe-grace-lin-vegetarian-veg-halloumi-skewers-tzatziki",
+            "recipe-lucia-alvarez-batch-cook-rice-bowl-shredded-chicken",
+            "recipe-lucia-alvarez-batch-cook-quinoa-veggie-salad",
+            "recipe-lucia-alvarez-batch-cook-chicken-veggie-grain-bowls",
+            "recipe-sofia-marsh-gluten-free-zucchini-fries",
+            "recipe-ben-osei-parallel-menu-loaded-pesto-pasta-salad"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "garlic",
+          "count": 8,
+          "exampleRecipes": [
+            "Grilled Chicken & Vegetables",
+            "Vegetable & Halloumi Skewers with Tzatziki"
+          ],
+          "recipeIds": [
+            "seed-grilled-chicken",
+            "recipe-grace-lin-vegetarian-veg-halloumi-skewers-tzatziki",
+            "recipe-lucia-alvarez-batch-cook-rice-bowl-shredded-chicken",
+            "recipe-lucia-alvarez-batch-cook-egg-fried-rice",
+            "recipe-lucia-alvarez-batch-cook-chicken-veggie-grain-bowls",
+            "recipe-priya-busy-parent-zucchini-tots",
+            "recipe-sofia-marsh-gluten-free-zucchini-fries",
+            "recipe-ben-osei-parallel-menu-loaded-pesto-pasta-salad"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "soy sauce",
+          "count": 3,
+          "exampleRecipes": [
+            "Vegetable Tempura with Ponzu Dipping Sauce",
+            "Batch Rice Bowl with Shredded Chicken & Roasted Veggies"
+          ],
+          "recipeIds": [
+            "recipe-elena-weekend-hobbyist-vegetable-tempura",
+            "recipe-lucia-alvarez-batch-cook-rice-bowl-shredded-chicken",
+            "recipe-lucia-alvarez-batch-cook-egg-fried-rice"
+          ],
+          "allergenTags": [
+            "soy"
+          ]
+        },
+        {
+          "seasoning": "onion",
+          "count": 5,
+          "exampleRecipes": [
+            "Grilled Chicken & Vegetables",
+            "Vegetable & Halloumi Skewers with Tzatziki"
+          ],
+          "recipeIds": [
+            "seed-grilled-chicken",
+            "recipe-grace-lin-vegetarian-veg-halloumi-skewers-tzatziki",
+            "recipe-lucia-alvarez-batch-cook-rice-bowl-shredded-chicken",
+            "recipe-lucia-alvarez-batch-cook-quinoa-veggie-salad",
+            "recipe-lucia-alvarez-batch-cook-chicken-veggie-grain-bowls"
+          ],
+          "allergenTags": []
+        }
+      ]
+    },
+    "spinach": {
+      "label": "Spinach",
+      "kind": "vegetable",
+      "recipeCount": 15,
+      "confidence": "low",
+      "pairings": [
+        {
+          "seasoning": "turmeric",
+          "count": 3,
+          "exampleRecipes": [
+            "Besan Chilla (Chickpea Flour Savory Crepe)",
+            "Red Lentil Coconut Stew"
+          ],
+          "recipeIds": [
+            "recipe-devon-okafor-vegan-besan-chilla",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew",
+            "recipe-grace-lin-vegetarian-lentil-spinach-dal-rice"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "ginger",
+          "count": 4,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Red Lentil Coconut Stew"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew",
+            "recipe-grace-lin-vegetarian-lentil-spinach-dal-rice",
+            "recipe-grace-lin-vegetarian-chickpea-spinach-coconut-curry"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "parmesan",
+          "count": 3,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "One-Pot Creamy Cajun Chicken Pasta"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "recipe-dana-hellofresh-regular-one-pot-creamy-cajun-chicken-pasta",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta"
+          ],
+          "allergenTags": [
+            "dairy"
+          ]
+        },
+        {
+          "seasoning": "cilantro",
+          "count": 3,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Besan Chilla (Chickpea Flour Savory Crepe)"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "recipe-devon-okafor-vegan-besan-chilla",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "black pepper",
+          "count": 5,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "Veggie Omelette"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "seed-veggie-omelette",
+            "recipe-dana-hellofresh-regular-maple-turkey-sausage-apple-hash",
+            "recipe-grace-lin-vegetarian-spinach-feta-egg-muffins",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "olive oil",
+          "count": 7,
+          "exampleRecipes": [
+            "Baked Salmon with Quinoa",
+            "Maple Turkey Sausage & Apple Skillet Hash"
+          ],
+          "recipeIds": [
+            "seed-salmon-quinoa",
+            "recipe-dana-hellofresh-regular-maple-turkey-sausage-apple-hash",
+            "recipe-dana-hellofresh-regular-one-pot-creamy-cajun-chicken-pasta",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew",
+            "recipe-grace-lin-vegetarian-spinach-feta-egg-muffins",
+            "recipe-grace-lin-vegetarian-spanakopita",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "onion",
+          "count": 7,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Veggie Omelette"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "seed-veggie-omelette",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew",
+            "recipe-grace-lin-vegetarian-spinach-feta-egg-muffins",
+            "recipe-grace-lin-vegetarian-lentil-spinach-dal-rice",
+            "recipe-grace-lin-vegetarian-chickpea-spinach-coconut-curry",
+            "recipe-grace-lin-vegetarian-spanakopita"
+          ],
+          "allergenTags": []
+        },
+        {
+          "seasoning": "garlic",
+          "count": 7,
+          "exampleRecipes": [
+            "Tofu Curry",
+            "Baked Salmon with Quinoa"
+          ],
+          "recipeIds": [
+            "seed-tofu-curry",
+            "seed-salmon-quinoa",
+            "recipe-devon-okafor-vegan-red-lentil-coconut-stew",
+            "recipe-grace-lin-vegetarian-lentil-spinach-dal-rice",
+            "recipe-grace-lin-vegetarian-chickpea-spinach-coconut-curry",
+            "recipe-lucia-alvarez-batch-cook-veggie-quinoa-buddha-bowl",
+            "recipe-miguel-santos-pescatarian-creamy-lemon-salmon-pasta"
+          ],
+          "allergenTags": []
+        }
+      ]
+    }
+  }
+}
