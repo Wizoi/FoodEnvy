@@ -24,7 +24,7 @@
 // (a plain string replace, so this token must appear nowhere else in this file, comments
 // included); it stays literal (harmless as a version string on its own) when this file is
 // served directly by `npm run dev`, which never goes through the build step.
-const CACHE_VERSION = '1788415262546';
+const CACHE_VERSION = '1788444403824';
 const SHELL_CACHE = 'foodenvy-shell-' + CACHE_VERSION;
 const DATA_CACHE = 'foodenvy-data';
 
@@ -41,9 +41,23 @@ const SHELL_ASSETS = [
 
 const RECIPE_DATA_PATTERN = /foodenvy-complete-recipes\.json$/;
 
+// Deliberately NOT cache.addAll(SHELL_ASSETS) -- addAll's internal fetches use the default
+// HTTP cache mode, which respects GitHub Pages' real Cache-Control: max-age=600 on these files.
+// That meant a genuinely new service worker (CACHE_VERSION correctly differed, byte-diff
+// correctly detected) could still bake a STALE index.html into its own "new" shell cache if
+// install happened to run within 10 minutes of the browser's last fetch of it -- the update
+// would report as installed while the visible content never actually changed. Confirmed in
+// production (2026-09-03): a plain refresh never picked up a deploy, while a hard refresh
+// (which bypasses HTTP cache entirely) fixed it immediately -- exactly this failure mode. Each
+// asset is now fetched with cache: 'reload' to force a real network round-trip every install,
+// same reasoning as updateViaCache: 'none' already applied to this script's own update check.
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL_ASSETS))
+    caches.open(SHELL_CACHE).then((cache) => Promise.all(
+      SHELL_ASSETS.map((url) =>
+        fetch(url, { cache: 'reload' }).then((response) => cache.put(url, response))
+      )
+    ))
   );
 });
 

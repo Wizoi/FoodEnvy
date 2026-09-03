@@ -4753,6 +4753,18 @@
         // load see a deploy that just happened" deterministic instead of relying on unstated
         // browser heuristics, given how much this has already bitten real usage.
         reg.update().catch(() => {});
+
+        // A page load is NOT the only way this app stays open for hours -- an installed mobile
+        // PWA (or a desktop tab) that's merely backgrounded and resumed, never force-quit or
+        // reloaded, never re-fires DOMContentLoaded, so without this an update check could
+        // otherwise never run again for that entire session no matter how much time passes. Real
+        // incident (2026-09-03): a deploy went unnoticed on a phone for hours specifically
+        // because the installed app was only ever resumed from the background, never actually
+        // reloaded -- the 10-minute HTTP-cache install bug fixed above only explains staleness
+        // within minutes of a deploy, not hours later, so this is a distinct, second gap.
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') reg.update().catch(() => {});
+        });
       }).catch(() => {});
 
       // No silent auto-reload -- a mid-session plan or partially-checked shopping list is real
