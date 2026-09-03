@@ -674,6 +674,20 @@ notes:
     family (no new chip family), and let the existing matcher's strict-exclusion logic govern the
     downstream recipe count -- dislikes stay non-gating per the standing rule (downrank only, never
     reshape the pairing chips themselves).
+  - >
+    2026-09-03 (allergen footer collapsed-summary wording pass): agreed with the engineer's
+    "⚠️ Allergen tags unverified — tap for details" (7 words, down from 10) -- "unverified"
+    correctly absorbs "hand-entered, not verified" without losing the loss-avoidance signal, and
+    the mechanism detail belongs in the expanded paragraph, not the always-visible line. The one
+    thing NOT to trim further is "tap for details" -- it's the only affordance cue on the line
+    (reuses the toggleAdaptationBanner role=button/aria-expanded convention), and a warning bar
+    with no visible call-to-action reads as inert boilerplate. Scan order (icon -> subject ->
+    risk descriptor -> action) matches how the amber adaptation banner already trains users to
+    read amber bars in this app, so it's consistent, not a new pattern. Flagged one thing to
+    verify empirically, not a wording concern: .allergen-footer-summary is flex with
+    justify-content:space-between (index.html ~1456-1463), so the text competes with a toggle
+    icon on the same line -- confirm actual single-line fit at ~320px viewport rather than
+    assuming word-count alone guarantees it.
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

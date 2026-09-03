@@ -469,6 +469,21 @@ notes:
     service-worker correctness, not just an HTTP-layer performance detail -- check it with curl -sI
     against the actual deployed asset rather than assuming, the same way ingredient/allergen claims
     in this app get checked against the actual corpus rather than assumed."
+  - "2026-09-03, allergen footer collapsed-summary shortening proposal (index.html/
+    recipe-browser.html, .allergen-footer-summary span, ~line 1921): scope was wording-only (no
+    expand/collapse behavior, defaults, or CSS change) -- recommended '⚠️ Allergen tags unverified
+    — tap for details' (7 words) over the original '⚠️ Allergen tags are hand-entered, not
+    verified — tap for details' (10 words). Reasoning worth keeping for next time this string is
+    touched: 'unverified' absorbs both 'hand-entered' and 'not verified' without losing the
+    safety-relevant claim, because the *mechanism* (hand-entered from listed ingredients only) is
+    still spelled out verbatim in the adjacent #allergenFooterDetail paragraph one tap away --
+    collapsed summaries in this footer only need to carry the conclusion, not the mechanism.
+    Recommended against also touching .allergen-footer-summary's flex/wrap CSS in the same change
+    even though that's the 'obvious' way to guarantee no wrapping -- it's shared between collapsed
+    and expanded states, so any wrap-behavior tweak risks bleeding into the expanded state's layout
+    too, out of scope for a wording-only ask; a shorter string alone is very likely sufficient at
+    typical mobile widths, and CSS should only be revisited later with a real measured case where
+    it isn't."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing
@@ -482,6 +497,13 @@ tools_and_frameworks:
   - "IndexedDB (via src/db/database.js's promise wrapper)"
   - "vitest (unit tests for src/domain), ESLint flat config"
   - "Capacitor (the planned path to an Android wrap, not yet implemented)"
+  - "Service Worker (public/sw.js) -- PWA installability, cache-first app shell + network-first
+    recipe data, and the install/waiting/activate update lifecycle. The trickiest part of this
+    app's actual deployed behavior is here, not in the domain logic -- see the 2026-09-03 note
+    below before touching this file again."
+  - "GitHub Pages (static hosting) + GitHub Actions (build-and-deploy on push to main, see
+    .github/workflows/deploy.yml) -- the actual production target this app's build/cache
+    assumptions have to hold up against, not just localhost."
 references:
   - title: "IndexedDB API"
     url: "https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API"
@@ -492,4 +514,19 @@ references:
     url: "https://capacitorjs.com/docs"
     org: "Ionic / Capacitor"
     note: "The documented path for wrapping an existing web app for Android/iOS without a rewrite -- FoodEnvy's planned mobile route."
+    status: confirmed
+  - title: "Service Worker API"
+    url: "https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API"
+    org: "MDN Web Docs"
+    note: "Core reference for public/sw.js -- install/activate/fetch events, waitUntil(), the Cache/CacheStorage interfaces this app's shell-cache and recipe-data-cache strategies are both built on."
+    status: confirmed
+  - title: "The Service Worker Lifecycle"
+    url: "https://web.dev/articles/service-worker-lifecycle"
+    org: "web.dev (Jake Archibald)"
+    note: "The single best explanation of why an updated service worker sits in a 'waiting' state until every client of the old one closes, what skipWaiting() actually does (and its real risk: a new worker taking over a page that loaded expecting the old one), and updateViaCache -- directly explains both mechanisms this app's registerServiceWorker()/SKIP_WAITING toast are built around."
+    status: confirmed
+  - title: "GitHub Pages caching / Cache-Control discussion"
+    url: "https://github.com/orgs/community/discussions/11884"
+    org: "GitHub Community"
+    note: "Confirms GitHub Pages serves everything with Cache-Control: max-age=600 (10 minutes) by default, with no per-repo way to configure or override it (still an open, unfulfilled feature request as of Jan 2026) -- verified directly against this app's own deployed index.html via `curl -sI` during the 2026-09-03 incident below. Any service-worker install/update logic in this app has to assume that 10-minute window is real and unconfigurable, not work around it by requesting different headers."
     status: confirmed

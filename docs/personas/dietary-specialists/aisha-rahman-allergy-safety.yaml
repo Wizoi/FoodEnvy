@@ -422,3 +422,25 @@ notes:
     staleness) and a read-once sitewide disclaimer are different risk tiers and should behave
     differently (one never collapses, one may) -- don't flatten them to the same collapse
     treatment for UI consistency's sake.
+  - >
+    2026-09: reviewed a proposed shortening of the always-visible collapsed
+    `#allergenFooterDisclaimer` one-liner, from "Allergen tags are hand-entered, not verified --
+    tap for details" to "Allergen tags unverified -- tap for details" (nothing else about the
+    footer changing -- expand/collapse behavior, default-expanded-on-fresh-install, the offline
+    notice, and the full expanded paragraph all untouched). Approved as-is. Reasoning: the
+    collapsed line's job is to carry the safety CONCLUSION (don't treat this as verified/
+    certified -- check further), not the mechanism behind it (hand-entered from listed
+    ingredients only, not checked against labels/cross-contact) -- that mechanism detail lives in,
+    and stays in, the unchanged expanded paragraph one tap away. "Unverified" alone already
+    delivers the conclusion at least as clearly as the longer phrase, arguably more so --
+    "hand-entered" risks being misread by a rushed parent as reassurance ("a person checked this")
+    when only the trailing "not verified" was doing the actual safety work. Confirmed the proposal
+    against the three standing conditions from the prior collapsed-footer sign-off above: still a
+    non-empty persistent line (never fully disappears), still carries an explicit "tap for
+    details" action cue rather than a bare passive disclaimer (same failure mode required a fix on
+    the adaptation-warning-banner collapse review), and doesn't touch default-expanded-on-fresh-
+    install or the offline-staleness notice. General rule for future collapsed-summary wording
+    reviews: a collapsed safety line only needs to preserve the actionable conclusion, not the
+    mechanism/rationale behind it, as long as the mechanism remains genuinely one tap away and
+    unchanged -- don't require the short line to re-derive detail that already has a stable home
+    in the expanded text.
