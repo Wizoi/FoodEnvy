@@ -441,6 +441,34 @@ notes:
     a small vocabulary could stay an inline const near MEALTYPE_VISUALS, but a 150-300-entry
     seasoning vocabulary is cleaner as its own fetched JSON asset alongside the recipes fetch than
     bloated into the inline <script>."
+  - "2026-09-03, real production incident: the Flavors tab deploy (93d4dd1) didn't show up in the
+    installed PWA. Two distinct service-worker bugs, not one -- worth remembering as a pair,
+    since they look identical from the outside ('the update isn't showing') but need different
+    fixes and were nearly misdiagnosed as a single issue: (1) sw.js's install handler used
+    cache.addAll(SHELL_ASSETS), whose internal fetches respect the browser's normal HTTP cache --
+    GitHub Pages serves index.html with Cache-Control: max-age=600 (confirmed via curl -sI), so a
+    genuinely new service worker (CACHE_VERSION correctly byte-differed) could still bake a STALE
+    index.html into its own 'new' shell cache if install ran within 10 minutes of the last fetch.
+    Symptom: a hard refresh (bypasses HTTP cache entirely) fixed it instantly; a plain refresh did
+    nothing. Fix: fetch each shell asset explicitly with {cache: 'reload'} instead of addAll, same
+    reasoning as the updateViaCache:'none' fix already applied to the sw.js script's own byte-diff
+    check -- that fix covered the script, not the assets its install step fetches, and both need
+    it independently. (2) Separately, and NOT explained by (1): the phone was still stale hours
+    after the deploy, well past any 10-minute cache window. Root cause: registerServiceWorker()'s
+    update check (reg.update()) only ran inside DOMContentLoaded, which fires on a true page
+    load -- an installed mobile PWA (or a desktop tab) that's merely backgrounded/resumed, never
+    force-quit or reloaded, never re-fires that event, so no update check could run again for the
+    rest of that open session no matter how much time passed. Fix: also call reg.update() on
+    visibilitychange when the tab becomes visible again. General lesson for any future PWA/service-
+    worker work in this app: 'the update isn't showing' has at least two independent failure
+    classes (stale content baked into a cache during install vs. no update check ever re-running
+    for a long-lived session) and a fix for one can look complete while the other is still live --
+    verify both a fresh-deploy-within-minutes case AND a long-idle-session case before calling a
+    service-worker fix done. Also worth internalizing generally: any static host's default
+    Cache-Control on HTML/JS (GitHub Pages' max-age=600 here) is a real, non-obvious input to
+    service-worker correctness, not just an HTTP-layer performance detail -- check it with curl -sI
+    against the actual deployed asset rather than assuming, the same way ingredient/allergen claims
+    in this app get checked against the actual corpus rather than assumed."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing
