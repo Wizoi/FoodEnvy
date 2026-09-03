@@ -647,6 +647,33 @@ notes:
     swap, wrong framing for a scoped action). Must also handle the real reachable end-state of the
     intended workflow (lock everything liked + remove everything unwanted = zero unlocked slots
     left) with a disabled button + explanatory title, not a silent no-op click.
+  - >
+    2026-09-02 ("Flavors" tab design pass -- new interaction shape, first tab that ends at an
+    insight rather than a recipe): reused the Craving/Help `.help-tile` pattern for the pick step
+    (tap a protein/veg tile, grouped into two labeled sections -- Protein, Vegetable -- per the
+    standing categorized-list-not-unstructured-list rule) but the real design risk here wasn't the
+    tile mechanic, it was the payoff. Two calls worth remembering for any future "insight, not
+    recipe" feature: (1) the result must be a tap-through chip cloud into the SAME filterRecipes()/
+    renderRecipes() engine every other tab already uses ("see N recipes using chicken + cumin"),
+    never a dead-end info card -- an insight with no path back to an actual dish breaks this app's
+    one consistent contract (every tab ends at food you can cook) and is the single biggest risk of
+    this reading as a bolted-on tips page. (2) the anti-generic-AI-advice defense is structural, not
+    stylistic: pairing chips must be computed from real ingredient co-occurrence across FoodEnvy's
+    own recipe corpus (ingredient names already exist per-recipe, e.g.
+    public/foodenvy-complete-recipes.json's ingredients[].name) with a visible real count per chip,
+    not written/recalled from general food knowledge -- a chatbot can assert "chicken pairs with
+    cumin" for free, only a grounded count + tap-through to real dishes proves it. Explicitly
+    recommended against adding descriptive copy per pairing ("cumin adds warmth...") -- that's the
+    exact generic-tips-page texture to avoid; the chip + count + tap-through is the content, prose
+    padding adds no decision-relevant information and undercuts the data-grounded framing.
+    Tile-set selection should reuse the same corpus-frequency validation Craving's 14-tile set went
+    through (index.html ~2440-2443) rather than picking vegetables by feel -- a tile whose corpus
+    support is too thin to produce a real pairing result is worse than not offering that tile.
+    Safety treatment came nearly free: reuse #profileCheckboxes, flag any seasoning chip whose
+    ingredient carries a selected member's allergen tag with the existing allergen-chip visual
+    family (no new chip family), and let the existing matcher's strict-exclusion logic govern the
+    downstream recipe count -- dislikes stay non-gating per the standing rule (downrank only, never
+    reshape the pairing chips themselves).
 references:
   - title: "Octalysis Gamification Framework"
     url: "https://yukaichou.com/gamification-examples/octalysis-gamification-framework/"

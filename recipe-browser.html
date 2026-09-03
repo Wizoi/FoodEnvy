@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FoodEnvy Recipe Library</title>
+  <!-- recipe-browser.html carries a <link rel="canonical"> pointing here -- the one deliberate,
+       permanent exception to this pair's byte-identical convention (see CLAUDE.md), not a missed
+       sync. Everything else about the two files must still match. -->
   <!-- This file is a byte-identical duplicate of index.html (see CLAUDE.md) except for this
        canonical tag -- a deliberate, permanent exception, not a missed sync. Both files must
        otherwise be kept identical. -->
@@ -1684,6 +1687,7 @@
   <nav class="tab-bar">
     <button type="button" class="tab-btn active" id="searchTabBtn" onclick="switchAppTab('search')">Discover</button>
     <button type="button" class="tab-btn" id="helpTabBtn" onclick="switchAppTab('help')">Craving</button>
+    <button type="button" class="tab-btn" id="flavorsTabBtn" onclick="switchAppTab('flavors')">Flavors</button>
     <button type="button" class="tab-btn" id="planTabBtn" onclick="switchAppTab('plan')">Plan my week</button>
   </nav>
 
@@ -1805,6 +1809,34 @@
           </div>
 
           <button type="button" class="btn-small btn-reset-filters" id="resetHelpFiltersBtn" onclick="resetHelpFilters()" style="display:none;">Reset recipe filters</button>
+        </div>
+      </div>
+
+      <div id="flavorsTab" style="display:none;">
+        <div style="padding: 1.5rem;">
+          <div class="help-question">
+            <div class="help-question-label">Who's eating?</div>
+            <div class="filter-chips" id="profileCheckboxesFlavorsSlot"></div>
+          </div>
+
+          <div class="help-question">
+            <div class="help-question-label">Pick a protein</div>
+            <div class="help-tile-row" id="flavorProteinTiles"></div>
+          </div>
+
+          <div class="help-question">
+            <div class="help-question-label">...or a vegetable</div>
+            <div class="help-tile-row" id="flavorVegetableTiles"></div>
+          </div>
+
+          <!-- Every pairing below is derived from this library's own recipes, not general
+               culinary knowledge -- the header/count language here is load-bearing, not
+               decorative copy (allergy-safety/credibility review finding), so it must say "your
+               recipe library" explicitly rather than an unqualified "pairs with X". -->
+          <div class="help-question" id="flavorChipSection" style="display:none;">
+            <div class="help-question-label" id="flavorChipHeader"></div>
+            <div class="help-tile-row" id="flavorChipCloud"></div>
+          </div>
         </div>
       </div>
 
@@ -2352,6 +2384,13 @@
     };
 
     let allRecipes = [];
+
+    // Corpus-derived seasoning pairings (scripts/build-flavor-pairings.js), fetched once
+    // alongside the recipe library -- see loadFlavorPairings(). null until loaded.
+    let flavorPairings = null;
+    let flavorSelectedCategory = null;
+    let flavorSelectedSeasoning = null;
+
     // Set only when the service worker actually served the recipe data from its offline
     // cache-fallback (see sw.js's X-FoodEnvy-Cached-At header) -- never from bare
     // navigator.onLine, since the two are different conditions and this must reflect the
@@ -2396,9 +2435,11 @@
       activeTab = tab;
       document.getElementById('searchTab').style.display = tab === 'search' ? '' : 'none';
       document.getElementById('helpTab').style.display = tab === 'help' ? '' : 'none';
+      document.getElementById('flavorsTab').style.display = tab === 'flavors' ? '' : 'none';
       document.getElementById('planTab').style.display = tab === 'plan' ? '' : 'none';
       document.getElementById('searchTabBtn').classList.toggle('active', tab === 'search');
       document.getElementById('helpTabBtn').classList.toggle('active', tab === 'help');
+      document.getElementById('flavorsTabBtn').classList.toggle('active', tab === 'flavors');
       document.getElementById('planTabBtn').classList.toggle('active', tab === 'plan');
 
       // Plan has its own grid, not a filtered view of the shared #recipeGrid -- hide the shared
@@ -2413,7 +2454,7 @@
       }
 
       const profileCheckboxes = document.getElementById('profileCheckboxes');
-      const slotIds = { search: 'profileCheckboxesSearchSlot', help: 'profileCheckboxesHelpSlot', plan: 'profileCheckboxesPlanSlot' };
+      const slotIds = { search: 'profileCheckboxesSearchSlot', help: 'profileCheckboxesHelpSlot', flavors: 'profileCheckboxesFlavorsSlot', plan: 'profileCheckboxesPlanSlot' };
       const targetSlot = document.getElementById(slotIds[tab]);
       if (profileCheckboxes && targetSlot && profileCheckboxes.parentElement !== targetSlot) {
         targetSlot.appendChild(profileCheckboxes);
@@ -2422,6 +2463,8 @@
       localStorage.setItem('foodenvy_active_tab', tab);
       if (tab === 'plan') {
         renderWeekPlan();
+      } else if (tab === 'flavors') {
+        renderFlavorResults();
       } else {
         filterRecipes();
       }
@@ -3890,6 +3933,11 @@
     // exists yet, so calling it unconditionally from a Search/Help checkbox change would silently
     // create and persist a week plan for someone who's never opened the Plan tab.
     function onProfileSelectionChanged() {
+      if (activeTab === 'flavors') {
+        renderFlavorChips();
+        renderFlavorResults();
+        return;
+      }
       filterRecipes();
       if (activeTab === 'plan') renderWeekPlan();
     }
@@ -3973,6 +4021,188 @@
       return Array.from(matchesByValue.values());
     }
 
+    // Draws the Protein/Vegetable tile rows from flavorPairings.categories (insertion order from
+    // the generator -- protein categories first, then vegetables). A category with zero pairings
+    // (e.g. eggplant -- too few recipes in this library to say anything) is a dead end, same
+    // convention as the Craving tab's tag tiles: disabled, not hidden, so it's still visible that
+    // the option exists and honestly reads as "not enough data" rather than silently missing.
+    function renderFlavorTiles() {
+      const proteinContainer = document.getElementById('flavorProteinTiles');
+      const vegContainer = document.getElementById('flavorVegetableTiles');
+      if (!proteinContainer || !vegContainer) return;
+      if (!flavorPairings) { proteinContainer.innerHTML = ''; vegContainer.innerHTML = ''; return; }
+
+      function tileHtml(key, cat) {
+        const active = flavorSelectedCategory === key;
+        const deadEnd = cat.pairings.length === 0;
+        return '<button type="button" class="help-tile' + (active ? ' active' : '') + (deadEnd ? ' dead-end' : '') +
+          '" onclick="selectFlavorCategory(\'' + key + '\')"' + (deadEnd ? ' disabled' : '') + '>' +
+          cat.label + (cat.confidence === 'low' ? ' <span class="help-tile-count">(limited data)</span>' : '') +
+          '</button>';
+      }
+
+      const entries = Object.entries(flavorPairings.categories);
+      proteinContainer.innerHTML = entries.filter(([, c]) => c.kind === 'protein').map(([k, c]) => tileHtml(k, c)).join('');
+      vegContainer.innerHTML = entries.filter(([, c]) => c.kind === 'vegetable').map(([k, c]) => tileHtml(k, c)).join('');
+
+      renderFlavorChips();
+    }
+
+    function selectFlavorCategory(key) {
+      flavorSelectedCategory = flavorSelectedCategory === key ? null : key;
+      flavorSelectedSeasoning = null;
+      saveFlavorSelection();
+      renderFlavorTiles();
+      renderFlavorResults();
+    }
+
+    // Sibling to foodenvy_filters/foodenvy_help_filters -- same "survive a reload" convention
+    // every other tab already follows. Cleared entirely (not just its seasoning half) once no
+    // category is selected, same as the other tabs' reset-clears-storage pattern.
+    function saveFlavorSelection() {
+      if (flavorSelectedCategory) {
+        localStorage.setItem('foodenvy_flavor_selection', JSON.stringify({
+          category: flavorSelectedCategory,
+          seasoning: flavorSelectedSeasoning,
+        }));
+      } else {
+        localStorage.removeItem('foodenvy_flavor_selection');
+      }
+    }
+
+    // Reads the saved selection into the globals only -- does NOT validate it against
+    // flavorPairings yet (that data hasn't loaded at DOMContentLoaded time). Validation happens
+    // once loadFlavorPairings() resolves, so a stale/renamed category or seasoning from an older
+    // generator run can never get "stuck" active against data that no longer supports it.
+    function restoreFlavorSelection() {
+      const stored = localStorage.getItem('foodenvy_flavor_selection');
+      if (!stored) return;
+      let saved;
+      try { saved = JSON.parse(stored); } catch (e) { return; }
+      flavorSelectedCategory = saved.category || null;
+      flavorSelectedSeasoning = saved.seasoning || null;
+    }
+
+    // Every string here -- the header sentence, the confidence caveat, the chip labels -- reads
+    // as "from your recipe library," never an unqualified "pairs with X": this corpus is
+    // persona-authored and fusion-skewed, not a general culinary reference, and that qualifier
+    // has to survive in the actual UI copy, not just prose in a design doc (credibility review
+    // finding).
+    function renderFlavorChips() {
+      const section = document.getElementById('flavorChipSection');
+      const header = document.getElementById('flavorChipHeader');
+      const container = document.getElementById('flavorChipCloud');
+      if (!section || !header || !container) return;
+
+      if (!flavorSelectedCategory || !flavorPairings) {
+        section.style.display = 'none';
+        header.innerHTML = '';
+        container.innerHTML = '';
+        return;
+      }
+      section.style.display = '';
+      const cat = flavorPairings.categories[flavorSelectedCategory];
+
+      header.innerHTML = 'Seasonings that pair with ' + cat.label.toLowerCase() + ', from your recipe library' +
+        (cat.confidence === 'low'
+          ? ' <span class="help-tile-count">(only ' + cat.recipeCount + ' recipes use ' + cat.label.toLowerCase() +
+            ' as the main ingredient here -- treat this as a starting point, not a confident pattern)</span>'
+          : ' <span class="help-tile-count">(based on ' + cat.recipeCount + ' recipes)</span>');
+
+      if (cat.pairings.length === 0) {
+        container.innerHTML = '<p style="margin:0;color:#888;">Not enough recipes in your library yet to suggest a pairing for ' + cat.label.toLowerCase() + '.</p>';
+        return;
+      }
+
+      const selectedProfileIds = getSelectedProfileIds();
+      const selectedProfiles = selectedProfileIds.map(pid => profiles.find(p => p.id === pid)).filter(Boolean);
+
+      container.innerHTML = cat.pairings.map(p => {
+        const active = flavorSelectedSeasoning === p.seasoning;
+        // Same tag-intersection semantics as getConflictingRestrictions, applied to this
+        // seasoning's own real allergen tags (derived from actual matching ingredients in the
+        // corpus, not guessed) instead of a whole recipe's ingredient list.
+        const flaggedFor = selectedProfiles.filter(prof =>
+          p.allergenTags.length > 0 && prof.restrictions.some(r =>
+            (r.category === 'allergy' || r.category === 'diet' || r.category === 'restriction') &&
+            p.allergenTags.includes(r.value.toLowerCase())));
+        // Reuses the existing allergen-chip visual language (red fill) rather than a new chip
+        // family -- same reasoning the recipe-detail allergen chips already follow.
+        const style = flaggedFor.length > 0
+          ? ' style="background:' + CATEGORY_COLORS.allergy.chip + ';color:' + CATEGORY_COLORS.allergy.text + ';border-color:' + CATEGORY_COLORS.allergy.chip + ';"'
+          : '';
+        const warning = flaggedFor.length > 0
+          ? ' ⚠️ ' + Array.from(new Set(flaggedFor.map(p2 => p2.name))).join(', ')
+          : '';
+        return '<button type="button" class="help-tile' + (active ? ' active' : '') + '"' + style +
+          ' onclick="selectFlavorSeasoning(\'' + p.seasoning.replace(/'/g, "\\'") + '\')">' +
+          p.seasoning + ' <span class="help-tile-count">(' + p.count + ')</span>' + warning + '</button>';
+      }).join('');
+    }
+
+    function selectFlavorSeasoning(seasoning) {
+      flavorSelectedSeasoning = flavorSelectedSeasoning === seasoning ? null : seasoning;
+      saveFlavorSelection();
+      renderFlavorChips();
+      renderFlavorResults();
+    }
+
+    // Tapping a seasoning chip is the actual payoff: it looks up that pairing's own recipeIds
+    // (computed offline by the generator -- see loadFlavorPairings()) directly against
+    // allRecipes, then renders through the SAME renderRecipes()/allergy-exclusion logic every
+    // other tab uses, rather than a second parallel search implementation. Strict allergy/diet
+    // conflicts are excluded exactly like Search/Craving (an unresolved conflict never shows,
+    // even without a matching allergen-tagged seasoning chip); dislikes only ever deprioritize.
+    function renderFlavorResults() {
+      const grid = document.getElementById('recipeGrid');
+      const loadingMsg = document.getElementById('loadingMsg');
+      if (loadingMsg) loadingMsg.style.display = 'none';
+      if (!grid) return;
+
+      if (!flavorSelectedCategory || !flavorSelectedSeasoning || !flavorPairings) {
+        grid.style.display = 'grid';
+        grid.innerHTML = '<div class="empty-state"><p>Pick a protein or vegetable, then a seasoning, to see matching recipes from your library.</p></div>';
+        document.getElementById('recipeCount').textContent = '';
+        return;
+      }
+
+      const cat = flavorPairings.categories[flavorSelectedCategory];
+      const pairing = cat && cat.pairings.find(p => p.seasoning === flavorSelectedSeasoning);
+      if (!pairing) {
+        renderRecipes([], [], null, 0, { emptyMessage: 'No data for this pairing.' });
+        return;
+      }
+
+      const selectedProfileIds = getSelectedProfileIds();
+      const idSet = new Set(pairing.recipeIds);
+      const adaptationStatusById = new Map();
+      const dislikeStatusById = new Map();
+      let excludedForProfileConflict = 0;
+
+      let recipes = allRecipes.filter(recipe => {
+        if (!idSet.has(recipe.id)) return false;
+        if (selectedProfileIds.length > 0) {
+          const status = getProfileAdaptationStatus(recipe, selectedProfileIds);
+          if (status.unresolved.length > 0) { excludedForProfileConflict++; return false; }
+          adaptationStatusById.set(recipe.id, status);
+          dislikeStatusById.set(recipe.id, getDislikeStatus(recipe, selectedProfileIds));
+        }
+        return true;
+      });
+
+      if (selectedProfileIds.length > 0) {
+        recipes = recipes
+          .map((recipe, index) => ({ recipe, index, dislikeCount: (dislikeStatusById.get(recipe.id) || []).length }))
+          .sort((a, b) => (a.dislikeCount - b.dislikeCount) || (a.index - b.index))
+          .map(x => x.recipe);
+      }
+
+      renderRecipes(recipes, selectedProfileIds, adaptationStatusById, excludedForProfileConflict, {
+        dislikeStatusById,
+        emptyMessage: 'No recipes in your library pair ' + cat.label.toLowerCase() + ' with ' + flavorSelectedSeasoning + '.',
+      });
+    }
+
     async function loadRecipes() {
       try {
         const resp = await fetch('./foodenvy-complete-recipes.json');
@@ -4017,6 +4247,41 @@
         document.getElementById('recipeGrid').innerHTML =
           '<div class="empty-state"><p>Could not load the recipe library. Try refreshing the page.</p></div>';
       }
+    }
+
+    // Fetched once, alongside the recipe library -- built offline by
+    // scripts/build-flavor-pairings.js from this app's own recipe corpus (co-occurrence,
+    // distinctiveness-scored against a corpus-wide baseline, never general culinary knowledge).
+    // Failing quietly here (flavorPairings stays null, renderFlavorTiles() shows nothing) is
+    // deliberate -- the Flavors tab is optional to the rest of the app, so its data being
+    // unavailable must never block or error the recipe library itself from loading.
+    async function loadFlavorPairings() {
+      try {
+        const resp = await fetch('./flavor-pairings.json');
+        const data = await resp.json();
+        // Guard against a malformed/unexpected response shape (e.g. a stubbed fetch in tests
+        // that always resolves to []) the same way an actual fetch failure is guarded below --
+        // both must leave flavorPairings cleanly null, never a value renderFlavorTiles() would
+        // crash trying to read .categories off of.
+        flavorPairings = (data && typeof data.categories === 'object' && data.categories !== null) ? data : null;
+      } catch (e) {
+        console.error('Flavor pairings load error:', e);
+        flavorPairings = null;
+      }
+
+      // Validate the reload-restored selection (see restoreFlavorSelection()) against the data
+      // that actually just loaded -- a category/seasoning saved from an earlier generator run
+      // that no longer exists (renamed, dropped below the support floor) must silently clear
+      // rather than leave flavorSelectedSeasoning pointing at a pairing that isn't there.
+      const cat = flavorSelectedCategory && flavorPairings ? flavorPairings.categories[flavorSelectedCategory] : null;
+      if (!cat) {
+        flavorSelectedCategory = null;
+        flavorSelectedSeasoning = null;
+      } else if (flavorSelectedSeasoning && !cat.pairings.some(p => p.seasoning === flavorSelectedSeasoning)) {
+        flavorSelectedSeasoning = null;
+      }
+
+      renderFlavorTiles();
     }
 
     function renderRecipes(recipes, selectedProfileIds = [], adaptationStatusById = null, excludedForProfileConflict = 0, extra = {}) {
@@ -4435,18 +4700,20 @@
       loadCollections();
       restoreFilters();
       restoreHelpFilters();
+      restoreFlavorSelection();
       applyAllergenFooterCollapsedState();
 
       const savedTab = localStorage.getItem('foodenvy_active_tab');
-      // 'plan' needs allRecipes loaded first (its render generates/validates a plan against
-      // the real recipe pool) -- deferred into the loadRecipes().then() below instead of
-      // switching immediately the way 'help' safely can.
+      // 'plan' and 'flavors' both need allRecipes loaded first (plan generates/validates against
+      // the real recipe pool; flavors' chip-tap results look recipes up by id) -- deferred into
+      // the Promise.all().then() below instead of switching immediately the way 'help' safely can.
       if (savedTab === 'help') switchAppTab('help');
 
       renderHelpTiles();
-      loadRecipes().then(() => {
+      Promise.all([loadRecipes(), loadFlavorPairings()]).then(() => {
         renderHelpTiles(); // re-render once allRecipes is populated, for craving suggestion chips
         if (savedTab === 'plan') switchAppTab('plan');
+        if (savedTab === 'flavors') switchAppTab('flavors');
       });
       setupSidebarResize();
       registerServiceWorker();

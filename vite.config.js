@@ -40,6 +40,15 @@ export default defineConfig({
           console.warn('favicon not found')
         }
 
+        try {
+          copyFileSync(
+            join(process.cwd(), 'public/flavor-pairings.json'),
+            join(distDir, 'flavor-pairings.json')
+          )
+        } catch {
+          console.warn('flavor-pairings.json not found')
+        }
+
         // PWA assets: manifest + service worker at dist root (sw.js needs to sit at the
         // deployed root so its scope covers everything under the GitHub Pages subpath -- a
         // nested path would only ever control its own subdirectory), plus icons.

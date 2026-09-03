@@ -399,6 +399,48 @@ notes:
     btn-reset-filters class already used by resetFiltersBtn/resetHelpFiltersBtn, placed in
     .plan-header-row after planShoppingListBtn. Must land in both index.html and
     recipe-browser.html per the standing byte-identical-files constraint."
+  - "2026-09-02, 'Flavors' tab (protein/veg -> seasoning pairing) feasibility pass
+    (public/foodenvy-complete-recipes.json, 634 recipes): confirmed empirically that
+    co-occurrence-derived pairing is NOT cleanly mechanical from this data as-is. Ingredient-level
+    tags are only the allergen vocabulary (dairy/gluten/nuts/meat/pork/beef/fish/shellfish/egg/soy/
+    sesame -- 11 total, confirmed by scanning every ingredient.tags value in the corpus) -- there is
+    no 'vegetable' or 'seasoning/aromatic' tag at all, and even the allergen tags under-discriminate
+    proteins: chicken ingredients carry only the generic 'meat' tag (same tag ground beef gets),
+    with no dedicated 'chicken' tag, so distinguishing chicken from beef/pork requires ingredient-
+    name text matching, not tag lookup, even though beef/pork do get their own tags (confirmed:
+    meat=152 recipes, beef=47, pork=66, fish=62, shellfish=35, all via tag scan). Ingredient names
+    are free text with real duplication noise (1460 unique lowercased name strings across the
+    corpus; 46 distinct string variants just for 'chicken' -- 'chicken thighs, boneless skinless' vs
+    'boneless skinless chicken thighs' vs 'boneless, skinless chicken breasts' etc.) -- any core-
+    ingredient identification needs a normalize/match layer, not exact string lookup. Bigger problem
+    for naive co-occurrence: pulled real ingredient-frequency counts for chicken (66 named recipes),
+    beef (26), pork (13), tofu (18) -- olive oil, garlic, salt, black pepper, soy sauce, and sesame
+    oil dominate the top-12 list for ALL FOUR regardless of protein, meaning a raw 'most-frequent-
+    co-occurring ingredient' lookup would return nearly the same list for every protein, which is
+    not a useful pairing signal and risks reading as fabricated-feeling authority if shipped as
+    'what pairs with X.' Root cause is corpus-shape, not a bug: this bulk-generated 634-recipe
+    library skews toward a narrower stir-fry/Asian-adjacent seasoning template across proteins, so a
+    corpus-derived list describes 'what this specific recipe collection happens to pair with X,' not
+    general culinary knowledge of what pairs with X -- those are materially different claims and
+    must not be presented as the same thing. Net: feasible ONLY with a curated seasoning/aromatic
+    vocabulary layer on top of real counts (normalize ingredient names -> classify into curated
+    CORE_INGREDIENTS categories, e.g. ~15-20 proteins/veg, and a curated SEASONING_VOCABULARY,
+    plausibly 150-300 entries given 1460 unique raw names -- closer in scope to the common-foods-
+    checklist build (~100 items/9 categories) or the servings backfill (634 hand-reviewed
+    judgment calls, batched ~40-50/session) than to the BIG9 tag backfill, which was mechanical
+    because the target vocabulary was already a known finite list). Ranking should use frequency-
+    with-this-protein normalized against corpus-wide baseline frequency (a TF-IDF-style
+    distinctiveness score, not raw count) plus a minimum-support floor, to avoid both the
+    ubiquitous-ingredient problem above and false confidence from small pools (tofu n=18, pork
+    n=13, shellfish n=35). Recommended UI framing: 'common pairings across your N chicken recipes,'
+    never an unqualified 'what pairs with chicken' -- keeps this consistent with CLAUDE.md's
+    honest-gap-over-guess precedent already applied to difficulty/prepMinutes/yield. Architecture:
+    same standing gap as the 2026-08-27 note -- lives in index.html/recipe-browser.html (byte-
+    identical, both must change) as a new pure function plus a new tab following the existing
+    Search/Help/Plan switchAppTab pattern, not filterRecipes() reuse (different UI shape entirely);
+    a small vocabulary could stay an inline const near MEALTYPE_VISUALS, but a 150-300-entry
+    seasoning vocabulary is cleaner as its own fetched JSON asset alongside the recipes fetch than
+    bloated into the inline <script>."
 signature_move: >
   When asked for a new feature, first checks whether it fits the existing
   src/domain shape (a pure function plus a thin component) before writing

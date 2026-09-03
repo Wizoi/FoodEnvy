@@ -262,6 +262,45 @@ notes:
     correctly stayed classified as prep, not a second technique. No drift
     found this pass; confirms "no issues found" remains a valid outcome once
     every check has actually been run against the copy in hand.
+  - >-
+    Consulted on the proposed "Flavors" tab (corpus-derived seasoning
+    pairings, distinctiveness-scored against a raw-co-occurrence baseline,
+    2026-09-02): the distinctiveness fix is the right one -- raw
+    co-occurrence surfacing olive oil/garlic/salt/pepper for every protein
+    isn't a corpus problem, it's a baseline problem, and the fix correctly
+    treats "universally common" as noise to subtract out rather than a
+    signal to show. Endorsed. The real risk isn't the scoring method, it's
+    thin categories (tofu ~18 recipes, pork ~13): a 3-4-recipe minimum-
+    support floor there is small enough that a result can be an artifact of
+    one persona's authoring batch (e.g. three tofu recipes written in the
+    same Southeast-Asian-fusion session) rather than a genuine corpus-wide
+    pattern -- distinctiveness scoring can't tell the difference between
+    "the corpus reflects real culinary diversity" and "the corpus reflects
+    one author's week." Recommend a materially higher floor (or an explicit
+    low-confidence treatment, e.g. "not enough recipes yet") for any
+    category under ~25-30 recipes rather than showing thin results at the
+    same confidence as chicken/beef. Also flagged: vegetables are a harder
+    case than proteins for this feature, since most vegetables (onion,
+    garlic, celery) are background aromatics in nearly every dish rather
+    than the dish-defining ingredient -- the vegetable picker should only
+    offer vegetables that function as a headline ingredient in a real
+    subset of recipes (broccoli, cauliflower, eggplant), not the aromatics
+    that would just re-surface the same universal-base problem the
+    distinctiveness fix was built to solve. The honest "common pairings
+    across your N chicken recipes" framing is non-negotiable and should say
+    "in your library," never "commonly" or "traditionally," since this
+    corpus is persona-authored and skews toward deliberately unusual fusion
+    combinations rather than being a representative culinary sample --
+    without that framing a thin/skewed category could read as a false claim
+    of broad culinary truth. Suggested improvement: show 1-2 example recipe
+    names alongside each pairing's count, not just the number, so a result
+    stays traceable to real recipes a user can click into rather than
+    reading as an abstract statistic. No technique concern here at all --
+    this is a browsing/discovery feature, not a recipe, so the one-new-
+    technique rule doesn't apply -- but it's a direct match for my own
+    "reach for flavor before reaching for harder technique" lens: a tool
+    that helps a cook build a spice blend before cooking starts is exactly
+    the move I already make by hand.
 signature_move: >
   Turns a stir-fry into a sheet-pan dish -- same protein, sauce, and
   vegetables, roasted instead of tossed in a wok -- so the flavor ambition
