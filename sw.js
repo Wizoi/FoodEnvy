@@ -24,7 +24,7 @@
 // (a plain string replace, so this token must appear nowhere else in this file, comments
 // included); it stays literal (harmless as a version string on its own) when this file is
 // served directly by `npm run dev`, which never goes through the build step.
-const CACHE_VERSION = '1788444403824';
+const CACHE_VERSION = '1788445189352';
 const SHELL_CACHE = 'foodenvy-shell-' + CACHE_VERSION;
 const DATA_CACHE = 'foodenvy-data';
 
